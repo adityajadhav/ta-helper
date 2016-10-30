@@ -18,6 +18,14 @@ import com.google.firebase.database.FirebaseDatabase;
  */
 
 public class add_course_fragment extends Fragment {
+
+    OnFinishAddCourseInterface mFinish;
+
+    public interface OnFinishAddCourseInterface
+    {
+        public void closeAddCourseFragment();
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -63,6 +71,7 @@ public class add_course_fragment extends Fragment {
                 final Course_Entity ce = new Course_Entity(course_name,course_id,professor_FN,professor_LN,professor_email,professor_UN,ta_email);
 
                 myRef.child(course_id).setValue(ce);
+                mFinish.closeAddCourseFragment();
             }
         });
 
@@ -82,5 +91,6 @@ public class add_course_fragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
+        mFinish = (OnFinishAddCourseInterface) context;
     }
 }

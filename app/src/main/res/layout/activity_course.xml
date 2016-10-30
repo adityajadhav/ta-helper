@@ -11,17 +11,17 @@
     tools:context="com.cs442.team4.tahelper.CourseActivity">
 
     <FrameLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
         android:id="@+id/course_activity_frame_layout">
 
-        <fragment
-            android:name = "com.cs442.team4.tahelper.course_list_fragment"
-            android:layout_width="371dp"
-            android:layout_height="491dp"
-            tools:layout="@layout/add_course">
+        <!--<fragment-->
+            <!--android:name = "com.cs442.team4.tahelper.course_list_fragment"-->
+            <!--android:layout_width="371dp"-->
+            <!--android:layout_height="491dp"-->
+            <!--tools:layout="@layout/add_course">-->
 
-        </fragment>
+        <!--</fragment>-->
     </FrameLayout>
 
 </RelativeLayout>
