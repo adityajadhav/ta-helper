@@ -6,36 +6,36 @@ package com.cs442.team4.tahelper;
 
 public class Student_Entity {
 
-    private String username;
-    private String first_name;
-    private String last_name;
-    private String full_name;
+    private String userName;
+    private String firstName;
+    private String lastName;
+    private String fullName;
     private String email;
-    private String a_number;
+    private String aNumber;
 
     public void Student_Entity(String username, String first_name, String last_name, String email, String a_number) {
-        this.username = username;
-        this.first_name = first_name;
-        this.last_name = last_name;
-        this.full_name = last_name + "," + first_name;
+        this.userName = username;
+        this.firstName = first_name;
+        this.lastName = last_name;
+        this.firstName = last_name + "," + first_name;
         this.email = email;
-        this.a_number = a_number;
+        this.aNumber = a_number;
     }
 
     public String getStudentUserName() {
-        return username;
+        return userName;
     }
 
     public String getStudentFirstName() {
-        return first_name;
+        return firstName;
     }
 
     public String getStudentLastName() {
-        return last_name;
+        return lastName;
     }
 
     public String getStudentFullName() {
-        return full_name;
+        return fullName;
     }
 
     public String getStudentEmail() {
@@ -43,6 +43,6 @@ public class Student_Entity {
     }
 
     public String getStudentANumber() {
-        return a_number;
+        return aNumber;
     }
 }

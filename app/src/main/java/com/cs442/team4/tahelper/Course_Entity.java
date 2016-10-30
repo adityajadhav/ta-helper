@@ -8,25 +8,26 @@ public class Course_Entity {
 
     private String name;
     private String code;
-    private String professor_full_name;
-    private String professor_first_name;
-    private String professor_last_name;
-    private String professor_email_id;
-    private String professor_username;
+    private String professorFullName;
+    private String professorFirstName;
+    private String professorLastName;
+    private String professorEmailId;
+    private String professorUsername;
 
     //TA email id's seperated by ;
-    private String TA_email_ids;
+    private String TAEmailIds;
 
-    public void Course_Entity(String name, String code, String professor_first_name, String professor_last_name,
+
+    public Course_Entity(String name, String code, String professor_first_name, String professor_last_name,
                               String professor_email_id, String professor_username, String TA_email_ids) {
         this.name = name;
         this.code = code;
-        this.professor_first_name = professor_first_name;
-        this.professor_last_name = professor_last_name;
-        this.professor_email_id = professor_email_id;
-        this.professor_username = professor_username;
-        this.professor_full_name = professor_last_name + "," + professor_first_name;
-        this.TA_email_ids = TA_email_ids;
+        this.professorFirstName = professor_first_name;
+        this.professorLastName = professor_last_name;
+        this.professorEmailId = professor_email_id;
+        this.professorEmailId = professor_username;
+        this.professorFullName = professor_last_name + "," + professor_first_name;
+        this.TAEmailIds = TA_email_ids;
     }
 
 
@@ -44,37 +45,37 @@ public class Course_Entity {
 
     public String getProfessorFullName() {
 
-        return professor_full_name;
+        return professorFullName;
 
     }
 
     public String getProfessorFirstName() {
 
-        return professor_first_name;
+        return professorFirstName;
 
     }
 
     public String getProfessorLastName() {
 
-        return professor_last_name;
+        return professorLastName;
 
     }
 
     public String getProfessorUserName() {
 
-        return professor_username;
+        return professorUsername;
 
     }
 
     public String getProfessorEmailId() {
 
-        return professor_email_id;
+        return professorEmailId;
 
     }
 
     public String getTAEmailIds() {
 
-        return TA_email_ids;
+        return TAEmailIds;
 
     }
 
