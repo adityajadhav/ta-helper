@@ -20,6 +20,7 @@
         <activity android:name=".CourseActivity"></activity>
         <activity android:name=".activity.ModuleListActivity"></activity>
         <activity android:name=".activity.AddModuleActivity"></activity>
+        <activity android:name=".StudentListActivity"></activity>
     </application>
 
 </manifest>
