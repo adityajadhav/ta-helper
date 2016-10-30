@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
+import com.cs442.team4.tahelper.activity.ModuleListActivity;
 import com.cs442.team4.tahelper.model.User;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -207,7 +208,7 @@ public class MainActivity extends AppCompatActivity implements
     @Override
     public void onClick(View v) {
 
-        Intent intent = new Intent(this, CourseActivity.class);
+        Intent intent = new Intent(this, ModuleListActivity.class);
         startActivity(intent);
 
 //        switch (v.getId()) {

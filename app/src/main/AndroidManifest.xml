@@ -18,7 +18,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".CourseActivity"></activity>
-        <activity android:name=".StudentListActivity"></activity>
+        <activity android:name=".activity.ModuleListActivity"></activity>
+        <activity android:name=".activity.AddModuleActivity"></activity>
     </application>
 
 </manifest>

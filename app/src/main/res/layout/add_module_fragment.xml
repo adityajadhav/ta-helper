@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:weightSum="10">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:text=" Add Module"
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:textColor="@color/colorBlack"
+            android:textSize="25dp"
+           />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/colorBlack"/>
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:hint=" Enter Module Name "
+            android:textColor="@color/colorBlack"
+            android:textSize="20dp"
+            android:gravity="center"
+            android:id="@+id/enterModuleNameFragmentView"/>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/colorBlack"/>
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="10dp"></Space>
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:text=" ADD Module"
+            android:textSize="20dp"
+            android:id="@+id/addModuleButtonFragmentView"/>
+
+</LinearLayout>
