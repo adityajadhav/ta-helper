@@ -114,7 +114,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/textView13"
         android:textSize="20sp"
-        android:textColor="@color/cast_expanded_controller_background_color"
+        android:textColor="@android:color/background_dark"
         android:textStyle="normal|bold"
         android:layout_marginTop="19dp"
         android:layout_below="@+id/textView7"
@@ -129,7 +129,7 @@
         android:layout_marginTop="12dp"
         android:id="@+id/textview90"
         android:textSize="20sp"
-        android:textColor="@color/cast_expanded_controller_background_color"
+        android:textColor="@android:color/background_dark"
         android:layout_alignEnd="@+id/textView13"
         android:textStyle="normal|bold" />
 
@@ -155,7 +155,7 @@
         android:id="@+id/textView17"
         android:textSize="20sp"
         android:textStyle="normal|bold"
-        android:textColor="@color/cast_expanded_controller_background_color" />
+        android:textColor="@android:color/background_dark" />
 
     <EditText
         android:layout_width="wrap_content"
