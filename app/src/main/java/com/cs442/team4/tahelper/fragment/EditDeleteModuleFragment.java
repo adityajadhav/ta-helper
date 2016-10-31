@@ -14,6 +14,7 @@ import android.widget.LinearLayout;
 
 import com.cs442.team4.tahelper.R;
 import com.cs442.team4.tahelper.contants.IntentConstants;
+import com.cs442.team4.tahelper.model.ModuleEntity;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -51,68 +52,10 @@ public class EditDeleteModuleFragment extends Fragment {
             @Override
             public void onClick(View v) {
 
-
-
-        DatabaseReference  ref =  FirebaseDatabase.getInstance().getReference("modules").child("name");
-                ref.addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
-
-                            Map<String,String> keyValue = (Map<String, String>) postSnapshot.getValue();
-                            Iterator it = keyValue.entrySet().iterator();
-                            while (it.hasNext()) {
-                                Map.Entry pair = (Map.Entry)it.next();
-                                if(pair.getValue().equals(moduleNameString)) {
-                                    pair.setValue(null);
-                                }
-                            }
-
-
-                        }
-                    }
-
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-
-                    }
-                });
-
-
-               // mDatabase.getReference("modules").orderByChild("name").equalTo(moduleNameString).removeValue();
-
-               /* DatabaseReference mDatabase = (DatabaseReference) FirebaseDatabase.getInstance().getReference("modules");
-
-                //mDatabase.removeValue();
-
-                Query myTopPostsQuery = mDatabase.child("name").
-                myTopPostsQuery.addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        Log.i("Sowmya"," "+dataSnapshot.getRef()+" "+dataSnapshot.getKey()+"  "+dataSnapshot.getValue());
-                    }
-
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-
-                    }
-                });*/
-            /*    Query queryRef = mDatabase.orderByChild("name").equalTo(moduleNameString);
-                queryRef.addListenerForSingleValueEvent(
-                        new ValueEventListener() {
-                            @Override
-                            public void onDataChange(DataSnapshot dataSnapshot) {
-                                Log.i("Deletion : "," delete "+dataSnapshot.getRef().getKey());
-                                dataSnapshot.getRef().child("name").setValue(null);
-                            }
-
-
-                            @Override
-                            public void onCancelled(DatabaseError databaseError) {
-                                Log.w("TodoApp", "getUser:onCancelled", databaseError.toException());
-                            }
-                        });*/
+                 FirebaseDatabase.getInstance().getReference("modules/"+ModuleEntity.getDBKey(moduleNameString)).removeValue();
+                  ModuleEntity.removeKeyValue(moduleNameString);
                 editDeleteButtonListner.clickButtonEvent();
+
             }
         });
         return layout;

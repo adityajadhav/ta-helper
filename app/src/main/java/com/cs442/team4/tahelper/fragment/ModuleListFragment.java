@@ -12,6 +12,7 @@ import android.widget.ListView;
 
 import com.cs442.team4.tahelper.R;
 import com.cs442.team4.tahelper.listItem.ModuleListItemAdapter;
+import com.cs442.team4.tahelper.model.ModuleEntity;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -136,6 +137,7 @@ public class ModuleListFragment extends Fragment{
                         Map.Entry pair = (Map.Entry)it.next();
                         if(!moduleItemList.contains(pair.getValue())) {
                             moduleItemList.add((String) pair.getValue());
+                            ModuleEntity.addKeyValue((String) pair.getValue(),postSnapshot.getKey());
                         }
                     }
 
