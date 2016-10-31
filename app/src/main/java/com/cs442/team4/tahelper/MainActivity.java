@@ -1,6 +1,5 @@
 package com.cs442.team4.tahelper;
 
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -33,7 +32,7 @@ public class MainActivity extends AppCompatActivity implements
 
     private GoogleApiClient mGoogleApiClient;
     private TextView mStatusTextView;
-    private ProgressDialog mProgressDialog;
+    //private ProgressDialog mProgressDialog;
 
     private DatabaseReference mDatabase;
 
@@ -96,11 +95,11 @@ public class MainActivity extends AppCompatActivity implements
             // If the user has not previously signed in on this device or the sign-in has expired,
             // this asynchronous branch will attempt to sign in the user silently.  Cross-device
             // single sign-on will occur in this branch.
-            showProgressDialog();
+            //showProgressDialog();
             opr.setResultCallback(new ResultCallback<GoogleSignInResult>() {
                 @Override
                 public void onResult(@NonNull GoogleSignInResult googleSignInResult) {
-                    hideProgressDialog();
+                    //hideProgressDialog();
                     handleSignInResult(googleSignInResult);
                 }
             });
@@ -128,8 +127,11 @@ public class MainActivity extends AppCompatActivity implements
             // Signed in successfully, show authenticated UI.
             GoogleSignInAccount acct = result.getSignInAccount();
             mStatusTextView.setText(getString(R.string.signed_in_fmt, acct.getDisplayName()));
-            writeNewUser(acct.getId(),acct.getGivenName(),acct.getEmail());
-            updateUI(true);
+            writeNewUser(acct.getId(), acct.getGivenName(), acct.getEmail());
+            //updateUI(true);
+            Intent intent = new Intent(this, ModuleListActivity.class);
+            startActivity(intent);
+            finish();
         } else {
             // Signed out, show unauthenticated UI.
             updateUI(false);
@@ -177,7 +179,7 @@ public class MainActivity extends AppCompatActivity implements
         Log.d(TAG, "onConnectionFailed:" + connectionResult);
     }
 
-    private void showProgressDialog() {
+   /* private void showProgressDialog() {
         if (mProgressDialog == null) {
             mProgressDialog = new ProgressDialog(this);
             mProgressDialog.setMessage(getString(R.string.loading));
@@ -186,12 +188,12 @@ public class MainActivity extends AppCompatActivity implements
 
         mProgressDialog.show();
     }
-
-    private void hideProgressDialog() {
+*/
+   /* private void hideProgressDialog() {
         if (mProgressDialog != null && mProgressDialog.isShowing()) {
             mProgressDialog.hide();
         }
-    }
+    }*/
 
     private void updateUI(boolean signedIn) {
         if (signedIn) {
@@ -208,13 +210,10 @@ public class MainActivity extends AppCompatActivity implements
     @Override
     public void onClick(View v) {
 
-        Intent intent = new Intent(this, ModuleListActivity.class);
-        startActivity(intent);
-
-//        switch (v.getId()) {
-//            case R.id.sign_in_button:
-//                signIn();
-//                break;
+        switch (v.getId()) {
+            case R.id.sign_in_button:
+                signIn();
+                break;
 //            case R.id.sign_out_button:
 //                signOut();
 //
@@ -222,8 +221,8 @@ public class MainActivity extends AppCompatActivity implements
 //            case R.id.disconnect_button:
 //                revokeAccess();
 //                break;
-//        }
-   }
+        }
+    }
 
     private void writeNewUser(String userId, String name, String email) {
         User user = new User(name, email);
