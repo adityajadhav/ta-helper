@@ -1,7 +1,10 @@
 package com.cs442.team4.tahelper.fragment;
 
+import android.app.Activity;
 import android.app.Fragment;
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +13,7 @@ import android.widget.LinearLayout;
 import android.widget.Button;
 
 import com.cs442.team4.tahelper.R;
+import com.cs442.team4.tahelper.contants.IntentConstants;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -22,6 +26,12 @@ public class AddModuleFragment extends Fragment{
     private EditText enterModuleNameFragmentView;
     private Button addModuleFragmentView;
     private DatabaseReference mDatabase;
+    private AddModuleFragmentListener addModuleFragmentListener;
+
+
+    public interface AddModuleFragmentListener{
+        public void addModuleEvent();
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -35,18 +45,36 @@ public class AddModuleFragment extends Fragment{
             public void onClick(View v) {
                 String moduleName = enterModuleNameFragmentView.getText().toString();
                 if(moduleName!=null && moduleName.length()>0){
-                    mDatabase.child("modules").push().child("name").setValue("InClass Assignments");
+               /*     mDatabase.child("modules").push().child("name").setValue("InClass Assignments");
                     mDatabase.child("modules").push().child("name").setValue("HW Assignments");
                     mDatabase.child("modules").push().child("name").setValue("Project");
                     mDatabase.child("modules").push().child("name").setValue("Exam");
-                    mDatabase.child("modules").push().child("name").setValue("Final Score");
+                    mDatabase.child("modules").push().child("name").setValue("Final Score");*/
+                   mDatabase.child("modules").push().child("name").setValue(moduleName);
+                    Log.i("" ,"key "+mDatabase.getKey());
+                    addModuleFragmentListener.addModuleEvent();;
 
-                    mDatabase.child("modules").push().child("name").setValue(moduleName);
                 }
 
             }
         });
         return layout;
     }
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+
+        try {
+            addModuleFragmentListener = (AddModuleFragmentListener) activity;
+
+        } catch (ClassCastException e) {
+            throw new ClassCastException(activity.toString() +
+                    " must implement OnNewItemAddedListener");
+        }
+    }
+
+
+
 
 }

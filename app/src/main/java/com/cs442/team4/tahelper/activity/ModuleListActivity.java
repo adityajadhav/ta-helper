@@ -2,9 +2,12 @@ package com.cs442.team4.tahelper.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 
 import com.cs442.team4.tahelper.R;
+import com.cs442.team4.tahelper.contants.IntentConstants;
+import com.cs442.team4.tahelper.fragment.AddModuleFragment;
 import com.cs442.team4.tahelper.fragment.ModuleListFragment;
 
 /**
@@ -22,6 +25,12 @@ public class ModuleListActivity  extends AppCompatActivity implements ModuleList
     @Override
     public void addNewModuleEvent() {
         Intent intent = new Intent(this,AddModuleActivity.class);
+        startActivity(intent);
+    }
+
+    public void onModuleItemClickEditDelete(String moduleName){
+        Intent intent = new Intent(this, EditDeleteModuleActivity.class);
+        intent.putExtra(IntentConstants.MODULE_NAME,moduleName);
         startActivity(intent);
     }
 }
