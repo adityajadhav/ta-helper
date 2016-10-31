@@ -37,7 +37,6 @@ public class MainActivity extends AppCompatActivity implements
 
     private DatabaseReference mDatabase;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

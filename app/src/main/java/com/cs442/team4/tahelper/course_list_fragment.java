@@ -106,13 +106,6 @@ public class course_list_fragment extends Fragment {
         });
 
 
-
-
-
-
-
-
-
         super.onActivityCreated(savedInstanceState);
     }
 

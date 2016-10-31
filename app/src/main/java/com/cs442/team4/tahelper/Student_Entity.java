@@ -13,11 +13,11 @@ public class Student_Entity {
     private String email;
     private String aNumber;
 
-    public void Student_Entity(String username, String first_name, String last_name, String email, String a_number) {
+    public Student_Entity(String username, String first_name, String last_name, String email, String a_number) {
         this.userName = username;
         this.firstName = first_name;
         this.lastName = last_name;
-        this.firstName = last_name + "," + first_name;
+        this.fullName = last_name + "," + first_name;
         this.email = email;
         this.aNumber = a_number;
     }

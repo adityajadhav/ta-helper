@@ -31,8 +31,6 @@ public class add_course_fragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.add_course, container, false);
 
-
-
     }
 
 
