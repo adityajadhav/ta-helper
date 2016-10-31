@@ -14,6 +14,7 @@ import android.widget.Button;
 
 import com.cs442.team4.tahelper.R;
 import com.cs442.team4.tahelper.contants.IntentConstants;
+import com.cs442.team4.tahelper.model.ModuleEntity;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -45,13 +46,44 @@ public class AddModuleFragment extends Fragment{
             public void onClick(View v) {
                 String moduleName = enterModuleNameFragmentView.getText().toString();
                 if(moduleName!=null && moduleName.length()>0){
-               /*     mDatabase.child("modules").push().child("name").setValue("InClass Assignments");
+                    String key; /* = mDatabase.push().getKey();
+                    mDatabase.child("modules").child(key).child("name").setValue(moduleName);
+                    ModuleEntity.addKeyValue("InClass Assignments",key);
+                    addModuleFragmentListener.addModuleEvent();;
+
+                     key  = mDatabase.push().getKey();
+                    mDatabase.child("modules").child(key).child("name").setValue("InClass Assignments");
+                    ModuleEntity.addKeyValue(moduleName,key);
+                    addModuleFragmentListener.addModuleEvent();;
+
+                     key  = mDatabase.push().getKey();
+                    mDatabase.child("modules").child(key).child("name").setValue("HW Assignments");
+                    ModuleEntity.addKeyValue("HW Assignments",key);
+                    addModuleFragmentListener.addModuleEvent();;
+
+                     key  = mDatabase.push().getKey();
+                    mDatabase.child("modules").child(key).child("name").setValue("Project");
+                    ModuleEntity.addKeyValue("Project",key);
+                    addModuleFragmentListener.addModuleEvent();;
+
+                     key  = mDatabase.push().getKey();
+                    mDatabase.child("modules").child(key).child("name").setValue("Exam");
+                    ModuleEntity.addKeyValue("Exam",key);
+                    addModuleFragmentListener.addModuleEvent();;
+
+                     key  = mDatabase.push().getKey();
+                    mDatabase.child("modules").child(key).child("name").setValue("Final Score");
+                    ModuleEntity.addKeyValue("Final Score",key);
+                    addModuleFragmentListener.addModuleEvent();;
+*/
+               /*    mDatabase.child("modules").push().child("name").setValue("InClass Assignments");
                     mDatabase.child("modules").push().child("name").setValue("HW Assignments");
                     mDatabase.child("modules").push().child("name").setValue("Project");
                     mDatabase.child("modules").push().child("name").setValue("Exam");
                     mDatabase.child("modules").push().child("name").setValue("Final Score");*/
-                   mDatabase.child("modules").push().child("name").setValue(moduleName);
-                    Log.i("" ,"key "+mDatabase.getKey());
+                     key  = mDatabase.push().getKey();
+                    mDatabase.child("modules").child(key).child("name").setValue(moduleName);
+                    ModuleEntity.addKeyValue(moduleName,key);
                     addModuleFragmentListener.addModuleEvent();;
 
                 }
