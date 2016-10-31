@@ -125,6 +125,7 @@ public class ModuleListFragment extends Fragment{
 
     private void loadFromDatabase() {
         mDatabase.child("modules").push();
+
         mDatabase.child("modules").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {

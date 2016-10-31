@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -51,13 +52,29 @@ public class EditDeleteModuleFragment extends Fragment {
         deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                  FirebaseDatabase.getInstance().getReference("modules/"+ModuleEntity.getDBKey(moduleNameString)).removeValue();
                   ModuleEntity.removeKeyValue(moduleNameString);
                 editDeleteButtonListner.clickButtonEvent();
 
             }
         });
+        editButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                if(moduleName.getText().toString()!=null && moduleName.getText().toString().length()>0) {
+
+                    FirebaseDatabase.getInstance().getReference("modules/"+ModuleEntity.getDBKey(moduleNameString)).removeValue();
+                    ModuleEntity.removeKeyValue(moduleNameString);
+
+                    DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("modules");
+                    String key  = databaseReference.push().getKey();
+                    databaseReference.child(key).child("name").setValue(moduleName.getText().toString());
+                    ModuleEntity.addKeyValue(moduleName.getText().toString(),key);
+                    editDeleteButtonListner.clickButtonEvent();
+                }
+            }
+        });
+
         return layout;
     }
 
