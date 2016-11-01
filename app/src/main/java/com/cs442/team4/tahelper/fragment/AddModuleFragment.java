@@ -81,9 +81,10 @@ public class AddModuleFragment extends Fragment{
                     mDatabase.child("modules").push().child("name").setValue("Project");
                     mDatabase.child("modules").push().child("name").setValue("Exam");
                     mDatabase.child("modules").push().child("name").setValue("Final Score");*/
-                     key  = mDatabase.push().getKey();
-                    mDatabase.child("modules").child(key).child("name").setValue(moduleName);
-                    ModuleEntity.addKeyValue(moduleName,key);
+                    // key  = mDatabase.push().getKey();
+                  //  mDatabase.child("modules").child(key).child("name").setValue(moduleName);
+                    mDatabase.child("modules").child(moduleName).setValue("");
+                    //ModuleEntity.addKeyValue(moduleName,key);
                     addModuleFragmentListener.addModuleEvent();;
 
                 }

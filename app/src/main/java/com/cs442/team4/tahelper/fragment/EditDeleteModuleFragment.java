@@ -52,8 +52,8 @@ public class EditDeleteModuleFragment extends Fragment {
         deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                 FirebaseDatabase.getInstance().getReference("modules/"+ModuleEntity.getDBKey(moduleNameString)).removeValue();
-                  ModuleEntity.removeKeyValue(moduleNameString);
+                 FirebaseDatabase.getInstance().getReference("modules/"+moduleNameString).removeValue();
+                //  ModuleEntity.removeKeyValue(moduleNameString);
                 editDeleteButtonListner.clickButtonEvent();
 
             }
@@ -63,13 +63,14 @@ public class EditDeleteModuleFragment extends Fragment {
             public void onClick(View v) {
                 if(moduleName.getText().toString()!=null && moduleName.getText().toString().length()>0) {
 
-                    FirebaseDatabase.getInstance().getReference("modules/"+ModuleEntity.getDBKey(moduleNameString)).removeValue();
+                    FirebaseDatabase.getInstance().getReference("modules/"+moduleNameString).removeValue();
                     ModuleEntity.removeKeyValue(moduleNameString);
 
                     DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("modules");
-                    String key  = databaseReference.push().getKey();
-                    databaseReference.child(key).child("name").setValue(moduleName.getText().toString());
-                    ModuleEntity.addKeyValue(moduleName.getText().toString(),key);
+                   // String key  = databaseReference.push().getKey();
+                    //databaseReference.child(key).child("name").setValue(moduleName.getText().toString());
+                    databaseReference.child(moduleName.getText().toString()).setValue("");
+                    //ModuleEntity.addKeyValue(moduleName.getText().toString(),key);
                     editDeleteButtonListner.clickButtonEvent();
                 }
             }

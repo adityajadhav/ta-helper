@@ -132,9 +132,14 @@ public class ModuleListFragment extends Fragment{
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 moduleItemList.removeAll(moduleItemList);
+                Log.i("","Snaphot "+dataSnapshot+"  "+dataSnapshot.getChildren()+"  "+dataSnapshot.getValue());
                 for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
+                    if(!moduleItemList.contains(postSnapshot.getKey())) {
+                        moduleItemList.add((String)postSnapshot.getKey());
+                       // ModuleEntity.addKeyValue((String) pair.getValue(),postSnapshot.getKey());
+                    }
 
-                    Map<String,String> keyValue = (Map<String, String>) postSnapshot.getValue();
+                    /*Map<String,String> keyValue = (Map<String, String>) postSnapshot.getValue();
                     Iterator it = keyValue.entrySet().iterator();
                     while (it.hasNext()) {
                         Map.Entry pair = (Map.Entry)it.next();
@@ -142,7 +147,7 @@ public class ModuleListFragment extends Fragment{
                             moduleItemList.add((String) pair.getValue());
                             ModuleEntity.addKeyValue((String) pair.getValue(),postSnapshot.getKey());
                         }
-                    }
+                    }*/
 
 
                 }

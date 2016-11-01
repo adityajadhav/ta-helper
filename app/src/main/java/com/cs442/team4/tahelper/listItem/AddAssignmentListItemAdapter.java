@@ -43,7 +43,7 @@ public class AddAssignmentListItemAdapter extends ArrayAdapter<AssignmentSplit> 
         } else {
             layout = (LinearLayout) convertView;
         }
-        TextView splitName = (TextView) layout.findViewById(R.id.addAssignmentsSplitName);
+       /* TextView splitName = (TextView) layout.findViewById(R.id.addAssignmentsSplitName);
         TextView splitScore = (TextView) layout.findViewById(R.id.addAssignmentsSplitScore);
         Button splitDelete = (Button) layout.findViewById(R.id.addAssignmentsSplitDelete);
         final AssignmentSplit split = getItem(position);
@@ -55,7 +55,7 @@ public class AddAssignmentListItemAdapter extends ArrayAdapter<AssignmentSplit> 
             }
         });
         splitName.setText(split.getSplitName());
-        splitScore.setText(String.valueOf(split.getSplitScore()));
+        splitScore.setText(String.valueOf(split.getSplitScore()));*/
         return layout;
     }
 
