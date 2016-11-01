@@ -8,25 +8,37 @@
     <TextView
         android:layout_height="match_parent"
         android:layout_width="0dp"
-        android:layout_weight="5"
-        android:id="@+id/moduleNameView"
+        android:layout_weight="4"
+        android:id="@+id/addAssignmentsSplitName"
         android:textSize="20dp"
-        android:gravity="center_vertical"
+        android:gravity="center"
         android:layout_marginLeft="10dp"
+        android:textStyle="bold"
+        />
+
+    <TextView
+        android:layout_height="match_parent"
+        android:layout_width="0dp"
+        android:layout_weight="3"
+        android:id="@+id/addAssignmentsSplitScore"
+        android:textSize="20dp"
+        android:gravity="center"
+        android:layout_marginLeft="10dp"
+        android:textStyle="bold"
+
         />
 
     <Button
         android:layout_height="match_parent"
         android:layout_width="0dp"
         android:layout_weight="3"
-        android:id="@+id/editModuleButtonView"
-        android:text="Edit/Delete"/>
+        android:id="@+id/addAssignmentsSplitDelete"
+        android:textSize="20dp"
+        android:text="Delete"
+        android:gravity="center"
+        android:layout_marginLeft="10dp"
+        android:textStyle="bold"
 
-    <Button
-        android:layout_height="match_parent"
-        android:layout_width="0dp"
-        android:layout_weight="2"
-        android:id="@+id/manageModuleButtonView"
-        android:text="Manage"/>
+        />
 
 </LinearLayout>

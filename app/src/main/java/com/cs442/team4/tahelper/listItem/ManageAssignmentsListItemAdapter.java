@@ -5,9 +5,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.EditText;
+import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.*;
+import android.widget.TextView;
 
 import com.cs442.team4.tahelper.R;
 import com.cs442.team4.tahelper.activity.ModuleListActivity;
@@ -15,17 +15,17 @@ import com.cs442.team4.tahelper.activity.ModuleListActivity;
 import java.util.ArrayList;
 
 /**
- * Created by sowmyaparameshwara on 10/30/16.
+ * Created by sowmyaparameshwara on 10/31/16.
  */
 
-public class ModuleListItemAdapter extends ArrayAdapter<String>{
+public class ManageAssignmentsListItemAdapter extends ArrayAdapter<String>{
 
     private int resource;
     private Context context;
 
 
-    public ModuleListItemAdapter(Context context, int resource, ArrayList<String> moduleItemList) {
-        super(context, resource,moduleItemList);
+    public ManageAssignmentsListItemAdapter(Context context, int resource, ArrayList<String> manageAssignmentsList) {
+        super(context, resource,manageAssignmentsList);
         this.resource = resource;
         this.context = context;
     }
@@ -44,25 +44,26 @@ public class ModuleListItemAdapter extends ArrayAdapter<String>{
             layout = (LinearLayout) convertView;
         }
         final String moduleContent = getItem(position);
-        TextView moduleName = (TextView) layout.findViewById(R.id.moduleNameView);
-        Button editModuleButton = (Button)layout.findViewById(R.id.editModuleButtonView);
-        Button manageModuleButton = (Button)layout.findViewById(R.id.manageModuleButtonView);
+        TextView moduleName = (TextView) layout.findViewById(R.id.manageAssignmentNameItem);
+        Button manageButton = (Button)layout.findViewById(R.id.manageAsignmentsManageButton);
+        Button scoreButton = (Button)layout.findViewById(R.id.manageAssignmentsScoreButton);
 
-        editModuleButton.setOnClickListener(new View.OnClickListener(){
+        manageButton.setOnClickListener(new View.OnClickListener(){
 
-           @Override
-           public void onClick(View v) {
-              ((ModuleListActivity)context).onModuleItemClickEditDelete(moduleContent);
-           }
-        });
-        manageModuleButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                ((ModuleListActivity)context).onModuleItemClickedManage(moduleContent);
+               // ((ModuleListActivity)context).onModuleItemClickEditDelete(moduleContent);
+            }
+        });
+        scoreButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+               // ((ModuleListActivity)context).onModuleItemClickedManage(moduleContent);
             }
         });
 
         moduleName.setText(moduleContent);
+
         return layout;
     }
 

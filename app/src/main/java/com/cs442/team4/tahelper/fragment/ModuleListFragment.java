@@ -36,6 +36,7 @@ public class ModuleListFragment extends Fragment{
     private ArrayList<String> moduleItemList;
     private ModuleListItemAdapter moduleListItemAdapter;
     private Button addModuleButton;
+
     private ModuleListFragmentListener moduleListFragmentListener;
     private DatabaseReference mDatabase;
 
@@ -43,6 +44,7 @@ public class ModuleListFragment extends Fragment{
 
     public interface ModuleListFragmentListener{
         public void addNewModuleEvent();
+
     }
 
     @Override

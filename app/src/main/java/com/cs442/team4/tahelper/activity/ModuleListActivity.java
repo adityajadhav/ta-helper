@@ -33,4 +33,10 @@ public class ModuleListActivity  extends AppCompatActivity implements ModuleList
         intent.putExtra(IntentConstants.MODULE_NAME,moduleName);
         startActivity(intent);
     }
+
+    public void onModuleItemClickedManage(String moduleName) {
+        Intent intent = new Intent(this, ManageAssignmentsActivity.class);
+        intent.putExtra(IntentConstants.MODULE_NAME,moduleName);
+        startActivity(intent);
+    }
 }
