@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.cs442.team4.tahelper.R;
 import com.cs442.team4.tahelper.activity.AddAssignmentsActivity;
+import com.cs442.team4.tahelper.activity.EditDeleteAssignmentActivity;
 import com.cs442.team4.tahelper.model.AssignmentSplit;
 
 import java.util.ArrayList;
@@ -19,12 +20,13 @@ import java.util.ArrayList;
  * Created by sowmyaparameshwara on 10/31/16.
  */
 
-public class AddAssignmentListItemAdapter extends ArrayAdapter<AssignmentSplit> {
+public class EditDeleteAssignmentListItemAdapter extends ArrayAdapter<AssignmentSplit> {
 
     private Context context;
     private int resource;
 
-    public AddAssignmentListItemAdapter(Context context, int resource, ArrayList<AssignmentSplit> addSplitList) {
+
+    public EditDeleteAssignmentListItemAdapter(Context context, int resource, ArrayList<AssignmentSplit> addSplitList) {
         super(context,resource,addSplitList);
         this.resource = resource;
         this.context = context;
@@ -51,7 +53,7 @@ public class AddAssignmentListItemAdapter extends ArrayAdapter<AssignmentSplit> 
         splitDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((AddAssignmentsActivity)context).deleteSplit(split);
+                ((EditDeleteAssignmentActivity)context).deleteSplit(split);
             }
         });
         splitName.setText(split.getSplitName());

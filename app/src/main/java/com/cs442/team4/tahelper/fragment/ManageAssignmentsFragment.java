@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,8 +19,11 @@ import com.cs442.team4.tahelper.contants.IntentConstants;
 import com.cs442.team4.tahelper.listItem.ManageAssignmentsListItemAdapter;
 import com.cs442.team4.tahelper.listItem.ModuleListItemAdapter;
 import com.cs442.team4.tahelper.model.ModuleEntity;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
@@ -56,20 +60,44 @@ public class ManageAssignmentsFragment extends Fragment {
                 manageAssignmentFragmentListener.notifyAddAssignmentEvent();
             }
         });
-        loadExistingAssignmentFromDatabase();
         return layout;
     }
 
     private void loadExistingAssignmentFromDatabase() {
         assignmentsList = new ArrayList<String>();
+        loadFromDatabase();
         manageAssignmentsAdapter = new ManageAssignmentsListItemAdapter(getActivity(),R.layout.manage_assignments_item_layout,assignmentsList);
         manageAssignmentsList.setAdapter(manageAssignmentsAdapter);
+    }
+
+    private void loadFromDatabase() {
+        mDatabase.child("modules/"+moduleName).push();
+
+        mDatabase.child("modules/"+moduleName).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                assignmentsList.removeAll(assignmentsList);
+                Log.i("","Snaphot "+dataSnapshot+"  "+dataSnapshot.getChildren()+"  "+dataSnapshot.getValue());
+                for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
+                    if(!assignmentsList.contains(postSnapshot.getKey())) {
+                        assignmentsList.add((String)postSnapshot.getKey());
+                    }
+
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.d("ModuleListFragment : "," Read cancelled due to "+databaseError.getMessage());
+            }
+        });
     }
 
     public void initialise(Intent intent) {
         if(intent!=null && intent.getStringExtra(IntentConstants.MODULE_NAME)!=null){
             moduleName = intent.getStringExtra(IntentConstants.MODULE_NAME);
             assignmentName.setText(moduleName);
+            loadExistingAssignmentFromDatabase();
         }
     }
 

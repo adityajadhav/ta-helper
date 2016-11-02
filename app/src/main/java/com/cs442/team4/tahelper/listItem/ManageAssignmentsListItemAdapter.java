@@ -10,6 +10,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.cs442.team4.tahelper.R;
+import com.cs442.team4.tahelper.activity.ManageAssignmentsActivity;
 import com.cs442.team4.tahelper.activity.ModuleListActivity;
 
 import java.util.ArrayList;
@@ -43,8 +44,8 @@ public class ManageAssignmentsListItemAdapter extends ArrayAdapter<String>{
         } else {
             layout = (LinearLayout) convertView;
         }
-        final String moduleContent = getItem(position);
-        TextView moduleName = (TextView) layout.findViewById(R.id.manageAssignmentNameItem);
+        final String assignmentContent = getItem(position);
+        TextView assignmentName = (TextView) layout.findViewById(R.id.manageAssignmentNameItem);
         Button manageButton = (Button)layout.findViewById(R.id.manageAsignmentsManageButton);
         Button scoreButton = (Button)layout.findViewById(R.id.manageAssignmentsScoreButton);
 
@@ -52,7 +53,7 @@ public class ManageAssignmentsListItemAdapter extends ArrayAdapter<String>{
 
             @Override
             public void onClick(View v) {
-               // ((ModuleListActivity)context).onModuleItemClickEditDelete(moduleContent);
+                ((ManageAssignmentsActivity)context).onAssignmentItemClickEditDelete(assignmentContent);
             }
         });
         scoreButton.setOnClickListener(new View.OnClickListener(){
@@ -62,7 +63,7 @@ public class ManageAssignmentsListItemAdapter extends ArrayAdapter<String>{
             }
         });
 
-        moduleName.setText(moduleContent);
+        assignmentName.setText(assignmentContent);
 
         return layout;
     }

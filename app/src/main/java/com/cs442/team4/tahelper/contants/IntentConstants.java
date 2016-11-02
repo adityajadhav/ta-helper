@@ -8,4 +8,7 @@ public class IntentConstants {
 
     public static final String MODULE_NAME = "moduleName";
 
+    public static final String ASSIGNMENT_NAME = "assignmentName";
+
+
 }

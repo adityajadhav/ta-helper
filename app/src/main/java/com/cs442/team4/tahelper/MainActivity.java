@@ -209,11 +209,13 @@ public class MainActivity extends AppCompatActivity implements
 
     @Override
     public void onClick(View v) {
+        Intent intent = new Intent(this,ModuleListActivity.class);
+        startActivity(intent);
 
-        switch (v.getId()) {
+     /*   switch (v.getId()) {
             case R.id.sign_in_button:
                 signIn();
-                break;
+                break;*/
 //            case R.id.sign_out_button:
 //                signOut();
 //
@@ -221,7 +223,7 @@ public class MainActivity extends AppCompatActivity implements
 //            case R.id.disconnect_button:
 //                revokeAccess();
 //                break;
-        }
+       // }
     }
 
     private void writeNewUser(String userId, String name, String email) {

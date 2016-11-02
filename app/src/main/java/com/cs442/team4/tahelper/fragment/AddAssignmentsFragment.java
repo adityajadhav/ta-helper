@@ -1,6 +1,8 @@
 package com.cs442.team4.tahelper.fragment;
 
+import android.app.Activity;
 import android.app.Fragment;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,8 +14,11 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.cs442.team4.tahelper.R;
+import com.cs442.team4.tahelper.contants.IntentConstants;
 import com.cs442.team4.tahelper.listItem.AddAssignmentListItemAdapter;
 import com.cs442.team4.tahelper.model.AssignmentSplit;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 
@@ -32,6 +37,14 @@ public class AddAssignmentsFragment extends Fragment {
     private ArrayList<AssignmentSplit> assignmentSplitsList;
     private AddAssignmentListItemAdapter assignmentAdapter;
     private Button addAssignment;
+    private DatabaseReference mDatabase;
+    private String moduleName;
+    private AddAssignmentsFragmentListener addAssignmentFragmentListener;
+
+    public interface AddAssignmentsFragmentListener{
+        public void notifyAddAssignmentEvent(String moduleName);
+    }
+
 
 
     @Override
@@ -41,12 +54,13 @@ public class AddAssignmentsFragment extends Fragment {
         splitName = (EditText) layout.findViewById(R.id.addAssignmentFragmentSplitName);
         splitScore = (EditText) layout.findViewById(R.id.addAssignmentFragmentSplitScore);
         splitList = (ListView) layout.findViewById(R.id.addAssignmentsFragmentListView);
-        addSplitButton = (Button) layout.findViewById(R.id.addAssignmentsFragmentAddButton);
+        addAssignment = (Button) layout.findViewById(R.id.addAssignmentsFragmentAddButton);
         assignmentName = (EditText) layout.findViewById(R.id.addAssignmentsFragmentTextView);
         assignmentTotalScore = (EditText) layout.findViewById(R.id.addAssignmentFragmentTotalScore);
         assignmentSplitsList = new ArrayList<AssignmentSplit>();
         assignmentAdapter = new AddAssignmentListItemAdapter(getActivity(),R.layout.add_assignments_item_layout,assignmentSplitsList);
         splitList.setAdapter(assignmentAdapter);
+        mDatabase = FirebaseDatabase.getInstance().getReference("modules");
 
         addSplitButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -62,7 +76,7 @@ public class AddAssignmentsFragment extends Fragment {
             }
         });
 
-        addSplitButton.setOnClickListener(new View.OnClickListener() {
+        addAssignment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                handleAddAssignment();
@@ -73,7 +87,12 @@ public class AddAssignmentsFragment extends Fragment {
 
     private void handleAddAssignment() {
         if(assignmentName.getText()!=null && assignmentName.getText().length()>0 && assignmentTotalScore.getText()!=null && assignmentTotalScore.getText().length()>0){
-
+           mDatabase.child(moduleName).child(assignmentName.getText().toString()).child("Total").setValue(assignmentTotalScore.getText().toString());
+           for(int i = 0 ; i <assignmentSplitsList.size();i++){
+               AssignmentSplit split = assignmentSplitsList.get(i);
+               mDatabase.child(moduleName).child(assignmentName.getText().toString()).child("Splits").child(split.getSplitName()).setValue(String.valueOf(split.getSplitScore()));
+           }
+            addAssignmentFragmentListener.notifyAddAssignmentEvent(moduleName);
         }else{
             Toast.makeText(getActivity(),"Please enter both assignment name, total score and try again.",Toast.LENGTH_LONG).show();
         }
@@ -83,4 +102,25 @@ public class AddAssignmentsFragment extends Fragment {
         assignmentSplitsList.remove(split);
         assignmentAdapter.notifyDataSetChanged();
     }
+
+    public void initialise(Intent intent) {
+        if(intent!=null && intent.getStringExtra(IntentConstants.MODULE_NAME)!=null){
+            moduleName = intent.getStringExtra(IntentConstants.MODULE_NAME);
+        }
+    }
+
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+
+        try {
+            addAssignmentFragmentListener = (AddAssignmentsFragmentListener) activity;
+
+        } catch (ClassCastException e) {
+            throw new ClassCastException(activity.toString() +
+                    " must implement OnNewItemAddedListener");
+        }
+    }
+
 }
