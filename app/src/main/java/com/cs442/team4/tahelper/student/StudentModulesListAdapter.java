@@ -1,4 +1,4 @@
-package com.cs442.team4.tahelper;
+package com.cs442.team4.tahelper.student;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -7,25 +7,27 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
+import com.cs442.team4.tahelper.R;
+
 import java.util.ArrayList;
 
 /**
- * Created by Mohammed on 10/30/2016.
+ * Created by Mohammed on 11/2/2016.
  */
 
-public class StudentListAdapter extends ArrayAdapter<Student_Entity> {
+public class StudentModulesListAdapter extends ArrayAdapter<String> {
 
     int resource;
 
-    public StudentListAdapter(Context context, int resource, ArrayList<Student_Entity> students) {
-        super(context, resource, students);
+    public StudentModulesListAdapter(Context context, int resource, ArrayList<String> modules) {
+        super(context, resource, modules);
         this.resource = resource;
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
-        final Student_Entity student = getItem(position);
+        final String module = getItem(position);
 
         if (convertView == null) {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.student_list_textview, parent, false);
@@ -33,8 +35,10 @@ public class StudentListAdapter extends ArrayAdapter<Student_Entity> {
 
         final TextView itemName = (TextView) convertView.findViewById(R.id.studentListTextview);
         itemName.setTag(position);
-        itemName.setText(student.getStudentFirstName() + " " + student.getStudentLastName());
+        itemName.setText(module);
 
         return convertView;
     }
+
+
 }

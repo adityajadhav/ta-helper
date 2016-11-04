@@ -1,25 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:weightSum="1">
 
     <TextView
+        android:text="Assignment 1 Splits"
         android:layout_width="match_parent"
-        android:layout_height="43dp"
-        android:text="Student List: CS442"
-        android:id="@+id/textView1"
+        android:layout_height="41dp"
+        android:id="@+id/assignmentNameTextView"
         android:layout_gravity="center_horizontal"
         android:gravity="center"
         android:textSize="25dp"
-        android:background="#cdd6f3" />
-
-    <SearchView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/searchBar" />
+        android:background="#cdd6f3"/>
 
     <ListView
         android:layout_width="match_parent"

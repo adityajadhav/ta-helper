@@ -1,111 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:layout_width="match_parent"
+    android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:weightSum="10">
+    android:weightSum="1">
 
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:text=" MODULES "
-        android:gravity="center"
-        android:layout_gravity="center"
-        android:textColor="@color/colorBlack"
-        android:textSize="28dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginLeft="20dp"
-
-        android:layout_marginBottom="20dp"
-        />
-    <View
+        android:text="Modules: CS 442"
         android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/colorBlack"/>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:text=" In Class Assignments "
-        android:textColor="@color/colorBlack"
-        android:textSize="20dp"
+        android:layout_height="44dp"
+        android:id="@+id/textView11"
+        android:layout_gravity="center_horizontal"
         android:gravity="center"
-        android:layout_marginLeft="20dp"
+        android:textSize="25dp"
+        android:background="#cdd6f3"/>
 
-        />
-    <View
+    <ListView
         android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/colorBlack"/>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:text=" HW Assignments "
-        android:gravity="center"
-        android:textColor="@color/colorBlack"
-        android:textSize="20dp"
-        android:layout_marginLeft="20dp"
-
-        />
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/colorBlack"/>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:text=" Project "
-        android:gravity="center"
-        android:textColor="@color/colorBlack"
-        android:textSize="20dp"
-        android:layout_marginLeft="20dp"
-
-        />
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/colorBlack"/>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:text=" Exam "
-        android:gravity="center"
-        android:textColor="@color/colorBlack"
-        android:textSize="20dp"
-        android:layout_marginLeft="20dp"
-
-        />
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/colorBlack"/>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:text=" Final Grade "
-        android:gravity="center"
-        android:textColor="@color/colorBlack"
-        android:textSize="20dp"
-        android:layout_marginLeft="20dp"
-
-        />
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/colorBlack"/>
+        android:layout_height="match_parent"
+        android:id="@android:id/list"/>
 
 </LinearLayout>

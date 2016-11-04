@@ -24,7 +24,12 @@
         <activity android:name=".activity.ManageAssignmentsActivity"></activity>
         <activity android:name=".activity.AddAssignmentsActivity"></activity>
         <activity android:name=".activity.EditDeleteAssignmentActivity"></activity>
-        <activity android:name=".StudentListActivity"></activity>
+        <activity android:name=".student.StudentModulesActivity"></activity>
+        <activity android:name=".student.StudentAssignmentListActivity"></activity>
+        <activity android:name=".student.StudentAssignmentSplitsListActivity"></activity>
+        <activity android:name=".student.StudentListActivity"></activity>
+
+
     </application>
 
 </manifest>

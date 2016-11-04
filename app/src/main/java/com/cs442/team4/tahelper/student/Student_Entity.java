@@ -1,4 +1,4 @@
-package com.cs442.team4.tahelper;
+package com.cs442.team4.tahelper.student;
 
 /**
  * Created by ullas on 10/29/2016.
