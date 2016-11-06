@@ -27,6 +27,7 @@ public class Course_Entity {
         this.professorEmailId = professor_email_id;
         this.professorEmailId = professor_username;
         this.professorFullName = professor_last_name + "," + professor_first_name;
+        this.professorUsername = professor_username;
         this.TAEmailIds = TA_email_ids;
     }
 

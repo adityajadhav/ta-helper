@@ -8,14 +8,14 @@
         android:layout_height="wrap_content"
         android:id="@+id/course_name_tv_layout"
         android:textSize="18sp"
-        android:layout_toStartOf="@+id/modify_course_btn_layout"
-        android:layout_alignBottom="@+id/modify_course_btn_layout"
+        android:layout_toStartOf="@+id/manage_course_btn_layout"
+        android:layout_alignBottom="@+id/manage_course_btn_layout"
         android:layout_alignParentTop="true" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/modify_course_btn_layout"
+        android:id="@+id/manage_course_btn_layout"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
         android:text="Modify" />

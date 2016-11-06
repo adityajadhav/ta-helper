@@ -209,7 +209,10 @@ public class MainActivity extends AppCompatActivity implements
 
     @Override
     public void onClick(View v) {
-        Intent intent = new Intent(this,ModuleListActivity.class);
+//        Intent intent = new Intent(this,ModuleListActivity.class);
+//        startActivity(intent);
+
+        Intent intent = new Intent(this,CourseActivity.class);
         startActivity(intent);
 
      /*   switch (v.getId()) {

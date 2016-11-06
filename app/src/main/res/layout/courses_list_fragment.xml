@@ -5,30 +5,37 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
    >
+
+
+
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        >
+
         <ListView
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="390dp"
             android:id="@+id/course_list_view">
         </ListView>
+
     </LinearLayout>
 
-    <android.support.design.widget.FloatingActionButton
-
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:clickable="true"
-        app:fabSize="mini"
-        app:srcCompat="@android:drawable/ic_input_add"
-        android:id="@+id/add_course_fab_layout"
-        android:layout_weight="1"
-        android:layout_marginBottom="23dp"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginEnd="16dp"
+        android:layout_centerHorizontal="true">
 
-        app:backgroundTint="@android:color/holo_blue_bright" />
+    <Button
+        android:text="Add Course"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/add_course_fab_layout"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="16dp" />
+    </LinearLayout>
+
 </RelativeLayout>

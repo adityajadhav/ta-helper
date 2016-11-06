@@ -34,7 +34,13 @@ public class course_list_fragment extends Fragment {
     OnActionButtonClickListener mClick;
 
     public interface OnActionButtonClickListener{
-            public void callAddCourseFragment();
+            public void callAddCourseFragment(String mode_from_fragment);
+            public void callManageCourseFragment_to_activity(String course_id);
+    }
+
+    public void setInterface(OnActionButtonClickListener oa)
+    {
+        this.mClick = oa;
     }
 
     @Override
@@ -51,11 +57,12 @@ public class course_list_fragment extends Fragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
 
 
-        FloatingActionButton myFab = (FloatingActionButton)  view.findViewById(R.id.add_course_fab_layout);
+
+        Button myFab = (Button)  view.findViewById(R.id.add_course_fab_layout);
         myFab.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
 
-                mClick.callAddCourseFragment();
+                mClick.callAddCourseFragment("add");
             }
         });
 
@@ -83,20 +90,45 @@ public class course_list_fragment extends Fragment {
 
 
         final Course_list_array_adapter adapter = new Course_list_array_adapter(course_array,getContext());
-        course_list_list_view.setAdapter(adapter);
 
+        course_list_list_view.setAdapter(adapter);
+        adapter.set_course_list_adapter_interface(new Course_list_array_adapter.Course_list_adapter_interface() {
+            @Override
+            public void callManageCourseFragment(String courseCode) {
+
+                mClick.callManageCourseFragment_to_activity(courseCode);
+
+            }
+        });
         players.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                for (DataSnapshot items : dataSnapshot.getChildren()) {
+               // if(dataSnapshot.hasChildren()) {
+                    for (DataSnapshot items : dataSnapshot.getChildren()) {
 
-                    //    Log.i("player", player.child(s + "/courseCode").getValue().toString());
-                    Log.i("player", items.child("courseName").getValue().toString());
-                    String s = items.child("courseName").getValue().toString();
-                    course_array.add(new Course_Entity(s,"n","n","N","n","n","n"));
+                        //    Log.i("player", player.child(s + "/courseCode").getValue().toString());
+                        try {
+
+                            Log.i("player", items.child("courseName").getValue().toString());
+                            String c_name = items.child("courseName").getValue().toString();
+                            String c_id = items.child("courseCode").getValue().toString();
+                            String c_p_email = items.child("professorEmailId").getValue().toString();
+                            String c_p_first = items.child("professorFirstName").getValue().toString();
+                            String c_p_last = items.child("professorLastName").getValue().toString();
+                            //String c_p_full = items.child("professorFullName").getValue().toString();
+                            String c_ta = items.child("taemailIds").getValue().toString();
+                            String c_p_un = items.child("professorUserName").getValue().toString();
+
+                            course_array.add(new Course_Entity(c_name, c_id, c_p_first, c_p_last, c_p_email, c_p_un, c_ta));
+                        }
+                        catch(Exception e)
+                        {
+                            Log.i("Exception",e.toString());
+                        }
+                    }
+                    adapter.notifyDataSetChanged();
                 }
-                adapter.notifyDataSetChanged();
-            }
+            //}
 
 
             @Override
@@ -118,6 +150,6 @@ public class course_list_fragment extends Fragment {
     public void onAttach(Context context) {
         super.onAttach(context);
 
-        mClick = (OnActionButtonClickListener) context;
+        //mClick = (OnActionButtonClickListener) context;
     }
 }
