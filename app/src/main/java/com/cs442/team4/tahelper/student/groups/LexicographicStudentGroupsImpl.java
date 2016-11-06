@@ -3,7 +3,6 @@ package com.cs442.team4.tahelper.student.groups;
 import com.cs442.team4.tahelper.student.Student_Entity;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
@@ -15,14 +14,14 @@ import java.util.List;
 public class LexicographicStudentGroupsImpl implements StudentGroups<Student_Entity> {
 
     @Override
-    public Collection<Collection<Student_Entity>> generateGroups(Collection<Student_Entity> students, int grpSize) {
+    public List<List<Student_Entity>> generateGroups(List<Student_Entity> students, int grpSize) {
 
         Collections.sort((List<Student_Entity>) students, new LexicographicComparator());
         return generateGroup(students, grpSize);
     }
 
-    public static <T> Collection<Collection<T>> generateGroup(Collection<T> students, int grpSize) {
-        List<Collection<T>> lists = new ArrayList();
+    private static <T> List<List<T>> generateGroup(List<T> students, int grpSize) {
+        List<List<T>> lists = new ArrayList();
         Iterator<T> i = students.iterator();
         while (i.hasNext()) {
             List<T> list = new ArrayList();

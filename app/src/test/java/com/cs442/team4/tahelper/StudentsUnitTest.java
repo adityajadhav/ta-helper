@@ -5,7 +5,6 @@ import com.cs442.team4.tahelper.student.groups.LexicographicStudentGroupsImpl;
 
 import org.junit.Test;
 
-import java.util.Collection;
 import java.util.List;
 
 import static java.util.Arrays.asList;
@@ -20,7 +19,12 @@ public class StudentsUnitTest {
     @Test
     public void generate_groups() throws Exception {
         LexicographicStudentGroupsImpl impl = new LexicographicStudentGroupsImpl();
-        Collection<?> list = impl.generateGroups(getStudents(), 3);
+        List<List<Student_Entity>> list = impl.generateGroups(getStudents(), 3);
+       /* for (int j = 0; j < list.size(); j++) {
+            for (int i = 0; i < list.get(j).size(); i++) {
+                System.out.println(list.get(j).get(i).getStudentFirstName() + "\t" + j);
+            }
+        }*/
         System.out.println(list);
         assertTrue(true);
     }

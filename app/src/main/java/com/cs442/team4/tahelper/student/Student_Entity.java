@@ -45,4 +45,17 @@ public class Student_Entity {
     public String getStudentANumber() {
         return aNumber;
     }
+
+    @Override
+    public String toString() {
+        return lastName;
+        /*return "Student_Entity{" +
+                "userName='" + userName + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", fullName='" + fullName + '\'' +
+                ", email='" + email + '\'' +
+                ", aNumber='" + aNumber + '\'' +
+                '}';*/
+    }
 }

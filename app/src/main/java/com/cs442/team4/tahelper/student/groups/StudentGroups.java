@@ -1,6 +1,6 @@
 package com.cs442.team4.tahelper.student.groups;
 
-import java.util.Collection;
+import java.util.List;
 
 /**
  * Created by Aditya on 06-11-2016.
@@ -8,6 +8,6 @@ import java.util.Collection;
 
 public interface StudentGroups<T> {
 
-    public Collection<Collection<T>> generateGroups(Collection<T> students, int grpSize);
+    public List<List<T>> generateGroups(List<T> students, int grpSize);
 
 }
