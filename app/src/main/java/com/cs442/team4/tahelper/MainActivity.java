@@ -129,8 +129,13 @@ public class MainActivity extends AppCompatActivity implements
             mStatusTextView.setText(getString(R.string.signed_in_fmt, acct.getDisplayName()));
             writeNewUser(acct.getId(), acct.getGivenName(), acct.getEmail());
             //updateUI(true);
-            Intent intent = new Intent(this, ModuleListActivity.class);
+//            Intent intent = new Intent(this, ModuleListActivity.class);
+//          startActivity(intent);
+
+
+            Intent intent = new Intent(this,CourseActivity.class);
             startActivity(intent);
+
             finish();
         } else {
             // Signed out, show unauthenticated UI.
@@ -212,21 +217,24 @@ public class MainActivity extends AppCompatActivity implements
 //        Intent intent = new Intent(this,ModuleListActivity.class);
 //        startActivity(intent);
 
-        Intent intent = new Intent(this,CourseActivity.class);
-        startActivity(intent);
 
-     /*   switch (v.getId()) {
+
+        switch (v.getId()) {
             case R.id.sign_in_button:
                 signIn();
-                break;*/
-//            case R.id.sign_out_button:
-//                signOut();
-//
-//                break;
-//            case R.id.disconnect_button:
-//                revokeAccess();
-//                break;
-       // }
+
+                //Course Activity - Start from here
+                break;
+
+
+            case R.id.sign_out_button:
+                signOut();
+
+                break;
+            case R.id.disconnect_button:
+                revokeAccess();
+                break;
+        }
     }
 
     private void writeNewUser(String userId, String name, String email) {

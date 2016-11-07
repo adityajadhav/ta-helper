@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutCompat;
 import android.util.Log;
 
+import com.cs442.team4.tahelper.activity.ModuleListActivity;
 import com.cs442.team4.tahelper.fragment.ManageCourseFragment;
 import com.cs442.team4.tahelper.student.StudentListActivity;
 
@@ -88,6 +89,12 @@ public class CourseActivity extends AppCompatActivity implements add_course_frag
                     ft.replace(R.id.course_activity_frame_layout,course_add_or_edit,"add_course_fragment_tag");
                     ft.addToBackStack("course_list_fragment");
                     ft.commit();
+                }
+                @Override
+            public void callModuleActivity_to_activity()
+                {
+                    Intent intent = new Intent(getApplicationContext(),ModuleListActivity.class);
+                    startActivity(intent);
                 }
         });
         ft.replace(R.id.course_activity_frame_layout,cl,"course_list_fragment");

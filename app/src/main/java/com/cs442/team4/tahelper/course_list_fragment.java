@@ -37,6 +37,7 @@ public class course_list_fragment extends Fragment {
             public void callAddCourseFragment(String mode_from_fragment);
             public void callManageCourseFragment_to_activity(String course_id);
             public void editCourseFragment_to_activity(String mode, String course_id);
+            public void callModuleActivity_to_activity();
     }
 
     public void setInterface(OnActionButtonClickListener oa)
@@ -105,6 +106,12 @@ public class course_list_fragment extends Fragment {
             @Override
             public void editCourseFragment(String mode, String courseCode){
                 mClick.editCourseFragment_to_activity(mode,courseCode);
+            }
+
+            @Override
+            public void callModulesActivity_to_fragment()
+            {
+                mClick.callModuleActivity_to_activity();
             }
         });
         players.addValueEventListener(new ValueEventListener() {
