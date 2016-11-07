@@ -6,7 +6,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
+import android.widget.EditText;
 
 import com.cs442.team4.tahelper.R;
 import com.cs442.team4.tahelper.student.Student_Entity;
@@ -23,20 +23,24 @@ import java.util.List;
 public class GenerateStudentGroupsFragment extends Fragment {
 
     private int numStudent;
-    private int groupSize;
+    private int groupSize = 4;
 
     private static String tag = "team4";
     public List<ArrayList<Student_Entity>> groups;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = (LinearLayout) inflater.inflate(R.layout.generate_students_groups_fragment, container, false);
+        View view = inflater.inflate(R.layout.generate_students_groups_fragment, container, false);
+
+        final EditText groupSizeTxtEdt = (EditText) view.findViewById(R.id.groupSizeTxtEdt);
 
         groups = new ArrayList<>();
-        //TODO take from user input
-        groupSize = 4;
+        if (ObjectUtils.isNotEmpty(groupSizeTxtEdt.getText().toString())) {
+            groupSize = Integer.parseInt(groupSizeTxtEdt.getText().toString());
+        }
+
         // TODO fetch the students from a course
-        List<Student_Entity> students = new ArrayList<Student_Entity>();
+        List<Student_Entity> students = new ArrayList<>();
 
         if (ObjectUtils.isNotEmpty(students)) {
 
