@@ -36,6 +36,7 @@ public class course_list_fragment extends Fragment {
     public interface OnActionButtonClickListener{
             public void callAddCourseFragment(String mode_from_fragment);
             public void callManageCourseFragment_to_activity(String course_id);
+            public void editCourseFragment_to_activity(String mode, String course_id);
     }
 
     public void setInterface(OnActionButtonClickListener oa)
@@ -69,6 +70,8 @@ public class course_list_fragment extends Fragment {
 
 
 
+
+
         super.onViewCreated(view, savedInstanceState);
     }
 
@@ -98,6 +101,10 @@ public class course_list_fragment extends Fragment {
 
                 mClick.callManageCourseFragment_to_activity(courseCode);
 
+            }
+            @Override
+            public void editCourseFragment(String mode, String courseCode){
+                mClick.editCourseFragment_to_activity(mode,courseCode);
             }
         });
         players.addValueEventListener(new ValueEventListener() {

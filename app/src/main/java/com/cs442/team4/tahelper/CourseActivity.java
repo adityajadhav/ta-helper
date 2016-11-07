@@ -61,6 +61,24 @@ public class CourseActivity extends AppCompatActivity implements add_course_frag
                     ft.addToBackStack("course_list_fragment");
                     ft.commit();
                 }
+                @Override
+                public void editCourseFragment_to_activity(String mode_from_fragment, String courseCode)
+                {
+                    mode = mode_from_fragment ;
+                    Bundle bundle = new Bundle();
+                    bundle.putString("mode", mode);
+                    bundle.putString("course_code",courseCode);
+
+                    add_course_fragment course_add_or_edit = new add_course_fragment();
+                    course_add_or_edit.setArguments(bundle);
+
+                    FragmentManager fm = getFragmentManager();
+                    FragmentTransaction ft =fm.beginTransaction();
+
+                    ft.replace(R.id.course_activity_frame_layout,course_add_or_edit,"add_course_fragment_tag");
+                    ft.addToBackStack("course_list_fragment");
+                    ft.commit();
+                }
         });
         ft.replace(R.id.course_activity_frame_layout,cl,"course_list_fragment");
      //   ft.replace(R.id.course_activity_frame_layout,course_list,"course_list_fragment");

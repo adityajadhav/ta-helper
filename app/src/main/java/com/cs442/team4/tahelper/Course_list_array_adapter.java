@@ -22,6 +22,7 @@ public class Course_list_array_adapter extends ArrayAdapter<Course_Entity> {
     public interface Course_list_adapter_interface
     {
          void callManageCourseFragment(String courseCode);
+        void editCourseFragment(String mode, String coursecode);
     }
     private Course_list_adapter_interface obj;
 
@@ -63,6 +64,16 @@ public class Course_list_array_adapter extends ArrayAdapter<Course_Entity> {
                 obj.callManageCourseFragment(courseId);
 
             }
+        });
+
+        Button  edit_course_btn = (Button) view.findViewById(R.id.edit_course_btn_layout);
+        edit_course_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                obj.editCourseFragment("edit",courseId);
+            }
+
+
         });
 
 
