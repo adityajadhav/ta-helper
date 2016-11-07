@@ -14,9 +14,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Courses"
-            android:textSize="35sp"
+            android:textSize="30sp"
             android:textStyle="normal|bold"
-            android:textColor="@color/colorBlack" />
+            android:textColor="@color/colorBlack"
+            android:textAlignment="center" />
 
     </LinearLayout>
 

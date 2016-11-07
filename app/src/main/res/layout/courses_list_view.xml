@@ -18,7 +18,8 @@
                 android:textSize="18sp"
                 android:layout_toStartOf="@+id/manage_course_btn_layout"
                 android:layout_alignBottom="@+id/manage_course_btn_layout"
-                android:layout_alignParentTop="true" />
+                android:layout_alignParentTop="true"
+                android:textColor="@color/colorBlack" />
         </LinearLayout>
 
 
@@ -26,7 +27,8 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            style="?android:attr/buttonBarStyle">
 
             <Button
                 android:id="@+id/manage_course_btn_layout"
@@ -34,12 +36,23 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentTop="true"
-                android:text="Manage" />
+                android:text="Manage"
+                style="?android:attr/buttonBarButtonStyle"
+                android:textColor="@color/colorPrimaryDark" />
             <Button
                 android:text="Edit"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/edit_course_btn_layout" />
+                android:id="@+id/edit_course_btn_layout"
+                style="?android:attr/buttonBarButtonStyle"
+                android:textColor="@color/colorPrimaryDark" />
+            <Button
+                android:text="Grade"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/grade_course_btn_layout"
+                style="?android:attr/buttonBarButtonStyle"
+                android:textColor="@color/colorPrimaryDark" />
 
         </LinearLayout>
     </LinearLayout>
