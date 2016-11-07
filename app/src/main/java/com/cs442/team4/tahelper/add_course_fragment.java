@@ -45,7 +45,7 @@ public class add_course_fragment extends Fragment {
             String mode = getArguments().getString("mode");
             smode = mode;
 
-            if (args.getString("course_code").length() > 0) {
+            if (args.getString("course_code") != null) {
                 courseId = args.getString("course_code");
             }
 

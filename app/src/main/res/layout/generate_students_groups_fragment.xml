@@ -56,7 +56,7 @@
 
 
         <EditText
-            android:id="@+id/editText7"
+            android:id="@+id/groupSizeTxtEdt"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
