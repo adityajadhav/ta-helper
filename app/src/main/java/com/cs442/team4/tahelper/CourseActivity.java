@@ -4,12 +4,14 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutCompat;
 import android.util.Log;
 
 import com.cs442.team4.tahelper.fragment.ManageCourseFragment;
+import com.cs442.team4.tahelper.student.StudentListActivity;
 
 public class CourseActivity extends AppCompatActivity implements add_course_fragment.OnFinishAddCourseInterface {
 
@@ -22,11 +24,20 @@ public class CourseActivity extends AppCompatActivity implements add_course_frag
 
 
 
+       final ManageCourseFragment newManageCourseFragment = new ManageCourseFragment();
+
+        newManageCourseFragment.setStudentListInterface(new ManageCourseFragment.CallStudentListInterface() {
+            @Override
+            public void callStudentListActivity() {
+                Intent intent = new Intent(getApplicationContext(),StudentListActivity.class);
+                startActivity(intent);
+            }
+        });
 
         FragmentManager fm = getFragmentManager();
         FragmentTransaction ft =fm.beginTransaction();
         course_list_fragment cl = new course_list_fragment();
-            cl.setInterface(new course_list_fragment.OnActionButtonClickListener() {
+        cl.setInterface(new course_list_fragment.OnActionButtonClickListener() {
 
             @Override
             public void callAddCourseFragment(String mode_from_fragment) {
@@ -51,13 +62,12 @@ public class CourseActivity extends AppCompatActivity implements add_course_frag
                     Bundle bundle = new Bundle();
                     bundle.putString("course_code", courseCode);
                     Log.i("Code in activity : ", courseCode);
-                    ManageCourseFragment newManageCourseFragment = new ManageCourseFragment();
-                    newManageCourseFragment.setArguments(bundle);
+
 
                     FragmentManager fm = getFragmentManager();
                     FragmentTransaction ft =fm.beginTransaction();
 
-                    ft.replace(R.id.course_activity_frame_layout,newManageCourseFragment,"add_course_fragment_tag");
+                    ft.replace(R.id.course_activity_frame_layout,newManageCourseFragment,"manage_course_fragment_tag");
                     ft.addToBackStack("course_list_fragment");
                     ft.commit();
                 }
@@ -83,6 +93,9 @@ public class CourseActivity extends AppCompatActivity implements add_course_frag
         ft.replace(R.id.course_activity_frame_layout,cl,"course_list_fragment");
      //   ft.replace(R.id.course_activity_frame_layout,course_list,"course_list_fragment");
         ft.commit();
+
+
+
 
 
     }

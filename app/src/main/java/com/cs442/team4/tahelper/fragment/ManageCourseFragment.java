@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.cs442.team4.tahelper.R;
 
@@ -16,8 +17,20 @@ import com.cs442.team4.tahelper.R;
  */
 
 public class ManageCourseFragment extends Fragment {
+
+    public interface CallStudentListInterface{
+        void callStudentListActivity();
+    }
+
+    CallStudentListInterface obj;
+
+    public void setStudentListInterface(CallStudentListInterface obj){
+        this.obj = obj;
+    }
     @Nullable
     @Override
+
+
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         Bundle args = getArguments();
@@ -33,6 +46,13 @@ public class ManageCourseFragment extends Fragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        TextView student_list_tv = (TextView) view.findViewById(R.id.student_list_tv_layout);
+        student_list_tv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                obj.callStudentListActivity();
+            }
+        });
     }
 
     @Override

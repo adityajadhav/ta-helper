@@ -34,8 +34,8 @@
         android:ems="10"
         android:id="@+id/course_id_tv_layout"
         android:textSize="20sp"
-        android:layout_alignBaseline="@+id/textView4"
-        android:layout_alignBottom="@+id/textView4"
+        android:layout_alignBaseline="@+id/student_list_tv_layout"
+        android:layout_alignBottom="@+id/student_list_tv_layout"
         android:layout_alignParentEnd="true"
         android:hint="ID of the Course" />
 
@@ -88,7 +88,7 @@
         android:text="Course ID:"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/textView4"
+        android:id="@+id/student_list_tv_layout"
         android:textSize="20sp"
         android:textStyle="normal|bold"
         android:textColor="@android:color/background_dark"
