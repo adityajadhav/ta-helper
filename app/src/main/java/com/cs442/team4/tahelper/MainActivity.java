@@ -217,25 +217,25 @@ public class MainActivity extends AppCompatActivity implements
 //        Intent intent = new Intent(this,ModuleListActivity.class);
 //        startActivity(intent);
 
-        Intent intent = new Intent(this,CourseActivity.class);
-        startActivity(intent);
+//        Intent intent = new Intent(this,CourseActivity.class);
+//        startActivity(intent);
 
-//        switch (v.getId()) {
-//            case R.id.sign_in_button:
-//                signIn();
-//
-//                //Course Activity - Start from here
-//                break;
-//
-//
-//            case R.id.sign_out_button:
-//                signOut();
-//
-//                break;
-//            case R.id.disconnect_button:
-//                revokeAccess();
-//                break;
-//        }
+        switch (v.getId()) {
+            case R.id.sign_in_button:
+                signIn();
+
+                //Course Activity - Start from here
+                break;
+
+
+            case R.id.sign_out_button:
+                signOut();
+
+                break;
+            case R.id.disconnect_button:
+                revokeAccess();
+                break;
+        }
     }
 
     private void writeNewUser(String userId, String name, String email) {

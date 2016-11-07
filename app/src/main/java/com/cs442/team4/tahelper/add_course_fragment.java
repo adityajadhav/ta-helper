@@ -45,9 +45,14 @@ public class add_course_fragment extends Fragment {
             String mode = getArguments().getString("mode");
             smode = mode;
 
-            if (args.getString("course_code") != null) {
+            try {
                 courseId = args.getString("course_code");
             }
+            catch(Exception e)
+            {
+                Log.i("Exception",e.toString());
+            }
+
 
             Log.i("Mode is ", mode);
         }
@@ -82,7 +87,7 @@ public class add_course_fragment extends Fragment {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
 
-                        DataSnapshot items = dataSnapshot.child("CS551");
+                        DataSnapshot items = dataSnapshot.child(courseId);
 
                         //for (DataSnapshot items : values.getChildren()) {
 
