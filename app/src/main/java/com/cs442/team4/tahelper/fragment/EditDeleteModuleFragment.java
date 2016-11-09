@@ -4,8 +4,6 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
-import android.provider.ContactsContract;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,16 +13,15 @@ import android.widget.LinearLayout;
 
 import com.cs442.team4.tahelper.R;
 import com.cs442.team4.tahelper.contants.IntentConstants;
+import com.cs442.team4.tahelper.model.AssignmentEntity;
+import com.cs442.team4.tahelper.model.AssignmentSplit;
 import com.cs442.team4.tahelper.model.ModuleEntity;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
+import com.cs442.team4.tahelper.services.AssignmentsDatabaseUpdationService;
+import com.cs442.team4.tahelper.services.ModuleDatabaseUpdationIntentService;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
-import com.google.firebase.database.ValueEventListener;
 
-import java.util.Iterator;
-import java.util.Map;
+import java.util.ArrayList;
 
 /**
  * Created by sowmyaparameshwara on 10/30/16.
@@ -53,6 +50,12 @@ public class EditDeleteModuleFragment extends Fragment {
             @Override
             public void onClick(View v) {
                  FirebaseDatabase.getInstance().getReference("modules/"+moduleNameString).removeValue();
+                ModuleEntity.removeModule(moduleNameString);
+                Intent serviceIntent = new Intent(getActivity(), ModuleDatabaseUpdationIntentService.class);
+                serviceIntent.putExtra(IntentConstants.MODULE_NAME,moduleNameString);
+                serviceIntent.putExtra(IntentConstants.MODE,"Delete");
+                getActivity().startService(serviceIntent);
+
                 //  ModuleEntity.removeKeyValue(moduleNameString);
                 editDeleteButtonListner.clickButtonEvent();
 
@@ -62,14 +65,34 @@ public class EditDeleteModuleFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 if(moduleName.getText().toString()!=null && moduleName.getText().toString().length()>0) {
+                    ModuleEntity.editModule(moduleNameString,moduleName.getText().toString());
 
                     FirebaseDatabase.getInstance().getReference("modules/"+moduleNameString).removeValue();
-                    ModuleEntity.removeKeyValue(moduleNameString);
 
                     DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("modules");
                    // String key  = databaseReference.push().getKey();
                     //databaseReference.child(key).child("name").setValue(moduleName.getText().toString());
                     databaseReference.child(moduleName.getText().toString()).setValue("");
+                    ArrayList<AssignmentEntity> assignmentsList = ModuleEntity.getAssignmentList(moduleName.getText().toString());
+                    for(int i = 0 ; i <assignmentsList.size(); i++){
+                        AssignmentEntity assignmentEntity = assignmentsList.get(i);
+
+                        databaseReference.child(moduleName.getText().toString()).child(assignmentEntity.getAssignmentName()).child("Total").setValue(assignmentEntity.getTotalScore());
+                        for (int j = 0; j < assignmentEntity.getAssignmentSplits().size(); j++) {
+                            AssignmentSplit split = assignmentEntity.getAssignmentSplits().get(j);
+                            databaseReference.child(moduleName.getText().toString()).child(assignmentEntity.getAssignmentName()).child("Splits").child(split.getSplitName()).setValue(String.valueOf(split.getSplitScore()));
+                        }
+
+                    }
+
+                    Intent serviceIntent = new Intent(getActivity(), ModuleDatabaseUpdationIntentService.class);
+                    serviceIntent.putExtra(IntentConstants.MODULE_OLD_NAME,moduleNameString);
+                    serviceIntent.putExtra(IntentConstants.MODULE_NEW_NAME,moduleName.getText().toString());
+                    serviceIntent.putExtra(IntentConstants.ASSIGNMENT_list,assignmentsList);
+
+                    serviceIntent.putExtra(IntentConstants.MODE,"Edit");
+                    getActivity().startService(serviceIntent);
+
                     //ModuleEntity.addKeyValue(moduleName.getText().toString(),key);
                     editDeleteButtonListner.clickButtonEvent();
                 }

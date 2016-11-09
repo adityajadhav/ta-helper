@@ -33,6 +33,14 @@
         <activity android:name=".student.StudentListActivity"></activity>
 
 
+        <service
+            android:name=".services.ModuleDatabaseUpdationIntentService"
+            android:exported="false"/>
+
+        <service
+            android:name=".services.AssignmentsDatabaseUpdationService"
+            android:exported="false"/>
+
     </application>
 
 </manifest>

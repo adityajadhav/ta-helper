@@ -18,6 +18,7 @@ import com.cs442.team4.tahelper.R;
 import com.cs442.team4.tahelper.contants.IntentConstants;
 import com.cs442.team4.tahelper.listItem.ManageAssignmentsListItemAdapter;
 import com.cs442.team4.tahelper.listItem.ModuleListItemAdapter;
+import com.cs442.team4.tahelper.model.AssignmentEntity;
 import com.cs442.team4.tahelper.model.ModuleEntity;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -26,6 +27,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 
 /**
  * Created by sowmyaparameshwara on 10/31/16.
@@ -81,6 +84,11 @@ public class ManageAssignmentsFragment extends Fragment {
                 for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
                     if(!assignmentsList.contains(postSnapshot.getKey())) {
                         assignmentsList.add((String)postSnapshot.getKey());
+                     /*   Iterator it = (Iterator) map.entrySet();
+                        while(it.hasNext()){
+
+                        }*/
+                      //  ModuleSEntity.addAssignments(moduleName,new AssignmentEntity((String)postSnapshot.getKey(),));
                     }
 
                 }

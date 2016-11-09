@@ -11,6 +11,7 @@ import android.support.v7.widget.LinearLayoutCompat;
 import android.util.Log;
 
 import com.cs442.team4.tahelper.activity.ModuleListActivity;
+import com.cs442.team4.tahelper.contants.IntentConstants;
 import com.cs442.team4.tahelper.fragment.ManageCourseFragment;
 import com.cs442.team4.tahelper.student.StudentListActivity;
 

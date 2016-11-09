@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
 import com.cs442.team4.tahelper.R;
-import com.cs442.team4.tahelper.contants.IntentConstants;
 import com.cs442.team4.tahelper.fragment.AddModuleFragment;
 
 /**

@@ -8,7 +8,7 @@
     <TextView
         android:layout_height="match_parent"
         android:layout_width="0dp"
-        android:layout_weight="5"
+        android:layout_weight="4"
         android:id="@+id/moduleNameView"
         android:textSize="20dp"
         android:gravity="center_vertical"
@@ -20,13 +20,19 @@
         android:layout_width="0dp"
         android:layout_weight="3"
         android:id="@+id/editModuleButtonView"
+        android:background="@color/colorPrimary"
         android:text="Edit/Delete"/>
+
+    <Space
+        android:layout_width="2dp"
+        android:layout_height="match_parent" />
 
     <Button
         android:layout_height="match_parent"
         android:layout_width="0dp"
-        android:layout_weight="2"
+        android:layout_weight="3"
         android:id="@+id/manageModuleButtonView"
+        android:background="@color/colorPrimary"
         android:text="Manage"/>
 
 </LinearLayout>

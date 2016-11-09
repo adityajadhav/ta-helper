@@ -20,6 +20,8 @@ import com.cs442.team4.tahelper.listItem.AddAssignmentListItemAdapter;
 import com.cs442.team4.tahelper.listItem.EditDeleteAssignmentListItemAdapter;
 import com.cs442.team4.tahelper.model.AssignmentEntity;
 import com.cs442.team4.tahelper.model.AssignmentSplit;
+import com.cs442.team4.tahelper.model.ModuleEntity;
+import com.cs442.team4.tahelper.services.AssignmentsDatabaseUpdationService;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -104,24 +106,76 @@ public class EditDeleteAssignmentFragment extends Fragment {
 
     private void handleEditAssignment() {
         if(assignmentName.getText()!=null && assignmentName.getText().length()>0 && assignmentTotalScore.getText()!=null && assignmentTotalScore.getText().length()>0){
-            mDatabase.child(moduleName).child(originalAssignmentName).setValue(null);
+            if(validateTotal()){
+                mDatabase.child(moduleName).child(originalAssignmentName).removeValue();
+                ModuleEntity.removeAssignmentFromModule(moduleName,originalAssignmentName);
 
-            mDatabase.child(moduleName).child(assignmentName.getText().toString()).child("Total").setValue(assignmentTotalScore.getText().toString());
-            assignmentSplitsList.remove(assignmentSplitsList);
-            for(int i = 0 ; i <assignmentSplitsList.size();i++){
-                AssignmentSplit split = assignmentSplitsList.get(i);
-                mDatabase.child(moduleName).child(assignmentName.getText().toString()).child("Splits").child(split.getSplitName()).setValue(String.valueOf(split.getSplitScore()));
+                mDatabase.child(moduleName).child(assignmentName.getText().toString()).child("Total").setValue(assignmentTotalScore.getText().toString());
+               // assignmentSplitsList.remove(assignmentSplitsList);
+                for(int i = 0 ; i <assignmentSplitsList.size();i++){
+                    AssignmentSplit split = assignmentSplitsList.get(i);
+                    mDatabase.child(moduleName).child(assignmentName.getText().toString()).child("Splits").child(split.getSplitName()).setValue(String.valueOf(split.getSplitScore()));
+                }
+
+                Intent serviceIntent = new Intent(getActivity(), AssignmentsDatabaseUpdationService.class);
+                serviceIntent.putExtra(IntentConstants.MODULE_NAME,moduleName);
+                serviceIntent.putExtra(IntentConstants.ASSIGNMENT_OLD_NAME,originalAssignmentName);
+                serviceIntent.putExtra(IntentConstants.ASSIGNMENT_NEW_NAME,assignmentName.getText().toString());
+                serviceIntent.putExtra(IntentConstants.TOTAL,assignmentTotalScore.getText().toString());
+                serviceIntent.putExtra(IntentConstants.SPLIT,assignmentSplitsList);
+                serviceIntent.putExtra(IntentConstants.MODE,"Edit");
+                getActivity().startService(serviceIntent);
+
+                ModuleEntity.addAssignments(moduleName,new AssignmentEntity(assignmentName.getText().toString(),assignmentTotalScore.getText().toString(),assignmentSplitsList));
+
+                assignmentAdapter.notifyDataSetChanged();
+
+                editDeleteAssignmentFragmentListener.notifyEditDeleteAssignmentEvent(moduleName);
+            }else{
+                Toast.makeText(getActivity(),"Total count does not match with Sum of Splits.Please correct it and try again.",Toast.LENGTH_LONG).show();
             }
-            assignmentAdapter.notifyDataSetChanged();
 
-            editDeleteAssignmentFragmentListener.notifyEditDeleteAssignmentEvent(moduleName);
         }else{
             Toast.makeText(getActivity(),"Please enter both assignment name, total score and try again.",Toast.LENGTH_LONG).show();
         }
     }
 
+    private boolean validateTotal() {
+        boolean isValid = false;
+        int total = Integer.parseInt(assignmentTotalScore.getText().toString());
+        if(assignmentSplitsList.size()==0){
+            isValid = true;
+        }else {
+            int splitTotal = 0;
+            for (int i = 0; i < assignmentSplitsList.size(); i++) {
+                AssignmentSplit split = assignmentSplitsList.get(i);
+                splitTotal+= split.getSplitScore();
+
+            }
+            isValid = (total==splitTotal)?true:false;
+        }
+        return isValid;
+    }
+
     private void handleDeleteAssignment() {
-        mDatabase.child(moduleName).child(originalAssignmentName).setValue(null);
+        boolean retainModuleName = false;
+        if(ModuleEntity.getAssignmentList(moduleName).size()==1){
+            mDatabase.child(moduleName).child(originalAssignmentName).setValue(null);
+            mDatabase.child(moduleName).setValue("");
+            retainModuleName = true;
+        }else{
+            mDatabase.child(moduleName).child(originalAssignmentName).setValue(null);
+
+        }
+        ModuleEntity.removeAssignmentFromModule(moduleName,originalAssignmentName);
+
+        Intent serviceIntent = new Intent(getActivity(), AssignmentsDatabaseUpdationService.class);
+        serviceIntent.putExtra(IntentConstants.MODULE_NAME,moduleName);
+        serviceIntent.putExtra(IntentConstants.ASSIGNMENT_NAME,originalAssignmentName);
+        serviceIntent.putExtra(IntentConstants.RETAIN_MODULE_NAME,retainModuleName);
+        serviceIntent.putExtra(IntentConstants.MODE,"Delete");
+        getActivity().startService(serviceIntent);
+
         editDeleteAssignmentFragmentListener.notifyEditDeleteAssignmentEvent(moduleName);
     }
 
@@ -146,7 +200,6 @@ public class EditDeleteAssignmentFragment extends Fragment {
         mDatabase.child(moduleName+"/"+originalAssignmentName).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                Log.i("EditDelete"," dataSnapshot : "+dataSnapshot.getValue(AssignmentEntity.class));
                 Log.i("EditDelete"," children : "+dataSnapshot.getChildren()+"  "+dataSnapshot.getChildrenCount());
 
 
