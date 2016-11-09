@@ -4,11 +4,14 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.DragEvent;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 
 import com.cs442.team4.tahelper.R;
 import com.cs442.team4.tahelper.listItem.ModuleListItemAdapter;
@@ -39,9 +42,14 @@ public class ModuleListFragment extends Fragment{
     private ModuleListItemAdapter moduleListItemAdapter;
     private Button addModuleButton;
     private Button backButton;
+    private RelativeLayout loadingLayout;
 
     private ModuleListFragmentListener moduleListFragmentListener;
     private DatabaseReference mDatabase;
+
+    float historicX = Float.NaN, historicY = Float.NaN;
+    static final int DELTA = 50;
+    enum Direction {LEFT, RIGHT;}
 
 
 
@@ -58,6 +66,7 @@ public class ModuleListFragment extends Fragment{
         moduleListView = (ListView) view.findViewById(R.id.moduleListFragmentView);
         addModuleButton = (Button)view.findViewById(R.id.moduleListFragmentButtonView);
         backButton = (Button) view.findViewById(R.id.moduleListFragmentBackButton);
+        loadingLayout = (RelativeLayout) view.findViewById(R.id.loadingPanel);
         mDatabase = FirebaseDatabase.getInstance().getReference();
 
         backButton.setOnClickListener(new View.OnClickListener(){
@@ -74,8 +83,46 @@ public class ModuleListFragment extends Fragment{
             }
         });
        // registerListChangeListener();
+
+        swipeDeletionListView();
         loadPredefinedModules();
         return view;
+    }
+
+    private void swipeDeletionListView() {
+      /*  moduleListView.setOnDragListener(new View.OnDragListener(){
+
+            @Override
+            public boolean onDrag(View v, DragEvent event) {
+                return false;
+            }
+        });*/
+   /*     moduleListView.setOnTouchListener(new View.OnTouchListener(){
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        historicX = event.getX();
+                        historicY = event.getY();
+                        break;
+
+                    case MotionEvent.ACTION_UP:
+                        if (event.getX() - historicX < -DELTA) {
+                           // FunctionDeleteRowWhenSlidingLeft();
+                            return true;
+                        }
+                        else if (event.getX() - historicX > DELTA) {
+                            //FunctionDeleteRowWhenSlidingRight();
+                            return true;
+                        }
+                        break;
+
+                    default:
+                        return false;
+                }
+                return false;
+            }
+        });*/
     }
 
     private void registerListChangeListener() {
@@ -143,6 +190,7 @@ public class ModuleListFragment extends Fragment{
         mDatabase.child("modules").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+                loadingLayout.setVisibility(View.GONE);
                 moduleItemList.removeAll(moduleItemList);
 
                 Log.i("","Snaphot "+dataSnapshot+"  "+dataSnapshot.getChildren()+"  "+dataSnapshot.getValue());

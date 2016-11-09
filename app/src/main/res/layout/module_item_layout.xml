@@ -3,50 +3,75 @@
     android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="60dp"
-    android:weightSum="10">
+    android:weightSum="10"
 
-    <TextView
-        android:layout_height="match_parent"
-        android:layout_width="0dp"
-        android:layout_weight="4"
-        android:id="@+id/moduleNameView"
-        android:textSize="22dp"
-        android:gravity="center_vertical"
-        android:layout_marginLeft="15dp"
-        android:textColor="@color/colorBlack"
-        />
+    >
 
+<!--
     <Button
         android:layout_height="match_parent"
         android:layout_width="0dp"
         android:layout_weight="3"
         android:id="@+id/editModuleButtonView"
         android:text="Edit/Delete"
-        android:background="@color/colorLightBlue"
+        android:background="@color/colorPrimary"
+        android:alpha="0.60"
         android:textColor="@color/colorWhite"
         android:textSize="15dp"
         android:layout_marginTop="5dp"
         android:layout_marginBottom="5dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
+        />-->
+
+ <ImageButton
+        android:layout_height="match_parent"
+        android:layout_width="60dp"
+        android:id="@+id/editModuleButtonView"
+     android:background="@drawable/edit"
+   android:layout_marginLeft="15dp"
+     android:scaleType="fitCenter"
+     android:layout_marginBottom="5dp"
+     android:layout_marginTop="5dp"/>
+
+    <TextView
+        android:layout_height="match_parent"
+        android:layout_width="0dp"
+        android:layout_weight="10"
+        android:id="@+id/moduleNameView"
+        android:textSize="18dp"
+        android:textAlignment="center"
+        android:gravity="center_vertical"
+        android:layout_marginLeft="15dp"
+        android:textColor="@color/colorWhite"
         />
 
     <Space
         android:layout_width="2dp"
         android:layout_height="match_parent" />
-
+<!--
     <Button
         android:layout_height="match_parent"
-        android:layout_width="0dp"
-        android:layout_weight="3"
+        android:layout_width="60dp"
         android:id="@+id/manageModuleButtonView"
-        android:background="@color/colorLightBlue"
+        android:background="@color/colorPrimary"
+        android:alpha="0.60"
         android:textColor="@color/colorWhite"
         android:textSize="15dp"
         android:text="Manage"
         android:layout_marginTop="5dp"
         android:layout_marginBottom="5dp"
         android:layout_marginRight="10dp"
-        />
+        />-->
+
+    <ImageButton
+        android:layout_height="match_parent"
+        android:layout_width="60dp"
+        android:id="@+id/manageModuleButtonView"
+        android:background="@drawable/manage"
+        android:layout_marginRight="15dp"
+        android:scaleType="fitCenter"
+        android:layout_marginBottom="5dp"
+        android:layout_marginTop="5dp"/>
 
 </LinearLayout>

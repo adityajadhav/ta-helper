@@ -3,24 +3,34 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:weightSum="10">
+    android:weightSum="10"
+    android:background="@drawable/bg_3">
 
-    <TextView
+<!--    <TextView
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:id="@+id/manageAssignmentsFragmentTextView"
         android:textSize="25dp"
         android:gravity="center"
         android:textStyle="bold"
-        />
+        android:background="@color/colorPrimary"
+        android:alpha="0.80"
+        android:textColor="@color/colorWhite"
+        />-->
 
     <Button
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="60dp"
         android:id="@+id/manageAssignmentsFragmentAddAssignmentButton"
         android:text="Add New Assignment"
-        android:textSize="18dp"
+        android:textSize="20dp"
         android:gravity="center"
+        android:background="@color/colorPrimary"
+        android:alpha="0.60"
+        android:textColor="@color/colorWhite"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp"
         />
 
     <ListView
@@ -28,17 +38,24 @@
         android:layout_height="0dp"
         android:layout_weight="10"
         android:id="@+id/manageAssignmentsFragmentList"
-        android:paddingTop="20dp"/>
+        android:layout_marginTop="10dp"
+    />
 
     <Button
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="60dp"
         android:id="@+id/manageAssignmentsFragmentBackButton"
         android:text="BACK TO MODULE LIST"
-        android:textSize="18dp"
+        android:textSize="20dp"
         android:gravity="center"
         android:layout_gravity="bottom"
-        android:layout_marginBottom="20dp"
+        android:background="@color/colorPrimary"
+        android:alpha="0.60"
+        android:textColor="@color/colorWhite"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
         />
 
 

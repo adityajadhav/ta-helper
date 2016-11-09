@@ -47,8 +47,9 @@ public class ModuleEntity {
         ArrayList<AssignmentEntity> assignmentOldList =moduleToAssignmets.get(originalName);
         ArrayList<AssignmentEntity> assignmentNewList = new ArrayList<AssignmentEntity>();
         assignmentNewList.addAll(assignmentOldList);
-         moduleToAssignmets.put(newName,assignmentNewList);
         moduleToAssignmets.remove(originalName);
+
+        moduleToAssignmets.put(newName,assignmentNewList);
     }
 
     public static void removeAssignmentFromModule(String moduleName,String assignmentName){

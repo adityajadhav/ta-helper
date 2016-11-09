@@ -45,8 +45,8 @@ public class ModuleListItemAdapter extends ArrayAdapter<String>{
         }
         final String moduleContent = getItem(position);
         TextView moduleName = (TextView) layout.findViewById(R.id.moduleNameView);
-        Button editModuleButton = (Button)layout.findViewById(R.id.editModuleButtonView);
-        Button manageModuleButton = (Button)layout.findViewById(R.id.manageModuleButtonView);
+        ImageButton editModuleButton = (ImageButton)layout.findViewById(R.id.editModuleButtonView);
+        ImageButton manageModuleButton = (ImageButton)layout.findViewById(R.id.manageModuleButtonView);
 
         editModuleButton.setOnClickListener(new View.OnClickListener(){
 
