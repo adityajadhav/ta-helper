@@ -217,10 +217,10 @@ public class MainActivity extends AppCompatActivity implements
 //        Intent intent = new Intent(this,ModuleListActivity.class);
 //        startActivity(intent);
 
-       Intent intent = new Intent(this,ModuleListActivity.class);
+        Intent intent = new Intent(this,CourseActivity.class);
         startActivity(intent);
 
-     /*   switch (v.getId()) {
+   /*     switch (v.getId()) {
             case R.id.sign_in_button:
                 signIn();
 

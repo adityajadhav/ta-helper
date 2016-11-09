@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 
+import com.cs442.team4.tahelper.CourseActivity;
 import com.cs442.team4.tahelper.R;
 import com.cs442.team4.tahelper.contants.IntentConstants;
 import com.cs442.team4.tahelper.fragment.AddModuleFragment;
@@ -37,6 +38,11 @@ public class ModuleListActivity  extends AppCompatActivity implements ModuleList
     public void onModuleItemClickedManage(String moduleName) {
         Intent intent = new Intent(this, ManageAssignmentsActivity.class);
         intent.putExtra(IntentConstants.MODULE_NAME,moduleName);
+        startActivity(intent);
+    }
+
+    public void notifyBackButtonEvent(){
+        Intent intent = new Intent(this, CourseActivity.class);
         startActivity(intent);
     }
 }

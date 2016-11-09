@@ -38,6 +38,7 @@ public class ModuleListFragment extends Fragment{
     private ArrayList<String> moduleItemList;
     private ModuleListItemAdapter moduleListItemAdapter;
     private Button addModuleButton;
+    private Button backButton;
 
     private ModuleListFragmentListener moduleListFragmentListener;
     private DatabaseReference mDatabase;
@@ -46,6 +47,7 @@ public class ModuleListFragment extends Fragment{
 
     public interface ModuleListFragmentListener{
         public void addNewModuleEvent();
+        public void notifyBackButtonEvent();
 
     }
 
@@ -55,7 +57,15 @@ public class ModuleListFragment extends Fragment{
         View view = inflater.inflate(R.layout.module_list_fragment,container,false);
         moduleListView = (ListView) view.findViewById(R.id.moduleListFragmentView);
         addModuleButton = (Button)view.findViewById(R.id.moduleListFragmentButtonView);
+        backButton = (Button) view.findViewById(R.id.moduleListFragmentBackButton);
         mDatabase = FirebaseDatabase.getInstance().getReference();
+
+        backButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                moduleListFragmentListener.notifyBackButtonEvent();
+            }
+        });
 
         addModuleButton.setOnClickListener(new View.OnClickListener() {
             @Override

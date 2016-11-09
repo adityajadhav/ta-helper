@@ -6,5 +6,7 @@
     <color name="colorBlack">#000000</color>
     <color name="colorGrey">#b8b49393</color>
     <color name="tableAlter">#80ebeaea</color>
+    <color name="colorWhite">#FFFFFF</color>
+    <color name="colorLightBlue">#6495ed</color>
 
 </resources>

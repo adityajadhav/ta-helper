@@ -5,10 +5,6 @@
     android:layout_height="match_parent"
     android:weightSum="10">
 
-    <Space
-        android:layout_width="match_parent"
-        android:layout_height="10dp" />
-
     <TextView
         android:layout_width="match_parent"
         android:layout_height="60dp"
