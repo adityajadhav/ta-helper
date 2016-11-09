@@ -31,6 +31,8 @@
         <activity android:name=".student.StudentAssignmentListActivity"></activity>
         <activity android:name=".student.StudentAssignmentSplitsListActivity"></activity>
         <activity android:name=".student.StudentListActivity"></activity>
+        <activity android:name=".preferences.MyPreferenceActivity" android:theme="@style/PreferencesTheme"></activity>
+
 
 
         <service

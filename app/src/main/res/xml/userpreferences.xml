@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen
+  xmlns:android="http://schemas.android.com/apk/res/android"
+    >
+  <PreferenceCategory
+    android:title="TA Helper Preference Settings">
+    <CheckBoxPreference
+      android:key="PREF_CHECK_BOX"
+      android:title="Enable Notification"
+      android:summary="Check Box Preference Description"
+      android:defaultValue="true"
+    />
+ <!--   <EditTextPreference
+        android:key="PREF_EDIT_TEXT"
+        android:title="Edit Text Preference"
+        android:summary="Edit Text Preference Description"
+        android:defaultValue="true"
+        />-->
+  </PreferenceCategory>
+</PreferenceScreen>

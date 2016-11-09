@@ -8,4 +8,10 @@
         <item name="colorAccent">@color/colorBlack</item>
     </style>
 
+    <style name="PreferencesTheme">
+        <item name="android:windowBackground">@drawable/preferences</item>
+        <item name="android:background">@color/colorBlack</item>
+
+    </style>
+
 </resources>
