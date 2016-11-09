@@ -36,4 +36,10 @@ public class EditDeleteAssignmentActivity extends AppCompatActivity implements E
         intent.putExtra(IntentConstants.MODULE_NAME,moduleName);
         startActivity(intent);
     }
+
+    public void notifyBackButtonEvent(String moduleName){
+        Intent intent = new Intent(this,ManageAssignmentsActivity.class);
+        intent.putExtra(IntentConstants.MODULE_NAME,moduleName);
+        startActivity(intent);
+    }
 }

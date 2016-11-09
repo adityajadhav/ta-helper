@@ -28,4 +28,9 @@ public class EditDeleteModuleActivity extends AppCompatActivity implements  Edit
         Intent intent = new Intent(this,ModuleListActivity.class);
         startActivity(intent);
     }
+
+    public void backToModuleList(){
+        Intent intent = new Intent(this,ModuleListActivity.class);
+        startActivity(intent);
+    }
 }

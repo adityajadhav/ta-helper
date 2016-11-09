@@ -34,4 +34,16 @@
         android:id="@+id/manageAssignmentsFragmentList"
         android:paddingTop="20dp"/>
 
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:id="@+id/manageAssignmentsFragmentBackButton"
+        android:text="BACK TO MODULE LIST"
+        android:textSize="18dp"
+        android:gravity="center"
+        android:layout_gravity="bottom"
+        android:layout_marginBottom="20dp"
+        />
+
+
 </LinearLayout>

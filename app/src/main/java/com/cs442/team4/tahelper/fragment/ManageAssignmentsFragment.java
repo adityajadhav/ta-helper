@@ -44,9 +44,11 @@ public class ManageAssignmentsFragment extends Fragment {
     private TextView assignmentName;
     private Button addAssignmentButton;
     private ManageAssignmentFragmentListener manageAssignmentFragmentListener;
+    private Button backButton;
 
     public interface ManageAssignmentFragmentListener{
         public void notifyAddAssignmentEvent();
+        public void notifyBackButton();
     }
 
     @Override
@@ -55,7 +57,16 @@ public class ManageAssignmentsFragment extends Fragment {
         manageAssignmentsList = (ListView) layout.findViewById(R.id.manageAssignmentsFragmentList);
         assignmentName = (TextView) layout.findViewById(R.id.manageAssignmentsFragmentTextView);
         addAssignmentButton = (Button) layout.findViewById(R.id.manageAssignmentsFragmentAddAssignmentButton);
+        backButton = (Button) layout.findViewById(R.id.manageAssignmentsFragmentBackButton);
         mDatabase = FirebaseDatabase.getInstance().getReference();
+
+        backButton.setOnClickListener(new View.OnClickListener(){
+
+            @Override
+            public void onClick(View v) {
+                manageAssignmentFragmentListener.notifyBackButton();
+            }
+        });
 
         addAssignmentButton.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -105,6 +116,7 @@ public class ManageAssignmentsFragment extends Fragment {
         if(intent!=null && intent.getStringExtra(IntentConstants.MODULE_NAME)!=null){
             moduleName = intent.getStringExtra(IntentConstants.MODULE_NAME);
             assignmentName.setText(moduleName);
+            addAssignmentButton.setText(" Add "+moduleName+" Sub Module ");
             loadExistingAssignmentFromDatabase();
         }
     }

@@ -60,4 +60,13 @@
             android:id="@+id/deleteModuleButtonFragmentView"/>
         </LinearLayout>
 
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:text=" BACK TO MODULE LIST"
+            android:textSize="20dp"
+            android:id="@+id/editDeleteModuleFragmentListViewBackButton"/>
+
 </LinearLayout>

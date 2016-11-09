@@ -34,9 +34,11 @@ public class EditDeleteModuleFragment extends Fragment {
     private Button deleteButton;
     private String moduleNameString;
     private EditDeleteButtonListner editDeleteButtonListner;
+    private Button backButton;
 
     public interface EditDeleteButtonListner{
         public void clickButtonEvent();
+        public void backToModuleList();
     }
 
 
@@ -46,6 +48,14 @@ public class EditDeleteModuleFragment extends Fragment {
         moduleName = (EditText) layout.findViewById(R.id.editDeleteModuleNameFragmentEditTextView);
         editButton = (Button)layout.findViewById(R.id.editModuleButtonFragmentView);
         deleteButton = (Button)layout.findViewById(R.id.deleteModuleButtonFragmentView);
+        backButton = (Button) layout.findViewById(R.id.editDeleteModuleFragmentListViewBackButton);
+
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                editDeleteButtonListner.backToModuleList();
+            }
+        });
         deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

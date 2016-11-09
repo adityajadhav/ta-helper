@@ -43,4 +43,9 @@ public class ManageAssignmentsActivity extends AppCompatActivity implements Mana
         intent.putExtra(IntentConstants.ASSIGNMENT_NAME,assignmentName);
         startActivity(intent);
     }
+
+    public void notifyBackButton(){
+        Intent intent = new Intent(this,ModuleListActivity.class);
+        startActivity(intent);
+    }
 }

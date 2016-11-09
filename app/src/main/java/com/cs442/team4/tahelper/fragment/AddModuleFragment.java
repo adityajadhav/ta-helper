@@ -26,12 +26,14 @@ public class AddModuleFragment extends Fragment{
 
     private EditText enterModuleNameFragmentView;
     private Button addModuleFragmentView;
+    private Button backButton;
     private DatabaseReference mDatabase;
     private AddModuleFragmentListener addModuleFragmentListener;
 
 
     public interface AddModuleFragmentListener{
         public void addModuleEvent();
+        public void backToModuleList();
     }
 
     @Override
@@ -39,7 +41,15 @@ public class AddModuleFragment extends Fragment{
         LinearLayout layout= (LinearLayout) inflater.inflate(R.layout.add_module_fragment,container,false);
         enterModuleNameFragmentView = (EditText) layout.findViewById(R.id.enterModuleNameFragmentView);
         addModuleFragmentView = (Button)layout.findViewById(R.id.addModuleButtonFragmentView);
+        backButton = (Button) layout.findViewById(R.id.addModuleButtonFragmentViewBackButton);
         mDatabase = FirebaseDatabase.getInstance().getReference();
+
+        backButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                addModuleFragmentListener.backToModuleList();
+            }
+        });
 
         addModuleFragmentView.setOnClickListener(new View.OnClickListener() {
             @Override

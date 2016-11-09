@@ -24,4 +24,9 @@ public class AddModuleActivity extends AppCompatActivity implements AddModuleFra
         Intent intent = new Intent(this,ModuleListActivity.class);
         startActivity(intent);
     }
+
+    public void backToModuleList(){
+        Intent intent = new Intent(this,ModuleListActivity.class);
+        startActivity(intent);
+    }
 }

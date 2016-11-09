@@ -44,9 +44,12 @@ public class AddAssignmentsFragment extends Fragment {
     private DatabaseReference mDatabase;
     private String moduleName;
     private AddAssignmentsFragmentListener addAssignmentFragmentListener;
+    private Button backButton;
 
     public interface AddAssignmentsFragmentListener{
         public void notifyAddAssignmentEvent(String moduleName);
+        public void notifyBackEvent(String moduleName);
+
     }
 
 
@@ -61,10 +64,18 @@ public class AddAssignmentsFragment extends Fragment {
         addAssignment = (Button) layout.findViewById(R.id.addAssignmentsFragmentAddButton);
         assignmentName = (EditText) layout.findViewById(R.id.addAssignmentsFragmentTextView);
         assignmentTotalScore = (EditText) layout.findViewById(R.id.addAssignmentFragmentTotalScore);
+        backButton = (Button) layout.findViewById(R.id.addAssignmentsFragmentBackButton);
         assignmentSplitsList = new ArrayList<AssignmentSplit>();
         assignmentAdapter = new AddAssignmentListItemAdapter(getActivity(),R.layout.add_assignments_item_layout,assignmentSplitsList);
         splitList.setAdapter(assignmentAdapter);
         mDatabase = FirebaseDatabase.getInstance().getReference("modules");
+
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                 addAssignmentFragmentListener.notifyBackEvent(moduleName);;
+            }
+        });
 
         addSplitButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -142,6 +153,7 @@ public class AddAssignmentsFragment extends Fragment {
     public void initialise(Intent intent) {
         if(intent!=null && intent.getStringExtra(IntentConstants.MODULE_NAME)!=null){
             moduleName = intent.getStringExtra(IntentConstants.MODULE_NAME);
+            backButton.setText(" BACK TO "+moduleName+" MODULE LIST");
         }
     }
 

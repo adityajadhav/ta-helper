@@ -88,7 +88,7 @@
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:id="@+id/addAssignmentsFragmentAddButton"
-        android:text="Add Assignment"
+        android:text=" Add "
         android:textSize="18dp"
         android:gravity="center"
         />
@@ -111,7 +111,14 @@
         />
 
 
-
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:id="@+id/addAssignmentsFragmentBackButton"
+        android:text=" BACK TO SUB MODULE LIST "
+        android:textSize="18dp"
+        android:gravity="center"
+        />
 
 
 
