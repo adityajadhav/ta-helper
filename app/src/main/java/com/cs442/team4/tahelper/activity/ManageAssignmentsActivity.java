@@ -21,6 +21,7 @@ import com.cs442.team4.tahelper.contants.IntentConstants;
 import com.cs442.team4.tahelper.fragment.EditDeleteModuleFragment;
 import com.cs442.team4.tahelper.fragment.ManageAssignmentsFragment;
 import com.cs442.team4.tahelper.preferences.MyPreferenceActivity;
+import com.cs442.team4.tahelper.student.GradeStudentListActivity;
 
 /**
  * Created by sowmyaparameshwara on 10/31/16.
@@ -32,6 +33,7 @@ public class ManageAssignmentsActivity extends AppCompatActivity implements Mana
     public DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mDrawerToggle;
     private static final int SHOW_PREFERENCES = 0;
+    private String courseCode;
 
     String moduleName;
 
@@ -68,11 +70,13 @@ public class ManageAssignmentsActivity extends AppCompatActivity implements Mana
 
 
     public void onAssignmentItemClickScore(String assignmentName){
-        Intent intent = new Intent(this, EditDeleteAssignmentActivity.class);
+        Intent intent = new Intent(this, GradeStudentListActivity.class);
         intent.putExtra(IntentConstants.MODULE_NAME,moduleName);
+        intent.putExtra(IntentConstants.MODULE_ITEM,assignmentName);
         intent.putExtra(IntentConstants.ASSIGNMENT_NAME,assignmentName);
+
         startActivity(intent);
-        overridePendingTransition(R.anim.right_slide_in, R.anim.right_slide_out);
+        overridePendingTransition(R.anim.left_slide_in, R.anim.left_slide_out);
 
     }
 

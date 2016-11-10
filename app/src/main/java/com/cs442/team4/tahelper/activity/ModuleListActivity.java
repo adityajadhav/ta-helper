@@ -42,6 +42,7 @@ public class ModuleListActivity  extends AppCompatActivity implements ModuleList
     public DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mDrawerToggle;
     private static final int SHOW_PREFERENCES = 0;
+    private String courseCode;
 
 
     @Override
@@ -49,7 +50,9 @@ public class ModuleListActivity  extends AppCompatActivity implements ModuleList
         super.onCreate(savedInstanceState);
         setContentView(R.layout.module_list_activity);
         drawerCode();
-
+        if(getIntent().getStringExtra("course_id")!=null){
+            courseCode = getIntent().getStringExtra("course_id");
+        }
 
     }
 
@@ -110,6 +113,7 @@ public class ModuleListActivity  extends AppCompatActivity implements ModuleList
     public void onModuleItemClickedManage(String moduleName) {
         Intent intent = new Intent(this, ManageAssignmentsActivity.class);
         intent.putExtra(IntentConstants.MODULE_NAME, moduleName);
+        intent.putExtra("course_id",courseCode);
         startActivity(intent);
         overridePendingTransition(R.anim.left_slide_in, R.anim.left_slide_out);
     }
