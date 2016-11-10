@@ -66,6 +66,16 @@ public class ManageAssignmentsActivity extends AppCompatActivity implements Mana
 
     }
 
+
+    public void onAssignmentItemClickScore(String assignmentName){
+        Intent intent = new Intent(this, EditDeleteAssignmentActivity.class);
+        intent.putExtra(IntentConstants.MODULE_NAME,moduleName);
+        intent.putExtra(IntentConstants.ASSIGNMENT_NAME,assignmentName);
+        startActivity(intent);
+        overridePendingTransition(R.anim.right_slide_in, R.anim.right_slide_out);
+
+    }
+
     public void notifyBackButton(){
         Intent intent = new Intent(this,ModuleListActivity.class);
         startActivity(intent);
