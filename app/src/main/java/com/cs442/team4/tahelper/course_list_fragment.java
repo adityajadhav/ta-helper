@@ -15,6 +15,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.google.android.gms.tasks.TaskExecutors;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -37,7 +39,7 @@ public class course_list_fragment extends Fragment {
             public void callAddCourseFragment(String mode_from_fragment);
             public void callManageCourseFragment_to_activity(String course_id);
             public void editCourseFragment_to_activity(String mode, String course_id);
-            public void callModuleActivity_to_activity();
+            public void callModuleActivity_to_activity(String courseCode);
     }
 
     public void setInterface(OnActionButtonClickListener oa)
@@ -81,9 +83,12 @@ public class course_list_fragment extends Fragment {
 
 
         FirebaseDatabase database = FirebaseDatabase.getInstance();
+
+
+
         final DatabaseReference players = database.getReference("courses");
 
-        final Course_Entity ce = new Course_Entity("MAD","CS442","Zhang","Simon","email","zsimon","ta@ta");
+
 
 
         final ArrayList<Course_Entity> course_array = new ArrayList<>();
@@ -109,9 +114,9 @@ public class course_list_fragment extends Fragment {
             }
 
             @Override
-            public void callModulesActivity_to_fragment()
+            public void callModulesActivity_to_fragment(String courseCode)
             {
-                mClick.callModuleActivity_to_activity();
+                mClick.callModuleActivity_to_activity(courseCode);
             }
         });
         players.addValueEventListener(new ValueEventListener() {

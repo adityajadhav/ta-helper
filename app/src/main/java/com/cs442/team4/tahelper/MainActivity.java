@@ -2,6 +2,7 @@ package com.cs442.team4.tahelper;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
@@ -138,6 +139,12 @@ public class MainActivity extends AppCompatActivity implements
             GoogleSignInAccount acct = result.getSignInAccount();
             mStatusTextView.setText(getString(R.string.signed_in_fmt, acct.getDisplayName()));
             writeNewUser(acct.getId(), acct.getGivenName(), acct.getEmail());
+
+            SharedPreferences pref = getApplicationContext().getSharedPreferences("CurrentUser", MODE_PRIVATE);
+            SharedPreferences.Editor editor = pref.edit();
+            editor.putString("User",acct.getEmail());
+            editor.commit();
+
             //updateUI(true);
 //            Intent intent = new Intent(this, ModuleListActivity.class);
 //          startActivity(intent);
