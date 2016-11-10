@@ -60,7 +60,7 @@ public class ManageAssignmentsListItemAdapter extends ArrayAdapter<String>{
         scoreButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-             //   ((ManageAssignmentsActivity)context).onAssignmentItemClickScore(moduleContent);
+               ((ManageAssignmentsActivity)context).onAssignmentItemClickScore(assignmentContent);
             }
         });
 
