@@ -3,20 +3,30 @@ package com.cs442.team4.tahelper.fragment;
 import android.app.Activity;
 import android.app.Fragment;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.cs442.team4.tahelper.R;
+import com.cs442.team4.tahelper.activity.AddModuleActivity;
+import com.cs442.team4.tahelper.activity.ModuleListActivity;
 import com.cs442.team4.tahelper.contants.IntentConstants;
 import com.cs442.team4.tahelper.model.ModuleEntity;
 import com.cs442.team4.tahelper.services.ModuleDatabaseUpdationIntentService;
+import com.github.amlcurran.showcaseview.ShowcaseView;
+import com.github.amlcurran.showcaseview.SimpleShowcaseEventListener;
+import com.github.amlcurran.showcaseview.targets.ViewTarget;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+
+import static android.content.Context.MODE_PRIVATE;
 
 /**
  * Created by sowmyaparameshwara on 10/30/16.
@@ -105,6 +115,8 @@ public class AddModuleFragment extends Fragment{
                     //ModuleEntity.addKeyValue(moduleName,key);
                     addModuleFragmentListener.addModuleEvent();;
 
+                }else{
+                    Toast.makeText(getActivity()," Please enter module name and try again.",Toast.LENGTH_LONG).show();
                 }
 
             }
@@ -124,6 +136,93 @@ public class AddModuleFragment extends Fragment{
                     " must implement OnNewItemAddedListener");
         }
     }
+
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+        SharedPreferences prefs = getActivity().getSharedPreferences("com.cs442.team4.tahelper.AddModuleFragment", MODE_PRIVATE);
+        boolean isFirstRun = prefs.getBoolean("firstrun", true);
+        if (isFirstRun)
+        {
+            prefs.edit().putBoolean("firstrun", false).commit();
+            showFirstShowCase();
+        }
+
+
+    }
+
+    private void showFirstShowCase(){
+        new ShowcaseView.Builder(getActivity())
+                .withMaterialShowcase()
+                .setStyle(R.style.CustomShowcaseTheme2)
+                .setTarget(new ViewTarget(enterModuleNameFragmentView))
+                .hideOnTouchOutside()
+                .setContentTitle("Enter name for the new module to be added.")
+                .setShowcaseEventListener(new SimpleShowcaseEventListener() {
+
+                    @Override
+                    public void onShowcaseViewDidHide(ShowcaseView showcaseView) {
+                        showSecondShowCase();
+                    }
+
+                })
+                .build();
+    }
+
+    private void showSecondShowCase() {
+        new ShowcaseView.Builder(getActivity())
+                .withMaterialShowcase()
+                .setStyle(R.style.CustomShowcaseTheme2)
+                .setTarget(new ViewTarget(addModuleFragmentView))
+                .hideOnTouchOutside()
+                .setContentTitle("Click the button to add the new module.")
+                .setShowcaseEventListener(new SimpleShowcaseEventListener() {
+
+                    @Override
+                    public void onShowcaseViewDidHide(ShowcaseView showcaseView) {
+                        showThirdShowCase();
+                    }
+
+                })
+                .build();
+    }
+
+    private void showThirdShowCase() {
+        new ShowcaseView.Builder(getActivity())
+                .withMaterialShowcase()
+                .setStyle(R.style.CustomShowcaseTheme2)
+                .setTarget(new ViewTarget(backButton))
+                .hideOnTouchOutside()
+                .setContentTitle("Click to go back to module list without adding.")
+                .setShowcaseEventListener(new SimpleShowcaseEventListener() {
+
+                    @Override
+                    public void onShowcaseViewDidHide(ShowcaseView showcaseView) {
+                        showFourthShowCase();
+                    }
+
+                })
+                .build();
+    }
+
+
+
+    private void showFourthShowCase() {
+        new ShowcaseView.Builder(getActivity())
+                .withMaterialShowcase()
+                .setStyle(R.style.CustomShowcaseTheme2)
+                .setTarget(new ViewTarget(((AddModuleActivity)getActivity()).mDrawerLayout))
+                .hideOnTouchOutside()
+                .setContentTitle("Swipe from left to launch drawer with navigation options.")
+                .build();
+
+
+
+
+    }
+
 
 
 
