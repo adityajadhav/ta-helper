@@ -16,6 +16,7 @@ import com.cs442.team4.tahelper.student.StudentListActivity;
 public class CourseActivity extends AppCompatActivity implements add_course_fragment.OnFinishAddCourseInterface {
 
     String mode = "null";
+    static String COURSE_ID = null;
     String courseId = null;
 
     @Override
@@ -31,6 +32,7 @@ public class CourseActivity extends AppCompatActivity implements add_course_frag
                                                             public void openModule(String moduleName) {
                                                                 if ("STUDENT_LIST".equals(moduleName)) {
                                                                     Intent intent = new Intent(getApplicationContext(), StudentListActivity.class);
+                                                                    intent.putExtra("course_id",courseId);
                                                                     startActivity(intent);
                                                                 }
 
@@ -78,7 +80,8 @@ public class CourseActivity extends AppCompatActivity implements add_course_frag
                             public void callManageCourseFragment_to_activity(String courseCode) {
                                 // courseId = courseCode;
                                 Bundle bundle = new Bundle();
-                                bundle.putString("course_code", courseCode);
+                                bundle.putString(COURSE_ID, courseCode);
+                                COURSE_ID = courseCode;
                                 Log.i("Code in activity : ", courseCode);
 
 
