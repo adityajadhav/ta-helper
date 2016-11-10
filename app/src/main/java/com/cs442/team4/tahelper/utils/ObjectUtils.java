@@ -17,6 +17,11 @@ final public class ObjectUtils {
         return !isEmpty(value);
     }
 
+    public static boolean isNotEmpty(Object object) {
+        return !isEmpty(object);
+    }
+
+
     public static boolean isEmpty(String value) {
         if (value != null && value.length() > 0) {
             return false;
@@ -30,5 +35,13 @@ final public class ObjectUtils {
         }
         return true;
     }
+
+    public static boolean isEmpty(Object obj) {
+        if (obj != null) {
+            return false;
+        }
+        return true;
+    }
+
 
 }

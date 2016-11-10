@@ -1,9 +1,9 @@
 package com.cs442.team4.tahelper.fragment;
 
-import android.app.Activity;
 import android.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,34 +12,46 @@ import android.widget.TextView;
 
 import com.cs442.team4.tahelper.R;
 
-/**
- * Created by ullas on 11/6/2016.
- */
+import static com.cs442.team4.tahelper.R.id.sendBcastBtn;
 
-public class ManageCourseFragment extends Fragment {
 
-    public interface CallStudentListInterface{
-        void callStudentListActivity();
+public class ManageCourseFragment extends Fragment implements View.OnClickListener {
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.student_list_tv_layout:
+                manageCourseInterface.openModule("STUDENT_LIST");
+                break;
+            case sendBcastBtn:
+                manageCourseInterface.openModule(BcastNotificationFragment.MODULE_NAME);
+//                Snackbar.make(v, "Replace with your own action", Snackbar.LENGTH_LONG)
+//                        .setAction("Action", null).show();
+                break;
+        }
     }
 
-    CallStudentListInterface obj;
-
-    public void setStudentListInterface(CallStudentListInterface obj){
-        this.obj = obj;
+    public interface ManageCourseInterface {
+        void openModule(String moduleName);
     }
+
+    private ManageCourseInterface manageCourseInterface;
+
+    public void setStudentListInterface(ManageCourseInterface manageCourseInterface) {
+        this.manageCourseInterface = manageCourseInterface;
+    }
+
     @Nullable
     @Override
-
-
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         Bundle args = getArguments();
-        if(args  != null) {
+        if (args != null) {
             String courseId = getArguments().getString("course_code");
             Log.i("Code in fgmt : ", courseId);
         }
 
-        return inflater.inflate(R.layout.main_menu_activity,container,false);
+        return inflater.inflate(R.layout.main_menu_activity, container, false);
 
     }
 
@@ -47,16 +59,10 @@ public class ManageCourseFragment extends Fragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         TextView student_list_tv = (TextView) view.findViewById(R.id.student_list_tv_layout);
-        student_list_tv.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                obj.callStudentListActivity();
-            }
-        });
+        FloatingActionButton sendBcastBtn = (FloatingActionButton) view.findViewById(R.id.sendBcastBtn);
+        student_list_tv.setOnClickListener(this);
+        sendBcastBtn.setOnClickListener(this);
+
     }
 
-    @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-    }
 }
