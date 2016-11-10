@@ -24,6 +24,7 @@ public class StudentListActivity extends AppCompatActivity implements StudentLis
 
         FragmentManager fm = getFragmentManager();
         FragmentTransaction ft =fm.beginTransaction();
+
         ft.replace(R.id.student_list_activity_frame_layout,new StudentListFragment(),"student_list_fragment");
         ft.commit();
 

@@ -61,7 +61,6 @@ public class StudentListAdapter extends ArrayAdapter<Student_Entity> implements 
         return convertView;
     }
 
-
     public Filter getFilter() {
         return new Filter() {
 

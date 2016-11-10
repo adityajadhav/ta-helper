@@ -67,9 +67,9 @@ public class StudentAssignmentSplitsListFragment extends ListFragment {
     }
 
     private void loadFromDatabase() {
-        mDatabase.child("students").child(studentId).child(courseName).child(moduleName).child(moduleItem).child("splits").push();
+        mDatabase.child("students").child(studentId).child(courseName).child(moduleName).child(moduleItem).child("Splits").push();
 
-        mDatabase.child("students").child(studentId).child(courseName).child(moduleName).child(moduleItem).child("splits").addValueEventListener(new ValueEventListener() {
+        mDatabase.child("students").child(studentId).child(courseName).child(moduleName).child(moduleItem).child("Splits").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
 
@@ -79,10 +79,38 @@ public class StudentAssignmentSplitsListFragment extends ListFragment {
                     if(!splitsArrayList.contains(postSnapshot.getKey()))
                     {
                         String splitName = (String) postSnapshot.getKey();
-                        Long gainedPoints = (Long) postSnapshot.getValue();
+                        String gainedPoints = (String) postSnapshot.getValue();
 
-                        Split split = new Split(moduleName, splitName, 10L, gainedPoints);
+                        Split split = new Split(moduleName, splitName, 10.0, Double.parseDouble(gainedPoints));
                         splitsArrayList.add(split);
+
+                        //For fetching maximum points
+                        //mDatabase.child("modules").child(courseName).child(moduleName).child(moduleItem).child("Splits").push();
+                        mDatabase.child("modules").child(moduleName).child(moduleItem).child("Splits").push();
+                        mDatabase.child("modules").child(moduleName).child(moduleItem).child("Splits").addValueEventListener(new ValueEventListener() {
+
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                                int i = 0;
+
+                                for (DataSnapshot postSnapshot: dataSnapshot.getChildren())
+                                {
+                                    String score = "";
+                                    score = (String) postSnapshot.getValue();
+
+                                    splitsArrayList.get(i).setSplitMaximumPoints(Double.parseDouble(score));
+                                    i++;
+                                }
+
+                                studentAssignmentSplitsListAdapter.notifyDataSetChanged();
+                            }
+
+                            @Override
+                            public void onCancelled(DatabaseError databaseError) {
+                                Log.d("ModuleListFragment : "," Read cancelled due to "+databaseError.getMessage());
+                            }
+                        });
 
                     }
                 }

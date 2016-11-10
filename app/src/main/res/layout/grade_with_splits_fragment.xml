@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:weightSum="1"
+    app:layout_collapseParallaxMultiplier="1.0">
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="horizontal" android:layout_width="match_parent"
+        android:layout_height="35dp"
+        android:weightSum="1">
+
+        <TextView
+            android:text="CS442"
+            android:layout_width="wrap_content"
+            android:layout_height="31dp"
+            android:id="@+id/gradeWithSplitsCourseName"
+            android:gravity="center"
+            android:textSize="18sp"
+            android:layout_weight="0.31" />
+
+        <TextView
+            android:text="mshethwa"
+            android:layout_width="121dp"
+            android:layout_height="32dp"
+            android:id="@+id/gradeWithSplitsStudentId"
+            android:gravity="center"
+            android:textSize="18sp"
+            android:layout_weight="0.09" />
+
+        <TextView
+            android:text="Assignment 1"
+            android:layout_width="wrap_content"
+            android:layout_height="37dp"
+            android:id="@+id/gradeWithSplitsModuleItem"
+            android:gravity="center"
+            android:textSize="18sp"
+            android:layout_weight="0.50" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal" android:layout_width="match_parent"
+        android:layout_height="47dp"
+        android:weightSum="1">
+
+        <TextView
+            android:text="Total Score: "
+            android:layout_width="191dp"
+            android:layout_height="match_parent"
+            android:id="@+id/textView16"
+            android:textSize="24sp"
+            android:gravity="center" />
+
+        <EditText
+            android:layout_width="89dp"
+            android:layout_height="match_parent"
+            android:inputType="number"
+            android:ems="10"
+            android:id="@+id/gradeWithSplitsTotalEditText"
+            android:layout_weight="0.65"
+            android:gravity="center"
+            android:text="0.0"
+            android:textSize="24sp"
+            android:editable="false" />
+
+        <TextView
+            android:text="/ 20"
+            android:layout_width="56dp"
+            android:layout_height="match_parent"
+            android:id="@+id/maxPointsTextView"
+            android:textSize="24sp"
+            android:gravity="center"
+            android:layout_weight="0.10" />
+
+    </LinearLayout>
+
+    <Button
+        android:text="Submit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/gradeWithSplitsSubmitButton" />
+
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="318dp"
+        android:descendantFocusability="afterDescendants"
+        android:focusable="false"
+        android:id="@+id/gradeWithListListView"
+        android:layout_weight="0.80" />
+
+    <Button
+        android:text="Calculate Total"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/gradeWithSplitsCalculateTotalButton" />
+
+
+</LinearLayout>
