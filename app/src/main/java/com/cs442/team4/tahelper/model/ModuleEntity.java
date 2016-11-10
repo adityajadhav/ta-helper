@@ -1,5 +1,6 @@
 package com.cs442.team4.tahelper.model;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 
@@ -9,20 +10,61 @@ import java.util.Iterator;
 
 public class ModuleEntity {
 
-    private static HashMap<String,String> nametoDBKey = new HashMap<>();
 
 
-    public static void addKeyValue(String name,String dbKey){
-        nametoDBKey.put(name,dbKey);
+    private static HashMap<String,ArrayList<AssignmentEntity>> moduleToAssignmets = new HashMap<>();
+
+
+    public ModuleEntity(){
+
     }
 
-    public static String getDBKey(String name){
-        return nametoDBKey.get(name);
+
+    public static void addModule(String moduleName){
+        if(moduleToAssignmets.get(moduleName)==null) {
+            ArrayList<AssignmentEntity> assignmentList = new ArrayList<AssignmentEntity>();
+            moduleToAssignmets.put(moduleName, assignmentList);
+        }
     }
 
-    public static void removeKeyValue(String name){
-        nametoDBKey.remove(name);
+
+    public static void addAssignments(String moduleName,AssignmentEntity assignmentEntity){
+        ArrayList<AssignmentEntity> assignmentList =moduleToAssignmets.get(moduleName);
+        if(!assignmentList.contains(assignmentEntity)) {
+            assignmentList.add(assignmentEntity);
+        }
     }
+
+    public static ArrayList<AssignmentEntity> getAssignmentList(String name){
+        return moduleToAssignmets.get(name);
+    }
+
+    public static void removeModule(String name){
+        moduleToAssignmets.remove(name);
+    }
+
+    public  static void editModule(String originalName,String newName){
+        ArrayList<AssignmentEntity> assignmentOldList =moduleToAssignmets.get(originalName);
+        ArrayList<AssignmentEntity> assignmentNewList = new ArrayList<AssignmentEntity>();
+        assignmentNewList.addAll(assignmentOldList);
+        moduleToAssignmets.remove(originalName);
+
+        moduleToAssignmets.put(newName,assignmentNewList);
+    }
+
+    public static void removeAssignmentFromModule(String moduleName,String assignmentName){
+        if(moduleToAssignmets.get(moduleName)!=null){
+            ArrayList<AssignmentEntity> assignmentList = moduleToAssignmets.get(moduleName);
+            for(int i = 0 ; i< assignmentList.size();i++){
+                AssignmentEntity assignmentEntity = assignmentList.get(i);
+                if(assignmentEntity.getAssignmentName().equals(assignmentName)){
+                    assignmentList.remove(assignmentEntity);
+                    break;
+                }
+            }
+        }
+    }
+
 
 
 }

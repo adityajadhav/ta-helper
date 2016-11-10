@@ -10,10 +10,12 @@
         android:layout_width="0dp"
         android:layout_weight="4"
         android:id="@+id/addAssignmentsSplitName"
-        android:textSize="20dp"
+        android:textSize="25dp"
         android:gravity="center"
         android:layout_marginLeft="10dp"
-        android:textStyle="bold"
+        android:textColor="@color/colorPrimaryDark"
+        android:textColorHint="@color/colorPrimaryDark"
+        android:fontFamily="sans-serif"
         />
 
     <TextView
@@ -21,11 +23,11 @@
         android:layout_width="0dp"
         android:layout_weight="3"
         android:id="@+id/addAssignmentsSplitScore"
-        android:textSize="20dp"
+        android:textSize="25dp"
         android:gravity="center"
         android:layout_marginLeft="10dp"
-        android:textStyle="bold"
-
+        android:textColor="@color/colorPrimaryDark"
+        android:textColorHint="@color/colorPrimaryDark"
         />
 
     <Button
@@ -33,11 +35,16 @@
         android:layout_width="0dp"
         android:layout_weight="3"
         android:id="@+id/addAssignmentsSplitDelete"
-        android:textSize="20dp"
         android:text="Delete"
         android:gravity="center"
+        android:background="@color/colorPrimary"
+        android:alpha="0.60"
+        android:textColor="@color/colorWhite"
+        android:textSize="15dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
         android:layout_marginLeft="10dp"
-        android:textStyle="bold"
+        android:layout_marginRight="10dp"
 
         />
 

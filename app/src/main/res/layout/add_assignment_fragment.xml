@@ -3,7 +3,8 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:weightSum="10">
+    android:weightSum="10"
+    android:background="@drawable/bg_3">
 
     <Space
         android:layout_width="match_parent"
@@ -11,19 +12,21 @@
 
     <EditText
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="60dp"
         android:id="@+id/addAssignmentsFragmentTextView"
         android:textSize="25dp"
         android:gravity="center"
-        android:textStyle="bold"
         android:hint="Enter Assignment Name"
+        android:textColor="@color/colorPrimaryDark"
+        android:textColorHint="@color/colorPrimaryDark"
+
         />
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="60dp"
         android:orientation="horizontal"
-        android:weightSum="5">
+        android:weightSum="6">
 
         <EditText
             android:layout_width="0dp"
@@ -31,6 +34,9 @@
             android:layout_weight="2"
             android:id="@+id/addAssignmentFragmentSplitName"
             android:hint="Split Name"
+            android:textSize="20dp"
+            android:textColor="@color/colorPrimaryDark"
+            android:textColorHint="@color/colorPrimaryDark"
 
             />
 
@@ -41,23 +47,34 @@
             android:inputType="number"
             android:id="@+id/addAssignmentFragmentSplitScore"
             android:hint="Split Score"
+            android:textSize="20dp"
+            android:textColor="@color/colorPrimaryDark"
+            android:textColorHint="@color/colorPrimaryDark"
+
             />
 
         <Button
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1"
+            android:layout_weight="2"
             android:id="@+id/addAssignmentsFragmentButton"
-            android:text="Add"
-            android:textSize="18dp"
+            android:text="Add Split"
+            android:textSize="15dp"
             android:gravity="center"
+            android:background="@color/colorPrimary"
+            android:alpha="0.60"
+            android:textColor="@color/colorWhite"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="10dp"
             />
 
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="60dp"
         android:orientation="horizontal"
         android:weightSum="2">
 
@@ -66,10 +83,14 @@
             android:layout_height="match_parent"
             android:layout_weight="0.5"
             android:id="@+id/addAssignmentFragmentTotal"
-            android:text="Total"
-            android:textSize="20dp"
+            android:text="Total : "
+            android:textSize="25dp"
             android:textStyle="bold"
             android:gravity="center_vertical"
+            android:textAlignment="center"
+            android:layout_marginLeft="10dp"
+            android:textColor="@color/colorPrimaryDark"
+
             />
 
         <EditText
@@ -79,21 +100,40 @@
             android:id="@+id/addAssignmentFragmentTotalScore"
             android:inputType="number"
             android:hint="Total Score"
+            android:textSize="20dp"
+            android:textColor="@color/colorPrimaryDark"
+            android:textColorHint="@color/colorPrimaryDark"
+
             />
     </LinearLayout>
 
+
+
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="10"
+        android:id="@+id/addAssignmentsFragmentListView"
+        />
 
 
     <Button
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:id="@+id/addAssignmentsFragmentAddButton"
-        android:text="Add Assignment"
-        android:textSize="18dp"
+        android:text=" Add Sub Module "
+        android:textSize="20dp"
         android:gravity="center"
+        android:layout_gravity="center"
+        android:background="@color/colorPrimary"
+        android:alpha="0.60"
+        android:textColor="@color/colorWhite"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="10dp"
         />
 
-
+<!--
     <TextView
         android:layout_width="match_parent"
         android:layout_height="60dp"
@@ -101,18 +141,29 @@
         android:textSize="20dp"
         android:textStyle="bold"
         android:gravity="center"
-        />
+        android:background="@color/colorPrimary"
+        android:alpha="0.80"
+        android:textColor="@color/colorWhite"
+        />-->
 
-    <ListView
+
+    <Button
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="8"
-        android:id="@+id/addAssignmentsFragmentListView"
+        android:layout_height="60dp"
+        android:id="@+id/addAssignmentsFragmentBackButton"
+        android:text=" BACK TO SUB MODULE LIST "
+        android:textSize="20dp"
+        android:gravity="center"
+        android:background="@color/colorPrimary"
+        android:alpha="0.60"
+        android:textColor="@color/colorWhite"
+        android:layout_gravity="bottom"
+
+
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="10dp"
         />
-
-
-
-
 
 
 </LinearLayout>

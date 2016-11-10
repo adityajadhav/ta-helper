@@ -4,7 +4,20 @@
     <color name="colorPrimaryDark">#303f9f</color>
     <color name="colorAccent">#FF4081</color>
     <color name="colorBlack">#000000</color>
-    <color name="colorGrey">#b8b49393</color>
+    <color name="colorGrey">#b8494343</color>
     <color name="tableAlter">#80ebeaea</color>
+    <color name="colorWhite">#FFFFFF</color>
+    <color name="colorLightBlue">#6495ed</color>
+    <color name="colorBrightWhite">#fffafa</color>
+    <color name="colorDarkOrange">#ff8c00</color>
+    <color name="colorMaroon">#800000</color>
+    <color name="colorGreen">#008000</color>
+    <color name="colorSilver">#C0C0C0</color>
+    <color name="colorDarkGrey">#A9A9A9</color>
+    <color name="colorMetallicSilver">#BCC6CC</color>
+    <color name="colorDarrkGrey">#2F4F4F</color>
+
+
+
 
 </resources>

@@ -128,7 +128,15 @@
         />
 
 
-
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:id="@+id/editDeleteAssignmentsFragmentBackButton"
+        android:text=" BACK "
+        android:textSize="18dp"
+        android:layout_gravity="bottom"
+        android:layout_marginBottom="20dp"
+        />
 
 
 

@@ -3,26 +3,83 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:weightSum="10">
+    android:weightSum="10"
+    android:background="@color/colorBlack"
+    android:alpha="0.8"
+    >
 
-    <Space
-        android:layout_width="match_parent"
-        android:layout_height="10dp" />
+<!--
+    <ImageView
+        android:layout_marginTop="10dp"
+        android:layout_width="120dp"
+        android:layout_gravity="center"
+        android:background="@drawable/bg_10"
+        android:layout_height="120dp"></ImageView>-->
 
     <Button
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="40dp"
         android:id="@+id/moduleListFragmentButtonView"
         android:text="Add New Module"
         android:textSize="20dp"
         android:gravity="center"
+        android:background="@color/colorMaroon"
+        android:textColor="@color/colorWhite"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="10dp"
         />
 
-<ListView
+    <RelativeLayout
+        android:id="@+id/loadingPanel"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:layout_marginTop="125dp">
+
+        <ProgressBar
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:indeterminate="true"
+            android:indeterminateTint="@color/colorLightBlue"/>
+
+    </RelativeLayout>
+
+    <View android:id="@+id/separator"
+        android:background="@color/colorGrey"
+        android:layout_width = "fill_parent"
+        android:layout_height="4px"
+        android:layout_centerVertical ="true"
+        android:layout_alignParentTop="true"/>
+
+
+    <ListView
     android:layout_width="match_parent"
     android:layout_height="0dp"
     android:layout_weight="10"
     android:id="@+id/moduleListFragmentView"
-    android:paddingTop="20dp"/>
+    android:dividerHeight="4px"
+        android:divider="@color/colorGrey"
+
+
+        />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:id="@+id/moduleListFragmentBackButton"
+        android:text="BACK TO COURSE LIST"
+        android:textSize="20dp"
+        android:layout_gravity="center"
+        android:background="@color/colorMaroon"
+        android:textColor="@color/colorWhite"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+
+        />
 
 </LinearLayout>

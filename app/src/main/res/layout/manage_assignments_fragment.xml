@@ -3,35 +3,78 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:weightSum="10">
+    android:weightSum="10"
+    android:background="@color/colorBlack"
+    android:alpha="0.8">
 
-    <Space
-        android:layout_width="match_parent"
-        android:layout_height="10dp" />
-
-    <TextView
+<!--    <TextView
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:id="@+id/manageAssignmentsFragmentTextView"
         android:textSize="25dp"
         android:gravity="center"
         android:textStyle="bold"
-        />
+        android:background="@color/colorPrimary"
+        android:alpha="0.80"
+        android:textColor="@color/colorWhite"
+        />-->
 
     <Button
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="40dp"
         android:id="@+id/manageAssignmentsFragmentAddAssignmentButton"
         android:text="Add New Assignment"
-        android:textSize="18dp"
+        android:textSize="20dp"
         android:gravity="center"
+        android:background="@color/colorMaroon"
+        android:textColor="@color/colorWhite"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="10dp"
         />
+
+    <RelativeLayout
+        android:id="@+id/loadingPanelManageAssignments"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:layout_marginTop="125dp">
+
+        <ProgressBar
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:indeterminate="true"
+            android:indeterminateTint="@color/colorLightBlue"/>
+
+    </RelativeLayout>
 
     <ListView
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="10"
         android:id="@+id/manageAssignmentsFragmentList"
-        android:paddingTop="20dp"/>
+        android:layout_marginTop="10dp"
+        android:dividerHeight="4px"
+        android:divider="@color/colorGrey"
+    />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:id="@+id/manageAssignmentsFragmentBackButton"
+        android:text="BACK TO MODULE LIST"
+        android:textSize="20dp"
+        android:gravity="center"
+        android:layout_gravity="bottom"
+        android:background="@color/colorMaroon"
+        android:textColor="@color/colorWhite"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        />
+
 
 </LinearLayout>

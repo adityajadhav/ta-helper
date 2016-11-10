@@ -35,4 +35,10 @@ public class AddAssignmentsActivity extends AppCompatActivity implements AddAssi
         intent.putExtra(IntentConstants.MODULE_NAME,moduleName);
         startActivity(intent);
     }
+
+    public void notifyBackEvent(String moduleName){
+        Intent intent = new Intent(this,ManageAssignmentsActivity.class);
+        intent.putExtra(IntentConstants.MODULE_NAME,moduleName);
+        startActivity(intent);
+    }
 }

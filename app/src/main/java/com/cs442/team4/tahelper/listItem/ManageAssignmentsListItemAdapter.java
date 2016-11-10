@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -46,8 +47,8 @@ public class ManageAssignmentsListItemAdapter extends ArrayAdapter<String>{
         }
         final String assignmentContent = getItem(position);
         TextView assignmentName = (TextView) layout.findViewById(R.id.manageAssignmentNameItem);
-        Button manageButton = (Button)layout.findViewById(R.id.manageAsignmentsManageButton);
-        Button scoreButton = (Button)layout.findViewById(R.id.manageAssignmentsScoreButton);
+        ImageButton manageButton = (ImageButton)layout.findViewById(R.id.manageAsignmentsManageButton);
+        ImageButton scoreButton = (ImageButton)layout.findViewById(R.id.manageAssignmentsScoreButton);
 
         manageButton.setOnClickListener(new View.OnClickListener(){
 

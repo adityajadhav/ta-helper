@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +14,7 @@ import android.widget.Button;
 import com.cs442.team4.tahelper.R;
 import com.cs442.team4.tahelper.contants.IntentConstants;
 import com.cs442.team4.tahelper.model.ModuleEntity;
+import com.cs442.team4.tahelper.services.ModuleDatabaseUpdationIntentService;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -26,12 +26,14 @@ public class AddModuleFragment extends Fragment{
 
     private EditText enterModuleNameFragmentView;
     private Button addModuleFragmentView;
+    private Button backButton;
     private DatabaseReference mDatabase;
     private AddModuleFragmentListener addModuleFragmentListener;
 
 
     public interface AddModuleFragmentListener{
         public void addModuleEvent();
+        public void backToModuleList();
     }
 
     @Override
@@ -39,7 +41,15 @@ public class AddModuleFragment extends Fragment{
         LinearLayout layout= (LinearLayout) inflater.inflate(R.layout.add_module_fragment,container,false);
         enterModuleNameFragmentView = (EditText) layout.findViewById(R.id.enterModuleNameFragmentView);
         addModuleFragmentView = (Button)layout.findViewById(R.id.addModuleButtonFragmentView);
+        backButton = (Button) layout.findViewById(R.id.addModuleButtonFragmentViewBackButton);
         mDatabase = FirebaseDatabase.getInstance().getReference();
+
+        backButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                addModuleFragmentListener.backToModuleList();
+            }
+        });
 
         addModuleFragmentView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -76,14 +86,22 @@ public class AddModuleFragment extends Fragment{
                     ModuleEntity.addKeyValue("Final Score",key);
                     addModuleFragmentListener.addModuleEvent();;
 */
-               /*    mDatabase.child("modules").push().child("name").setValue("InClass Assignments");
-                    mDatabase.child("modules").push().child("name").setValue("HW Assignments");
-                    mDatabase.child("modules").push().child("name").setValue("Project");
-                    mDatabase.child("modules").push().child("name").setValue("Exam");
-                    mDatabase.child("modules").push().child("name").setValue("Final Score");*/
+             /*    mDatabase.child("modules").child("InClass Assignments").setValue("");
+                    mDatabase.child("modules").child("HW Assignments").setValue("");
+                    mDatabase.child("modules").child("Project").setValue("");
+                    mDatabase.child("modules").child("Exam").setValue("");
+                    mDatabase.child("modules").child("Final Score").setValue("");*/
                     // key  = mDatabase.push().getKey();
                   //  mDatabase.child("modules").child(key).child("name").setValue(moduleName);
                     mDatabase.child("modules").child(moduleName).setValue("");
+                    ModuleEntity.addModule(moduleName);
+
+
+                    Intent serviceIntent = new Intent(getActivity(), ModuleDatabaseUpdationIntentService.class);
+                    serviceIntent.putExtra(IntentConstants.MODULE_NAME,moduleName);
+                    serviceIntent.putExtra(IntentConstants.MODE,"Add");
+                    getActivity().startService(serviceIntent);
+
                     //ModuleEntity.addKeyValue(moduleName,key);
                     addModuleFragmentListener.addModuleEvent();;
 

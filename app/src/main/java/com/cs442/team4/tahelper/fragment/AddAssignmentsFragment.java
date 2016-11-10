@@ -16,7 +16,11 @@ import android.widget.Toast;
 import com.cs442.team4.tahelper.R;
 import com.cs442.team4.tahelper.contants.IntentConstants;
 import com.cs442.team4.tahelper.listItem.AddAssignmentListItemAdapter;
+import com.cs442.team4.tahelper.model.AssignmentEntity;
 import com.cs442.team4.tahelper.model.AssignmentSplit;
+import com.cs442.team4.tahelper.model.ModuleEntity;
+import com.cs442.team4.tahelper.services.AssignmentsDatabaseUpdationService;
+import com.cs442.team4.tahelper.services.ModuleDatabaseUpdationIntentService;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -40,9 +44,12 @@ public class AddAssignmentsFragment extends Fragment {
     private DatabaseReference mDatabase;
     private String moduleName;
     private AddAssignmentsFragmentListener addAssignmentFragmentListener;
+    private Button backButton;
 
     public interface AddAssignmentsFragmentListener{
         public void notifyAddAssignmentEvent(String moduleName);
+        public void notifyBackEvent(String moduleName);
+
     }
 
 
@@ -57,10 +64,18 @@ public class AddAssignmentsFragment extends Fragment {
         addAssignment = (Button) layout.findViewById(R.id.addAssignmentsFragmentAddButton);
         assignmentName = (EditText) layout.findViewById(R.id.addAssignmentsFragmentTextView);
         assignmentTotalScore = (EditText) layout.findViewById(R.id.addAssignmentFragmentTotalScore);
+        backButton = (Button) layout.findViewById(R.id.addAssignmentsFragmentBackButton);
         assignmentSplitsList = new ArrayList<AssignmentSplit>();
         assignmentAdapter = new AddAssignmentListItemAdapter(getActivity(),R.layout.add_assignments_item_layout,assignmentSplitsList);
         splitList.setAdapter(assignmentAdapter);
         mDatabase = FirebaseDatabase.getInstance().getReference("modules");
+
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                 addAssignmentFragmentListener.notifyBackEvent(moduleName);;
+            }
+        });
 
         addSplitButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -69,6 +84,7 @@ public class AddAssignmentsFragment extends Fragment {
                      assignmentSplitsList.add(new AssignmentSplit(splitName.getText().toString(),Integer.parseInt(splitScore.getText().toString())));
                      splitName.setText("");
                      splitScore.setText("");
+
                      assignmentAdapter.notifyDataSetChanged();
                 }else{
                     Toast.makeText(getActivity(),"Please enter both split name, score and try again.",Toast.LENGTH_LONG).show();
@@ -87,15 +103,46 @@ public class AddAssignmentsFragment extends Fragment {
 
     private void handleAddAssignment() {
         if(assignmentName.getText()!=null && assignmentName.getText().length()>0 && assignmentTotalScore.getText()!=null && assignmentTotalScore.getText().length()>0){
-           mDatabase.child(moduleName).child(assignmentName.getText().toString()).child("Total").setValue(assignmentTotalScore.getText().toString());
-           for(int i = 0 ; i <assignmentSplitsList.size();i++){
-               AssignmentSplit split = assignmentSplitsList.get(i);
-               mDatabase.child(moduleName).child(assignmentName.getText().toString()).child("Splits").child(split.getSplitName()).setValue(String.valueOf(split.getSplitScore()));
-           }
-            addAssignmentFragmentListener.notifyAddAssignmentEvent(moduleName);
+            if(validateTotal()){
+                mDatabase.child(moduleName).child(assignmentName.getText().toString()).child("Total").setValue(assignmentTotalScore.getText().toString());
+                for (int i = 0; i < assignmentSplitsList.size(); i++) {
+                    AssignmentSplit split = assignmentSplitsList.get(i);
+                    mDatabase.child(moduleName).child(assignmentName.getText().toString()).child("Splits").child(split.getSplitName()).setValue(String.valueOf(split.getSplitScore()));
+                }
+
+                Intent serviceIntent = new Intent(getActivity(), AssignmentsDatabaseUpdationService.class);
+                serviceIntent.putExtra(IntentConstants.MODULE_NAME, moduleName);
+                serviceIntent.putExtra(IntentConstants.ASSIGNMENT_NAME, assignmentName.getText().toString());
+                serviceIntent.putExtra(IntentConstants.TOTAL, assignmentTotalScore.getText().toString());
+                serviceIntent.putExtra(IntentConstants.SPLIT, assignmentSplitsList);
+                serviceIntent.putExtra(IntentConstants.MODE, "Add");
+                getActivity().startService(serviceIntent);
+
+                ModuleEntity.addAssignments(moduleName,new AssignmentEntity(assignmentName.getText().toString(),assignmentTotalScore.getText().toString(),assignmentSplitsList));
+                addAssignmentFragmentListener.notifyAddAssignmentEvent(moduleName);
+            }else {
+                Toast.makeText(getActivity(),"Total count does not match with Sum of Splits.Please correct it and try again.",Toast.LENGTH_LONG).show();
+            }
         }else{
             Toast.makeText(getActivity(),"Please enter both assignment name, total score and try again.",Toast.LENGTH_LONG).show();
         }
+    }
+
+    private boolean validateTotal() {
+        boolean isValid = false;
+        int total = Integer.parseInt(assignmentTotalScore.getText().toString());
+        if(assignmentSplitsList.size()==0){
+            isValid = true;
+        }else {
+            int splitTotal = 0;
+            for (int i = 0; i < assignmentSplitsList.size(); i++) {
+                AssignmentSplit split = assignmentSplitsList.get(i);
+                splitTotal+= split.getSplitScore();
+
+            }
+            isValid = (total==splitTotal)?true:false;
+        }
+        return isValid;
     }
 
     public void deleteSplit(AssignmentSplit split) {
@@ -106,6 +153,7 @@ public class AddAssignmentsFragment extends Fragment {
     public void initialise(Intent intent) {
         if(intent!=null && intent.getStringExtra(IntentConstants.MODULE_NAME)!=null){
             moduleName = intent.getStringExtra(IntentConstants.MODULE_NAME);
+            backButton.setText(" BACK TO "+moduleName+" MODULE LIST");
         }
     }
 
