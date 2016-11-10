@@ -48,8 +48,12 @@ public class ModuleListActivity  extends AppCompatActivity implements ModuleList
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.module_list_activity);
+        drawerCode();
 
 
+    }
+
+    private void drawerCode() {
         mDrawerList = (ListView) findViewById(R.id.left_drawer_module_list);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout_module_list);
 
@@ -99,6 +103,8 @@ public class ModuleListActivity  extends AppCompatActivity implements ModuleList
         Intent intent = new Intent(this, EditDeleteModuleActivity.class);
         intent.putExtra(IntentConstants.MODULE_NAME, moduleName);
         startActivity(intent);
+        overridePendingTransition(R.anim.right_slide_in, R.anim.right_slide_out);
+
     }
 
     public void onModuleItemClickedManage(String moduleName) {
@@ -113,7 +119,7 @@ public class ModuleListActivity  extends AppCompatActivity implements ModuleList
      /*   ActivityOptions options = ActivityOptions.makeScaleUpAnimation(view, 0,
                 0, view.getWidth(), view.getHeight());*/
         startActivity(intent);
-        overridePendingTransition(R.anim.left_slide_in, R.anim.left_slide_out);
+        overridePendingTransition(R.anim.right_slide_in, R.anim.right_slide_out);
     }
 
     private class DrawerItemClickListener implements ListView.OnItemClickListener {

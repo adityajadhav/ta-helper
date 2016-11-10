@@ -7,8 +7,8 @@ android:toDegrees="360">
 
     <size android:width="76dip" android:height="76dip" />
     <gradient android:type="sweep" android:useLevel="false"
-        android:startColor="#6495ed"
-        android:endColor="#6495ed"
+        android:startColor="#800000"
+        android:endColor="#800000"
         android:angle="0"
         />
 </shape>

@@ -48,7 +48,7 @@ public class ManageAssignmentsListItemAdapter extends ArrayAdapter<String>{
         final String assignmentContent = getItem(position);
         TextView assignmentName = (TextView) layout.findViewById(R.id.manageAssignmentNameItem);
         ImageButton manageButton = (ImageButton)layout.findViewById(R.id.manageAsignmentsManageButton);
-        Button scoreButton = (Button)layout.findViewById(R.id.manageAssignmentsScoreButton);
+        ImageButton scoreButton = (ImageButton)layout.findViewById(R.id.manageAssignmentsScoreButton);
 
         manageButton.setOnClickListener(new View.OnClickListener(){
 

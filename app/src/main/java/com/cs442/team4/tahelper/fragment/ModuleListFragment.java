@@ -93,47 +93,10 @@ public class ModuleListFragment extends Fragment{
             }
         });
        // registerListChangeListener();
-
-        swipeDeletionListView();
         loadPredefinedModules();
         return view;
     }
 
-    private void swipeDeletionListView() {
-      /*  moduleListView.setOnDragListener(new View.OnDragListener(){
-
-            @Override
-            public boolean onDrag(View v, DragEvent event) {
-                return false;
-            }
-        });*/
-   /*     moduleListView.setOnTouchListener(new View.OnTouchListener(){
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                switch (event.getAction()) {
-                    case MotionEvent.ACTION_DOWN:
-                        historicX = event.getX();
-                        historicY = event.getY();
-                        break;
-
-                    case MotionEvent.ACTION_UP:
-                        if (event.getX() - historicX < -DELTA) {
-                           // FunctionDeleteRowWhenSlidingLeft();
-                            return true;
-                        }
-                        else if (event.getX() - historicX > DELTA) {
-                            //FunctionDeleteRowWhenSlidingRight();
-                            return true;
-                        }
-                        break;
-
-                    default:
-                        return false;
-                }
-                return false;
-            }
-        });*/
-    }
 
     private void registerListChangeListener() {
         mDatabase.child("modules").addChildEventListener(new ChildEventListener() {
@@ -271,7 +234,7 @@ public class ModuleListFragment extends Fragment{
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        SharedPreferences  prefs = getActivity().getSharedPreferences("com.cs442.team4.tahelper", MODE_PRIVATE);
+        SharedPreferences  prefs = getActivity().getSharedPreferences("com.cs442.team4.tahelper.ModuleListFragment", MODE_PRIVATE);
         boolean isFirstRun = prefs.getBoolean("firstrun", true);
         if (isFirstRun)
         {
@@ -283,7 +246,6 @@ public class ModuleListFragment extends Fragment{
     }
 
     private void showFirstShowCase(){
-
         new ShowcaseView.Builder(getActivity())
                 .withMaterialShowcase()
                 .setStyle(R.style.CustomShowcaseTheme2)
@@ -325,7 +287,7 @@ public class ModuleListFragment extends Fragment{
                 .setStyle(R.style.CustomShowcaseTheme2)
                 .setTarget(new ViewTarget(moduleListView.getChildAt(0).findViewById(R.id.editModuleButtonView)))
                 .hideOnTouchOutside()
-                .setContentTitle("Click to edit the sub module details.")
+                .setContentTitle("Click to edit the module details.")
                 .setShowcaseEventListener(new SimpleShowcaseEventListener() {
 
                     @Override
@@ -362,14 +324,6 @@ public class ModuleListFragment extends Fragment{
                 .setTarget(new ViewTarget(((ModuleListActivity)getActivity()).mDrawerLayout))
                 .hideOnTouchOutside()
                 .setContentTitle("Swipe from left to launch drawer with navigation options.")
-                .setShowcaseEventListener(new SimpleShowcaseEventListener() {
-
-                    @Override
-                    public void onShowcaseViewDidHide(ShowcaseView showcaseView) {
-                        //showFifthShowCase();
-                    }
-
-                })
                 .build();
 
 

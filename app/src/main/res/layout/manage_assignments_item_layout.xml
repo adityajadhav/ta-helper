@@ -21,26 +21,29 @@
     <TextView
         android:layout_height="match_parent"
         android:layout_width="0dp"
-        android:layout_weight="3"
+        android:layout_weight="10"
         android:id="@+id/manageAssignmentNameItem"
-        android:textSize="25dp"
+        android:textSize="18dp"
+        android:textAlignment="center"
         android:gravity="center_vertical"
         android:layout_marginLeft="10dp"
-        android:textColor="@color/colorBlack"
+        android:textColor="@color/colorWhite"
         />
 
-    <Button
+    <Space
+        android:layout_width="2dp"
+        android:layout_height="match_parent" />
+
+
+
+    <ImageButton
         android:layout_height="match_parent"
-        android:layout_width="0dp"
-        android:layout_weight="3"
+        android:layout_width="60dp"
         android:id="@+id/manageAssignmentsScoreButton"
-        android:text="Grade"
-        android:background="@color/colorPrimary"
-        android:alpha="0.60"
-        android:textColor="@color/colorWhite"
-        android:layout_marginRight="10dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp"
-        android:textSize="15dp"/>
+        android:background="@drawable/manage"
+        android:layout_marginRight="15dp"
+        android:scaleType="fitCenter"
+        android:layout_marginBottom="5dp"
+        android:layout_marginTop="5dp"/>
 
 </LinearLayout>
