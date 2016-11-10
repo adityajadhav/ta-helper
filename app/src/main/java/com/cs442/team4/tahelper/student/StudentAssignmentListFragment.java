@@ -72,34 +72,169 @@ public class StudentAssignmentListFragment extends ListFragment {
         setListAdapter(studentAssignmentListAdapter);
 
         loadFromDatabase();
+        //getMaxPointsFromDatabase();
 
         return myFragmentView;
     }
 
+    //Not in use now. Old logic for fetching maxPoints
+    private void getMaxPointsFromDatabase()
+    {
+        mDatabase.child("modulesNew").child(courseName).child(moduleName).push();
+
+        mDatabase.child("modulesNew").child(courseName).child(moduleName).addValueEventListener(new ValueEventListener() {
+
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                int i = assignmentsArraylist.size();
+
+                for (DataSnapshot postSnapshot: dataSnapshot.getChildren())
+                {
+                    if(moduleName.equals("Assignments"))
+                    {
+                        Double score = 0.0;
+                        score = (Double) postSnapshot.child("score").getValue();
+
+                        assignmentsArraylist.get(i).setMaximumPoints(score);
+                        i++;
+                    }
+
+                }
+
+                studentAssignmentListAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.d("ModuleListFragment : "," Read cancelled due to "+databaseError.getMessage());
+            }
+        });
+
+    }
+
     private void loadFromDatabase() {
+
+        //getMaxPointsFromDatabase();
+
         mDatabase.child("students").child(studentId).child(courseName).child(moduleName).push();
 
         mDatabase.child("students").child(studentId).child(courseName).child(moduleName).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
 
+                //int i=0;
+
                 assignmentsArraylist.removeAll(assignmentsArraylist);
                 for (DataSnapshot postSnapshot: dataSnapshot.getChildren())
                 {
+                    Long childrenCount = 0L;
+                    childrenCount = (Long) postSnapshot.child("Splits").getChildrenCount();
+
+                    Double maxPoints = 0.0;
+
                     if(!assignmentsArraylist.contains(postSnapshot.getKey()))
                     {
+                        String score = (String) postSnapshot.child("Total").getValue();
+
+                        Assignment assignment = new Assignment();
+                        assignment.setName((String)postSnapshot.getKey());
+                        assignment.setGainedPoints(Double.parseDouble(score));
+
+                        //This value we will have to fetch from other root database from firebase
+                        //Or include in the 'students' root database
+                        //assignment.setMaximumPoints(maxPoints);
+
+                        if(childrenCount==0)
+                        {
+                            assignment.setHasSplits(false);
+                        }
+
+                        assignmentsArraylist.add(assignment);
+
+                        //For fetching maximum points
+                        //mDatabase.child("modules").child(courseName).child(moduleName).push();
+                        mDatabase.child("modules").child(moduleName).push();
+                        mDatabase.child("modules").child(moduleName).addValueEventListener(new ValueEventListener() {
+
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                                int i = 0;
+
+                                for (DataSnapshot postSnapshot: dataSnapshot.getChildren())
+                                {
+                                    if(i<assignmentsArraylist.size())
+                                    {
+                                        String score = "";
+                                        score = (String) postSnapshot.child("Total").getValue();
+
+                                        assignmentsArraylist.get(i).setMaximumPoints(Double.parseDouble(score));
+                                        i++;
+                                    }
+
+                                }
+
+                                studentAssignmentListAdapter.notifyDataSetChanged();
+                            }
+
+                            @Override
+                            public void onCancelled(DatabaseError databaseError) {
+                                Log.d("ModuleListFragment : "," Read cancelled due to "+databaseError.getMessage());
+                            }
+                        });
+
+                        //Old code for fetching module items and their marks. Above code is dynamic
+                        //But will not work for stuff like 'Final Grade' where value is a String for e.g: 'B'
+                        /*
                         if(moduleName.equals("Assignments"))
                         {
-                            Long score = (Long) postSnapshot.child("score").getValue();
+                            String score = (String) postSnapshot.child("Total").getValue();
 
                             Assignment assignment = new Assignment();
                             assignment.setName((String)postSnapshot.getKey());
-                            assignment.setGainedPoints(score);
+                            assignment.setGainedPoints(Long.parseLong(score));
 
                             //This value we will have to fetch from other root database from firebase
                             //Or include in the 'students' root database
-                            assignment.setMaximumPoints(10L);
+                            //assignment.setMaximumPoints(maxPoints);
+
+                            if(childrenCount==0)
+                            {
+                                assignment.setHasSplits(false);
+                            }
+
                             assignmentsArraylist.add(assignment);
+
+                            //For fetching maximum points
+                            //mDatabase.child("modules").child(courseName).child(moduleName).push();
+                            mDatabase.child("modules").child(moduleName).push();
+                            mDatabase.child("modules").child(moduleName).addValueEventListener(new ValueEventListener() {
+
+                                @Override
+                                public void onDataChange(DataSnapshot dataSnapshot) {
+
+                                    int i = 0;
+
+                                    for (DataSnapshot postSnapshot: dataSnapshot.getChildren())
+                                    {
+                                            String score = "";
+                                        score = (String) postSnapshot.child("Total").getValue();
+
+                                            assignmentsArraylist.get(i).setMaximumPoints(Long.parseLong(score));
+                                            i++;
+                                    }
+
+                                    studentAssignmentListAdapter.notifyDataSetChanged();
+                                }
+
+                                @Override
+                                public void onCancelled(DatabaseError databaseError) {
+                                    Log.d("ModuleListFragment : "," Read cancelled due to "+databaseError.getMessage());
+                                }
+                            });
+
+
                         }
                         if(moduleName.equals("Exams"))
                         {
@@ -109,9 +244,42 @@ public class StudentAssignmentListFragment extends ListFragment {
 
                             //This value we will have to fetch from other root database from firebase
                             //Or include in the 'students' root database
-                            assignment.setMaximumPoints(10L);
+                            //assignment.setMaximumPoints(maxPoints);
+
+                            if(childrenCount==0)
+                            {
+                                assignment.setHasSplits(false);
+                            }
 
                             assignmentsArraylist.add(assignment);
+
+                            //For fetching maximum points
+                            mDatabase.child("modulesNew").child(courseName).child(moduleName).push();
+                            mDatabase.child("modulesNew").child(courseName).child(moduleName).addValueEventListener(new ValueEventListener() {
+
+                                @Override
+                                public void onDataChange(DataSnapshot dataSnapshot) {
+
+                                    int i = 0;
+
+                                    for (DataSnapshot postSnapshot: dataSnapshot.getChildren())
+                                    {
+                                        Long score = 0L;
+                                        score = (Long) postSnapshot.getValue();
+
+                                        assignmentsArraylist.get(i).setMaximumPoints(score);
+                                        i++;
+                                    }
+
+                                    studentAssignmentListAdapter.notifyDataSetChanged();
+                                }
+
+                                @Override
+                                public void onCancelled(DatabaseError databaseError) {
+                                    Log.d("ModuleListFragment : "," Read cancelled due to "+databaseError.getMessage());
+                                }
+                            });
+
                         }
 
                         if(moduleName.equals("Final Grades"))
@@ -131,9 +299,45 @@ public class StudentAssignmentListFragment extends ListFragment {
 
                             //This value we will have to fetch from other root database from firebase
                             //Or include in the 'students' root database
-                            assignment.setMaximumPoints(10L);
+                            //assignment.setMaximumPoints(maxPoints);
+
+                            if(childrenCount==0)
+                            {
+                                assignment.setHasSplits(false);
+                            }
 
                             assignmentsArraylist.add(assignment);
+
+                            //For fetching maximum points
+                            mDatabase.child("modulesNew").child(courseName).child(moduleName).push();
+                            mDatabase.child("modulesNew").child(courseName).child(moduleName).addValueEventListener(new ValueEventListener() {
+
+                                @Override
+                                public void onDataChange(DataSnapshot dataSnapshot) {
+
+                                    int i = 0;
+
+                                    for (DataSnapshot postSnapshot: dataSnapshot.getChildren())
+                                    {
+                                        if(!postSnapshot.getKey().equals("grade"))
+                                        {
+                                            Long score = 0L;
+                                            score = (Long) postSnapshot.getValue();
+
+                                            assignmentsArraylist.get(i).setMaximumPoints(score);
+                                        }
+                                        i++;
+
+                                    }
+
+                                    studentAssignmentListAdapter.notifyDataSetChanged();
+                                }
+
+                                @Override
+                                public void onCancelled(DatabaseError databaseError) {
+                                    Log.d("ModuleListFragment : "," Read cancelled due to "+databaseError.getMessage());
+                                }
+                            });
                         }
 
                         if(moduleName.equals("In-Class Assignments"))
@@ -146,8 +350,42 @@ public class StudentAssignmentListFragment extends ListFragment {
 
                             //This value we will have to fetch from other root database from firebase
                             //Or include in the 'students' root database
-                            assignment.setMaximumPoints(10L);
+                            //assignment.setMaximumPoints(maxPoints);
+
+                            if(childrenCount==0)
+                            {
+                                assignment.setHasSplits(false);
+                            }
+
                             assignmentsArraylist.add(assignment);
+
+                            //For fetching maximum points
+                            mDatabase.child("modulesNew").child(courseName).child(moduleName).push();
+                            mDatabase.child("modulesNew").child(courseName).child(moduleName).addValueEventListener(new ValueEventListener() {
+
+                                @Override
+                                public void onDataChange(DataSnapshot dataSnapshot) {
+
+                                    int i = 0;
+
+                                    for (DataSnapshot postSnapshot: dataSnapshot.getChildren())
+                                    {
+                                        Long score = 0L;
+                                        score = (Long) postSnapshot.getValue();
+
+                                        assignmentsArraylist.get(i).setMaximumPoints(score);
+                                        i++;
+                                    }
+
+                                    studentAssignmentListAdapter.notifyDataSetChanged();
+                                }
+
+                                @Override
+                                public void onCancelled(DatabaseError databaseError) {
+                                    Log.d("ModuleListFragment : "," Read cancelled due to "+databaseError.getMessage());
+                                }
+                            });
+
                         }
 
                         if(moduleName.equals("Project"))
@@ -160,9 +398,45 @@ public class StudentAssignmentListFragment extends ListFragment {
 
                             //This value we will have to fetch from other root database from firebase
                             //Or include in the 'students' root database
-                            assignment.setMaximumPoints(10L);
+                            //assignment.setMaximumPoints(maxPoints);
+
+                            if(childrenCount==0)
+                            {
+                                assignment.setHasSplits(false);
+                            }
+
                             assignmentsArraylist.add(assignment);
+
+                            //For fetching maximum points
+                            mDatabase.child("modulesNew").child(courseName).child(moduleName).push();
+                            mDatabase.child("modulesNew").child(courseName).child(moduleName).addValueEventListener(new ValueEventListener() {
+
+                                @Override
+                                public void onDataChange(DataSnapshot dataSnapshot) {
+
+                                    int i = 0;
+
+                                    for (DataSnapshot postSnapshot: dataSnapshot.getChildren())
+                                    {
+                                        Long score = 0L;
+                                        score = (Long) postSnapshot.child("score").getValue();
+
+                                        assignmentsArraylist.get(i).setMaximumPoints(score);
+                                        i++;
+                                    }
+
+                                    studentAssignmentListAdapter.notifyDataSetChanged();
+                                }
+
+                                @Override
+                                public void onCancelled(DatabaseError databaseError) {
+                                    Log.d("ModuleListFragment : "," Read cancelled due to "+databaseError.getMessage());
+                                }
+                            });
+
                         }
+
+                        */
 
                     }
                 }
@@ -175,7 +449,6 @@ public class StudentAssignmentListFragment extends ListFragment {
             }
         });
 
-
     }
 
     @Override
@@ -184,7 +457,7 @@ public class StudentAssignmentListFragment extends ListFragment {
         Assignment assignment =  (Assignment) getListView().getItemAtPosition(position);
         String moduleItem = assignment.getName();
 
-        if(checkForSplits(moduleItem)==true)
+        if(assignment.getHasSplits()==true)
         {
             onAssignmentClickListener.showAssignmentSplits(courseName, studentId, moduleName, moduleItem);
         }
@@ -207,48 +480,5 @@ public class StudentAssignmentListFragment extends ListFragment {
                     " must implement OnStudentClickListener");
         }
     }
-
-    private boolean checkForSplits(String moduleItem)
-    {
-        checkForSplitsArray = new ArrayList<Split>();
-        boolean hasSplits = true;
-
-        mDatabase.child("students").child(studentId).child(courseName).child(moduleName).child(moduleItem).child("splits").push();
-
-        mDatabase.child("students").child(studentId).child(courseName).child(moduleName).child(moduleItem).child("splits").addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-
-                checkForSplitsArray.removeAll(checkForSplitsArray);
-                for (DataSnapshot postSnapshot: dataSnapshot.getChildren())
-                {
-                    if(!checkForSplitsArray.contains(postSnapshot.getKey()))
-                    {
-                        String splitName = (String) postSnapshot.getKey();
-                        Long gainedPoints = (Long) postSnapshot.getValue();
-
-                        Split split = new Split(moduleName, splitName, 10L, gainedPoints);
-                        checkForSplitsArray.add(split);
-
-                        Log.d("checkForSplitsArray : "," "+checkForSplitsArray);
-                    }
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                Log.d("ModuleListFragment : "," Read cancelled due to "+databaseError.getMessage());
-            }
-        });
-
-        if(checkForSplitsArray.isEmpty())
-        {
-            hasSplits=true;
-        }
-
-        Log.d("checkForSplitsArray : "," for module:"+moduleItem+" : "+checkForSplitsArray);
-        return  hasSplits;
-    }
-
 
 }

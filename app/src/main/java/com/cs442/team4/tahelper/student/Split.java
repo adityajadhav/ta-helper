@@ -8,10 +8,10 @@ public class Split {
 
     private String assignmentName;
     private String splitName;
-    private Long splitMaximumPoints;
-    private Long splitGainedPoints;
+    private Double splitMaximumPoints;
+    private Double splitGainedPoints;
 
-    public Split(String assignmentName, String splitName, Long splitMaximumPoints, Long splitGainedPoints) {
+    public Split(String assignmentName, String splitName, Double splitMaximumPoints, Double splitGainedPoints) {
         this.assignmentName = assignmentName;
         this.splitName = splitName;
         this.splitMaximumPoints = splitMaximumPoints;
@@ -34,19 +34,19 @@ public class Split {
         this.splitName = splitName;
     }
 
-    public Long getSplitMaximumPoints() {
+    public Double getSplitMaximumPoints() {
         return splitMaximumPoints;
     }
 
-    public void setSplitMaximumPoints(Long splitMaximumPoints) {
+    public void setSplitMaximumPoints(Double splitMaximumPoints) {
         this.splitMaximumPoints = splitMaximumPoints;
     }
 
-    public Long getSplitGainedPoints() {
+    public Double getSplitGainedPoints() {
         return splitGainedPoints;
     }
 
-    public void setSplitGainedPoints(Long splitGainedPoints) {
+    public void setSplitGainedPoints(Double splitGainedPoints) {
         this.splitGainedPoints = splitGainedPoints;
     }
 

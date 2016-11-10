@@ -24,8 +24,6 @@ public class CourseActivity extends AppCompatActivity implements add_course_frag
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_course);
 
-
-
        final ManageCourseFragment newManageCourseFragment = new ManageCourseFragment();
 
         newManageCourseFragment.setStudentListInterface(new ManageCourseFragment.CallStudentListInterface() {
@@ -101,11 +99,6 @@ public class CourseActivity extends AppCompatActivity implements add_course_frag
         ft.replace(R.id.course_activity_frame_layout,cl,"course_list_fragment");
      //   ft.replace(R.id.course_activity_frame_layout,course_list,"course_list_fragment");
         ft.commit();
-
-
-
-
-
     }
 
     @Override
@@ -118,7 +111,5 @@ public class CourseActivity extends AppCompatActivity implements add_course_frag
         fm.popBackStack();
         ft.commit();
     }
-
-
 
 }
