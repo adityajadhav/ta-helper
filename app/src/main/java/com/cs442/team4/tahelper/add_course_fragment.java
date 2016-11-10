@@ -28,7 +28,7 @@ public class add_course_fragment extends Fragment {
     String courseId = null;
     String fragmentHeading = "Add Course";
     String buttonLabel = "ADd Course";
-
+    String old_course_id = null;
     public interface OnFinishAddCourseInterface {
         public void closeAddCourseFragment();
     }
@@ -106,6 +106,7 @@ public class add_course_fragment extends Fragment {
 
                             course_name_tv.setText(c_name);
                             course_id_tv.setText(c_id);
+                            old_course_id =  c_id;
                             professor_FN_tv.setText(c_p_first);
                             professor_LN_tv.setText(c_p_last);
                             professor_UN_tv.setText(c_p_un);
@@ -143,6 +144,12 @@ public class add_course_fragment extends Fragment {
                 final String professor_UN = professor_UN_tv.getText().toString();
                 final String professor_email = professor_email_tv.getText().toString();
                 final String ta_email = ta_email_tv.getText().toString();
+                if(smode.equals("edit"))
+                {
+                    myRef.child(old_course_id).removeValue();
+                }
+
+
 
 
                 Course_Entity ce = new Course_Entity(course_name, course_id, professor_FN, professor_LN, professor_email, professor_UN, ta_email);

@@ -1,8 +1,8 @@
 package com.cs442.team4.tahelper.fragment;
 
+import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,6 +30,8 @@ public class BcastNotificationFragment extends Fragment {
     private String TAG = "team4";
     private ArrayList<Student_Entity> studentList;
 
+    public final static String MODULE_NAME = "BcastNotification";
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.broadcast_email, container, false);
@@ -48,21 +50,25 @@ public class BcastNotificationFragment extends Fragment {
 
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Intent.ACTION_SENDTO);
-                intent.setType("text/plain");
+
+                Intent intent = new Intent(Intent.ACTION_SEND);
+                intent.setType("plain/text");
                 // TODO Get all students email ids
+
                 intent.putExtra(Intent.EXTRA_EMAIL, new String[]{"ajadhav4@hawk.iit.edu"});
                 intent.putExtra(Intent.EXTRA_SUBJECT, subjectEdtTxt.getText());
                 intent.putExtra(Intent.EXTRA_TEXT, bodyEdtTxt.getText());
-                //intent.setData(Uri.parse("mailto:ajadhav4@hawk.iit.edu")); // or just "mailto:" for blank
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK); // this will make such that when user returns to your app, your app is displayed, instead of the email app.
-                startActivity(intent);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(Intent.createChooser(intent, ""));
 
             }
         });
         return view;
 
     }
+
+
+
 
     private void fetchStudents(String courceId) {
         // TODO filter by  courceId
