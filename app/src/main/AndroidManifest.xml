@@ -3,6 +3,8 @@
     package="com.cs442.team4.tahelper">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
 
     <application
         android:allowBackup="true"
@@ -31,6 +33,7 @@
         <activity android:name=".student.StudentAssignmentListActivity"></activity>
         <activity android:name=".student.StudentAssignmentSplitsListActivity"></activity>
         <activity android:name=".student.StudentListActivity"></activity>
+        <activity android:name=".showcase.ActionItemsSampleActivity" android:theme="@style/Theme.AppCompat.Light.NoActionBar"></activity>
         <activity android:name=".preferences.MyPreferenceActivity" android:theme="@style/PreferencesTheme"></activity>
 
 

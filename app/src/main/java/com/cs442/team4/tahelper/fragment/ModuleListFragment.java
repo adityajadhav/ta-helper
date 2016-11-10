@@ -2,7 +2,10 @@ package com.cs442.team4.tahelper.fragment;
 
 import android.app.Activity;
 import android.app.Fragment;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
+import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.DragEvent;
 import android.view.LayoutInflater;
@@ -14,22 +17,29 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 
 import com.cs442.team4.tahelper.R;
+import com.cs442.team4.tahelper.activity.ModuleListActivity;
 import com.cs442.team4.tahelper.listItem.ModuleListItemAdapter;
 import com.cs442.team4.tahelper.model.AssignmentEntity;
 import com.cs442.team4.tahelper.model.AssignmentSplit;
 import com.cs442.team4.tahelper.model.ModuleEntity;
+import com.github.amlcurran.showcaseview.ShowcaseView;
+import com.github.amlcurran.showcaseview.SimpleShowcaseEventListener;
+import com.github.amlcurran.showcaseview.targets.ViewTarget;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.cs442.team4.tahelper.showcase.StandardShowcaseDrawer;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
+
+import static android.content.Context.MODE_PRIVATE;
 
 /**
  * Created by sowmyaparameshwara on 10/30/16.
@@ -54,8 +64,8 @@ public class ModuleListFragment extends Fragment{
 
 
     public interface ModuleListFragmentListener{
-        public void addNewModuleEvent();
-        public void notifyBackButtonEvent();
+        public void addNewModuleEvent(View view);
+        public void notifyBackButtonEvent(View view);
 
     }
 
@@ -72,14 +82,14 @@ public class ModuleListFragment extends Fragment{
         backButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                moduleListFragmentListener.notifyBackButtonEvent();
+                moduleListFragmentListener.notifyBackButtonEvent(backButton);
             }
         });
 
         addModuleButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                moduleListFragmentListener.addNewModuleEvent();
+                moduleListFragmentListener.addNewModuleEvent(addModuleButton);
             }
         });
        // registerListChangeListener();
@@ -256,5 +266,128 @@ public class ModuleListFragment extends Fragment{
                     " must implement OnNewItemAddedListener");
         }
     }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+        SharedPreferences  prefs = getActivity().getSharedPreferences("com.cs442.team4.tahelper", MODE_PRIVATE);
+        boolean isFirstRun = prefs.getBoolean("firstrun", true);
+        if (isFirstRun)
+        {
+            prefs.edit().putBoolean("firstrun", false).commit();
+            showFirstShowCase();
+        }
+
+
+    }
+
+    private void showFirstShowCase(){
+
+        new ShowcaseView.Builder(getActivity())
+                .withMaterialShowcase()
+                .setStyle(R.style.CustomShowcaseTheme2)
+                .setTarget(new ViewTarget(addModuleButton))
+                .hideOnTouchOutside()
+                .setContentTitle("Click the button to add a new module.")
+                .setShowcaseEventListener(new SimpleShowcaseEventListener() {
+
+                    @Override
+                    public void onShowcaseViewDidHide(ShowcaseView showcaseView) {
+                        showSecondShowCase();
+                    }
+
+                })
+                .build();
+    }
+
+    private void showSecondShowCase() {
+        new ShowcaseView.Builder(getActivity())
+                .withMaterialShowcase()
+                .setStyle(R.style.CustomShowcaseTheme2)
+                .setTarget(new ViewTarget(backButton))
+                .hideOnTouchOutside()
+                .setContentTitle("Click the button to go back to course list.")
+                .setShowcaseEventListener(new SimpleShowcaseEventListener() {
+
+                    @Override
+                    public void onShowcaseViewDidHide(ShowcaseView showcaseView) {
+                      showThirdShowCase();
+                    }
+
+                })
+                .build();
+    }
+
+    private void showThirdShowCase() {
+        new ShowcaseView.Builder(getActivity())
+                .withMaterialShowcase()
+                .setStyle(R.style.CustomShowcaseTheme2)
+                .setTarget(new ViewTarget(moduleListView.getChildAt(0).findViewById(R.id.editModuleButtonView)))
+                .hideOnTouchOutside()
+                .setContentTitle("Click to edit the sub module details.")
+                .setShowcaseEventListener(new SimpleShowcaseEventListener() {
+
+                    @Override
+                    public void onShowcaseViewDidHide(ShowcaseView showcaseView) {
+                       showFourthShowCase();
+                    }
+
+                })
+                .build();
+    }
+
+    private void showFourthShowCase() {
+        new ShowcaseView.Builder(getActivity())
+                .withMaterialShowcase()
+                .setStyle(R.style.CustomShowcaseTheme2)
+                .setTarget(new ViewTarget(moduleListView.getChildAt(0).findViewById(R.id.manageModuleButtonView)))
+                .hideOnTouchOutside()
+                .setContentTitle("Click to see the sub modules of this module.")
+                .setShowcaseEventListener(new SimpleShowcaseEventListener() {
+
+                    @Override
+                    public void onShowcaseViewDidHide(ShowcaseView showcaseView) {
+                        showFifthShowCase();
+                    }
+
+                })
+                .build();
+    }
+
+    private void showFifthShowCase() {
+        new ShowcaseView.Builder(getActivity())
+                .withMaterialShowcase()
+                .setStyle(R.style.CustomShowcaseTheme2)
+                .setTarget(new ViewTarget(((ModuleListActivity)getActivity()).mDrawerLayout))
+                .hideOnTouchOutside()
+                .setContentTitle("Swipe from left to launch drawer with navigation options.")
+                .setShowcaseEventListener(new SimpleShowcaseEventListener() {
+
+                    @Override
+                    public void onShowcaseViewDidHide(ShowcaseView showcaseView) {
+                        //showFifthShowCase();
+                    }
+
+                })
+                .build();
+
+
+
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 }

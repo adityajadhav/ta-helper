@@ -1,12 +1,16 @@
 package com.cs442.team4.tahelper;
 
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.cs442.team4.tahelper.activity.ModuleListActivity;
 import com.cs442.team4.tahelper.model.User;
@@ -40,6 +44,12 @@ public class MainActivity extends AppCompatActivity implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login_activity);
+        if(!isNetworkAvailable()){
+            Toast.makeText(this," Please Switch On Your Internet ",Toast.LENGTH_LONG).show();
+            Intent intent = new Intent(Intent.ACTION_MAIN);
+            intent.setClassName("com.android.settings", "com.android.settings.Settings$DataUsageSummaryActivity");
+            startActivity(intent);
+        }
 
         mDatabase = FirebaseDatabase.getInstance().getReference();
         // Views
@@ -242,4 +252,12 @@ public class MainActivity extends AppCompatActivity implements
         User user = new User(name, email);
         mDatabase.child("users").child(userId).setValue(user);
     }
+
+    private boolean isNetworkAvailable() {
+        ConnectivityManager connectivityManager
+                = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+    }
+
 }

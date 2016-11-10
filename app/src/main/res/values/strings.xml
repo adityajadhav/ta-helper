@@ -3,6 +3,8 @@
     <string name="drawer_open">Open navigation drawer</string>
     <string name="drawer_close">Close navigation drawer</string>
 
+    <string name="title_action_items">Action Items</string>
+    <string name="sum_action_items">Showcasing items on the ActionBar (including appcompat and ActionBarSherlock)</string>
 
     <string name="title_text">Sign-In\n</string>
 
