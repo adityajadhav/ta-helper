@@ -110,8 +110,9 @@ public class CourseActivity extends AppCompatActivity implements add_course_frag
                             }
 
                             @Override
-                            public void callModuleActivity_to_activity() {
+                            public void callModuleActivity_to_activity(String courseCode) {
                                 Intent intent = new Intent(getApplicationContext(), ModuleListActivity.class);
+                                intent.putExtra("course_id",courseCode);
                                 startActivity(intent);
                             }
                         }
