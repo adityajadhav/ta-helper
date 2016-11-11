@@ -74,9 +74,9 @@ public class StudentModulesFragment extends ListFragment {
     }
 
     private void loadFromDatabase() {
-        mDatabase.child("students").child(studentId).child(courseName).push();
+        mDatabase.child("students").child(courseName).child(studentId).push();
 
-        mDatabase.child("students").child(studentId).child(courseName).addValueEventListener(new ValueEventListener() {
+        mDatabase.child("students").child(courseName).child(studentId).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 modulesArraylist.removeAll(modulesArraylist);
@@ -85,7 +85,14 @@ public class StudentModulesFragment extends ListFragment {
                 {
                     if(!modulesArraylist.contains(postSnapshot.getKey()))
                     {
-                        modulesArraylist.add((String)postSnapshot.getKey());
+                        String key = (String)postSnapshot.getKey();
+                        Long count = postSnapshot.getChildrenCount();
+
+                        Log.d("Key : "," Name: "+key);
+                        Log.d("Count : "," Name: "+count);
+
+                        if(count!=0)
+                            modulesArraylist.add((String)postSnapshot.getKey());
                     }
                 }
                 modulesListAdapter.notifyDataSetChanged();

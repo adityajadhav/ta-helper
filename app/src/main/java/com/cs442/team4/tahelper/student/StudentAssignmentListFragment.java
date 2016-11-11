@@ -117,9 +117,9 @@ public class StudentAssignmentListFragment extends ListFragment {
 
         //getMaxPointsFromDatabase();
 
-        mDatabase.child("students").child(studentId).child(courseName).child(moduleName).push();
+        mDatabase.child("students").child(courseName).child(studentId).child(moduleName).push();
 
-        mDatabase.child("students").child(studentId).child(courseName).child(moduleName).addValueEventListener(new ValueEventListener() {
+        mDatabase.child("students").child(courseName).child(studentId).child(moduleName).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
 
@@ -154,8 +154,8 @@ public class StudentAssignmentListFragment extends ListFragment {
 
                         //For fetching maximum points
                         //mDatabase.child("modules").child(courseName).child(moduleName).push();
-                        mDatabase.child("modules").child(moduleName).push();
-                        mDatabase.child("modules").child(moduleName).addValueEventListener(new ValueEventListener() {
+                        mDatabase.child("modules").child(courseName).child(moduleName).push();
+                        mDatabase.child("modules").child(courseName).child(moduleName).addValueEventListener(new ValueEventListener() {
 
                             @Override
                             public void onDataChange(DataSnapshot dataSnapshot) {

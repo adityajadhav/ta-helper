@@ -106,14 +106,14 @@ public class GradeWithoutSplitsFragment extends Fragment {
 
     private void updateGradesToDatabase()
     {
-        mDatabase.child("students").child(studentId).child(courseName).child(moduleName).child(moduleItem).child("Total").setValue(finalScore.toString());
+        mDatabase.child("students").child(courseName).child(studentId).child(moduleName).child(moduleItem).child("Total").setValue(finalScore.toString());
     }
 
     private void loadModuleItemDetailsFromDatabase()
     {
-        mDatabase.child("students").child(studentId).child(courseName).child(moduleName).push();
+        mDatabase.child("students").child(courseName).child(studentId).child(moduleName).push();
 
-        mDatabase.child("students").child(studentId).child(courseName).child(moduleName).addValueEventListener(new ValueEventListener() {
+        mDatabase.child("students").child(courseName).child(studentId).child(moduleName).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
 
@@ -129,8 +129,8 @@ public class GradeWithoutSplitsFragment extends Fragment {
                         totalEditText.setText(moduleItemGainedScore);
 
                         //For fetching maximum points
-                        mDatabase.child("modules").child(moduleName).push();
-                        mDatabase.child("modules").child(moduleName).addValueEventListener(new ValueEventListener() {
+                        mDatabase.child("modules").child(courseName).child(moduleName).push();
+                        mDatabase.child("modules").child(courseName).child(moduleName).addValueEventListener(new ValueEventListener() {
 
                             @Override
                             public void onDataChange(DataSnapshot dataSnapshot) {

@@ -54,10 +54,11 @@ public class CourseActivity extends AppCompatActivity implements add_course_frag
                             public void callManageCourseFragment_to_activity(String courseCode) {
                                 // courseId = courseCode;
                                 Bundle bundle = new Bundle();
-                                bundle.putString(COURCE_ID_KEY, courseCode);
+                                bundle.putString("course_id", courseCode);
                                 COURSE_ID = courseCode;
                                 Log.i("Code in activity : ", courseCode);
 
+                                newManageCourseFragment.setArguments(bundle);
 
                                 FragmentManager fm = getFragmentManager();
                                 FragmentTransaction ft = fm.beginTransaction();

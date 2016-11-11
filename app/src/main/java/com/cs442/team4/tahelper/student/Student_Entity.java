@@ -6,6 +6,11 @@ package com.cs442.team4.tahelper.student;
 
 public class Student_Entity {
 
+    public Student_Entity(String userName, String email) {
+        this.userName = userName;
+        this.email = email;
+    }
+
     private String userName;
     private String firstName;
     private String lastName;
@@ -28,6 +33,32 @@ public class Student_Entity {
     private Student_Entity() {
     }
 
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setaNumber(String aNumber) {
+        this.aNumber = aNumber;
+    }
+
+
+
     public Student_Entity(String username, String first_name, String last_name, String email, String a_number) {
         this.userName = username;
         this.firstName = first_name;
@@ -36,6 +67,9 @@ public class Student_Entity {
         this.email = email;
         this.aNumber = a_number;
     }
+
+
+
 
     public String getStudentUserName() {
         return userName;
