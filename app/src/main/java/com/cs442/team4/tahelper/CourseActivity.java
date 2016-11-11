@@ -9,13 +9,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
 import com.cs442.team4.tahelper.activity.ModuleListActivity;
-import com.cs442.team4.tahelper.fragment.BcastNotificationFragment;
 import com.cs442.team4.tahelper.fragment.ManageCourseFragment;
-import com.cs442.team4.tahelper.student.StudentListActivity;
 
 public class CourseActivity extends AppCompatActivity implements add_course_fragment.OnFinishAddCourseInterface {
 
     String mode = "null";
+    final public static String COURCE_ID_KEY = "COURSE_ID";
     static String COURSE_ID = null;
     String courseId = null;
 
@@ -26,31 +25,6 @@ public class CourseActivity extends AppCompatActivity implements add_course_frag
 
 
         final ManageCourseFragment newManageCourseFragment = new ManageCourseFragment();
-
-        newManageCourseFragment.setStudentListInterface(new ManageCourseFragment.ManageCourseInterface() {
-                                                            @Override
-                                                            public void openModule(String moduleName) {
-                                                                if ("STUDENT_LIST".equals(moduleName)) {
-                                                                    Intent intent = new Intent(getApplicationContext(), StudentListActivity.class);
-                                                                    intent.putExtra("course_id",courseId);
-                                                                    startActivity(intent);
-                                                                }
-
-                                                                if (BcastNotificationFragment.MODULE_NAME.equals(moduleName)) {
-                                                                    BcastNotificationFragment bcastNotificationFragment = new BcastNotificationFragment();
-                                                                    FragmentManager fm = getFragmentManager();
-                                                                    FragmentTransaction ft = fm.beginTransaction();
-
-                                                                    ft.replace(R.id.course_activity_frame_layout, bcastNotificationFragment, "bcastNotificationFragment");
-                                                                    ft.addToBackStack("course_list_fragment");
-                                                                    ft.commit();
-                                                                }
-
-
-                                                            }
-                                                        }
-
-        );
 
         FragmentManager fm = getFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
@@ -80,7 +54,7 @@ public class CourseActivity extends AppCompatActivity implements add_course_frag
                             public void callManageCourseFragment_to_activity(String courseCode) {
                                 // courseId = courseCode;
                                 Bundle bundle = new Bundle();
-                                bundle.putString(COURSE_ID, courseCode);
+                                bundle.putString(COURCE_ID_KEY, courseCode);
                                 COURSE_ID = courseCode;
                                 Log.i("Code in activity : ", courseCode);
 
@@ -115,7 +89,7 @@ public class CourseActivity extends AppCompatActivity implements add_course_frag
                             @Override
                             public void callModuleActivity_to_activity(String courseCode) {
                                 Intent intent = new Intent(getApplicationContext(), ModuleListActivity.class);
-                                intent.putExtra("course_id",courseCode);
+                                intent.putExtra("course_id", courseCode);
                                 startActivity(intent);
                             }
                         }

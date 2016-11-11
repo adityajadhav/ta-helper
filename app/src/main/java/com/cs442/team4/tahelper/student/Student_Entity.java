@@ -13,6 +13,11 @@ public class Student_Entity {
     private String email;
     private String aNumber;
 
+    // Required default constructor for Firebase object mapping
+    @SuppressWarnings("unused")
+    private Student_Entity() {
+    }
+
     public Student_Entity(String username, String first_name, String last_name, String email, String a_number) {
         this.userName = username;
         this.firstName = first_name;
