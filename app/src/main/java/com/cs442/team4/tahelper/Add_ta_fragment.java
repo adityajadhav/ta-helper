@@ -29,6 +29,7 @@ import java.util.ArrayList;
 
 public class Add_ta_fragment extends Fragment {
 String selected_item = null;
+    ArrayList<String> ta_existing_members = new ArrayList<>();
 
     public interface addTAToFirebaseInterface
     {
@@ -41,8 +42,10 @@ String selected_item = null;
     {
         this.ati = obj;
     }
-
-
+    public void getExisitingMembers(ArrayList<String> obj)
+    {
+        ta_existing_members = obj;
+    }
 
     @Nullable
     @Override
@@ -56,7 +59,7 @@ String selected_item = null;
         final Spinner ta_drop_down = (Spinner) view.findViewById(R.id.ta_drop_down_layout);
 
         final ArrayList<String> ta_members = new ArrayList<String>();
-        final ArrayList<String> ta_existing_members = new ArrayList<String>();
+       // final ArrayList<String> ta_existing_members = new ArrayList<String>();
         final TA_list ta_adapter = new TA_list(ta_existing_members,getContext());
 
 
@@ -90,8 +93,8 @@ String selected_item = null;
 
                     try {
                         String key = items.getKey().toString();
-                        Log.i("key:", items.child("username").getValue().toString());
-                        ta_members.add(items.child("username").getValue().toString());
+                        Log.i("key:", items.child("email").getValue().toString());
+                        ta_members.add(items.child("email").getValue().toString());
                         ta_adapter.notifyDataSetChanged();
                         adapter.notifyDataSetChanged();
 

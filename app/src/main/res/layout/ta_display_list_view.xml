@@ -1,17 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="horizontal" android:layout_width="match_parent"
+    android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <TextView
         android:text="TextView"
-        android:layout_height="wrap_content"
-        android:id="@+id/ta_name_tv_layout"
-        android:layout_width="271dp" />
-
-    <Button
-        android:text="Remove"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/select_ta_btn_layout" />
+        android:id="@+id/ta_email_tv_layout" />
 </LinearLayout>
