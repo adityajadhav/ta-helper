@@ -4,39 +4,24 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:weightSum="10"
-    android:background="@drawable/bg_3">
-<!--
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1.5"
-            android:text=" Edit / Delete Module"
-            android:gravity="center"
-            android:layout_gravity="center"
-            android:textSize="25dp"
-            android:background="@color/colorLightBlue"
-            android:textColor="@color/colorWhite"
+    android:background="@color/colorBlack"
+    android:alpha="0.8">
 
-           />-->
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/colorBlack"/>
 
         <EditText
             android:layout_width="match_parent"
-            android:layout_height="60dp"
+            android:layout_height="50dp"
             android:hint=" Enter Module Name "
-            android:textColor="@color/colorBlack"
             android:textSize="25dp"
             android:gravity="center"
+            android:textColor="@color/colorBlack"
+            android:background="@drawable/edit_text"
             android:id="@+id/editDeleteModuleNameFragmentEditTextView"
             android:layout_marginTop="10dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
             />
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/colorBlack"/>
+
 
         <Space
             android:layout_width="match_parent"
@@ -44,7 +29,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="60dp"
+            android:layout_height="40dp"
             android:orientation="horizontal"
             android:weightSum="2">
         <Button
@@ -54,8 +39,7 @@
             android:text=" Edit "
             android:textSize="20dp"
             android:id="@+id/editModuleButtonFragmentView"
-            android:background="@color/colorPrimary"
-            android:alpha="0.6"
+            android:background="@color/colorMaroon"
             android:textColor="@color/colorWhite"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
@@ -68,9 +52,9 @@
             android:text=" Delete "
             android:textSize="20dp"
             android:id="@+id/deleteModuleButtonFragmentView"
-            android:background="@color/colorPrimary"
-            android:alpha="0.6"
+            android:background="@color/colorMaroon"
             android:textColor="@color/colorWhite"
+            android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
          />
         </LinearLayout>
@@ -78,12 +62,11 @@
 
         <Button
             android:layout_width="match_parent"
-            android:layout_height="60dp"
+            android:layout_height="40dp"
             android:text=" BACK TO MODULE LIST"
             android:textSize="20dp"
             android:id="@+id/editDeleteModuleFragmentListViewBackButton"
-            android:background="@color/colorPrimary"
-            android:alpha="0.6"
+            android:background="@color/colorMaroon"
             android:textColor="@color/colorWhite"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"

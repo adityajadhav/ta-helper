@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.SearchView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.cs442.team4.tahelper.R;
@@ -40,6 +41,7 @@ public class GradeStudentListFragment extends Fragment implements SearchView.OnQ
 
     View myFragmentView;
     SearchView searchView;
+    TextView gradeStudentListTextView;
     GradeStudentListFragment.OnStudentClickListener onStudentClickListener;
 
     private DatabaseReference mDatabase;
@@ -78,16 +80,17 @@ public class GradeStudentListFragment extends Fragment implements SearchView.OnQ
         mDatabase = FirebaseDatabase.getInstance().getReference();
 
         //Later, will have to check if bundle is there or not and then only assign the value...
-        final String courseNameFromActivity = getArguments().getString(IntentConstants.COURSE_NAME);
+        final String courseNameFromActivity = getArguments().getString(IntentConstants.COURSE_ID);
         final String moduleNameFromActivity = getArguments().getString(IntentConstants.MODULE_NAME);
         final String moduleItemFromActivity = getArguments().getString(IntentConstants.MODULE_ITEM);
-        //courseName = courseNameFromActivity;
-        //moduleName = moduleNameFromActivity;
-        //moduleItem = moduleItemFromActivity;
+        courseName = courseNameFromActivity;
+        moduleName = moduleNameFromActivity;
+        moduleItem = moduleItemFromActivity;
 
         checkForSplits();
 
         myFragmentView = inflater.inflate(R.layout.grade_student_list_fragment, container, false);
+        gradeStudentListTextView = (TextView) myFragmentView.findViewById(R.id.gradeStudentListTextView);
         searchView = (SearchView) myFragmentView.findViewById(R.id.gradeStudentListSearchBar);
         studentListView = (ListView) myFragmentView.findViewById(R.id.gradeStudentListView);
         searchView.setQueryHint("Enter Student Name");
@@ -97,19 +100,21 @@ public class GradeStudentListFragment extends Fragment implements SearchView.OnQ
 
         studentListView.setTextFilterEnabled(true);
 
+        gradeStudentListTextView.setText("Grade: "+courseName+" | "+moduleName+" | "+moduleItem);
+
         int resID = R.layout.student_list_textview;
 
         studentsArraylist = new ArrayList<Student_Entity>();
 
         //We will fetch the students from an excel sheet or xml file and then populate the arraylist with it for the first time
         //After populating, it will be stored in the firebase database, so after that it will be fetched from that only
-        Student_Entity student1 = new Student_Entity("mshethwa", "Mohammed", "Shethwala", "mshethwa@hawk.iit.edu", "A12345678");
-        Student_Entity student2 = new Student_Entity("uaithal", "Ullas", "Aithal", "uaithal@hawk.iit.edu", "A12345678");
-        Student_Entity student3 = new Student_Entity("ajadhav", "Aditya", "Jadhav", "ajadhav@hawk.iit.edu", "A12345678");
+        //Student_Entity student1 = new Student_Entity("mshethwa", "Mohammed", "Shethwala", "mshethwa@hawk.iit.edu", "A12345678");
+        //Student_Entity student2 = new Student_Entity("uaithal", "Ullas", "Aithal", "uaithal@hawk.iit.edu", "A12345678");
+        //Student_Entity student3 = new Student_Entity("ajadhav", "Aditya", "Jadhav", "ajadhav@hawk.iit.edu", "A12345678");
 
-        studentsArraylist.add(student1);
-        studentsArraylist.add(student2);
-        studentsArraylist.add(student3);
+        //studentsArraylist.add(student1);
+        //studentsArraylist.add(student2);
+        //studentsArraylist.add(student3);
 
         studentAdapter = new StudentListAdapter(getContext(), resID, studentsArraylist);
         studentListView.setAdapter(studentAdapter);
@@ -139,16 +144,56 @@ public class GradeStudentListFragment extends Fragment implements SearchView.OnQ
             }
         });
 
+        loadStudentListFromDatabase();
+
         return myFragmentView;
+    }
+
+    private void loadStudentListFromDatabase()
+    {
+        //Log.d("Course Name : "," Name: "+courseName);
+        mDatabase.child("students").child(courseName).push();
+
+        mDatabase.child("students").child(courseName).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                studentsArraylist.removeAll(studentsArraylist);
+
+                for (DataSnapshot postSnapshot: dataSnapshot.getChildren())
+                {
+                    if(!studentsArraylist.contains(postSnapshot.getKey()))
+                    {
+
+                        String id = (String) postSnapshot.getKey();
+                        String email = (String) postSnapshot.child("email").getValue();
+
+                        //Log.d("Student : "," Id: "+id);
+                        //Log.d("Email : "," Email: "+email);
+
+                        Student_Entity student = new Student_Entity(id, email);
+                        student.setUserName(id);
+                        student.setEmail(email);
+
+                        studentsArraylist.add(student);
+                    }
+                }
+                studentAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.d("ModuleListFragment : "," Read cancelled due to "+databaseError.getMessage());
+            }
+        });
     }
 
     private void checkForSplits()
     {
         hasSplits = false;
 
-        mDatabase.child("modules").child(moduleName).push();
+        mDatabase.child("modules").child(courseName).child(moduleName).push();
 
-        mDatabase.child("modules").child(moduleName).addValueEventListener(new ValueEventListener() {
+        mDatabase.child("modules").child(courseName).child(moduleName).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
 

@@ -1,14 +1,27 @@
-<?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+<android.support.v4.widget.DrawerLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/drawer_layout_add_assignment"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@drawable/add_assignments"
+    >
 
 
-    <fragment android:name="com.cs442.team4.tahelper.fragment.AddAssignmentsFragment"
+
+<fragment android:name="com.cs442.team4.tahelper.fragment.AddAssignmentsFragment"
         android:id="@+id/AddAssignmentsFragmentView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         />
 
-</LinearLayout>
+    <ListView android:id="@+id/left_drawer_add_assignment"
+        android:layout_width="200dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:choiceMode="singleChoice"
+        android:divider="@android:color/transparent"
+        android:dividerHeight="0dp"
+        android:background="#111"
+        />
+
+</android.support.v4.widget.DrawerLayout>

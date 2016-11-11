@@ -49,7 +49,7 @@
 
         <TextView
             android:text="Total Score: "
-            android:layout_width="191dp"
+            android:layout_width="150dp"
             android:layout_height="match_parent"
             android:id="@+id/textView16"
             android:textSize="24sp"
@@ -61,7 +61,7 @@
             android:inputType="number"
             android:ems="10"
             android:id="@+id/gradeWithSplitsTotalEditText"
-            android:layout_weight="0.65"
+            android:layout_weight="0.36"
             android:gravity="center"
             android:text="0.0"
             android:textSize="24sp"
@@ -74,7 +74,7 @@
             android:id="@+id/maxPointsTextView"
             android:textSize="24sp"
             android:gravity="center"
-            android:layout_weight="0.10" />
+            android:layout_weight="0.52" />
 
     </LinearLayout>
 

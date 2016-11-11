@@ -1,6 +1,9 @@
 package com.cs442.team4.tahelper.fragment;
 
 import android.app.Fragment;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.annotation.Nullable;
@@ -12,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.cs442.team4.tahelper.R;
+import com.cs442.team4.tahelper.student.StudentListActivity;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -24,35 +28,63 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.util.Iterator;
 
-
+import static com.cs442.team4.tahelper.R.id.generateGroupsBtn;
 import static com.cs442.team4.tahelper.R.id.sendBcastBtn;
 
 
 public class ManageCourseFragment extends Fragment implements View.OnClickListener {
     String courseId = null;
+
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.student_list_tv_layout:
-                manageCourseInterface.openModule("STUDENT_LIST");
+                //manageCourseInterface.openModule("STUDENT_LIST");
+                Intent intent = new Intent(getContext(), StudentListActivity.class);
+                intent.putExtra("course_id", courseId);
+                startActivity(intent);
                 break;
             case sendBcastBtn:
-                manageCourseInterface.openModule(BcastNotificationFragment.MODULE_NAME);
+                openBcastNotificationFragment();
+                //manageCourseInterface.openModule(BcastNotificationFragment.MODULE_NAME);
 //                Snackbar.make(v, "Replace with your own action", Snackbar.LENGTH_LONG)
 //                        .setAction("Action", null).show();
+                break;
+            case generateGroupsBtn:
+                openGenerateGroupFragment();
                 break;
         }
     }
 
-    public interface ManageCourseInterface {
+    private void openGenerateGroupFragment() {
+
+        GenerateStudentGroupsFragment generateStudentGroupsFragment = new GenerateStudentGroupsFragment();
+        FragmentManager fm = getFragmentManager();
+        FragmentTransaction ft = fm.beginTransaction();
+        ft.replace(R.id.course_activity_frame_layout, generateStudentGroupsFragment, "generateStudentGroupsFragment");
+        ft.addToBackStack("course_list_fragment");
+        ft.commit();
+    }
+
+    private void openBcastNotificationFragment() {
+        BcastNotificationFragment bcastNotificationFragment = new BcastNotificationFragment();
+        FragmentManager fm = getFragmentManager();
+        FragmentTransaction ft = fm.beginTransaction();
+        ft.replace(R.id.course_activity_frame_layout, bcastNotificationFragment, "bcastNotificationFragment");
+        ft.addToBackStack("course_list_fragment");
+        ft.commit();
+    }
+
+
+   /* public interface ManageCourseInterface {
         void openModule(String moduleName);
-    }
+    }*/
 
-    private ManageCourseInterface manageCourseInterface;
+    //private ManageCourseInterface manageCourseInterface;
 
-    public void setStudentListInterface(ManageCourseInterface manageCourseInterface) {
+   /* public void setStudentListInterface(ManageCourseInterface manageCourseInterface) {
         this.manageCourseInterface = manageCourseInterface;
-    }
+    }*/
 
     @Nullable
     @Override
@@ -67,8 +99,8 @@ public class ManageCourseFragment extends Fragment implements View.OnClickListen
         return inflater.inflate(R.layout.main_menu_activity, container, false);
 
     }
-    private void importStudentData()
-    {
+
+    private void importStudentData() {
         final FirebaseDatabase database = FirebaseDatabase.getInstance();
         final DatabaseReference myRef = database.getReference("students");
         try {
@@ -83,7 +115,6 @@ public class ManageCourseFragment extends Fragment implements View.OnClickListen
             //POIFSFileSystem myFileSystem = new POIFSFileSystem(myInput);
 
 
-
             //Create Workbook instance holding reference to .xlsx file
             XSSFWorkbook workbook = new XSSFWorkbook(myInput);
 
@@ -94,8 +125,7 @@ public class ManageCourseFragment extends Fragment implements View.OnClickListen
             Iterator<Row> rowIterator = sheet.iterator();
             String name = null;
 
-            while (rowIterator.hasNext())
-            {
+            while (rowIterator.hasNext()) {
                 Row row = rowIterator.next();
                 //For each row, iterate through all the columns
                 Iterator<Cell> cellIterator = row.cellIterator();
@@ -131,9 +161,7 @@ public class ManageCourseFragment extends Fragment implements View.OnClickListen
                 System.out.println("");
             }
             //file.close();
-        }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -142,18 +170,22 @@ public class ManageCourseFragment extends Fragment implements View.OnClickListen
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         TextView student_list_tv = (TextView) view.findViewById(R.id.student_list_tv_layout);
+        TextView generateGroupsBtn = (TextView) view.findViewById(R.id.generateGroupsBtn);
+
         FloatingActionButton sendBcastBtn = (FloatingActionButton) view.findViewById(R.id.sendBcastBtn);
         student_list_tv.setOnClickListener(this);
-        sendBcastBtn.setOnClickListener(this);
-
+        //sendBcastBtn.setOnClickListener(this);
+        //generateGroupsBtn.setOnClickListener(this);
         TextView import_student_tv = (TextView) view.findViewById(R.id.import_student_tv_layout);
 
+        /*
         import_student_tv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 importStudentData();
             }
         });
+        */
 
     }
 

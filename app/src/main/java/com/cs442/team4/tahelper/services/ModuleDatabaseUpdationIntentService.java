@@ -22,6 +22,7 @@ import java.util.ArrayList;
 public class ModuleDatabaseUpdationIntentService extends IntentService {
 
     private DatabaseReference mDatabase;
+    private String courseCode;
 
     public ModuleDatabaseUpdationIntentService() {
         super("ModuleDatabaseUpdationIntentService");
@@ -44,10 +45,13 @@ public class ModuleDatabaseUpdationIntentService extends IntentService {
 
     @Override
     protected void onHandleIntent(final Intent intent) {
-        mDatabase.child("students").push();
-        ModuleDatabaseUpdationIntentService.DatabaseListener dblistener = new ModuleDatabaseUpdationIntentService.DatabaseListener(intent);
-        dblistener.setInvokedByService(true);
-        mDatabase.child("students").addValueEventListener(dblistener);
+        if(intent.getStringExtra(IntentConstants.COURSE_ID)!=null) {
+            courseCode = intent.getStringExtra(IntentConstants.COURSE_ID);
+            mDatabase.child("students").child(courseCode).push();
+            ModuleDatabaseUpdationIntentService.DatabaseListener dblistener = new ModuleDatabaseUpdationIntentService.DatabaseListener(intent);
+            dblistener.setInvokedByService(true);
+            mDatabase.child("students").child(courseCode).addValueEventListener(dblistener);
+        }
     }
 
     class DatabaseListener implements ValueEventListener{
@@ -67,7 +71,7 @@ public class ModuleDatabaseUpdationIntentService extends IntentService {
                     String moduleName = intent.getStringExtra(IntentConstants.MODULE_NAME);
                     String courseName = intent.getStringExtra(IntentConstants.COURSE_ID);
                     for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
-                        mDatabase.child("students").child(postSnapshot.getKey()).child(courseName).child(moduleName).setValue("");
+                        mDatabase.child("students").child(courseName).child(postSnapshot.getKey()).child(moduleName).setValue("");
                     }
                 }else if(mode.equals("Edit")){
                     String moduleOldName = intent.getStringExtra(IntentConstants.MODULE_OLD_NAME);
@@ -75,17 +79,17 @@ public class ModuleDatabaseUpdationIntentService extends IntentService {
                     String courseName = intent.getStringExtra(IntentConstants.COURSE_ID);
 
                     for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
-                        FirebaseDatabase.getInstance().getReference("students/"+postSnapshot.getKey()+"/"+courseName+"/"+moduleOldName).removeValue();
-                        mDatabase.child("students").child(postSnapshot.getKey()).child(courseName).child(moduleNewName).setValue("");
+                        FirebaseDatabase.getInstance().getReference("students/"+courseName+"/"+postSnapshot.getKey()+"/"+moduleOldName).removeValue();
+                        mDatabase.child("students").child(courseName).child(postSnapshot.getKey()).child(moduleNewName).setValue("");
 
                         ArrayList<AssignmentEntity> assignmentEntityArrayList = intent.getParcelableArrayListExtra(IntentConstants.ASSIGNMENT_list);
                         for(int i =0 ; i < assignmentEntityArrayList.size();i++){
                             AssignmentEntity assignmentEntity = assignmentEntityArrayList.get(i);
-                            mDatabase.child("students").child(postSnapshot.getKey()).child(courseName).child(moduleNewName).child(assignmentEntity.getAssignmentName()).child("Total").setValue(assignmentEntity.getTotalScore());
+                            mDatabase.child("students").child(courseName).child(postSnapshot.getKey()).child(moduleNewName).child(assignmentEntity.getAssignmentName()).child("Total").setValue(assignmentEntity.getTotalScore());
                             for (int j = 0; j < assignmentEntity.getAssignmentSplits().size(); j++) {
                                 AssignmentSplit split = assignmentEntity.getAssignmentSplits().get(j);
                                 Log.i("AssignmentsUpdation", "j : " + j + "split  " + split.getSplitName());
-                                mDatabase.child("students").child(postSnapshot.getKey()).child(courseName).child(moduleNewName).child(assignmentEntity.getAssignmentName()).child("Splits").child(split.getSplitName()).setValue(String.valueOf(split.getSplitScore()));
+                                mDatabase.child("students").child(courseName).child(postSnapshot.getKey()).child(moduleNewName).child(assignmentEntity.getAssignmentName()).child("Splits").child(split.getSplitName()).setValue(String.valueOf(split.getSplitScore()));
                             }
                         }
 
@@ -95,7 +99,7 @@ public class ModuleDatabaseUpdationIntentService extends IntentService {
                     String moduleName = intent.getStringExtra(IntentConstants.MODULE_NAME);
                     String courseName = intent.getStringExtra(IntentConstants.COURSE_ID);
                     for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
-                        FirebaseDatabase.getInstance().getReference("students/"+postSnapshot.getKey()+"/"+courseName+"/"+moduleName).removeValue();
+                        FirebaseDatabase.getInstance().getReference("students/"+courseName+"/"+postSnapshot.getKey()+"/"+moduleName).removeValue();
                     }
                 }
             }

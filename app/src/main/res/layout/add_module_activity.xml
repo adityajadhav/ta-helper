@@ -3,7 +3,7 @@
     android:id="@+id/drawer_layout_add_module"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/new_bg_5"
+    android:background="@drawable/add_module"
     >
 
     <fragment
