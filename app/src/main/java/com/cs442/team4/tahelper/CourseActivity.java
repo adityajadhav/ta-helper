@@ -13,12 +13,14 @@ import com.cs442.team4.tahelper.fragment.BcastNotificationFragment;
 import com.cs442.team4.tahelper.fragment.ManageCourseFragment;
 import com.cs442.team4.tahelper.student.StudentListActivity;
 
+import java.util.ArrayList;
+
 public class CourseActivity extends AppCompatActivity implements add_course_fragment.OnFinishAddCourseInterface {
 
     String mode = "null";
     static String COURSE_ID = null;
     String courseId = null;
-
+    final Add_ta_fragment newAddTAFragment = new Add_ta_fragment();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -129,7 +131,32 @@ public class CourseActivity extends AppCompatActivity implements add_course_frag
         ft.commit();
 
 
+
+
+
+                newAddTAFragment.setAddTAFragmentInterface(new Add_ta_fragment.addTAToFirebaseInterface() {
+
+                    public void sendTAdata(ArrayList<String> al) {
+                        add_course_fragment getInstance = (add_course_fragment) getFragmentManager().findFragmentByTag("add_course_fragment_tag");
+                        getInstance.setTAMembers(al);
+                    }
+
+                    public void closeAddTAFragment()
+                    {
+                        FragmentManager fm = getFragmentManager();
+                        FragmentTransaction ft = fm.beginTransaction();
+                        Fragment id = fm.findFragmentByTag("add_ta_fragment_tag");
+                        ft.remove(id);
+                        fm.popBackStack();
+                        ft.commit();
+                    }
+
+        });
+
+
     }
+
+
 
     @Override
     public void closeAddCourseFragment() {
@@ -138,6 +165,16 @@ public class CourseActivity extends AppCompatActivity implements add_course_frag
         Fragment id = fm.findFragmentByTag("add_course_fragment_tag");
         ft.remove(id);
         fm.popBackStack();
+        ft.commit();
+    }
+
+    @Override
+    public void callAddTAs_to_activity(){
+        FragmentManager fm = getFragmentManager();
+        FragmentTransaction ft = fm.beginTransaction();
+
+        ft.replace(R.id.course_activity_frame_layout, newAddTAFragment, "add_ta_fragment_tag");
+        ft.addToBackStack("add_course_fragment_tag");
         ft.commit();
     }
 

@@ -10,12 +10,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
 
 /**
  * Created by ullas on 10/29/2016.
@@ -29,17 +32,34 @@ public class add_course_fragment extends Fragment {
     String fragmentHeading = "Add Course";
     String buttonLabel = "ADd Course";
     String old_course_id = null;
+    ArrayList<String> ta_memebers = new ArrayList<>();
     public interface OnFinishAddCourseInterface {
         public void closeAddCourseFragment();
+        public void callAddTAs_to_activity();
     }
 
     public void callManageCourseFragment() {
         Log.i("Here", "here");
     }
 
+
+    public void setTAMembers(ArrayList<String> getMembers)
+    {
+        ta_memebers = getMembers;
+        Log.i("got",ta_memebers.toString());
+    }
+
+
+
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
+
+
+
+
         Bundle args = getArguments();
         if (args != null) {
             String mode = getArguments().getString("mode");
@@ -61,6 +81,7 @@ public class add_course_fragment extends Fragment {
     }
 
 
+
     @Override
     public void onViewCreated(final View view, Bundle savedInstanceState) {
 
@@ -77,6 +98,8 @@ public class add_course_fragment extends Fragment {
         final TextView ta_email_tv = (TextView) getView().findViewById(R.id.ta_email_tv_layout);
 
         Button add_course_btn = (Button) getView().findViewById(R.id.add_course_btn_layout);
+        Button add_ta_btn = (Button) getView().findViewById(R.id.add_ta_btn_layout);
+
 
         if (smode.length() > 0) {
             if (smode.equals("edit")) {
@@ -131,6 +154,12 @@ public class add_course_fragment extends Fragment {
             }
         }
 
+                add_ta_btn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        mFinish.callAddTAs_to_activity();
+                    }
+                });
 
 
                 add_course_btn.setOnClickListener(new View.OnClickListener() {
@@ -155,11 +184,28 @@ public class add_course_fragment extends Fragment {
                 Course_Entity ce = new Course_Entity(course_name, course_id, professor_FN, professor_LN, professor_email, professor_UN, ta_email);
 
                 myRef.child(course_id).setValue(ce);
+
+
+                if(ta_memebers.size() > 0)
+                {
+                    myRef.child(course_id).child("ta_members").setValue(ta_memebers);
+                }
+                else
+                {
+                    Toast.makeText(getContext(),"Add TA members by clicking on Add TAs button",Toast.LENGTH_SHORT).show();
+                }
+
+
                 mFinish.closeAddCourseFragment();
             }
         });
 
+
+
+
+
         super.onViewCreated(view, savedInstanceState);
+
     }
 
     @Override

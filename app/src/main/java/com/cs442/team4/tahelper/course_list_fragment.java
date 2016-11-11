@@ -40,6 +40,7 @@ public class course_list_fragment extends Fragment {
             public void callManageCourseFragment_to_activity(String course_id);
             public void editCourseFragment_to_activity(String mode, String course_id);
             public void callModuleActivity_to_activity(String courseCode);
+
     }
 
     public void setInterface(OnActionButtonClickListener oa)

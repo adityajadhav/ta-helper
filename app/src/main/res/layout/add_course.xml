@@ -188,4 +188,12 @@
         android:id="@+id/professor_email_tv_layout"
         android:hint="Email of Professor" />
 
+    <Button
+        android:text="ADD"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/add_ta_btn_layout"
+        android:layout_alignBottom="@+id/ta_email_tv_layout"
+        android:layout_alignParentEnd="true" />
+
 </RelativeLayout>
