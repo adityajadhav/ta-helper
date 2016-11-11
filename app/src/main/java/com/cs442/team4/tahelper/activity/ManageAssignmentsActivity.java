@@ -44,6 +44,7 @@ public class ManageAssignmentsActivity extends AppCompatActivity implements Mana
         Intent intent = getIntent();
         if(intent.getStringExtra(IntentConstants.MODULE_NAME)!=null){
             moduleName = intent.getStringExtra(IntentConstants.MODULE_NAME);
+            courseCode = intent.getStringExtra(IntentConstants.COURSE_ID);
         }
         drawerCode();
         ManageAssignmentsFragment manageAssignmentsFragment = (ManageAssignmentsFragment) getFragmentManager().findFragmentById(R.id.ManageAssignmentsFragmentView);
@@ -54,6 +55,7 @@ public class ManageAssignmentsActivity extends AppCompatActivity implements Mana
     public void notifyAddAssignmentEvent() {
         Intent intent = new Intent(this,AddAssignmentsActivity.class);
         intent.putExtra(IntentConstants.MODULE_NAME,moduleName);
+        intent.putExtra(IntentConstants.COURSE_ID,courseCode);
         startActivity(intent);
         overridePendingTransition(R.anim.left_slide_in, R.anim.left_slide_out);
 
@@ -63,6 +65,7 @@ public class ManageAssignmentsActivity extends AppCompatActivity implements Mana
         Intent intent = new Intent(this, EditDeleteAssignmentActivity.class);
         intent.putExtra(IntentConstants.MODULE_NAME,moduleName);
         intent.putExtra(IntentConstants.ASSIGNMENT_NAME,assignmentName);
+        intent.putExtra(IntentConstants.COURSE_ID,courseCode);
         startActivity(intent);
         overridePendingTransition(R.anim.right_slide_in, R.anim.right_slide_out);
 
@@ -73,7 +76,7 @@ public class ManageAssignmentsActivity extends AppCompatActivity implements Mana
         Intent intent = new Intent(this, GradeStudentListActivity.class);
         intent.putExtra(IntentConstants.MODULE_NAME,moduleName);
         intent.putExtra(IntentConstants.MODULE_ITEM,assignmentName);
-        intent.putExtra(IntentConstants.ASSIGNMENT_NAME,assignmentName);
+        intent.putExtra(IntentConstants.COURSE_ID,courseCode);
 
         startActivity(intent);
         overridePendingTransition(R.anim.left_slide_in, R.anim.left_slide_out);
@@ -82,6 +85,7 @@ public class ManageAssignmentsActivity extends AppCompatActivity implements Mana
 
     public void notifyBackButton(){
         Intent intent = new Intent(this,ModuleListActivity.class);
+        intent.putExtra(IntentConstants.COURSE_ID,courseCode);
         startActivity(intent);
         overridePendingTransition(R.anim.right_slide_in, R.anim.right_slide_out);
 

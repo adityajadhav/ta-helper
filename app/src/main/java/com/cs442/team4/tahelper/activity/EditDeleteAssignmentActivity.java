@@ -30,6 +30,7 @@ public class EditDeleteAssignmentActivity extends AppCompatActivity implements E
     private String[] drawerList;
     private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mDrawerToggle;
+    private String courseCode;
 
 
 
@@ -37,6 +38,9 @@ public class EditDeleteAssignmentActivity extends AppCompatActivity implements E
     protected void onCreate(Bundle onSavedInstance){
         super.onCreate(onSavedInstance);
         setContentView(R.layout.editdelete_assignments_activity);
+        if(getIntent().getStringExtra(IntentConstants.COURSE_ID)!=null){
+            courseCode = getIntent().getStringExtra(IntentConstants.COURSE_ID);
+        }
         mDrawerList = (ListView) findViewById(R.id.left_drawer);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 
@@ -86,12 +90,16 @@ public class EditDeleteAssignmentActivity extends AppCompatActivity implements E
     public void notifyEditDeleteAssignmentEvent(String moduleName) {
         Intent intent = new Intent(this,ManageAssignmentsActivity.class);
         intent.putExtra(IntentConstants.MODULE_NAME,moduleName);
+        intent.putExtra(IntentConstants.COURSE_ID,courseCode);
+
         startActivity(intent);
     }
 
     public void notifyBackButtonEvent(String moduleName){
         Intent intent = new Intent(this,ManageAssignmentsActivity.class);
         intent.putExtra(IntentConstants.MODULE_NAME,moduleName);
+        intent.putExtra(IntentConstants.COURSE_ID,courseCode);
+
         startActivity(intent);
     }
 

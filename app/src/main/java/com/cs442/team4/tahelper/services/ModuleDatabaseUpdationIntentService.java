@@ -65,24 +65,27 @@ public class ModuleDatabaseUpdationIntentService extends IntentService {
                 String mode = intent.getStringExtra(IntentConstants.MODE);
                 if(mode.equals("Add")) {
                     String moduleName = intent.getStringExtra(IntentConstants.MODULE_NAME);
+                    String courseName = intent.getStringExtra(IntentConstants.COURSE_ID);
                     for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
-                        mDatabase.child("students").child(postSnapshot.getKey()).child("CS442").child(moduleName).setValue("");
+                        mDatabase.child("students").child(postSnapshot.getKey()).child(courseName).child(moduleName).setValue("");
                     }
                 }else if(mode.equals("Edit")){
                     String moduleOldName = intent.getStringExtra(IntentConstants.MODULE_OLD_NAME);
                     String moduleNewName = intent.getStringExtra(IntentConstants.MODULE_NEW_NAME);
+                    String courseName = intent.getStringExtra(IntentConstants.COURSE_ID);
+
                     for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
-                        FirebaseDatabase.getInstance().getReference("students/"+postSnapshot.getKey()+"/CS442/"+moduleOldName).removeValue();
-                        mDatabase.child("students").child(postSnapshot.getKey()).child("CS442").child(moduleNewName).setValue("");
+                        FirebaseDatabase.getInstance().getReference("students/"+postSnapshot.getKey()+"/"+courseName+"/"+moduleOldName).removeValue();
+                        mDatabase.child("students").child(postSnapshot.getKey()).child(courseName).child(moduleNewName).setValue("");
 
                         ArrayList<AssignmentEntity> assignmentEntityArrayList = intent.getParcelableArrayListExtra(IntentConstants.ASSIGNMENT_list);
                         for(int i =0 ; i < assignmentEntityArrayList.size();i++){
                             AssignmentEntity assignmentEntity = assignmentEntityArrayList.get(i);
-                            mDatabase.child("students").child(postSnapshot.getKey()).child("CS442").child(moduleNewName).child(assignmentEntity.getAssignmentName()).child("Total").setValue(assignmentEntity.getTotalScore());
+                            mDatabase.child("students").child(postSnapshot.getKey()).child(courseName).child(moduleNewName).child(assignmentEntity.getAssignmentName()).child("Total").setValue(assignmentEntity.getTotalScore());
                             for (int j = 0; j < assignmentEntity.getAssignmentSplits().size(); j++) {
                                 AssignmentSplit split = assignmentEntity.getAssignmentSplits().get(j);
                                 Log.i("AssignmentsUpdation", "j : " + j + "split  " + split.getSplitName());
-                                mDatabase.child("students").child(postSnapshot.getKey()).child("CS442").child(moduleNewName).child(assignmentEntity.getAssignmentName()).child("Splits").child(split.getSplitName()).setValue(String.valueOf(split.getSplitScore()));
+                                mDatabase.child("students").child(postSnapshot.getKey()).child(courseName).child(moduleNewName).child(assignmentEntity.getAssignmentName()).child("Splits").child(split.getSplitName()).setValue(String.valueOf(split.getSplitScore()));
                             }
                         }
 
@@ -90,8 +93,9 @@ public class ModuleDatabaseUpdationIntentService extends IntentService {
 
                 }else if(mode.equals("Delete")){
                     String moduleName = intent.getStringExtra(IntentConstants.MODULE_NAME);
+                    String courseName = intent.getStringExtra(IntentConstants.COURSE_ID);
                     for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
-                        FirebaseDatabase.getInstance().getReference("students/"+postSnapshot.getKey()+"/CS442/"+moduleName).removeValue();
+                        FirebaseDatabase.getInstance().getReference("students/"+postSnapshot.getKey()+"/"+courseName+"/"+moduleName).removeValue();
                     }
                 }
             }

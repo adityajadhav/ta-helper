@@ -24,6 +24,7 @@ import com.cs442.team4.tahelper.MainActivity;
 import com.cs442.team4.tahelper.R;
 import com.cs442.team4.tahelper.contants.IntentConstants;
 import com.cs442.team4.tahelper.fragment.AddModuleFragment;
+import com.cs442.team4.tahelper.fragment.ManageAssignmentsFragment;
 import com.cs442.team4.tahelper.fragment.ModuleListFragment;
 import com.cs442.team4.tahelper.preferences.MyPreferenceActivity;
 import com.cs442.team4.tahelper.preferences.MyPreferenceFragment;
@@ -50,9 +51,12 @@ public class ModuleListActivity  extends AppCompatActivity implements ModuleList
         super.onCreate(savedInstanceState);
         setContentView(R.layout.module_list_activity);
         drawerCode();
-        if(getIntent().getStringExtra("course_id")!=null){
-            courseCode = getIntent().getStringExtra("course_id");
+        if(getIntent().getStringExtra(IntentConstants.COURSE_ID)!=null){
+            courseCode = getIntent().getStringExtra(IntentConstants.COURSE_ID);
         }
+        ModuleListFragment moduleListFragment = (ModuleListFragment) getFragmentManager().findFragmentById(R.id.ModuleListActivityView);
+        moduleListFragment.initialise(getIntent());
+
 
     }
 
@@ -98,6 +102,7 @@ public class ModuleListActivity  extends AppCompatActivity implements ModuleList
     @Override
     public void addNewModuleEvent(View view) {
         Intent intent = new Intent(this, AddModuleActivity.class);
+        intent.putExtra(IntentConstants.COURSE_ID,courseCode);
         startActivity(intent);
         overridePendingTransition(R.anim.left_slide_in, R.anim.left_slide_out);
     }
@@ -105,6 +110,7 @@ public class ModuleListActivity  extends AppCompatActivity implements ModuleList
     public void onModuleItemClickEditDelete(String moduleName) {
         Intent intent = new Intent(this, EditDeleteModuleActivity.class);
         intent.putExtra(IntentConstants.MODULE_NAME, moduleName);
+        intent.putExtra(IntentConstants.COURSE_ID,courseCode);
         startActivity(intent);
         overridePendingTransition(R.anim.right_slide_in, R.anim.right_slide_out);
 
@@ -113,13 +119,15 @@ public class ModuleListActivity  extends AppCompatActivity implements ModuleList
     public void onModuleItemClickedManage(String moduleName) {
         Intent intent = new Intent(this, ManageAssignmentsActivity.class);
         intent.putExtra(IntentConstants.MODULE_NAME, moduleName);
-        intent.putExtra("course_id",courseCode);
+        intent.putExtra(IntentConstants.COURSE_ID,courseCode);
         startActivity(intent);
         overridePendingTransition(R.anim.left_slide_in, R.anim.left_slide_out);
     }
 
     public void notifyBackButtonEvent(View view) {
         Intent intent = new Intent(this, CourseActivity.class);
+        intent.putExtra(IntentConstants.COURSE_ID,courseCode);
+
      /*   ActivityOptions options = ActivityOptions.makeScaleUpAnimation(view, 0,
                 0, view.getWidth(), view.getHeight());*/
         startActivity(intent);

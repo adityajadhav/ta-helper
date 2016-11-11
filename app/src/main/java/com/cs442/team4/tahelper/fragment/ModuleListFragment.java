@@ -2,6 +2,7 @@ package com.cs442.team4.tahelper.fragment;
 
 import android.app.Activity;
 import android.app.Fragment;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -18,6 +19,7 @@ import android.widget.RelativeLayout;
 
 import com.cs442.team4.tahelper.R;
 import com.cs442.team4.tahelper.activity.ModuleListActivity;
+import com.cs442.team4.tahelper.contants.IntentConstants;
 import com.cs442.team4.tahelper.listItem.ModuleListItemAdapter;
 import com.cs442.team4.tahelper.model.AssignmentEntity;
 import com.cs442.team4.tahelper.model.AssignmentSplit;
@@ -53,12 +55,14 @@ public class ModuleListFragment extends Fragment{
     private Button addModuleButton;
     private Button backButton;
     private RelativeLayout loadingLayout;
+    private String courseCode;
 
     private ModuleListFragmentListener moduleListFragmentListener;
     private DatabaseReference mDatabase;
 
     float historicX = Float.NaN, historicY = Float.NaN;
     static final int DELTA = 50;
+
     enum Direction {LEFT, RIGHT;}
 
 
@@ -93,7 +97,7 @@ public class ModuleListFragment extends Fragment{
             }
         });
        // registerListChangeListener();
-        loadPredefinedModules();
+
         return view;
     }
 
@@ -158,9 +162,9 @@ public class ModuleListFragment extends Fragment{
     }
 
     private void loadFromDatabase() {
-        mDatabase.child("modules").push();
+        mDatabase.child("modules").child(courseCode).push();
 
-        mDatabase.child("modules").addValueEventListener(new ValueEventListener() {
+        mDatabase.child("modules").child(courseCode).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 loadingLayout.setVisibility(View.GONE);
@@ -325,23 +329,15 @@ public class ModuleListFragment extends Fragment{
                 .hideOnTouchOutside()
                 .setContentTitle("Swipe from left to launch drawer with navigation options.")
                 .build();
-
-
-
-
     }
 
 
 
-
-
-
-
-
-
-
-
-
-
+    public void initialise(Intent intent) {
+        if(intent.getStringExtra(IntentConstants.COURSE_ID)!=null){
+            courseCode = intent.getStringExtra(IntentConstants.COURSE_ID);
+            loadPredefinedModules();
+        }
+    }
 
 }

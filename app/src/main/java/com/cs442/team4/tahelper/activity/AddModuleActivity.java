@@ -17,7 +17,9 @@ import android.widget.ListView;
 import com.cs442.team4.tahelper.CourseActivity;
 import com.cs442.team4.tahelper.MainActivity;
 import com.cs442.team4.tahelper.R;
+import com.cs442.team4.tahelper.contants.IntentConstants;
 import com.cs442.team4.tahelper.fragment.AddModuleFragment;
+import com.cs442.team4.tahelper.fragment.ManageAssignmentsFragment;
 import com.cs442.team4.tahelper.preferences.MyPreferenceActivity;
 
 /**
@@ -31,17 +33,25 @@ public class AddModuleActivity extends AppCompatActivity implements AddModuleFra
     public DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mDrawerToggle;
     private static final int SHOW_PREFERENCES = 0;
+    private String courseCode;
+
 
     @Override
     protected void onCreate(Bundle onSavedInstance){
         super.onCreate(onSavedInstance);
         setContentView(R.layout.add_module_activity);
         drawerCode();
+        AddModuleFragment addModuleFragment = (AddModuleFragment) getFragmentManager().findFragmentById(R.id.addModuleActivityView);
+        addModuleFragment.initialise(getIntent());
+        if(getIntent().getStringExtra(IntentConstants.COURSE_ID)!=null){
+            courseCode = getIntent().getStringExtra(IntentConstants.COURSE_ID);
+        }
     }
 
     @Override
     public void addModuleEvent() {
         Intent intent = new Intent(this,ModuleListActivity.class);
+        intent.putExtra(IntentConstants.COURSE_ID,courseCode);
         startActivity(intent);
         overridePendingTransition(R.anim.right_slide_in, R.anim.right_slide_out);
 
@@ -49,6 +59,7 @@ public class AddModuleActivity extends AppCompatActivity implements AddModuleFra
 
     public void backToModuleList(){
         Intent intent = new Intent(this,ModuleListActivity.class);
+        intent.putExtra(IntentConstants.COURSE_ID,courseCode);
         startActivity(intent);
         overridePendingTransition(R.anim.right_slide_in, R.anim.right_slide_out);
 

@@ -39,6 +39,7 @@ public class AddModuleFragment extends Fragment{
     private Button backButton;
     private DatabaseReference mDatabase;
     private AddModuleFragmentListener addModuleFragmentListener;
+    private String courseName;
 
 
     public interface AddModuleFragmentListener{
@@ -103,13 +104,15 @@ public class AddModuleFragment extends Fragment{
                     mDatabase.child("modules").child("Final Score").setValue("");*/
                     // key  = mDatabase.push().getKey();
                   //  mDatabase.child("modules").child(key).child("name").setValue(moduleName);
-                    mDatabase.child("modules").child(moduleName).setValue("");
+                    mDatabase.child("modules").child(courseName).child(moduleName).setValue("");
                     ModuleEntity.addModule(moduleName);
 
 
                     Intent serviceIntent = new Intent(getActivity(), ModuleDatabaseUpdationIntentService.class);
                     serviceIntent.putExtra(IntentConstants.MODULE_NAME,moduleName);
                     serviceIntent.putExtra(IntentConstants.MODE,"Add");
+                    serviceIntent.putExtra(IntentConstants.COURSE_ID,courseName);
+
                     getActivity().startService(serviceIntent);
 
                     //ModuleEntity.addKeyValue(moduleName,key);
@@ -217,10 +220,12 @@ public class AddModuleFragment extends Fragment{
                 .hideOnTouchOutside()
                 .setContentTitle("Swipe from left to launch drawer with navigation options.")
                 .build();
+    }
 
-
-
-
+    public void initialise(Intent intent) {
+        if(intent!=null && intent.getStringExtra(IntentConstants.COURSE_ID)!=null){
+            courseName = intent.getStringExtra(IntentConstants.COURSE_ID);
+        }
     }
 
 
