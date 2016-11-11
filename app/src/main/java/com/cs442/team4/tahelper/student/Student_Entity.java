@@ -12,6 +12,16 @@ public class Student_Entity {
     private String fullName;
     private String email;
     private String aNumber;
+    private int belongToGroup;
+
+    public int getBelongToGroup() {
+        return belongToGroup;
+    }
+
+    public void setBelongToGroup(int belongToGroup) {
+        this.belongToGroup = belongToGroup;
+    }
+
 
     // Required default constructor for Firebase object mapping
     @SuppressWarnings("unused")
@@ -50,6 +60,12 @@ public class Student_Entity {
     public String getStudentANumber() {
         return aNumber;
     }
+
+    public String getDisplayText() {
+        String groupId = getBelongToGroup() == 0 ? "" : (" Group " + getBelongToGroup());
+        return firstName + " " + lastName + groupId;
+    }
+
 
     @Override
     public String toString() {

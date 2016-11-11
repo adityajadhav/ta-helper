@@ -28,6 +28,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.util.Iterator;
 
+import static com.cs442.team4.tahelper.R.id.generateGroupsBtn;
 import static com.cs442.team4.tahelper.R.id.sendBcastBtn;
 
 
@@ -49,7 +50,20 @@ public class ManageCourseFragment extends Fragment implements View.OnClickListen
 //                Snackbar.make(v, "Replace with your own action", Snackbar.LENGTH_LONG)
 //                        .setAction("Action", null).show();
                 break;
+            case generateGroupsBtn:
+                openGenerateGroupFragment();
+                break;
         }
+    }
+
+    private void openGenerateGroupFragment() {
+
+        GenerateStudentGroupsFragment generateStudentGroupsFragment = new GenerateStudentGroupsFragment();
+        FragmentManager fm = getFragmentManager();
+        FragmentTransaction ft = fm.beginTransaction();
+        ft.replace(R.id.course_activity_frame_layout, generateStudentGroupsFragment, "generateStudentGroupsFragment");
+        ft.addToBackStack("course_list_fragment");
+        ft.commit();
     }
 
     private void openBcastNotificationFragment() {
@@ -156,10 +170,12 @@ public class ManageCourseFragment extends Fragment implements View.OnClickListen
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         TextView student_list_tv = (TextView) view.findViewById(R.id.student_list_tv_layout);
+        TextView generateGroupsBtn = (TextView) view.findViewById(R.id.generateGroupsBtn);
+
         FloatingActionButton sendBcastBtn = (FloatingActionButton) view.findViewById(R.id.sendBcastBtn);
         student_list_tv.setOnClickListener(this);
         sendBcastBtn.setOnClickListener(this);
-
+        generateGroupsBtn.setOnClickListener(this);
         TextView import_student_tv = (TextView) view.findViewById(R.id.import_student_tv_layout);
 
         import_student_tv.setOnClickListener(new View.OnClickListener() {
