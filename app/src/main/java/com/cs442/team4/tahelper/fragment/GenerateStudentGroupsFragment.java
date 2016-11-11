@@ -78,27 +78,33 @@ public class GenerateStudentGroupsFragment extends Fragment {
 
                         numStudent = studentList.size();
 
-                        if (numStudent < 3) {
+                        if (numStudent < 0) {
                             //If the number of items is less than three then it doesn't comply with the
                             //requirements (teams should be more or equal than three.
                             Log.d(tag, "Not Comply with the requirements");
-                            return;
-                        }
-                        List<List<Student_Entity>> groups = new LexicographicStudentGroupsImpl().generateGroups(studentList, groupSize);
-                        studentList.removeAll(studentList);
+                        } else {
 
-                        if (ObjectUtils.isNotEmpty(groups)) {
-                            for (int j = 0; j < groups.size(); j++) {
-                                for (int i = 0; i < groups.get(j).size(); i++) {
-                                    Student_Entity student = groups.get(j).get(i);
-                                    student.setBelongToGroup(j + 1);
-                                    studentList.add(student);
-                                    System.out.println(groups.get(j).get(i).getStudentFirstName() + "\t" + j);
+
+                            if (groupSize > 0) {
+                                List<List<Student_Entity>> groups = new LexicographicStudentGroupsImpl().generateGroups(studentList, groupSize);
+                                studentList.removeAll(studentList);
+
+                                if (ObjectUtils.isNotEmpty(groups)) {
+                                    for (int j = 0; j < groups.size(); j++) {
+                                        for (int i = 0; i < groups.get(j).size(); i++) {
+                                            Student_Entity student = groups.get(j).get(i);
+                                            student.setBelongToGroup(j + 1);
+                                            studentList.add(student);
+                                            System.out.println(groups.get(j).get(i).getStudentFirstName() + "\t" + j);
+                                        }
+                                    }
                                 }
+                                itemsAdapter.notifyDataSetChanged();
+                            } else {
+                                Snackbar.make(v, groupSize + " is not a valid input", Snackbar.LENGTH_LONG).setAction("Action", null).show();
+
                             }
                         }
-                        itemsAdapter.notifyDataSetChanged();
-
                     }
                 }
             }
