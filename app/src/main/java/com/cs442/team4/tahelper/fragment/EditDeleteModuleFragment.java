@@ -3,7 +3,9 @@ package com.cs442.team4.tahelper.fragment;
 import android.app.Activity;
 import android.app.Fragment;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,16 +14,22 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 
 import com.cs442.team4.tahelper.R;
+import com.cs442.team4.tahelper.activity.AddModuleActivity;
 import com.cs442.team4.tahelper.contants.IntentConstants;
 import com.cs442.team4.tahelper.model.AssignmentEntity;
 import com.cs442.team4.tahelper.model.AssignmentSplit;
 import com.cs442.team4.tahelper.model.ModuleEntity;
 import com.cs442.team4.tahelper.services.AssignmentsDatabaseUpdationService;
 import com.cs442.team4.tahelper.services.ModuleDatabaseUpdationIntentService;
+import com.github.amlcurran.showcaseview.ShowcaseView;
+import com.github.amlcurran.showcaseview.SimpleShowcaseEventListener;
+import com.github.amlcurran.showcaseview.targets.ViewTarget;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
+
+import static android.content.Context.MODE_PRIVATE;
 
 /**
  * Created by sowmyaparameshwara on 10/30/16.
@@ -134,5 +142,106 @@ public class EditDeleteModuleFragment extends Fragment {
             throw new ClassCastException(activity.toString() +
                     " must implement OnNewItemAddedListener");
         }
+    }
+
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+        SharedPreferences prefs = getActivity().getSharedPreferences("com.cs442.team4.tahelper.EditDeleteModuleFragment", MODE_PRIVATE);
+        boolean isFirstRun = prefs.getBoolean("firstrun", true);
+        if (isFirstRun)
+        {
+            prefs.edit().putBoolean("firstrun", false).commit();
+            showZerothShowCase();
+        }
+
+
+    }
+
+
+    private void showZerothShowCase(){
+        new ShowcaseView.Builder(getActivity())
+                .withMaterialShowcase()
+                .setStyle(R.style.CustomShowcaseTheme2)
+                .setTarget(new ViewTarget(moduleName))
+                .hideOnTouchOutside()
+                .setContentTitle("Edit module name here.")
+                .setShowcaseEventListener(new SimpleShowcaseEventListener() {
+
+                    @Override
+                    public void onShowcaseViewDidHide(ShowcaseView showcaseView) {
+                        showFirstShowCase();
+                    }
+
+                })
+                .build();
+    }
+
+    private void showFirstShowCase(){
+        new ShowcaseView.Builder(getActivity())
+                .withMaterialShowcase()
+                .setStyle(R.style.CustomShowcaseTheme2)
+                .setTarget(new ViewTarget(editButton))
+                .hideOnTouchOutside()
+                .setContentTitle("Click this button after editing module name changes.")
+                .setShowcaseEventListener(new SimpleShowcaseEventListener() {
+
+                    @Override
+                    public void onShowcaseViewDidHide(ShowcaseView showcaseView) {
+                        showSecondShowCase();
+                    }
+
+                })
+                .build();
+    }
+
+    private void showSecondShowCase() {
+        new ShowcaseView.Builder(getActivity())
+                .withMaterialShowcase()
+                .setStyle(R.style.CustomShowcaseTheme2)
+                .setTarget(new ViewTarget(deleteButton))
+                .hideOnTouchOutside()
+                .setContentTitle("Click this button to delete this module.")
+                .setShowcaseEventListener(new SimpleShowcaseEventListener() {
+
+                    @Override
+                    public void onShowcaseViewDidHide(ShowcaseView showcaseView) {
+                        showThirdShowCase();
+                    }
+
+                })
+                .build();
+    }
+
+    private void showThirdShowCase() {
+        new ShowcaseView.Builder(getActivity())
+                .withMaterialShowcase()
+                .setStyle(R.style.CustomShowcaseTheme2)
+                .setTarget(new ViewTarget(backButton))
+                .hideOnTouchOutside()
+                .setContentTitle("Click to go back to module list without editing.")
+                .setShowcaseEventListener(new SimpleShowcaseEventListener() {
+
+                    @Override
+                    public void onShowcaseViewDidHide(ShowcaseView showcaseView) {
+                        showFourthShowCase();
+                    }
+
+                })
+                .build();
+    }
+
+
+
+    private void showFourthShowCase() {
+        new ShowcaseView.Builder(getActivity())
+                .withMaterialShowcase()
+                .setStyle(R.style.CustomShowcaseTheme2)
+                .setTarget(new ViewTarget(((AddModuleActivity)getActivity()).mDrawerLayout))
+                .hideOnTouchOutside()
+                .setContentTitle("Swipe from left to launch drawer with navigation options.")
+                .build();
     }
 }

@@ -44,10 +44,13 @@ public class AssignmentsDatabaseUpdationService extends IntentService{
 
     @Override
     protected void onHandleIntent(final Intent intent) {
-        mDatabase.child("students").push();
-        DatabaseListener dbListsner = new DatabaseListener(intent);
-        dbListsner.setInvokedByService(true);
-        mDatabase.child("students").addValueEventListener(dbListsner);
+        if(intent.getStringExtra(IntentConstants.COURSE_ID)!=null) {
+            String courseCode = intent.getStringExtra(IntentConstants.COURSE_ID);
+            mDatabase.child("students").child(courseCode).push();
+            DatabaseListener dbListsner = new DatabaseListener(intent);
+            dbListsner.setInvokedByService(true);
+            mDatabase.child("students").child(courseCode).addValueEventListener(dbListsner);
+        }
     }
 
     class DatabaseListener implements ValueEventListener{
@@ -66,41 +69,44 @@ public class AssignmentsDatabaseUpdationService extends IntentService{
                 if (mode.equals("Add")) {
                     String moduleName = intent.getStringExtra(IntentConstants.MODULE_NAME);
                     String assignmentName = intent.getStringExtra(IntentConstants.ASSIGNMENT_NAME);
+                    String courseCode = intent.getStringExtra(IntentConstants.COURSE_ID);
                     String total = intent.getStringExtra(IntentConstants.TOTAL);
                     ArrayList<AssignmentSplit> assignmentSplitsList = intent.getParcelableArrayListExtra(IntentConstants.SPLIT);
 
                     for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
-                        mDatabase.child("students").child(postSnapshot.getKey()).child("CS442").child(moduleName).child(assignmentName).child("Total").setValue(total);
+                        mDatabase.child("students").child(courseCode).child(postSnapshot.getKey()).child(moduleName).child(assignmentName).child("Total").setValue(total);
                         for (int i = 0; i < assignmentSplitsList.size(); i++) {
                             AssignmentSplit split = assignmentSplitsList.get(i);
-                            mDatabase.child("students").child(postSnapshot.getKey()).child("CS442").child(moduleName).child(assignmentName).child("Splits").child(split.getSplitName()).setValue(String.valueOf(split.getSplitScore()));
+                            mDatabase.child("students").child(courseCode).child(postSnapshot.getKey()).child(moduleName).child(assignmentName).child("Splits").child(split.getSplitName()).setValue(String.valueOf(split.getSplitScore()));
                         }
                     }
                 } else if (mode.equals("Edit")) {
                     String moduleName = intent.getStringExtra(IntentConstants.MODULE_NAME);
                     String assignmentOldName = intent.getStringExtra(IntentConstants.ASSIGNMENT_OLD_NAME);
                     String assignmentNewName = intent.getStringExtra(IntentConstants.ASSIGNMENT_NEW_NAME);
+                    String courseCode = intent.getStringExtra(IntentConstants.COURSE_ID);
                     String total = intent.getStringExtra(IntentConstants.TOTAL);
                     ArrayList<AssignmentSplit> assignmentSplitsList = intent.getParcelableArrayListExtra(IntentConstants.SPLIT);
 
                     for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
                         Log.i("AssignmentsUpdation", "Edit : " + postSnapshot.getKey());
-                        mDatabase.child("students").child(postSnapshot.getKey()).child("CS442").child(moduleName).child(assignmentOldName).removeValue();
-                        mDatabase.child("students").child(postSnapshot.getKey()).child("CS442").child(moduleName).child(assignmentNewName).child("Total").setValue(total);
+                        mDatabase.child("students").child(courseCode).child(postSnapshot.getKey()).child(moduleName).child(assignmentOldName).removeValue();
+                        mDatabase.child("students").child(courseCode).child(postSnapshot.getKey()).child(moduleName).child(assignmentNewName).child("Total").setValue(total);
                         for (int i = 0; i < assignmentSplitsList.size(); i++) {
                             AssignmentSplit split = assignmentSplitsList.get(i);
                             Log.i("AssignmentsUpdation", "i : " + i + "split  " + split.getSplitName());
-                            mDatabase.child("students").child(postSnapshot.getKey()).child("CS442").child(moduleName).child(assignmentNewName).child("Splits").child(split.getSplitName()).setValue(String.valueOf(split.getSplitScore()));
+                            mDatabase.child("students").child(courseCode).child(postSnapshot.getKey()).child(moduleName).child(assignmentNewName).child("Splits").child(split.getSplitName()).setValue(String.valueOf(split.getSplitScore()));
                         }
                     }
                 } else if (mode.equals("Delete")) {
                     String moduleName = intent.getStringExtra(IntentConstants.MODULE_NAME);
                     String assignmentName = intent.getStringExtra(IntentConstants.ASSIGNMENT_NAME);
+                    String courseCode = intent.getStringExtra(IntentConstants.COURSE_ID);
                     boolean retainModuleName = intent.getBooleanExtra(IntentConstants.RETAIN_MODULE_NAME,false);
                     for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
-                        mDatabase.child("students").child(postSnapshot.getKey()).child("CS442").child(moduleName).child(assignmentName).removeValue();
+                        mDatabase.child("students").child(courseCode).child(postSnapshot.getKey()).child(moduleName).child(assignmentName).removeValue();
                         if(retainModuleName){
-                            mDatabase.child("students").child(postSnapshot.getKey()).child("CS442").child(moduleName).setValue("");
+                            mDatabase.child("students").child(courseCode).child(postSnapshot.getKey()).child(moduleName).setValue("");
                         }
                     }
                 }

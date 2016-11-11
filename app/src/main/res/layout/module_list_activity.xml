@@ -3,7 +3,7 @@
     android:id="@+id/drawer_layout_module_list"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/new_bg_2"
+    android:background="@drawable/module_list"
     >
 
 <fragment android:name="com.cs442.team4.tahelper.fragment.ModuleListFragment"
