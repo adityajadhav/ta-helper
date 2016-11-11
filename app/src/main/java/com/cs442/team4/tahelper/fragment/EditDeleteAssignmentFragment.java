@@ -131,6 +131,7 @@ public class EditDeleteAssignmentFragment extends Fragment {
                 Intent serviceIntent = new Intent(getActivity(), AssignmentsDatabaseUpdationService.class);
                 serviceIntent.putExtra(IntentConstants.MODULE_NAME,moduleName);
                 serviceIntent.putExtra(IntentConstants.ASSIGNMENT_OLD_NAME,originalAssignmentName);
+                serviceIntent.putExtra(IntentConstants.COURSE_ID, courseCode);
                 serviceIntent.putExtra(IntentConstants.ASSIGNMENT_NEW_NAME,assignmentName.getText().toString());
                 serviceIntent.putExtra(IntentConstants.TOTAL,assignmentTotalScore.getText().toString());
                 serviceIntent.putExtra(IntentConstants.SPLIT,assignmentSplitsList);
@@ -185,6 +186,7 @@ public class EditDeleteAssignmentFragment extends Fragment {
         serviceIntent.putExtra(IntentConstants.MODULE_NAME,moduleName);
         serviceIntent.putExtra(IntentConstants.ASSIGNMENT_NAME,originalAssignmentName);
         serviceIntent.putExtra(IntentConstants.RETAIN_MODULE_NAME,retainModuleName);
+        serviceIntent.putExtra(IntentConstants.COURSE_ID, courseCode);
         serviceIntent.putExtra(IntentConstants.MODE,"Delete");
         getActivity().startService(serviceIntent);
 
