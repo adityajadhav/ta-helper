@@ -33,6 +33,7 @@ public class EditDeleteModuleFragment extends Fragment {
     private Button editButton;
     private Button deleteButton;
     private String moduleNameString;
+    private String courseCode;
     private EditDeleteButtonListner editDeleteButtonListner;
     private Button backButton;
 
@@ -77,20 +78,20 @@ public class EditDeleteModuleFragment extends Fragment {
                 if(moduleName.getText().toString()!=null && moduleName.getText().toString().length()>0) {
                     ModuleEntity.editModule(moduleNameString,moduleName.getText().toString());
 
-                    FirebaseDatabase.getInstance().getReference("modules/"+moduleNameString).removeValue();
+                    FirebaseDatabase.getInstance().getReference("modules/"+courseCode+"/"+moduleNameString).removeValue();
 
                     DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("modules");
                    // String key  = databaseReference.push().getKey();
                     //databaseReference.child(key).child("name").setValue(moduleName.getText().toString());
-                    databaseReference.child(moduleName.getText().toString()).setValue("");
+                    databaseReference.child(courseCode).child(moduleName.getText().toString()).setValue("");
                     ArrayList<AssignmentEntity> assignmentsList = ModuleEntity.getAssignmentList(moduleName.getText().toString());
                     for(int i = 0 ; i <assignmentsList.size(); i++){
                         AssignmentEntity assignmentEntity = assignmentsList.get(i);
 
-                        databaseReference.child(moduleName.getText().toString()).child(assignmentEntity.getAssignmentName()).child("Total").setValue(assignmentEntity.getTotalScore());
+                        databaseReference.child(courseCode).child(moduleName.getText().toString()).child(assignmentEntity.getAssignmentName()).child("Total").setValue(assignmentEntity.getTotalScore());
                         for (int j = 0; j < assignmentEntity.getAssignmentSplits().size(); j++) {
                             AssignmentSplit split = assignmentEntity.getAssignmentSplits().get(j);
-                            databaseReference.child(moduleName.getText().toString()).child(assignmentEntity.getAssignmentName()).child("Splits").child(split.getSplitName()).setValue(String.valueOf(split.getSplitScore()));
+                            databaseReference.child(courseCode).child(moduleName.getText().toString()).child(assignmentEntity.getAssignmentName()).child("Splits").child(split.getSplitName()).setValue(String.valueOf(split.getSplitScore()));
                         }
 
                     }
@@ -99,6 +100,7 @@ public class EditDeleteModuleFragment extends Fragment {
                     serviceIntent.putExtra(IntentConstants.MODULE_OLD_NAME,moduleNameString);
                     serviceIntent.putExtra(IntentConstants.MODULE_NEW_NAME,moduleName.getText().toString());
                     serviceIntent.putExtra(IntentConstants.ASSIGNMENT_list,assignmentsList);
+                    serviceIntent.putExtra(IntentConstants.COURSE_ID,courseCode);
 
                     serviceIntent.putExtra(IntentConstants.MODE,"Edit");
                     getActivity().startService(serviceIntent);
@@ -117,6 +119,7 @@ public class EditDeleteModuleFragment extends Fragment {
             moduleNameString = intent.getStringExtra(IntentConstants.MODULE_NAME);
             moduleName.setText(moduleNameString);
             moduleName.setSelection(moduleName.getText().length());
+            courseCode = intent.getStringExtra(IntentConstants.COURSE_ID);
         }
     }
 

@@ -34,5 +34,7 @@ public class IntentConstants {
 
     public static final String MODE = "mode";
 
+    public static final String COURSE_ID = "course_id";
+
 
 }

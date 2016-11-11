@@ -51,6 +51,7 @@ public class ManageAssignmentsFragment extends Fragment {
     private ArrayList<String> assignmentsList;
     private ManageAssignmentsListItemAdapter manageAssignmentsAdapter;
     private String moduleName;
+    private String courseCode;
    // private TextView assignmentName;
     private Button addAssignmentButton;
     private ManageAssignmentFragmentListener manageAssignmentFragmentListener;
@@ -99,9 +100,8 @@ public class ManageAssignmentsFragment extends Fragment {
     }
 
     private void loadFromDatabase() {
-        mDatabase.child("modules/"+moduleName).push();
-
-        mDatabase.child("modules/"+moduleName).addValueEventListener(new ValueEventListener() {
+        mDatabase.child("modules").child(courseCode).child(moduleName).push();
+        mDatabase.child("modules").child(courseCode).child(moduleName).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 loadingLayout.setVisibility(View.GONE);
@@ -131,6 +131,7 @@ public class ManageAssignmentsFragment extends Fragment {
         if(intent!=null && intent.getStringExtra(IntentConstants.MODULE_NAME)!=null){
             moduleName = intent.getStringExtra(IntentConstants.MODULE_NAME);
          //   assignmentName.setText(moduleName+" Module ");
+            courseCode = intent.getStringExtra(IntentConstants.COURSE_ID);
             addAssignmentButton.setText(" Add "+moduleName+" Sub Module ");
             loadExistingAssignmentFromDatabase();
         }

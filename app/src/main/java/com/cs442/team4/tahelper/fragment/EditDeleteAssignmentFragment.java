@@ -52,6 +52,7 @@ public class EditDeleteAssignmentFragment extends Fragment {
     private EditDeleteAssignmentsFragmentListener editDeleteAssignmentFragmentListener;
     private String originalAssignmentName;
     private Button backButton;
+    private String courseCode;
 
     public interface EditDeleteAssignmentsFragmentListener{
         public void notifyEditDeleteAssignmentEvent(String moduleName);
@@ -76,7 +77,6 @@ public class EditDeleteAssignmentFragment extends Fragment {
         assignmentSplitsList = new ArrayList<AssignmentSplit>();
         assignmentAdapter = new EditDeleteAssignmentListItemAdapter(getActivity(),R.layout.add_assignments_item_layout,assignmentSplitsList);
         splitList.setAdapter(assignmentAdapter);
-        mDatabase = FirebaseDatabase.getInstance().getReference("modules");
 
         backButton.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -170,6 +170,7 @@ public class EditDeleteAssignmentFragment extends Fragment {
 
     private void handleDeleteAssignment() {
         boolean retainModuleName = false;
+
         if(ModuleEntity.getAssignmentList(moduleName).size()==1){
             mDatabase.child(moduleName).child(originalAssignmentName).setValue(null);
             mDatabase.child(moduleName).setValue("");
@@ -199,10 +200,12 @@ public class EditDeleteAssignmentFragment extends Fragment {
     public void initialise(Intent intent) {
         if(intent!=null && intent.getStringExtra(IntentConstants.MODULE_NAME)!=null){
             moduleName = intent.getStringExtra(IntentConstants.MODULE_NAME);
+            courseCode = intent.getStringExtra(IntentConstants.COURSE_ID);
             originalAssignmentName = intent.getStringExtra(IntentConstants.ASSIGNMENT_NAME);
             backButton.setText(" BACK TO "+moduleName+" MODULE LIST");
             assignmentName.setText(originalAssignmentName);
             assignmentName.setSelection(assignmentName.getText().length());
+            mDatabase = FirebaseDatabase.getInstance().getReference("modules").child(courseCode);
             loadFromDatabase();
         }
     }

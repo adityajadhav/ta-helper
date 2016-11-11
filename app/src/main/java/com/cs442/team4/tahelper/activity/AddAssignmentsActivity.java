@@ -15,10 +15,15 @@ import com.cs442.team4.tahelper.model.AssignmentSplit;
 
 public class AddAssignmentsActivity extends AppCompatActivity implements AddAssignmentsFragment.AddAssignmentsFragmentListener {
 
+    private String courseCode;
+
     @Override
     protected void onCreate(Bundle onSavedInstance){
         super.onCreate(onSavedInstance);
         setContentView(R.layout.add_assignments_activity);
+        if(getIntent().getStringExtra(IntentConstants.COURSE_ID)!=null){
+            courseCode = getIntent().getStringExtra(IntentConstants.COURSE_ID);
+        }
         AddAssignmentsFragment addAssignmentsFragment = (AddAssignmentsFragment) getFragmentManager().findFragmentById(R.id.AddAssignmentsFragmentView);
         addAssignmentsFragment.initialise(getIntent());
     }
@@ -33,12 +38,14 @@ public class AddAssignmentsActivity extends AppCompatActivity implements AddAssi
     public void notifyAddAssignmentEvent(String moduleName) {
         Intent intent = new Intent(this,ManageAssignmentsActivity.class);
         intent.putExtra(IntentConstants.MODULE_NAME,moduleName);
+        intent.putExtra(IntentConstants.COURSE_ID,courseCode);
         startActivity(intent);
     }
 
     public void notifyBackEvent(String moduleName){
         Intent intent = new Intent(this,ManageAssignmentsActivity.class);
         intent.putExtra(IntentConstants.MODULE_NAME,moduleName);
+        intent.putExtra(IntentConstants.COURSE_ID,courseCode);
         startActivity(intent);
     }
 }

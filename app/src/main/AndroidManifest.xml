@@ -15,7 +15,7 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".student.GradeStudentListActivity"
+        <activity android:name=".MainActivity"
             android:windowSoftInputMode="adjustPan">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -34,7 +34,7 @@
         <activity android:name=".student.GradeStudentListActivity"></activity>
         -->
 
-        <activity android:name=".MainActivity"></activity>
+        <activity android:name=".student.GradeStudentListActivity"></activity>
         <activity android:name=".activity.ModuleListActivity"></activity>
         <activity android:name=".activity.AddModuleActivity"></activity>
         <activity android:name=".activity.EditDeleteModuleActivity"></activity>
