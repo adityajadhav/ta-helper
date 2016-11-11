@@ -1,5 +1,6 @@
 package com.cs442.team4.tahelper;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -13,7 +14,6 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.cs442.team4.tahelper.activity.ModuleListActivity;
 import com.cs442.team4.tahelper.model.User;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -38,6 +38,7 @@ public class MainActivity extends AppCompatActivity implements
     private GoogleApiClient mGoogleApiClient;
     private TextView mStatusTextView;
     //private ProgressDialog mProgressDialog;
+    private ProgressDialog mProgressDialog;
 
     private DatabaseReference mDatabase;
 
@@ -45,8 +46,8 @@ public class MainActivity extends AppCompatActivity implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login_activity);
-        if(!isNetworkAvailable()){
-            Toast.makeText(this," Please Switch On Your Internet ",Toast.LENGTH_LONG).show();
+        if (!isNetworkAvailable()) {
+            Toast.makeText(this, " Please Switch On Your Internet ", Toast.LENGTH_LONG).show();
             Intent intent = new Intent(Intent.ACTION_MAIN);
             intent.setClassName("com.android.settings", "com.android.settings.Settings$DataUsageSummaryActivity");
             startActivity(intent);
@@ -106,11 +107,11 @@ public class MainActivity extends AppCompatActivity implements
             // If the user has not previously signed in on this device or the sign-in has expired,
             // this asynchronous branch will attempt to sign in the user silently.  Cross-device
             // single sign-on will occur in this branch.
-            //showProgressDialog();
+            showProgressDialog();
             opr.setResultCallback(new ResultCallback<GoogleSignInResult>() {
                 @Override
                 public void onResult(@NonNull GoogleSignInResult googleSignInResult) {
-                    //hideProgressDialog();
+                    hideProgressDialog();
                     handleSignInResult(googleSignInResult);
                 }
             });
@@ -142,7 +143,7 @@ public class MainActivity extends AppCompatActivity implements
 
             SharedPreferences pref = getApplicationContext().getSharedPreferences("CurrentUser", MODE_PRIVATE);
             SharedPreferences.Editor editor = pref.edit();
-            editor.putString("User",acct.getEmail());
+            editor.putString("User", acct.getEmail());
             editor.commit();
 
             //updateUI(true);
@@ -150,7 +151,7 @@ public class MainActivity extends AppCompatActivity implements
 //          startActivity(intent);
 
 
-            Intent intent = new Intent(this,CourseActivity.class);
+            Intent intent = new Intent(this, CourseActivity.class);
             startActivity(intent);
 
             finish();
@@ -234,10 +235,10 @@ public class MainActivity extends AppCompatActivity implements
 //        Intent intent = new Intent(this,ModuleListActivity.class);
 //        startActivity(intent);
 
-        Intent intent = new Intent(this,CourseActivity.class);
-        startActivity(intent);
+       // Intent intent = new Intent(this, CourseActivity.class);
+        //startActivity(intent);
 
-     /*   switch (v.getId()) {
+        switch (v.getId()) {
             case R.id.sign_in_button:
                 signIn();
 
@@ -252,7 +253,7 @@ public class MainActivity extends AppCompatActivity implements
             case R.id.disconnect_button:
                 revokeAccess();
                 break;
-        }*/
+        }
     }
 
     private void writeNewUser(String userId, String name, String email) {
@@ -265,6 +266,22 @@ public class MainActivity extends AppCompatActivity implements
                 = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
         return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+    }
+
+    private void showProgressDialog() {
+        if (mProgressDialog == null) {
+            mProgressDialog = new ProgressDialog(this);
+            mProgressDialog.setMessage(getString(R.string.loading));
+            mProgressDialog.setIndeterminate(true);
+        }
+
+        mProgressDialog.show();
+    }
+
+    private void hideProgressDialog() {
+        if (mProgressDialog != null && mProgressDialog.isShowing()) {
+            mProgressDialog.hide();
+        }
     }
 
 }
