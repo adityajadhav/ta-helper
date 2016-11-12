@@ -33,14 +33,16 @@ import com.google.android.gms.common.api.OptionalPendingResult;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
 
+import java.util.ArrayList;
+
 public class CourseActivity extends AppCompatActivity implements add_course_fragment.OnFinishAddCourseInterface, NavigationView.OnNavigationItemSelectedListener, GoogleApiClient.OnConnectionFailedListener {
 
     String mode = "null";
     final public static String COURCE_ID_KEY = "COURSE_ID";
     static String COURSE_ID = null;
     String courseId = null;
-    final Add_ta_fragment newAddTAFragment = new Add_ta_fragment();
     private GoogleApiClient mGoogleApiClient;
+    final Add_ta_fragment newAddTAFragment = new Add_ta_fragment();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -127,11 +129,10 @@ public class CourseActivity extends AppCompatActivity implements add_course_frag
                             public void callManageCourseFragment_to_activity(String courseCode) {
                                 // courseId = courseCode;
                                 Bundle bundle = new Bundle();
-                                bundle.putString("course_id", courseCode);
+                                bundle.putString(COURCE_ID_KEY, courseCode);
                                 COURSE_ID = courseCode;
                                 Log.i("Code in activity : ", courseCode);
 
-                                newManageCourseFragment.setArguments(bundle);
 
                                 FragmentManager fm = getFragmentManager();
                                 FragmentTransaction ft = fm.beginTransaction();
@@ -174,32 +175,7 @@ public class CourseActivity extends AppCompatActivity implements add_course_frag
         ft.commit();
 
 
-
-
-
-                newAddTAFragment.setAddTAFragmentInterface(new Add_ta_fragment.addTAToFirebaseInterface() {
-
-                    public void sendTAdata(ArrayList<String> al) {
-                        add_course_fragment getInstance = (add_course_fragment) getFragmentManager().findFragmentByTag("add_course_fragment_tag");
-                        getInstance.setTAMembers(al);
-                    }
-
-                    public void closeAddTAFragment()
-                    {
-                        FragmentManager fm = getFragmentManager();
-                        FragmentTransaction ft = fm.beginTransaction();
-                        Fragment id = fm.findFragmentByTag("add_ta_fragment_tag");
-                        ft.remove(id);
-                        fm.popBackStack();
-                        ft.commit();
-                    }
-
-        });
-
-
     }
-
-
 
     @Override
     public void closeAddCourseFragment() {
@@ -212,7 +188,7 @@ public class CourseActivity extends AppCompatActivity implements add_course_frag
     }
 
     @Override
-    public void callAddTAs_to_activity(ArrayList<String> ta_memebers){
+    public void callAddTAs_to_activity(ArrayList<String> ta_members) {
         FragmentManager fm = getFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
 
@@ -220,9 +196,9 @@ public class CourseActivity extends AppCompatActivity implements add_course_frag
         ft.addToBackStack("add_course_fragment_tag");
         ft.commit();
 
-        newAddTAFragment.getExisitingMembers(ta_memebers);
-       // Add_ta_fragment getInstance = (Add_ta_fragment) getFragmentManager().findFragmentByTag("add_ta_fragment_tag");
-      // getInstance.getExisitingMembers(ta_memebers);
+        newAddTAFragment.getExisitingMembers(ta_members);
+        // Add_ta_fragment getInstance = (Add_ta_fragment) getFragmentManager().findFragmentByTag("add_ta_fragment_tag");
+        // getInstance.getExisitingMembers(ta_memebers);
     }
 
 
