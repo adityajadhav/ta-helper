@@ -174,8 +174,8 @@ public class ManageCourseFragment extends Fragment implements View.OnClickListen
 
         FloatingActionButton sendBcastBtn = (FloatingActionButton) view.findViewById(R.id.sendBcastBtn);
         student_list_tv.setOnClickListener(this);
-        //sendBcastBtn.setOnClickListener(this);
-        //generateGroupsBtn.setOnClickListener(this);
+        sendBcastBtn.setOnClickListener(this);
+        generateGroupsBtn.setOnClickListener(this);
         TextView import_student_tv = (TextView) view.findViewById(R.id.import_student_tv_layout);
 
         /*
