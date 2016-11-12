@@ -2,6 +2,7 @@ package com.cs442.team4.tahelper;
 
 import android.app.Fragment;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.util.Log;
@@ -19,13 +20,15 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
+import static android.content.Context.MODE_PRIVATE;
+
 /**
  * Created by ullas on 10/29/2016.
  */
 
 public class course_list_fragment extends Fragment {
     @Nullable
-
+    String user = null;
 
     OnActionButtonClickListener mClick;
 
@@ -34,6 +37,7 @@ public class course_list_fragment extends Fragment {
             public void callManageCourseFragment_to_activity(String course_id);
             public void editCourseFragment_to_activity(String mode, String course_id);
             public void callModuleActivity_to_activity(String courseCode);
+
     }
 
     public void setInterface(OnActionButtonClickListener oa)
@@ -54,7 +58,9 @@ public class course_list_fragment extends Fragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
 
-
+        SharedPreferences pref = getContext().getSharedPreferences("CurrentUser", MODE_PRIVATE);
+        user = pref.getString("User","");
+        Log.i("Username",user);
 
         Button myFab = (Button)  view.findViewById(R.id.add_course_fab_layout);
         myFab.setOnClickListener(new View.OnClickListener() {
@@ -113,7 +119,9 @@ public class course_list_fragment extends Fragment {
                 mClick.callModuleActivity_to_activity(courseCode);
             }
         });
+
         players.addValueEventListener(new ValueEventListener() {
+            int display_flag =0;
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                // if(dataSnapshot.hasChildren()) {
@@ -121,6 +129,17 @@ public class course_list_fragment extends Fragment {
 
                         //    Log.i("player", player.child(s + "/courseCode").getValue().toString());
                         try {
+                                DataSnapshot users = items.child("ta_members");
+                            for(DataSnapshot ta_user: users.getChildren())                            {
+                                Log.i("USer",ta_user.getValue().toString());
+
+                                if(ta_user.getValue().toString().equals(user))
+                                {
+                                    display_flag = 1;
+                                }
+                            }
+                            if(display_flag == 0)
+                                continue;
 
                             Log.i("player", items.child("courseName").getValue().toString());
                             String c_name = items.child("courseName").getValue().toString();
@@ -133,6 +152,7 @@ public class course_list_fragment extends Fragment {
                             String c_p_un = items.child("professorUserName").getValue().toString();
 
                             course_array.add(new Course_Entity(c_name, c_id, c_p_first, c_p_last, c_p_email, c_p_un, c_ta));
+                            display_flag = 0;
                         }
                         catch(Exception e)
                         {

@@ -67,9 +67,9 @@ public class StudentAssignmentSplitsListFragment extends ListFragment {
     }
 
     private void loadFromDatabase() {
-        mDatabase.child("students").child(studentId).child(courseName).child(moduleName).child(moduleItem).child("Splits").push();
+        mDatabase.child("students").child(courseName).child(studentId).child(moduleName).child(moduleItem).child("Splits").push();
 
-        mDatabase.child("students").child(studentId).child(courseName).child(moduleName).child(moduleItem).child("Splits").addValueEventListener(new ValueEventListener() {
+        mDatabase.child("students").child(courseName).child(studentId).child(moduleName).child(moduleItem).child("Splits").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
 
@@ -86,8 +86,8 @@ public class StudentAssignmentSplitsListFragment extends ListFragment {
 
                         //For fetching maximum points
                         //mDatabase.child("modules").child(courseName).child(moduleName).child(moduleItem).child("Splits").push();
-                        mDatabase.child("modules").child(moduleName).child(moduleItem).child("Splits").push();
-                        mDatabase.child("modules").child(moduleName).child(moduleItem).child("Splits").addValueEventListener(new ValueEventListener() {
+                        mDatabase.child("modules").child(courseName).child(moduleName).child(moduleItem).child("Splits").push();
+                        mDatabase.child("modules").child(courseName).child(moduleName).child(moduleItem).child("Splits").addValueEventListener(new ValueEventListener() {
 
                             @Override
                             public void onDataChange(DataSnapshot dataSnapshot) {

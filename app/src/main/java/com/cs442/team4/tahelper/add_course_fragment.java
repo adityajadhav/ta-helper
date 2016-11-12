@@ -2,20 +2,31 @@ package com.cs442.team4.tahelper;
 
 import android.app.Fragment;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.annotation.StringDef;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.GenericTypeIndicator;
 import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import static android.content.Context.MODE_PRIVATE;
 
 /**
  * Created by ullas on 10/29/2016.
@@ -29,17 +40,52 @@ public class add_course_fragment extends Fragment {
     String fragmentHeading = "Add Course";
     String buttonLabel = "ADd Course";
     String old_course_id = null;
+    ArrayList<String> ta_memebers = new ArrayList<>();
+    int flag =0 ;
+    String user;
     public interface OnFinishAddCourseInterface {
         public void closeAddCourseFragment();
+        public void callAddTAs_to_activity(ArrayList<String> ta_members);
     }
 
     public void callManageCourseFragment() {
         Log.i("Here", "here");
     }
 
+    View global_view;
+    ArrayAdapter<String> adapter;
+    public void setTAMembers(ArrayList<String> getMembers)
+    {
+        final ListView ta_display__lv = (ListView) global_view.findViewById(R.id.ta_display_lv_layout);
+        ta_memebers = getMembers;
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(),R.layout.ta_display_list_view,R.id.ta_email_tv_layout,ta_memebers);
+        ta_display__lv.setAdapter(adapter);
+        adapter.notifyDataSetChanged();
+        Log.i("got",ta_memebers.toString());
+        final TextView course_name_tv = (TextView) global_view.findViewById(R.id.course_name_tv_layout);
+        course_name_tv.setText(getMembers.get(0));
+    }
+
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        final ListView ta_display__lv = (ListView) global_view.findViewById(R.id.ta_display_lv_layout);
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(),R.layout.ta_display_list_view,R.id.ta_email_tv_layout,ta_memebers);
+        ta_display__lv.setAdapter(adapter);
+        adapter.notifyDataSetChanged();
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
+
+
+
+
         Bundle args = getArguments();
         if (args != null) {
             String mode = getArguments().getString("mode");
@@ -61,12 +107,17 @@ public class add_course_fragment extends Fragment {
     }
 
 
+
     @Override
     public void onViewCreated(final View view, Bundle savedInstanceState) {
+        SharedPreferences pref = getContext().getSharedPreferences("CurrentUser", MODE_PRIVATE);
+        user = pref.getString("User","");
+        Log.i("Username",user);
+
 
         final FirebaseDatabase database = FirebaseDatabase.getInstance();
         final DatabaseReference myRef = database.getReference("courses");
-
+        global_view = view;
 
         final TextView course_name_tv = (TextView) getView().findViewById(R.id.course_name_tv_layout);
         final TextView course_id_tv = (TextView) getView().findViewById(R.id.course_id_tv_layout);
@@ -74,14 +125,24 @@ public class add_course_fragment extends Fragment {
         final TextView professor_LN_tv = (TextView) getView().findViewById(R.id.professor_LN_tv_layout);
         final TextView professor_UN_tv = (TextView) getView().findViewById(R.id.professor_UN_tv_layout);
         final TextView professor_email_tv = (TextView) getView().findViewById(R.id.professor_email_tv_layout);
-        final TextView ta_email_tv = (TextView) getView().findViewById(R.id.ta_email_tv_layout);
+      //  final TextView ta_email_tv = (TextView) getView().findViewById(R.id.ta_email_tv_layout);
+        final ListView ta_display__lv = (ListView) getView().findViewById(R.id.ta_display_lv_layout);
 
         Button add_course_btn = (Button) getView().findViewById(R.id.add_course_btn_layout);
+        Button add_ta_btn = (Button) getView().findViewById(R.id.add_ta_btn_layout);
+
+        if(!ta_memebers.contains(user) && flag ==0)
+        {
+            ta_memebers.add(user);
+
+        }
+
+
 
         if (smode.length() > 0) {
             if (smode.equals("edit")) {
                 TextView add_course_heading_tv = (TextView) view.findViewById(R.id.add_course_heading_tv_layout);
-                add_course_btn.setText("EDIT");
+                add_course_btn.setText("DONE");
                 add_course_heading_tv.setText("Edit Course");
                 myRef.addValueEventListener(new ValueEventListener() {
                     @Override
@@ -111,7 +172,19 @@ public class add_course_fragment extends Fragment {
                             professor_LN_tv.setText(c_p_last);
                             professor_UN_tv.setText(c_p_un);
                             professor_email_tv.setText(c_p_email);
-                            ta_email_tv.setText(c_p_un);
+                          //  ta_email_tv.setText(c_p_un);
+
+                            GenericTypeIndicator<ArrayList<String>> t = new GenericTypeIndicator<ArrayList<String>>() {};
+
+                            if(flag == 0) {
+                                ta_memebers = items.child("ta_members").getValue(t);
+
+                                if (ta_memebers.size() > 0) {
+                                    ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(), R.layout.ta_display_list_view, R.id.ta_email_tv_layout, ta_memebers);
+                                    ta_display__lv.setAdapter(adapter);
+
+                                }
+                            }
 
 
 
@@ -131,6 +204,13 @@ public class add_course_fragment extends Fragment {
             }
         }
 
+                add_ta_btn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        mFinish.callAddTAs_to_activity(ta_memebers);
+
+                    }
+                });
 
 
                 add_course_btn.setOnClickListener(new View.OnClickListener() {
@@ -143,7 +223,7 @@ public class add_course_fragment extends Fragment {
                 final String professor_LN = professor_LN_tv.getText().toString();
                 final String professor_UN = professor_UN_tv.getText().toString();
                 final String professor_email = professor_email_tv.getText().toString();
-                final String ta_email = ta_email_tv.getText().toString();
+               // final String ta_email = ta_email_tv.getText().toString();
                 if(smode.equals("edit"))
                 {
                     myRef.child(old_course_id).removeValue();
@@ -152,14 +232,32 @@ public class add_course_fragment extends Fragment {
 
 
 
-                Course_Entity ce = new Course_Entity(course_name, course_id, professor_FN, professor_LN, professor_email, professor_UN, ta_email);
+                Course_Entity ce = new Course_Entity(course_name, course_id, professor_FN, professor_LN, professor_email, professor_UN, "");
 
                 myRef.child(course_id).setValue(ce);
+
+
+                if(ta_memebers.size() > 0)
+                {
+                    myRef.child(course_id).child("ta_members").setValue(ta_memebers);
+
+                }
+                else
+                {
+                    Toast.makeText(getContext(),"Add TA members by clicking on Add TAs button",Toast.LENGTH_SHORT).show();
+                }
+
+
                 mFinish.closeAddCourseFragment();
             }
         });
 
+
+
+        flag =1;
+
         super.onViewCreated(view, savedInstanceState);
+
     }
 
     @Override

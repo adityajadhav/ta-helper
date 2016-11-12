@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:focusable="false"
+    android:descendantFocusability="blocksDescendants">
+
+    <TextView
+        android:text="Select TAs from drop down"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView"
+        android:focusable="false"
+        android:descendantFocusability="blocksDescendants"
+        android:textSize="25sp" />
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+
+    <Spinner
+        android:layout_width="260dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/ta_drop_down_layout"
+        android:focusable="false"
+        android:descendantFocusability="blocksDescendants"
+        />
+    <Button
+        android:text="Add"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/add_to_list_btn_layout" />
+    </LinearLayout>
+
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="388dp"
+        android:id="@+id/ta_list_view_layout"/>
+
+    <Button
+        android:text="Add TAs"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/add_ta_final_btn_layout" />
+</LinearLayout>

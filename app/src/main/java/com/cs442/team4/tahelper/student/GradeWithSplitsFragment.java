@@ -235,19 +235,19 @@ public class GradeWithSplitsFragment extends Fragment {
 
     private void updateGradesToDatabase()
     {
-        mDatabase.child("students").child(studentId).child(courseName).child(moduleName).child(moduleItem).child("Total").setValue(finalScore.toString());
+        mDatabase.child("students").child(courseName).child(studentId).child(moduleName).child(moduleItem).child("Total").setValue(finalScore.toString());
 
         for (int i = 0; i < splitsArrayList.size(); i++) {
             Split split = splitsArrayList.get(i);
-            mDatabase.child("students").child(studentId).child(courseName).child(moduleName).child(moduleItem).child("Splits").child(split.getSplitName()).setValue(finalSplitValues.get(i));
+            mDatabase.child("students").child(courseName).child(studentId).child(moduleName).child(moduleItem).child("Splits").child(split.getSplitName()).setValue(finalSplitValues.get(i));
         }
     }
 
     private void loadModuleItemDetailsFromDatabase()
     {
-        mDatabase.child("students").child(studentId).child(courseName).child(moduleName).push();
+        mDatabase.child("students").child(courseName).child(studentId).child(moduleName).push();
 
-        mDatabase.child("students").child(studentId).child(courseName).child(moduleName).addValueEventListener(new ValueEventListener() {
+        mDatabase.child("students").child(courseName).child(studentId).child(moduleName).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
 
@@ -261,8 +261,8 @@ public class GradeWithSplitsFragment extends Fragment {
                     //Log.d("moduleItemGainedScore:"," "+moduleItemGainedScore);
 
                     //For fetching maximum points
-                    mDatabase.child("modules").child(moduleName).push();
-                    mDatabase.child("modules").child(moduleName).addValueEventListener(new ValueEventListener() {
+                    mDatabase.child("modules").child(courseName).child(moduleName).push();
+                    mDatabase.child("modules").child(courseName).child(moduleName).addValueEventListener(new ValueEventListener() {
 
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
@@ -293,9 +293,9 @@ public class GradeWithSplitsFragment extends Fragment {
     }
 
     private void loadFromDatabase() {
-        mDatabase.child("students").child(studentId).child(courseName).child(moduleName).child(moduleItem).child("Splits").push();
+        mDatabase.child("students").child(courseName).child(studentId).child(moduleName).child(moduleItem).child("Splits").push();
 
-        mDatabase.child("students").child(studentId).child(courseName).child(moduleName).child(moduleItem).child("Splits").addValueEventListener(new ValueEventListener() {
+        mDatabase.child("students").child(courseName).child(studentId).child(moduleName).child(moduleItem).child("Splits").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
 
@@ -313,8 +313,8 @@ public class GradeWithSplitsFragment extends Fragment {
 
                         //For fetching maximum points
                         //mDatabase.child("modules").child(courseName).child(moduleName).child(moduleItem).child("Splits").push();
-                        mDatabase.child("modules").child(moduleName).child(moduleItem).child("Splits").push();
-                        mDatabase.child("modules").child(moduleName).child(moduleItem).child("Splits").addValueEventListener(new ValueEventListener() {
+                        mDatabase.child("modules").child(courseName).child(moduleName).child(moduleItem).child("Splits").push();
+                        mDatabase.child("modules").child(courseName).child(moduleName).child(moduleItem).child("Splits").addValueEventListener(new ValueEventListener() {
 
                             @Override
                             public void onDataChange(DataSnapshot dataSnapshot) {

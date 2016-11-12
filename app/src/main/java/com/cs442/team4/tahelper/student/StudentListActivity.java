@@ -5,6 +5,7 @@ import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 
 import com.cs442.team4.tahelper.R;
 import com.cs442.team4.tahelper.activity.AddModuleActivity;
@@ -17,6 +18,8 @@ import com.cs442.team4.tahelper.fragment.ModuleListFragment;
 
 public class StudentListActivity extends AppCompatActivity implements StudentListFragment.OnStudentClickListener {
 
+    String courseId = "CS442";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -25,7 +28,22 @@ public class StudentListActivity extends AppCompatActivity implements StudentLis
         FragmentManager fm = getFragmentManager();
         FragmentTransaction ft =fm.beginTransaction();
 
-        ft.replace(R.id.student_list_activity_frame_layout,new StudentListFragment(),"student_list_fragment");
+        Intent intent = getIntent();
+        if(intent.getStringExtra("course_id")!=null){
+            courseId = intent.getStringExtra("course_id");
+            Log.d("Course Id : "," In StudentListActivity: "+courseId);
+        }
+
+
+        StudentListFragment studentListFragment = new StudentListFragment();
+
+        Bundle bundle = new Bundle();
+        Log.d("Course Id : "," In StudentListActivity 2nd time: "+courseId);
+        bundle.putString(IntentConstants.COURSE_ID, courseId);
+
+        studentListFragment.setArguments(bundle);
+
+        ft.replace(R.id.student_list_activity_frame_layout,studentListFragment,"student_list_fragment");
         ft.commit();
 
     }

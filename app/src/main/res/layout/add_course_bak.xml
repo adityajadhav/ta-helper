@@ -163,10 +163,6 @@
                 android:id="@+id/professor_email_tv_layout"
                 android:hint="Email of Professor" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
             <TextView
                 android:text="TA(s):"
                 android:layout_width="wrap_content"
@@ -177,31 +173,33 @@
                 android:textColor="@android:color/background_dark"
                 android:layout_marginBottom="17dp"
                 android:layout_above="@+id/add_course_btn_layout"
-                android:layout_alignParentStart="true"
-                android:layout_weight="2"/>
+                android:layout_alignParentStart="true" />
 
-                <Button
-                    android:text="ADD/REMOVE TA"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/add_ta_btn_layout"
-                    android:layout_alignBottom="@+id/ta_email_tv_layout"
-                    android:layout_alignParentEnd="true"
-                    android:layout_weight="1"/>
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:inputType="textPersonName"
+                android:ems="10"
+                android:id="@+id/ta_email_tv_layout"
+                android:textSize="20sp"
+                android:layout_alignBaseline="@+id/textView8"
+                android:layout_alignBottom="@+id/textView8"
+                android:layout_alignParentEnd="true"
+                android:hint="Email of TA(s)"
+                android:visibility="invisible" />
 
-            </LinearLayout>
-
-
-
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
             <ListView
                 android:layout_width="match_parent"
-                android:id="@+id/ta_display_lv_layout"
-                android:layout_height="100sp" />
+                android:layout_height="200sp"
+                android:id="@+id/ta_display_lv_layout" />
 
-
-
+            <Button
+                android:text="ADD"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/add_ta_btn_layout"
+                android:layout_alignBottom="@+id/ta_email_tv_layout"
+                android:layout_alignParentEnd="true" />
 
             <Button
                 android:text="Add Course"

@@ -26,8 +26,8 @@ public class GradeStudentListActivity extends AppCompatActivity implements Grade
         FragmentTransaction ft =fm.beginTransaction();
 
         Intent intent = getIntent();
-        if(intent.getStringExtra(IntentConstants.COURSE_NAME)!=null){
-            courseName = intent.getStringExtra(IntentConstants.COURSE_NAME);
+        if(intent.getStringExtra(IntentConstants.COURSE_ID)!=null){
+            courseName = intent.getStringExtra(IntentConstants.COURSE_ID);
         }
         if(intent.getStringExtra(IntentConstants.MODULE_NAME)!=null){
             moduleName = intent.getStringExtra(IntentConstants.MODULE_NAME);
@@ -39,7 +39,7 @@ public class GradeStudentListActivity extends AppCompatActivity implements Grade
         GradeStudentListFragment gradeStudentListFragment = new GradeStudentListFragment();
 
         Bundle bundle = new Bundle();
-        bundle.putString(IntentConstants.COURSE_NAME, courseName);
+        bundle.putString(IntentConstants.COURSE_ID, courseName);
         bundle.putString(IntentConstants.MODULE_NAME, moduleName);
         bundle.putString(IntentConstants.MODULE_ITEM, moduleItem);
 
