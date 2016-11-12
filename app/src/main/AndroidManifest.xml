@@ -33,7 +33,6 @@
         <!--
         <activity android:name=".student.GradeStudentListActivity"></activity>
         -->
-
         <activity android:name=".student.GradeStudentListActivity"></activity>
         <activity android:name=".activity.ModuleListActivity"></activity>
         <activity android:name=".activity.AddModuleActivity"></activity>

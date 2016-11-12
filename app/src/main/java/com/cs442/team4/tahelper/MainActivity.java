@@ -14,7 +14,8 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.cs442.team4.tahelper.model.User;
+import com.cs442.team4.tahelper.model.UserEntity;
+import com.cs442.team4.tahelper.utils.ObjectUtils;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
@@ -37,7 +38,6 @@ public class MainActivity extends AppCompatActivity implements
 
     private GoogleApiClient mGoogleApiClient;
     private TextView mStatusTextView;
-    //private ProgressDialog mProgressDialog;
     private ProgressDialog mProgressDialog;
 
     private DatabaseReference mDatabase;
@@ -139,19 +139,17 @@ public class MainActivity extends AppCompatActivity implements
             // Signed in successfully, show authenticated UI.
             GoogleSignInAccount acct = result.getSignInAccount();
             mStatusTextView.setText(getString(R.string.signed_in_fmt, acct.getDisplayName()));
-            writeNewUser(acct.getId(), acct.getGivenName(), acct.getEmail());
+
+
+            UserEntity user = writeNewUser(acct);
 
             SharedPreferences pref = getApplicationContext().getSharedPreferences("CurrentUser", MODE_PRIVATE);
             SharedPreferences.Editor editor = pref.edit();
-            editor.putString("User", acct.getEmail());
+            editor.putString("UserEntity", acct.getEmail());
             editor.commit();
-
             //updateUI(true);
-//            Intent intent = new Intent(this, ModuleListActivity.class);
-//          startActivity(intent);
-
-
             Intent intent = new Intent(this, CourseActivity.class);
+            intent.putExtra("USER_DETAILS", user);
             startActivity(intent);
 
             finish();
@@ -202,22 +200,6 @@ public class MainActivity extends AppCompatActivity implements
         Log.d(TAG, "onConnectionFailed:" + connectionResult);
     }
 
-   /* private void showProgressDialog() {
-        if (mProgressDialog == null) {
-            mProgressDialog = new ProgressDialog(this);
-            mProgressDialog.setMessage(getString(R.string.loading));
-            mProgressDialog.setIndeterminate(true);
-        }
-
-        mProgressDialog.show();
-    }
-*/
-   /* private void hideProgressDialog() {
-        if (mProgressDialog != null && mProgressDialog.isShowing()) {
-            mProgressDialog.hide();
-        }
-    }*/
-
     private void updateUI(boolean signedIn) {
         if (signedIn) {
             findViewById(R.id.sign_in_button).setVisibility(View.GONE);
@@ -232,23 +214,12 @@ public class MainActivity extends AppCompatActivity implements
 
     @Override
     public void onClick(View v) {
-//        Intent intent = new Intent(this,ModuleListActivity.class);
-//        startActivity(intent);
-
-       // Intent intent = new Intent(this, CourseActivity.class);
-        //startActivity(intent);
-
         switch (v.getId()) {
             case R.id.sign_in_button:
                 signIn();
-
-                //Course Activity - Start from here
                 break;
-
-
             case R.id.sign_out_button:
                 signOut();
-
                 break;
             case R.id.disconnect_button:
                 revokeAccess();
@@ -256,9 +227,19 @@ public class MainActivity extends AppCompatActivity implements
         }
     }
 
-    private void writeNewUser(String userId, String name, String email) {
-        User user = new User(name, email);
-        mDatabase.child("users").child(userId).setValue(user);
+    private UserEntity writeNewUser(GoogleSignInAccount acct) {
+        UserEntity user = new UserEntity();
+        user.setId(acct.getId());
+        user.setName(acct.getGivenName());
+        user.setEmail(acct.getEmail());
+        user.setFamilyName(acct.getFamilyName());
+        user.setDisplayName(acct.getDisplayName());
+        if(ObjectUtils.isNotEmpty(acct.getPhotoUrl()))
+        user.setPhotoUrl(acct.getPhotoUrl().toString());
+        user.setUsername(acct.getDisplayName());
+        user.setLastLogedIn();
+        mDatabase.child("users").child(user.getId()).setValue(user);
+        return user;
     }
 
     private boolean isNetworkAvailable() {
