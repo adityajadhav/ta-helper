@@ -22,6 +22,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.GenericTypeIndicator;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
@@ -35,10 +36,12 @@ public class BcastNotificationFragment extends Fragment {
 
     private DatabaseReference mDatabase;
     private String TAG = "team4";
+    ArrayList<String> taList;
     private ArrayList<Student_Entity> studentList;
     private ArrayList<String> emails;// = "ajadhav4@hawk.iit.edu";
     public final static String MODULE_NAME = "BcastNotification";
     private String courseId = "";
+    private String[] taEmailIds;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -50,12 +53,12 @@ public class BcastNotificationFragment extends Fragment {
             courseId = getArguments().getString(CourseActivity.COURCE_ID_KEY);
         }
         mDatabase = FirebaseDatabase.getInstance().getReference();
-
+        taList = new ArrayList<>();
         final Spinner toEdtTxt = (Spinner) view.findViewById(R.id.toSpinner);
         List<String> list = new ArrayList<String>();
         list.add("All");
         //TODO fetch TA's email Ids
-        list.add("abc_ta1@hawk.iit.edu");
+        list.add("TA's");
         list.add("abc_ta2@hawk.iit.edu");
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(getContext(),
                 android.R.layout.simple_spinner_item, list);
@@ -68,9 +71,9 @@ public class BcastNotificationFragment extends Fragment {
                 Toast.makeText(parent.getContext(),
                         "Send mail TO : " + parent.getItemAtPosition(pos).toString(),
                         Toast.LENGTH_SHORT).show();
-                String email = parent.getItemAtPosition(pos).toString();
+                String type = parent.getItemAtPosition(pos).toString();
 
-                if ("All".equals(email)) {
+                if ("All".equals(type)) {
                     emails.clear();
                     if (ObjectUtils.isNotEmpty(studentList)) {
                         for (Student_Entity student : studentList) {
@@ -81,7 +84,13 @@ public class BcastNotificationFragment extends Fragment {
 
                 } else {
                     emails.clear();
-                    emails.add(email);
+                    if (ObjectUtils.isNotEmpty(taList)) {
+                        for (String taEmailId : taList) {
+                            if (ObjectUtils.isNotEmpty(taEmailId))
+                                emails.add(taEmailId);
+                        }
+                    }
+
                 }
 
 
@@ -98,7 +107,7 @@ public class BcastNotificationFragment extends Fragment {
         Button sendBtn = (Button) view.findViewById(R.id.sendBtn);
 
         fetchStudents(courseId);
-
+        fetchTAs(courseId);
 
         sendBtn.setOnClickListener(new View.OnClickListener() {
 
@@ -163,5 +172,31 @@ public class BcastNotificationFragment extends Fragment {
 
         }
     }
+
+
+    private void fetchTAs(String courseId) {
+        if (ObjectUtils.isNotEmpty(courseId)) {
+            studentList = new ArrayList<>();
+            DatabaseReference ref = mDatabase.child("courses").child("500");
+            ref.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot snapshot) {
+                    Log.e("Count ", "" + snapshot.getChildrenCount());
+
+                    GenericTypeIndicator<ArrayList<String>> t = new GenericTypeIndicator<ArrayList<String>>() {
+                    };
+
+                    taList = snapshot.child("ta_members").getValue(t);
+
+                }
+
+                @Override
+                public void onCancelled(DatabaseError firebaseError) {
+                    Log.e("The read failed: ", firebaseError.getMessage());
+                }
+            });
+        }
+    }
+
 
 }

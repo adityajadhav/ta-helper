@@ -14,12 +14,59 @@ public class Course_Entity {
     private String professorEmailId;
     private String professorUsername;
 
+
+
+
+    public void setTAEmailIds(String TAEmailIds) {
+        this.TAEmailIds = TAEmailIds;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
+
+    public void setProfessorFullName(String professorFullName) {
+        this.professorFullName = professorFullName;
+    }
+
+    public void setProfessorFirstName(String professorFirstName) {
+        this.professorFirstName = professorFirstName;
+    }
+
+    public void setProfessorLastName(String professorLastName) {
+        this.professorLastName = professorLastName;
+    }
+
+    public void setProfessorEmailId(String professorEmailId) {
+        this.professorEmailId = professorEmailId;
+    }
+
+    public String getProfessorUsername() {
+        return professorUsername;
+    }
+
+    public void setProfessorUsername(String professorUsername) {
+        this.professorUsername = professorUsername;
+    }
+
     //TA email id's seperated by ;
     private String TAEmailIds;
 
 
     public Course_Entity(String name, String code, String professor_first_name, String professor_last_name,
-                              String professor_email_id, String professor_username, String TA_email_ids) {
+                         String professor_email_id, String professor_username, String TA_email_ids) {
         this.name = name;
         this.code = code;
         this.professorFirstName = professor_first_name;
@@ -29,6 +76,11 @@ public class Course_Entity {
         this.professorFullName = professor_last_name + "," + professor_first_name;
         this.professorUsername = professor_username;
         this.TAEmailIds = TA_email_ids;
+    }
+
+    //Constructor needed for firebsae
+    public Course_Entity() {
+
     }
 
 

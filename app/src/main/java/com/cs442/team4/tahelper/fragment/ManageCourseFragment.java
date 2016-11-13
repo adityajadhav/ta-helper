@@ -11,29 +11,24 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.cs442.team4.tahelper.CourseActivity;
-import com.cs442.team4.tahelper.MainActivity;
 import com.cs442.team4.tahelper.R;
 import com.cs442.team4.tahelper.student.StudentListActivity;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.GenericTypeIndicator;
 import com.google.firebase.database.ValueEventListener;
 
-import org.apache.poi.ss.formula.functions.T;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
@@ -41,12 +36,9 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.net.URL;
-import java.util.ArrayList;
 import java.util.Iterator;
 
 import static android.app.Activity.RESULT_OK;
-import static android.support.v4.content.ContextCompat.checkSelfPermission;
 import static com.cs442.team4.tahelper.R.id.generateGroupsBtn;
 import static com.cs442.team4.tahelper.R.id.sendBcastBtn;
 
@@ -55,7 +47,6 @@ public class ManageCourseFragment extends Fragment implements View.OnClickListen
     String courseId = null;
     File importfile;
     String filepath;
-
 
 
     @Override
@@ -110,6 +101,7 @@ public class ManageCourseFragment extends Fragment implements View.OnClickListen
         intent.setType("*/*");
         startActivityForResult(intent, 15);
     }
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
 
@@ -124,7 +116,6 @@ public class ManageCourseFragment extends Fragment implements View.OnClickListen
                 filepath = importfile.getAbsolutePath().split(":")[1];
                 Log.i("String:", filepath);
                 importStudentData();
-
 
 
             } catch (Exception e) {
@@ -169,10 +160,8 @@ public class ManageCourseFragment extends Fragment implements View.OnClickListen
 //                    + "/Download/Students.xlsx");
 
 
-            String [] format = filepath.split("\\.");
-            if(format[format.length-1].equals("xls")  ||  format[format.length-1].equals("xlsx")) {
-
-
+            String[] format = filepath.split("\\.");
+            if (format[format.length - 1].equals("xls") || format[format.length - 1].equals("xlsx")) {
 
 
                 File file = new File(Environment.getExternalStorageDirectory() + "/" + filepath);
@@ -193,12 +182,11 @@ public class ManageCourseFragment extends Fragment implements View.OnClickListen
                 Iterator<Row> rowIterator = sheet.iterator();
 
                 int noOfColumns = sheet.getRow(0).getLastCellNum();
-                Log.i("Number of col",Integer.toString(noOfColumns));
+                Log.i("Number of col", Integer.toString(noOfColumns));
                 String name = null;
 
-                if(noOfColumns != 2)
-                {
-                    Toast.makeText(getContext(),"Number of columns should be 2. Import failed!",Toast.LENGTH_SHORT);
+                if (noOfColumns != 2) {
+                    Toast.makeText(getContext(), "Number of columns should be 2. Import failed!", Toast.LENGTH_SHORT);
                     return;
                 }
 
@@ -220,9 +208,7 @@ public class ManageCourseFragment extends Fragment implements View.OnClickListen
                 DatabaseReference myRef1 = database.getReference("courses");
                 myRef1.child(courseId).child("imported").setValue(true);
                 Toast.makeText(getContext(), "Import Completed", Toast.LENGTH_SHORT).show();
-            }
-            else
-            {
+            } else {
                 Toast.makeText(getContext(), "only xls or xlsx file format supported", Toast.LENGTH_SHORT).show();
                 return;
             }
@@ -244,7 +230,7 @@ public class ManageCourseFragment extends Fragment implements View.OnClickListen
     private void requestPermission() {
 
 
-            requestPermissions(new String[]{android.Manifest.permission.READ_EXTERNAL_STORAGE}, 1);
+        requestPermissions(new String[]{android.Manifest.permission.READ_EXTERNAL_STORAGE}, 1);
 
     }
 
@@ -253,9 +239,9 @@ public class ManageCourseFragment extends Fragment implements View.OnClickListen
         switch (requestCode) {
             case 1:
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    Toast.makeText(getContext(),"Permission Granted",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "Permission Granted", Toast.LENGTH_SHORT).show();
                 } else {
-                    Toast.makeText(getContext(),"Please provide access to your storage to import student list",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "Please provide access to your storage to import student list", Toast.LENGTH_SHORT).show();
                 }
                 break;
         }
@@ -265,13 +251,13 @@ public class ManageCourseFragment extends Fragment implements View.OnClickListen
     public void onViewCreated(final View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         TextView student_list_tv = (TextView) view.findViewById(R.id.student_list_tv_layout);
-        TextView generateGroupsBtn = (TextView) view.findViewById(R.id.generateGroupsBtn);
+        TextView generateGroupsBtn = (TextView) view.findViewById(R.id.generate_groups_tv_layout);
 
         FloatingActionButton sendBcastBtn = (FloatingActionButton) view.findViewById(R.id.sendBcastBtn);
         student_list_tv.setOnClickListener(this);
         sendBcastBtn.setOnClickListener(this);
         generateGroupsBtn.setOnClickListener(this);
-      //  TextView import_student_tv = (TextView) view.findViewById(R.id.import_student_tv_layout);
+        //  TextView import_student_tv = (TextView) view.findViewById(R.id.import_student_tv_layout);
         final Button import_student_btn = (Button) view.findViewById(R.id.import_student_btn_layout);
 
 
@@ -281,28 +267,18 @@ public class ManageCourseFragment extends Fragment implements View.OnClickListen
                 //importStudentData();
 
 
-                if (Build.VERSION.SDK_INT >= 23)
-                {
-                    if (checkPermission())
-                    {
+                if (Build.VERSION.SDK_INT >= 23) {
+                    if (checkPermission()) {
                         // Code for above or equal 23 API Oriented Device
                         // Create a common Method for both
                     } else {
                         requestPermission();
                     }
-                }
-                else
-                {
+                } else {
 
-                   Toast.makeText(getContext(),"This feature works only in marshmallow!",Toast.LENGTH_SHORT);
+                    Toast.makeText(getContext(), "This feature works only in marshmallow!", Toast.LENGTH_SHORT);
                     return;
                 }
-
-
-
-
-
-
 
 
                 openFileEx();
@@ -325,8 +301,7 @@ public class ManageCourseFragment extends Fragment implements View.OnClickListen
                 TextView export_records_tv = (TextView) view.findViewById(R.id.export_records_tv_layout);
                 TextView generate_groups_tv = (TextView) view.findViewById(R.id.generate_groups_tv_layout);
 
-                if(items.child("imported").getValue().equals(true))
-                {
+                if (items.child("imported").getValue().equals(true)) {
                     //TextView import_student_tv1 = (TextView) view.findViewById(R.id.import_student_tv_layout);
                     import_student_btn.setVisibility(View.INVISIBLE);
                     student_list_tv1.setVisibility(View.VISIBLE);
@@ -335,12 +310,10 @@ public class ManageCourseFragment extends Fragment implements View.OnClickListen
                     generate_groups_tv.setVisibility(View.VISIBLE);
 
 
-                }
-                else
-                {
+                } else {
                     import_student_btn.setVisibility(View.VISIBLE);
                     student_list_tv1.setVisibility(View.INVISIBLE);
-                   // broadcast_email_tv.setVisibility(View.INVISIBLE);
+                    // broadcast_email_tv.setVisibility(View.INVISIBLE);
                     export_records_tv.setVisibility(View.INVISIBLE);
                     generate_groups_tv.setVisibility(View.INVISIBLE);
 
@@ -354,8 +327,6 @@ public class ManageCourseFragment extends Fragment implements View.OnClickListen
 
             }
         });
-
-
 
 
     }
