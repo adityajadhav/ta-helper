@@ -131,11 +131,7 @@ public class add_course_fragment extends Fragment {
         Button add_course_btn = (Button) getView().findViewById(R.id.add_course_btn_layout);
         Button add_ta_btn = (Button) getView().findViewById(R.id.add_ta_btn_layout);
 
-        if(!ta_memebers.contains(user) && flag ==0)
-        {
-            ta_memebers.add(user);
 
-        }
 
 
 
@@ -184,6 +180,7 @@ public class add_course_fragment extends Fragment {
                                     ta_display__lv.setAdapter(adapter);
 
                                 }
+                                flag =1;
                             }
 
 
@@ -201,6 +198,14 @@ public class add_course_fragment extends Fragment {
 
                     }
                 });
+            }
+            else
+            {
+                if(!ta_memebers.contains(user) && flag ==0)
+                {
+                    ta_memebers.add(user);
+
+                }
             }
         }
 
@@ -247,6 +252,7 @@ public class add_course_fragment extends Fragment {
                     Toast.makeText(getContext(),"Add TA members by clicking on Add TAs button",Toast.LENGTH_SHORT).show();
                 }
 
+                myRef.child(course_id).child("imported").setValue(false);
 
                 mFinish.closeAddCourseFragment();
             }
@@ -254,7 +260,7 @@ public class add_course_fragment extends Fragment {
 
 
 
-        flag =1;
+
 
         super.onViewCreated(view, savedInstanceState);
 

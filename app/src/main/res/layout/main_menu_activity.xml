@@ -7,136 +7,45 @@
     android:orientation="vertical">
 
 
-    <TableLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-   >
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/tableAlter">
-
-        </TableRow>
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <TextView
-                android:id="@+id/import_student_tv_layout"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Import Student List"
-                android:textAlignment="textStart"
-                android:textColor="@color/colorPrimary"
-                android:textSize="30sp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="5dp"
-                android:text=">"
-                android:textColor="@color/colorBlack"
-                android:textSize="30sp" />
-        </TableRow>
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/tableAlter">
-
-            <TextView
+    <TextView
                 android:id="@+id/student_list_tv_layout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Student List (working)"
+
+                android:text="Student List"
                 android:textAlignment="textStart"
                 android:textColor="@color/colorPrimary"
                 android:textSize="30sp" />
 
-            <TextView
+
+    <TextView
+                android:id="@+id/export_records_tv_layout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="5dp"
-                android:text=">"
-                android:textColor="@color/colorBlack"
-                android:textSize="30sp" />
-        </TableRow>
 
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <TextView
-                android:id="@+id/textView5"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Send Broadcast Email"
-                android:textAlignment="textStart"
-                android:textColor="@color/colorPrimary"
-                android:textSize="30sp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="5dp"
-                android:text=">"
-                android:textColor="@color/colorBlack"
-                android:textSize="30sp" />
-        </TableRow>
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/tableAlter">
-
-            <TextView
-                android:id="@+id/textView6"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:text="Export Records"
                 android:textAlignment="textStart"
                 android:textColor="@color/colorPrimary"
                 android:textSize="30sp" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="5dp"
-                android:text=">"
-                android:textColor="@color/colorBlack"
-                android:textSize="30sp" />
-        </TableRow>
 
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+
+
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
+
                 android:text="Generate Students Groups"
                 android:textAlignment="textStart"
                 android:textColor="@color/colorPrimary"
-                android:textSize="30sp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="5dp"
-                android:text=">"
-                android:textColor="@color/colorBlack"
-                android:textSize="30sp" />
-        </TableRow>
+                android:textSize="30sp"
+                android:id="@+id/generate_groups_tv_layout" />
 
 
-    </TableLayout>
+
+
+
 
 
     <android.support.design.widget.FloatingActionButton
@@ -146,5 +55,11 @@
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/fab_margin"
         app:srcCompat="@android:drawable/ic_dialog_email" />
+
+    <Button
+        android:text="Import student list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/import_student_btn_layout" />
 
 </LinearLayout>
