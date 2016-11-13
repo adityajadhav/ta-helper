@@ -6,6 +6,7 @@ import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.annotation.Nullable;
@@ -270,7 +271,8 @@ public class ManageCourseFragment extends Fragment implements View.OnClickListen
         student_list_tv.setOnClickListener(this);
         sendBcastBtn.setOnClickListener(this);
         generateGroupsBtn.setOnClickListener(this);
-        TextView import_student_tv = (TextView) view.findViewById(R.id.import_student_tv_layout);
+      //  TextView import_student_tv = (TextView) view.findViewById(R.id.import_student_tv_layout);
+        final Button import_student_btn = (Button) view.findViewById(R.id.import_student_btn_layout);
 
 
         import_student_btn.setOnClickListener(new View.OnClickListener() {

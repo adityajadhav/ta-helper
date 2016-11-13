@@ -111,6 +111,7 @@ public class add_course_fragment extends Fragment {
 
     @Override
     public void onViewCreated(final View view, Bundle savedInstanceState) {
+
         SharedPreferences pref = getContext().getSharedPreferences("CurrentUser", MODE_PRIVATE);
         user = pref.getString("User","");
         Log.i("Username",user);
@@ -268,7 +269,8 @@ public class add_course_fragment extends Fragment {
 
 
 
-                if(exists_flag == 0) {
+                //if(exists_flag == 0)
+               // {
                     Course_Entity ce = new Course_Entity(course_name, course_id, professor_FN, professor_LN, professor_email, professor_UN, "");
 
                     myRef.child(course_id).setValue(ce);
@@ -285,7 +287,7 @@ public class add_course_fragment extends Fragment {
                     myRef.child(course_id).child("imported").setValue(false);
 
                     mFinish.closeAddCourseFragment();
-                }
+               // }
             }
         });
 
