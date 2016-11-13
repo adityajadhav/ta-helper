@@ -43,6 +43,7 @@ public class add_course_fragment extends Fragment {
     ArrayList<String> ta_memebers = new ArrayList<>();
     int flag =0 ;
     String user;
+    int exists_flag =0;
     public interface OnFinishAddCourseInterface {
         public void closeAddCourseFragment();
         public void callAddTAs_to_activity(ArrayList<String> ta_members);
@@ -149,6 +150,7 @@ public class add_course_fragment extends Fragment {
                         //for (DataSnapshot items : values.getChildren()) {
 
 
+
                         try {
 
                             Log.i("player", items.child("courseName").getValue().toString());
@@ -234,27 +236,56 @@ public class add_course_fragment extends Fragment {
                     myRef.child(old_course_id).removeValue();
                 }
 
-
-
-
-                Course_Entity ce = new Course_Entity(course_name, course_id, professor_FN, professor_LN, professor_email, professor_UN, "");
-
-                myRef.child(course_id).setValue(ce);
-
-
-                if(ta_memebers.size() > 0)
-                {
-                    myRef.child(course_id).child("ta_members").setValue(ta_memebers);
-
-                }
                 else
                 {
-                    Toast.makeText(getContext(),"Add TA members by clicking on Add TAs button",Toast.LENGTH_SHORT).show();
+                    myRef.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+
+//                             if(dataSnapshot.hasChild(courseId))
+//                             {
+//                                 Toast.makeText(getContext(),"Course id " + course_id + " exists",Toast.LENGTH_SHORT).show();
+//                                 exists_flag = 1;
+//                             }
+
+
+
+
+                            try {
+
+                            } catch (Exception e) {
+                                Log.i("Exception", e.toString());
+                            }
+                        }
+
+
+                        @Override
+                        public void onCancelled(DatabaseError e) {
+
+                        }
+                    });
                 }
 
-                myRef.child(course_id).child("imported").setValue(false);
 
-                mFinish.closeAddCourseFragment();
+
+                if(exists_flag == 0) {
+                    Course_Entity ce = new Course_Entity(course_name, course_id, professor_FN, professor_LN, professor_email, professor_UN, "");
+
+                    myRef.child(course_id).setValue(ce);
+                    exists_flag = 0;
+
+
+                    if (ta_memebers.size() > 0) {
+                        myRef.child(course_id).child("ta_members").setValue(ta_memebers);
+
+                    } else {
+                        Toast.makeText(getContext(), "Add TA members by clicking on Add TAs button", Toast.LENGTH_SHORT).show();
+                    }
+
+                    myRef.child(course_id).child("imported").setValue(false);
+
+                    mFinish.closeAddCourseFragment();
+                }
             }
         });
 
