@@ -36,22 +36,20 @@ public class BcastNotificationFragment extends Fragment {
     private DatabaseReference mDatabase;
     private String TAG = "team4";
     private ArrayList<Student_Entity> studentList;
-    private String emails = "ajadhav4@hawk.iit.edu";
+    private ArrayList<String> emails;// = "ajadhav4@hawk.iit.edu";
     public final static String MODULE_NAME = "BcastNotification";
+    private String courseId = "";
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.broadcast_email, container, false);
 
 
-        String courseId = "";
         Bundle bundle = getArguments();
         if (bundle != null) {
             courseId = getArguments().getString(CourseActivity.COURCE_ID_KEY);
         }
         mDatabase = FirebaseDatabase.getInstance().getReference();
-
-        //fetchStudents(courseId);
 
         final Spinner toEdtTxt = (Spinner) view.findViewById(R.id.toSpinner);
         List<String> list = new ArrayList<String>();
@@ -63,12 +61,30 @@ public class BcastNotificationFragment extends Fragment {
                 android.R.layout.simple_spinner_item, list);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         toEdtTxt.setAdapter(dataAdapter);
+
+        emails = new ArrayList<>();
         toEdtTxt.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
                 Toast.makeText(parent.getContext(),
-                        "OnItemSelectedListener : " + parent.getItemAtPosition(pos).toString(),
+                        "Send mail TO : " + parent.getItemAtPosition(pos).toString(),
                         Toast.LENGTH_SHORT).show();
-                emails = parent.getItemAtPosition(pos).toString();
+                String email = parent.getItemAtPosition(pos).toString();
+
+                if ("All".equals(email)) {
+                    emails.clear();
+                    if (ObjectUtils.isNotEmpty(studentList)) {
+                        for (Student_Entity student : studentList) {
+                            if (ObjectUtils.isNotEmpty(student.getStudentEmail()))
+                                emails.add(student.getStudentEmail());
+                        }
+                    }
+
+                } else {
+                    emails.clear();
+                    emails.add(email);
+                }
+
+
             }
 
             @Override
@@ -77,26 +93,36 @@ public class BcastNotificationFragment extends Fragment {
             }
         });
 
-        //final EditText ccEdtTxt = (EditText) view.findViewById(R.id.ccEdtTxt);
         final EditText subjectEdtTxt = (EditText) view.findViewById(R.id.subjectEdtTxt);
         final EditText bodyEdtTxt = (EditText) view.findViewById(R.id.bodyEdtTxt);
-
         Button sendBtn = (Button) view.findViewById(R.id.sendBtn);
+
+        fetchStudents(courseId);
+
 
         sendBtn.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
 
-                Intent intent = new Intent(Intent.ACTION_SEND);
-                intent.setType("plain/text");
+                String sendTo[] = new String[emails.size()];
+                if (ObjectUtils.isNotEmpty(emails)) {
+                    for (int i = 0; i < emails.size(); i++) {
+                        sendTo[i] = emails.get(i);
+
+                    }
+                }
+
                 // TODO Get all students email ids
                 Log.d("check", studentList.toString());
-                intent.putExtra(Intent.EXTRA_EMAIL, new String[]{"ajadhav4@hawk.iit.edu"});
+                Intent intent = new Intent(Intent.ACTION_SEND);
+                intent.setType("text/html");
+                intent.putExtra(android.content.Intent.EXTRA_EMAIL, sendTo);
                 intent.putExtra(Intent.EXTRA_SUBJECT, subjectEdtTxt.getText());
                 intent.putExtra(Intent.EXTRA_TEXT, bodyEdtTxt.getText());
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(Intent.createChooser(intent, ""));
+                startActivity(Intent.createChooser(intent, "Send Email"));
+                getFragmentManager().popBackStack();
+
 
             }
         });
@@ -106,26 +132,36 @@ public class BcastNotificationFragment extends Fragment {
 
     private void fetchStudents(String courseId) {
         // TODO filter by  courseId
-        DatabaseReference ref = mDatabase.child("students");
-        ref.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot snapshot) {
-                Log.e("Count ", "" + snapshot.getChildrenCount());
-                if (ObjectUtils.isNotEmpty(snapshot.getChildren())) {
-                    for (DataSnapshot postSnapshot : snapshot.getChildren()) {
-                        Student_Entity studentEntity = postSnapshot.getValue(Student_Entity.class);
-                        studentList.add(studentEntity);
+        if (ObjectUtils.isNotEmpty(courseId)) {
+            studentList = new ArrayList<>();
+            DatabaseReference ref = mDatabase.child("students").child("CS442");
+            ref.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot snapshot) {
+                    Log.e("Count ", "" + snapshot.getChildrenCount());
+                    if (ObjectUtils.isNotEmpty(snapshot.getChildren())) {
+                        for (DataSnapshot postSnapshot : snapshot.getChildren()) {
+                            Student_Entity studentEntity = postSnapshot.getValue(Student_Entity.class);
+                            studentList.add(studentEntity);
+                        }
+                        if (ObjectUtils.isNotEmpty(studentList)) {
+                            for (Student_Entity student : studentList) {
+                                if (ObjectUtils.isNotEmpty(student.getStudentEmail()))
+                                    emails.add(student.getStudentEmail());
+                            }
+                        }
+
                     }
+
                 }
-            }
 
-            @Override
-            public void onCancelled(DatabaseError firebaseError) {
-                Log.e("The read failed: ", firebaseError.getMessage());
-            }
-        });
+                @Override
+                public void onCancelled(DatabaseError firebaseError) {
+                    Log.e("The read failed: ", firebaseError.getMessage());
+                }
+            });
 
-
+        }
     }
 
 }

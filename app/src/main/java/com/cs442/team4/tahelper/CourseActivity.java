@@ -49,7 +49,6 @@ public class CourseActivity extends AppCompatActivity implements add_course_frag
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
         Intent intent = getIntent();
         UserEntity user = (UserEntity) intent.getSerializableExtra("USER_DETAILS");
         Log.d("taem4", user.toString());
@@ -133,7 +132,7 @@ public class CourseActivity extends AppCompatActivity implements add_course_frag
                                 COURSE_ID = courseCode;
                                 Log.i("Code in activity : ", courseCode);
 
-
+                                newManageCourseFragment.setArguments(bundle);
                                 FragmentManager fm = getFragmentManager();
                                 FragmentTransaction ft = fm.beginTransaction();
 

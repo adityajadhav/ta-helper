@@ -41,6 +41,30 @@ public class Student_Entity {
         this.firstName = firstName;
     }
 
+    public String getUserName() {
+        return userName;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public String getFullName() {
+        return fullName;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public String getaNumber() {
+        return aNumber;
+    }
+
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }

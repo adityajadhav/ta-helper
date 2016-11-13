@@ -1,12 +1,21 @@
 package com.cs442.team4.tahelper.model;
 
+import java.text.DateFormat;
+import java.util.Date;
+
 /**
  * Created by neo on 12-11-2016.
  */
 
 public class TokenEntity {
+
     private String id;
     private String belongToUser;
+    private String createdDate;
+
+    public TokenEntity() {
+        this.createdDate = DateFormat.getDateTimeInstance().format(new Date());
+    }
 
     public String getBelongToUser() {
         return belongToUser;

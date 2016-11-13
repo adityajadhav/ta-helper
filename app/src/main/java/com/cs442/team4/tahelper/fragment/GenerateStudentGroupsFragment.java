@@ -117,7 +117,7 @@ public class GenerateStudentGroupsFragment extends Fragment {
 
     private void fetchStudents(String courseId) {
         // TODO filter by  courseId
-        DatabaseReference ref = mDatabase.child("students");
+        DatabaseReference ref = mDatabase.child("students").child(courseId);
         ref.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {

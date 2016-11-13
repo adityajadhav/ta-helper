@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.cs442.team4.tahelper.CourseActivity;
 import com.cs442.team4.tahelper.R;
 import com.cs442.team4.tahelper.student.StudentListActivity;
 import com.google.firebase.database.DatabaseReference;
@@ -59,6 +60,9 @@ public class ManageCourseFragment extends Fragment implements View.OnClickListen
     private void openGenerateGroupFragment() {
 
         GenerateStudentGroupsFragment generateStudentGroupsFragment = new GenerateStudentGroupsFragment();
+        Bundle bundle = new Bundle();
+        bundle.putString(CourseActivity.COURCE_ID_KEY, courseId);
+        generateStudentGroupsFragment.setArguments(bundle);
         FragmentManager fm = getFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
         ft.replace(R.id.course_activity_frame_layout, generateStudentGroupsFragment, "generateStudentGroupsFragment");
@@ -68,6 +72,10 @@ public class ManageCourseFragment extends Fragment implements View.OnClickListen
 
     private void openBcastNotificationFragment() {
         BcastNotificationFragment bcastNotificationFragment = new BcastNotificationFragment();
+
+        Bundle bundle = new Bundle();
+        bundle.putString(CourseActivity.COURCE_ID_KEY, courseId);
+        bcastNotificationFragment.setArguments(bundle);
         FragmentManager fm = getFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
         ft.replace(R.id.course_activity_frame_layout, bcastNotificationFragment, "bcastNotificationFragment");
@@ -92,7 +100,7 @@ public class ManageCourseFragment extends Fragment implements View.OnClickListen
 
         Bundle args = getArguments();
         if (args != null) {
-            courseId = getArguments().getString("course_id");
+            courseId = getArguments().getString(CourseActivity.COURCE_ID_KEY);
             Log.i("Code in fgmt : ", courseId);
         }
 
