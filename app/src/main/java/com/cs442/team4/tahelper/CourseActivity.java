@@ -44,6 +44,12 @@ public class CourseActivity extends AppCompatActivity implements add_course_frag
     private GoogleApiClient mGoogleApiClient;
     final Add_ta_fragment newAddTAFragment = new Add_ta_fragment();
 
+
+
+
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -131,6 +137,7 @@ public class CourseActivity extends AppCompatActivity implements add_course_frag
                                 bundle.putString(COURCE_ID_KEY, courseCode);
                                 COURSE_ID = courseCode;
                                 Log.i("Code in activity : ", courseCode);
+                                newManageCourseFragment.setArguments(bundle);
 
                                 newManageCourseFragment.setArguments(bundle);
                                 FragmentManager fm = getFragmentManager();
@@ -174,6 +181,28 @@ public class CourseActivity extends AppCompatActivity implements add_course_frag
         ft.commit();
 
 
+
+        newAddTAFragment.setAddTAFragmentInterface(new Add_ta_fragment.addTAToFirebaseInterface() {
+
+                                      public void sendTAdata(ArrayList<String> al) {add_course_fragment getInstance = (add_course_fragment) getFragmentManager().findFragmentByTag("add_course_fragment_tag");
+                                        getInstance.setTAMembers(al);
+                                    }
+
+                                        public void closeAddTAFragment()
+                                {
+                                       FragmentManager fm = getFragmentManager();
+                                       FragmentTransaction ft = fm.beginTransaction();
+                                       Fragment id = fm.findFragmentByTag("add_ta_fragment_tag");
+                                       ft.remove(id);
+                                       fm.popBackStack();
+                                       ft.commit();
+                                   }
+                           });
+
+
+
+
+
     }
 
     @Override
@@ -190,6 +219,7 @@ public class CourseActivity extends AppCompatActivity implements add_course_frag
     public void callAddTAs_to_activity(ArrayList<String> ta_members) {
         FragmentManager fm = getFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
+
 
         ft.replace(R.id.course_activity_frame_layout, newAddTAFragment, "add_ta_fragment_tag");
         ft.addToBackStack("add_course_fragment_tag");
