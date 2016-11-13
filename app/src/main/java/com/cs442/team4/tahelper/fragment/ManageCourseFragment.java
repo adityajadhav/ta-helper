@@ -39,8 +39,8 @@ import java.io.FileInputStream;
 import java.util.Iterator;
 
 import static android.app.Activity.RESULT_OK;
-import static com.cs442.team4.tahelper.R.id.generateGroupsBtn;
-import static com.cs442.team4.tahelper.R.id.sendBcastBtn;
+import static com.cs442.team4.tahelper.R.id.export_records_tv_layout;
+import static com.cs442.team4.tahelper.R.id.generate_groups_tv_layout;
 
 
 public class ManageCourseFragment extends Fragment implements View.OnClickListener {
@@ -58,13 +58,13 @@ public class ManageCourseFragment extends Fragment implements View.OnClickListen
                 intent.putExtra("course_id", courseId);
                 startActivity(intent);
                 break;
-            case sendBcastBtn:
+            case export_records_tv_layout:
                 openBcastNotificationFragment();
                 //manageCourseInterface.openModule(BcastNotificationFragment.MODULE_NAME);
 //                Snackbar.make(v, "Replace with your own action", Snackbar.LENGTH_LONG)
 //                        .setAction("Action", null).show();
                 break;
-            case generateGroupsBtn:
+            case generate_groups_tv_layout:
                 openGenerateGroupFragment();
                 break;
         }
@@ -110,14 +110,10 @@ public class ManageCourseFragment extends Fragment implements View.OnClickListen
             try {
                 Uri uri = data.getData();
                 String mimeType = getContext().getContentResolver().getType(uri);
-
-
                 importfile = new File(uri.getPath());
                 filepath = importfile.getAbsolutePath().split(":")[1];
                 Log.i("String:", filepath);
                 importStudentData();
-
-
             } catch (Exception e) {
                 Log.i("File operation error", e.toString());
             }
@@ -228,10 +224,7 @@ public class ManageCourseFragment extends Fragment implements View.OnClickListen
     }
 
     private void requestPermission() {
-
-
         requestPermissions(new String[]{android.Manifest.permission.READ_EXTERNAL_STORAGE}, 1);
-
     }
 
     @Override
@@ -251,7 +244,7 @@ public class ManageCourseFragment extends Fragment implements View.OnClickListen
     public void onViewCreated(final View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         TextView student_list_tv = (TextView) view.findViewById(R.id.student_list_tv_layout);
-        TextView generateGroupsBtn = (TextView) view.findViewById(R.id.generate_groups_tv_layout);
+        TextView generateGroupsBtn = (TextView) view.findViewById(generate_groups_tv_layout);
 
         FloatingActionButton sendBcastBtn = (FloatingActionButton) view.findViewById(R.id.sendBcastBtn);
         student_list_tv.setOnClickListener(this);
@@ -265,8 +258,6 @@ public class ManageCourseFragment extends Fragment implements View.OnClickListen
             @Override
             public void onClick(View v) {
                 //importStudentData();
-
-
                 if (Build.VERSION.SDK_INT >= 23) {
                     if (checkPermission()) {
                         // Code for above or equal 23 API Oriented Device
@@ -275,14 +266,10 @@ public class ManageCourseFragment extends Fragment implements View.OnClickListen
                         requestPermission();
                     }
                 } else {
-
                     Toast.makeText(getContext(), "This feature works only in marshmallow!", Toast.LENGTH_SHORT);
                     return;
                 }
-
-
                 openFileEx();
-
             }
         });
 
@@ -298,8 +285,8 @@ public class ManageCourseFragment extends Fragment implements View.OnClickListen
                 DataSnapshot items = dataSnapshot.child(courseId);
                 TextView student_list_tv1 = (TextView) view.findViewById(R.id.student_list_tv_layout);
                 // TextView broadcast_email_tv = (TextView) view.findViewById(R.id.broadcast_email_tv_layout);
-                TextView export_records_tv = (TextView) view.findViewById(R.id.export_records_tv_layout);
-                TextView generate_groups_tv = (TextView) view.findViewById(R.id.generate_groups_tv_layout);
+                TextView export_records_tv = (TextView) view.findViewById(export_records_tv_layout);
+                TextView generate_groups_tv = (TextView) view.findViewById(generate_groups_tv_layout);
 
                 if (items.child("imported").getValue().equals(true)) {
                     //TextView import_student_tv1 = (TextView) view.findViewById(R.id.import_student_tv_layout);

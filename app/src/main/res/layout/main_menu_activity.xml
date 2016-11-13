@@ -4,48 +4,38 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_margin="5dp"
+    android:layout_marginTop="16dp"
     android:orientation="vertical">
 
 
     <TextView
-                android:id="@+id/student_list_tv_layout"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-
-                android:text="Student List"
-                android:textAlignment="textStart"
-                android:textColor="@color/colorPrimary"
-                android:textSize="30sp" />
+        android:id="@+id/student_list_tv_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Student List"
+        android:textAlignment="textStart"
+        android:textColor="@color/colorPrimary"
+        android:textSize="30sp" />
 
 
     <TextView
-                android:id="@+id/export_records_tv_layout"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-
-                android:text="Export Records"
-                android:textAlignment="textStart"
-                android:textColor="@color/colorPrimary"
-                android:textSize="30sp" />
-
+        android:id="@+id/export_records_tv_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Export Records"
+        android:textAlignment="textStart"
+        android:textColor="@color/colorPrimary"
+        android:textSize="30sp" />
 
 
-
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-
-                android:text="Generate Students Groups"
-                android:textAlignment="textStart"
-                android:textColor="@color/colorPrimary"
-                android:textSize="30sp"
-                android:id="@+id/generate_groups_tv_layout" />
-
-
-
-
-
+    <TextView
+        android:id="@+id/generate_groups_tv_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Generate Students Groups"
+        android:textAlignment="textStart"
+        android:textColor="@color/colorPrimary"
+        android:textSize="30sp" />
 
 
     <android.support.design.widget.FloatingActionButton
@@ -57,9 +47,9 @@
         app:srcCompat="@android:drawable/ic_dialog_email" />
 
     <Button
-        android:text="Import student list"
+        android:id="@+id/import_student_btn_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/import_student_btn_layout" />
+        android:text="Import student list" />
 
 </LinearLayout>

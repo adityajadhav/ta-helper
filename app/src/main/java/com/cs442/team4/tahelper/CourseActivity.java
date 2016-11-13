@@ -45,11 +45,6 @@ public class CourseActivity extends AppCompatActivity implements add_course_frag
     final Add_ta_fragment newAddTAFragment = new Add_ta_fragment();
 
 
-
-
-
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -181,26 +176,22 @@ public class CourseActivity extends AppCompatActivity implements add_course_frag
         ft.commit();
 
 
-
         newAddTAFragment.setAddTAFragmentInterface(new Add_ta_fragment.addTAToFirebaseInterface() {
 
-                                      public void sendTAdata(ArrayList<String> al) {add_course_fragment getInstance = (add_course_fragment) getFragmentManager().findFragmentByTag("add_course_fragment_tag");
-                                        getInstance.setTAMembers(al);
-                                    }
+            public void sendTAdata(ArrayList<String> al) {
+                add_course_fragment getInstance = (add_course_fragment) getFragmentManager().findFragmentByTag("add_course_fragment_tag");
+                getInstance.setTAMembers(al);
+            }
 
-                                        public void closeAddTAFragment()
-                                {
-                                       FragmentManager fm = getFragmentManager();
-                                       FragmentTransaction ft = fm.beginTransaction();
-                                       Fragment id = fm.findFragmentByTag("add_ta_fragment_tag");
-                                       ft.remove(id);
-                                       fm.popBackStack();
-                                       ft.commit();
-                                   }
-                           });
-
-
-
+            public void closeAddTAFragment() {
+                FragmentManager fm = getFragmentManager();
+                FragmentTransaction ft = fm.beginTransaction();
+                Fragment id = fm.findFragmentByTag("add_ta_fragment_tag");
+                ft.remove(id);
+                fm.popBackStack();
+                ft.commit();
+            }
+        });
 
 
     }

@@ -3,6 +3,7 @@ package com.cs442.team4.tahelper.fragment;
 import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,7 +13,6 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.Toast;
 
 import com.cs442.team4.tahelper.CourseActivity;
 import com.cs442.team4.tahelper.R;
@@ -32,22 +32,19 @@ import java.util.List;
  * Created by neo on 05-11-2016.
  */
 
-public class BcastNotificationFragment extends Fragment {
+public class BcastNotificationFragment extends Fragment implements AdapterView.OnItemSelectedListener {
 
     private DatabaseReference mDatabase;
     private String TAG = "team4";
     ArrayList<String> taList;
     private ArrayList<Student_Entity> studentList;
-    private ArrayList<String> emails;// = "ajadhav4@hawk.iit.edu";
+    private ArrayList<String> emails;
     public final static String MODULE_NAME = "BcastNotification";
     private String courseId = "";
-    private String[] taEmailIds;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.broadcast_email, container, false);
-
-
         Bundle bundle = getArguments();
         if (bundle != null) {
             courseId = getArguments().getString(CourseActivity.COURCE_ID_KEY);
@@ -57,50 +54,14 @@ public class BcastNotificationFragment extends Fragment {
         final Spinner toEdtTxt = (Spinner) view.findViewById(R.id.toSpinner);
         List<String> list = new ArrayList<String>();
         list.add("All");
-        //TODO fetch TA's email Ids
         list.add("TA's");
-        list.add("abc_ta2@hawk.iit.edu");
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(getContext(),
                 android.R.layout.simple_spinner_item, list);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         toEdtTxt.setAdapter(dataAdapter);
 
         emails = new ArrayList<>();
-        toEdtTxt.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
-                Toast.makeText(parent.getContext(),
-                        "Send mail TO : " + parent.getItemAtPosition(pos).toString(),
-                        Toast.LENGTH_SHORT).show();
-                String type = parent.getItemAtPosition(pos).toString();
-
-                if ("All".equals(type)) {
-                    emails.clear();
-                    if (ObjectUtils.isNotEmpty(studentList)) {
-                        for (Student_Entity student : studentList) {
-                            if (ObjectUtils.isNotEmpty(student.getStudentEmail()))
-                                emails.add(student.getStudentEmail());
-                        }
-                    }
-
-                } else {
-                    emails.clear();
-                    if (ObjectUtils.isNotEmpty(taList)) {
-                        for (String taEmailId : taList) {
-                            if (ObjectUtils.isNotEmpty(taEmailId))
-                                emails.add(taEmailId);
-                        }
-                    }
-
-                }
-
-
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> arg0) {
-                // TODO Auto-generated method stub
-            }
-        });
+        toEdtTxt.setOnItemSelectedListener(this);
 
         final EditText subjectEdtTxt = (EditText) view.findViewById(R.id.subjectEdtTxt);
         final EditText bodyEdtTxt = (EditText) view.findViewById(R.id.bodyEdtTxt);
@@ -110,40 +71,38 @@ public class BcastNotificationFragment extends Fragment {
         fetchTAs(courseId);
 
         sendBtn.setOnClickListener(new View.OnClickListener() {
-
             @Override
             public void onClick(View v) {
-
-                String sendTo[] = new String[emails.size()];
-                if (ObjectUtils.isNotEmpty(emails)) {
-                    for (int i = 0; i < emails.size(); i++) {
-                        sendTo[i] = emails.get(i);
-
-                    }
-                }
-
-                // TODO Get all students email ids
-                Log.d("check", studentList.toString());
                 Intent intent = new Intent(Intent.ACTION_SEND);
                 intent.setType("text/html");
-                intent.putExtra(android.content.Intent.EXTRA_EMAIL, sendTo);
+                intent.putExtra(android.content.Intent.EXTRA_EMAIL, getSimpleList());
                 intent.putExtra(Intent.EXTRA_SUBJECT, subjectEdtTxt.getText());
                 intent.putExtra(Intent.EXTRA_TEXT, bodyEdtTxt.getText());
                 startActivity(Intent.createChooser(intent, "Send Email"));
                 getFragmentManager().popBackStack();
-
-
             }
         });
         return view;
 
     }
 
+    @NonNull
+    private String[] getSimpleList() {
+        String sendTo[] = new String[emails.size()];
+        if (ObjectUtils.isNotEmpty(emails)) {
+            for (int i = 0; i < emails.size(); i++) {
+                if (ObjectUtils.isNotEmpty(emails.get(i)))
+                    sendTo[i] = emails.get(i);
+
+            }
+        }
+        return sendTo;
+    }
+
     private void fetchStudents(String courseId) {
-        // TODO filter by  courseId
         if (ObjectUtils.isNotEmpty(courseId)) {
             studentList = new ArrayList<>();
-            DatabaseReference ref = mDatabase.child("students").child("CS442");
+            DatabaseReference ref = mDatabase.child("students").child(courseId);
             ref.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot snapshot) {
@@ -181,13 +140,9 @@ public class BcastNotificationFragment extends Fragment {
             ref.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot snapshot) {
-                    Log.e("Count ", "" + snapshot.getChildrenCount());
-
                     GenericTypeIndicator<ArrayList<String>> t = new GenericTypeIndicator<ArrayList<String>>() {
                     };
-
                     taList = snapshot.child("ta_members").getValue(t);
-
                 }
 
                 @Override
@@ -199,4 +154,33 @@ public class BcastNotificationFragment extends Fragment {
     }
 
 
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        String type = parent.getItemAtPosition(position).toString();
+        if ("All".equals(type)) {
+            emails.clear();
+            if (ObjectUtils.isNotEmpty(studentList)) {
+                for (Student_Entity student : studentList) {
+                    if (ObjectUtils.isNotEmpty(student.getStudentEmail()))
+                        emails.add(student.getStudentEmail());
+                }
+            }
+        } else {
+            emails.clear();
+            if (ObjectUtils.isNotEmpty(taList)) {
+                for (String taEmailId : taList) {
+                    if (ObjectUtils.isNotEmpty(taEmailId))
+                        emails.add(taEmailId);
+                }
+            }
+
+        }
+
+
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+
+    }
 }
