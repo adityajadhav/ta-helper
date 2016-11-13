@@ -144,7 +144,7 @@ public class ManageCourseFragment extends Fragment implements View.OnClickListen
 
         Bundle args = getArguments();
         if (args != null) {
-            courseId = getArguments().getString("course_id");
+            courseId = getArguments().getString("COURSE_ID");
             Log.i("Code in fgmt : ", courseId);
         }
 
