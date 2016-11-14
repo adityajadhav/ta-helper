@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 
+import com.cs442.team4.tahelper.CourseActivity;
 import com.cs442.team4.tahelper.R;
 import com.cs442.team4.tahelper.listItem.CustomListAdapter;
 import com.cs442.team4.tahelper.student.Student_Entity;
@@ -20,10 +21,10 @@ import com.cs442.team4.tahelper.utils.ObjectUtils;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -36,13 +37,16 @@ public class GenerateStudentGroupsFragment extends Fragment {
     private int numStudent;
     private int groupSize = 4;
     private List<Student_Entity> studentList;
-
+    private String courseId;
     private static String tag = "team4";
     public List<ArrayList<Student_Entity>> groups;
+    private ArrayAdapter<Student_Entity> itemsAdapter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.generate_students_groups_fragment, container, false);
+
+        mDatabase = FirebaseDatabase.getInstance().getReference();
 
         final EditText groupSizeTxtEdt = (EditText) view.findViewById(R.id.groupSizeTxtEdt);
         final ListView studentLstView = (ListView) view.findViewById(R.id.studentLstView);
@@ -50,13 +54,18 @@ public class GenerateStudentGroupsFragment extends Fragment {
 
 
         studentList = new ArrayList<>();
-        Student_Entity s1 = new Student_Entity("ajadhav", "aditya", "jadhav", "abc@abc.com", "a123");
+        Bundle bundle = getArguments();
+        if (bundle != null) {
+            courseId = getArguments().getString(CourseActivity.COURCE_ID_KEY);
+        }
+        fetchStudents(courseId);
+       /* Student_Entity s1 = new Student_Entity("ajadhav", "aditya", "jadhav", "abc@abc.com", "a123");
         Student_Entity s2 = new Student_Entity("sowmya", "sowmya", "parameshwara", "abc@abc.com", "a123");
         Student_Entity s3 = new Student_Entity("ullas", "ullas", "aithal", "abc@abc.com", "a123");
         Student_Entity s4 = new Student_Entity("mohammed", "mohammed", "shethwala", "abc@abc.com", "a123");
-        studentList.addAll(Arrays.asList(s1, s2, s3, s4));
+        studentList.addAll(Arrays.asList(s1, s2, s3, s4));*/
 
-        final ArrayAdapter<Student_Entity> itemsAdapter = new CustomListAdapter<Student_Entity>(getContext(), R.layout.custom_list, studentList);
+        itemsAdapter = new CustomListAdapter<Student_Entity>(getContext(), R.layout.custom_list, studentList);
 
         //ArrayAdapter<Student_Entity> itemsAdapter = new ArrayAdapter<Student_Entity>(getContext(), android.R.layout.simple_list_item_1, studentList);
         studentLstView.setAdapter(itemsAdapter);
@@ -116,27 +125,30 @@ public class GenerateStudentGroupsFragment extends Fragment {
     }
 
     private void fetchStudents(String courseId) {
-        // TODO filter by  courseId
-        DatabaseReference ref = mDatabase.child("students").child(courseId);
-        ref.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot snapshot) {
-                Log.e("Count ", "" + snapshot.getChildrenCount());
-                if (ObjectUtils.isNotEmpty(snapshot.getChildren())) {
-                    for (DataSnapshot postSnapshot : snapshot.getChildren()) {
-                        Student_Entity studentEntity = postSnapshot.getValue(Student_Entity.class);
-                        studentList.add(studentEntity);
+        if (ObjectUtils.isNotEmpty(courseId)) {
+            studentList = new ArrayList<>();
+            DatabaseReference ref = mDatabase.child("students").child(courseId);
+            ref.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot snapshot) {
+                    Log.e("Count ", "" + snapshot.getChildrenCount());
+                    if (ObjectUtils.isNotEmpty(snapshot.getChildren())) {
+                        for (DataSnapshot postSnapshot : snapshot.getChildren()) {
+                            Student_Entity studentEntity = postSnapshot.getValue(Student_Entity.class);
+                            studentList.add(studentEntity);
+                        }
+                        itemsAdapter.notifyDataSetChanged();
                     }
+
                 }
-            }
 
-            @Override
-            public void onCancelled(DatabaseError firebaseError) {
-                Log.e("The read failed: ", firebaseError.getMessage());
-            }
-        });
+                @Override
+                public void onCancelled(DatabaseError firebaseError) {
+                    Log.e("The read failed: ", firebaseError.getMessage());
+                }
+            });
 
-
+        }
     }
 
 }

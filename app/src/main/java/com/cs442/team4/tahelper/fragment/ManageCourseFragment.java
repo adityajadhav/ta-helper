@@ -39,8 +39,8 @@ import java.io.FileInputStream;
 import java.util.Iterator;
 
 import static android.app.Activity.RESULT_OK;
-import static com.cs442.team4.tahelper.R.id.export_records_tv_layout;
 import static com.cs442.team4.tahelper.R.id.generate_groups_tv_layout;
+import static com.cs442.team4.tahelper.R.id.sendBcastBtn;
 
 
 public class ManageCourseFragment extends Fragment implements View.OnClickListener {
@@ -58,7 +58,7 @@ public class ManageCourseFragment extends Fragment implements View.OnClickListen
                 intent.putExtra("course_id", courseId);
                 startActivity(intent);
                 break;
-            case export_records_tv_layout:
+            case sendBcastBtn:
                 openBcastNotificationFragment();
                 //manageCourseInterface.openModule(BcastNotificationFragment.MODULE_NAME);
 //                Snackbar.make(v, "Replace with your own action", Snackbar.LENGTH_LONG)
@@ -289,7 +289,7 @@ public class ManageCourseFragment extends Fragment implements View.OnClickListen
                 DataSnapshot items = dataSnapshot.child(courseId);
                 TextView student_list_tv1 = (TextView) view.findViewById(R.id.student_list_tv_layout);
                 // TextView broadcast_email_tv = (TextView) view.findViewById(R.id.broadcast_email_tv_layout);
-                TextView export_records_tv = (TextView) view.findViewById(export_records_tv_layout);
+                TextView export_records_tv = (TextView) view.findViewById(R.id.export_records_tv_layout);
                 TextView generate_groups_tv = (TextView) view.findViewById(generate_groups_tv_layout);
 
                 if (items.child("imported").getValue().equals(true)) {

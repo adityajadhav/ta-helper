@@ -5,6 +5,7 @@ import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -271,14 +272,13 @@ public class CourseActivity extends AppCompatActivity implements add_course_frag
 
         if (id == R.id.nav_share) {
             try {
-                String smsBody = "TA Helper is a one stop solution to manage work related to teaching assistantship";
                 Intent sendIntent = new Intent(Intent.ACTION_VIEW);
-                sendIntent.putExtra("sms_body", smsBody);
-                sendIntent.setType("vnd.android-dir/mms-sms");
+                sendIntent.setData(Uri.parse("sms:"));
+                sendIntent.putExtra("sms_body", "TA Helper is a one stop solution to manage work related to teaching assistant's");
                 startActivity(sendIntent);
+                getFragmentManager().popBackStack();
             } catch (ActivityNotFoundException e) {
             }
-
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
