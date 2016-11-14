@@ -46,6 +46,7 @@ public class MainActivity extends AppCompatActivity implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login_activity);
+
         if (!isNetworkAvailable()) {
             Toast.makeText(this, " Please Switch On Your Internet ", Toast.LENGTH_LONG).show();
             Intent intent = new Intent(Intent.ACTION_MAIN);
@@ -91,11 +92,13 @@ public class MainActivity extends AppCompatActivity implements
         signInButton.setSize(SignInButton.SIZE_STANDARD);
         signInButton.setScopes(gso.getScopeArray());
         // [END customize_button]
+
     }
 
     @Override
     public void onStart() {
         super.onStart();
+
         OptionalPendingResult<GoogleSignInResult> opr = Auth.GoogleSignInApi.silentSignIn(mGoogleApiClient);
         if (opr.isDone()) {
             // If the user's cached credentials are valid, the OptionalPendingResult will be "done"
@@ -117,6 +120,7 @@ public class MainActivity extends AppCompatActivity implements
             });
 
         }
+
     }
 
     // [START onActivityResult]
@@ -146,7 +150,7 @@ public class MainActivity extends AppCompatActivity implements
             SharedPreferences pref = getApplicationContext().getSharedPreferences("CurrentUser", MODE_PRIVATE);
             SharedPreferences.Editor editor = pref.edit();
             editor.clear();
-            editor.putString("UserEntity", acct.getEmail());
+             editor.putString("UserEntity", acct.getEmail());
             editor.commit();
             //updateUI(true);
             Intent intent = new Intent(this, CourseActivity.class);

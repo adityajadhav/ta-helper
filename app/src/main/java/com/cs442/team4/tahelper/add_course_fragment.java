@@ -178,7 +178,7 @@ public class add_course_fragment extends Fragment {
     public void onViewCreated(final View view, Bundle savedInstanceState) {
 
         SharedPreferences pref = getContext().getSharedPreferences("CurrentUser", MODE_PRIVATE);
-        user = pref.getString("User","");
+        user = pref.getString("UserEntity","");
         Log.i("Username",user);
 
 
@@ -317,7 +317,23 @@ public class add_course_fragment extends Fragment {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
 
-//                             if(dataSnapshot.hasChild(courseId))
+//                            for (DataSnapshot items : dataSnapshot.getChildren()) {
+//
+//                                if(items.getKey().equals(course_id)) {
+//                                    exists_flag = 1;
+//
+//                                    break;
+//                                }
+//
+//                            }
+//                            if(exists_flag == 1)
+//
+//                            {
+//                                Toast.makeText(getContext(), "Course id " + course_id + " already exists", Toast.LENGTH_SHORT).show();
+//                            }
+
+
+//                            if(dataSnapshot.hasChild(courseId))
 //                             {
 //                                 Toast.makeText(getContext(),"Course id " + course_id + " exists",Toast.LENGTH_SHORT).show();
 //                                 exists_flag = 1;
@@ -343,8 +359,8 @@ public class add_course_fragment extends Fragment {
 
 
 
-                //if(exists_flag == 0)
-                // {
+//                if(exists_flag == 0)
+//                 {
                 Course_Entity ce = new Course_Entity(course_name, course_id, professor_FN, professor_LN, professor_email, professor_UN, "");
 
                 final ProgressDialog dialog = ProgressDialog.show(getContext(), "",
@@ -372,7 +388,7 @@ public class add_course_fragment extends Fragment {
                 });
                 Log.i("Comp2","Now Completed");
                 //mFinish.closeAddCourseFragment();
-                // }
+               //  }
             }
         });
 
