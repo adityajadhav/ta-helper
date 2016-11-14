@@ -46,6 +46,11 @@ public class MainActivity extends AppCompatActivity implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login_activity);
+
+        SignInButton signInbtn = (SignInButton) findViewById(R.id.sign_in_button);
+        //signInbtn.setStyle(SignInButton.SIZE_WIDE, SignInButton.COLOR_DARK);
+//signInbtn.setBackground(getDrawable(R.drawable.common_google_signin_btn_icon_dark));
+        // setGooglePlusButtonText(signInbtn,"Login via Google");
         if (!isNetworkAvailable()) {
             Toast.makeText(this, " Please Switch On Your Internet ", Toast.LENGTH_LONG).show();
             Intent intent = new Intent(Intent.ACTION_MAIN);
@@ -59,8 +64,7 @@ public class MainActivity extends AppCompatActivity implements
 
         // Button listeners
         findViewById(R.id.sign_in_button).setOnClickListener(this);
-        findViewById(R.id.sign_out_button).setOnClickListener(this);
-        findViewById(R.id.disconnect_button).setOnClickListener(this);
+
 
         // [START configure_signin]
         // Configure sign-in to request the user's ID, email address, and basic
@@ -203,12 +207,9 @@ public class MainActivity extends AppCompatActivity implements
     private void updateUI(boolean signedIn) {
         if (signedIn) {
             findViewById(R.id.sign_in_button).setVisibility(View.GONE);
-            findViewById(R.id.sign_out_and_disconnect).setVisibility(View.VISIBLE);
         } else {
             mStatusTextView.setText(R.string.signed_out);
-
             findViewById(R.id.sign_in_button).setVisibility(View.VISIBLE);
-            findViewById(R.id.sign_out_and_disconnect).setVisibility(View.GONE);
         }
     }
 
@@ -218,12 +219,7 @@ public class MainActivity extends AppCompatActivity implements
             case R.id.sign_in_button:
                 signIn();
                 break;
-            case R.id.sign_out_button:
-                signOut();
-                break;
-            case R.id.disconnect_button:
-                revokeAccess();
-                break;
+
         }
     }
 
@@ -234,8 +230,8 @@ public class MainActivity extends AppCompatActivity implements
         user.setEmail(acct.getEmail());
         user.setFamilyName(acct.getFamilyName());
         user.setDisplayName(acct.getDisplayName());
-        if(ObjectUtils.isNotEmpty(acct.getPhotoUrl()))
-        user.setPhotoUrl(acct.getPhotoUrl().toString());
+        if (ObjectUtils.isNotEmpty(acct.getPhotoUrl()))
+            user.setPhotoUrl(acct.getPhotoUrl().toString());
         user.setUsername(acct.getDisplayName());
         user.setLastLogedIn();
         mDatabase.child("users").child(user.getId()).setValue(user);
@@ -264,5 +260,6 @@ public class MainActivity extends AppCompatActivity implements
             mProgressDialog.hide();
         }
     }
+
 
 }
