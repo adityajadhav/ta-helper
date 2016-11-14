@@ -70,6 +70,7 @@ public class ManageCourseFragment extends Fragment implements View.OnClickListen
         }
     }
 
+
     private void openGenerateGroupFragment() {
 
         GenerateStudentGroupsFragment generateStudentGroupsFragment = new GenerateStudentGroupsFragment();
