@@ -64,8 +64,11 @@ public class add_course_fragment extends Fragment {
         adapter.notifyDataSetChanged();
         Log.i("got",ta_memebers.toString());
         final TextView course_name_tv = (TextView) global_view.findViewById(R.id.course_name_tv_layout);
+
         course_name_tv.setText(getMembers.get(0));
     }
+
+
 
 
     @Override
@@ -129,6 +132,7 @@ public class add_course_fragment extends Fragment {
         final TextView professor_email_tv = (TextView) getView().findViewById(R.id.professor_email_tv_layout);
       //  final TextView ta_email_tv = (TextView) getView().findViewById(R.id.ta_email_tv_layout);
         final ListView ta_display__lv = (ListView) getView().findViewById(R.id.ta_display_lv_layout);
+
 
         Button add_course_btn = (Button) getView().findViewById(R.id.add_course_btn_layout);
         Button add_ta_btn = (Button) getView().findViewById(R.id.add_ta_btn_layout);
@@ -229,7 +233,7 @@ public class add_course_fragment extends Fragment {
                 final String course_id = course_id_tv.getText().toString();
                 final String professor_FN = professor_FN_tv.getText().toString();
                 final String professor_LN = professor_LN_tv.getText().toString();
-                final String professor_UN = professor_UN_tv.getText().toString();
+                final  String professor_UN = professor_UN_tv.getText().toString();
                 final String professor_email = professor_email_tv.getText().toString();
                // final String ta_email = ta_email_tv.getText().toString();
                 if(smode.equals("edit"))

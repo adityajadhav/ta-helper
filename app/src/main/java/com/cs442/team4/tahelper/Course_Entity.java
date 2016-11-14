@@ -53,13 +53,13 @@ public class Course_Entity {
         this.professorEmailId = professorEmailId;
     }
 
-    public String getProfessorUsername() {
-        return professorUsername;
-    }
+//    public String getProfessorUsername() {
+//        return professorUsername;
+//    }
 
-    public void setProfessorUsername(String professorUsername) {
-        this.professorUsername = professorUsername;
-    }
+//    public void setProfessorUsername(String professorUsername) {
+//        this.professorUsername = professorUsername;
+//    }
 
     //TA email id's seperated by ;
     private String TAEmailIds;

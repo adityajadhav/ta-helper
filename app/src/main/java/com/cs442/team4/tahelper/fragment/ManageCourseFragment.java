@@ -181,8 +181,8 @@ public class ManageCourseFragment extends Fragment implements View.OnClickListen
                 Log.i("Number of col", Integer.toString(noOfColumns));
                 String name = null;
 
-                if (noOfColumns != 2) {
-                    Toast.makeText(getContext(), "Number of columns should be 2. Import failed!", Toast.LENGTH_SHORT);
+                if (noOfColumns != 4) {
+                    Toast.makeText(getContext(), "Number of columns should be 2. Import failed!", Toast.LENGTH_SHORT).show();
                     return;
                 }
 
@@ -196,9 +196,13 @@ public class ManageCourseFragment extends Fragment implements View.OnClickListen
                     myRef.child(courseId).child(name).setValue("");
                     cell = cellIterator.next();
                     myRef.child(courseId).child(name).child("email").setValue(cell.getStringCellValue());
+                    cell = cellIterator.next();
+                    myRef.child(courseId).child(name).child("lastName").setValue(cell.getStringCellValue());
+                    cell = cellIterator.next();
+                    myRef.child(courseId).child(name).child("firstName").setValue(cell.getStringCellValue());
 
 
-                    System.out.println("");
+
                 }
                 //file.close();
                 DatabaseReference myRef1 = database.getReference("courses");
