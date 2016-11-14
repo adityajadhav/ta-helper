@@ -292,14 +292,17 @@ public class ManageCourseFragment extends Fragment implements View.OnClickListen
                 // TextView broadcast_email_tv = (TextView) view.findViewById(R.id.broadcast_email_tv_layout);
                 TextView export_records_tv = (TextView) view.findViewById(R.id.export_records_tv_layout);
                 TextView generate_groups_tv = (TextView) view.findViewById(generate_groups_tv_layout);
+                FloatingActionButton sendBcastBtn = (FloatingActionButton) view.findViewById(R.id.sendBcastBtn);
 
                 if (items.child("imported").getValue().equals(true)) {
                     //TextView import_student_tv1 = (TextView) view.findViewById(R.id.import_student_tv_layout);
                     import_student_btn.setVisibility(View.INVISIBLE);
+
                     student_list_tv1.setVisibility(View.VISIBLE);
                     // broadcast_email_tv.setVisibility(View.INVISIBLE);
                     export_records_tv.setVisibility(View.VISIBLE);
                     generate_groups_tv.setVisibility(View.VISIBLE);
+                    sendBcastBtn.setVisibility(View.VISIBLE);
 
 
                 } else {
@@ -308,6 +311,7 @@ public class ManageCourseFragment extends Fragment implements View.OnClickListen
                     // broadcast_email_tv.setVisibility(View.INVISIBLE);
                     export_records_tv.setVisibility(View.INVISIBLE);
                     generate_groups_tv.setVisibility(View.INVISIBLE);
+                    sendBcastBtn.setVisibility(View.INVISIBLE);
 
                 }
 

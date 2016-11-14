@@ -52,4 +52,13 @@
         android:layout_height="wrap_content"
         android:text="Import student list" />
 
+    <TextView
+        android:text="Needs an excel file residing in your phone. The excel file should have these columns in the exact order: \na) Student User ID \nb) Student Email \nc)Student Last Name \nd)Student First Name \n\n\n Works only on Marshmallow for now"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView3"
+        android:textSize="16sp"
+        android:textStyle="normal|italic"
+        android:textAllCaps="false" />
+
 </LinearLayout>
