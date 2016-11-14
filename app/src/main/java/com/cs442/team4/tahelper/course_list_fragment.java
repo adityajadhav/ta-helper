@@ -59,8 +59,8 @@ public class course_list_fragment extends Fragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
 
         SharedPreferences pref = getContext().getSharedPreferences("CurrentUser", MODE_PRIVATE);
-        user = pref.getString("User","");
-        Log.i("Username",user);
+        user = pref.getString("UserEntity","");
+        Log.i("UserEntity",user);
 
         Button myFab = (Button)  view.findViewById(R.id.add_course_fab_layout);
         myFab.setOnClickListener(new View.OnClickListener() {

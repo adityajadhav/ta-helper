@@ -145,6 +145,7 @@ public class MainActivity extends AppCompatActivity implements
 
             SharedPreferences pref = getApplicationContext().getSharedPreferences("CurrentUser", MODE_PRIVATE);
             SharedPreferences.Editor editor = pref.edit();
+            editor.clear();
             editor.putString("UserEntity", acct.getEmail());
             editor.commit();
             //updateUI(true);
