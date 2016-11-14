@@ -293,10 +293,12 @@ public class ManageCourseFragment extends Fragment implements View.OnClickListen
                 TextView export_records_tv = (TextView) view.findViewById(R.id.export_records_tv_layout);
                 TextView generate_groups_tv = (TextView) view.findViewById(generate_groups_tv_layout);
                 FloatingActionButton sendBcastBtn = (FloatingActionButton) view.findViewById(R.id.sendBcastBtn);
+                TextView import_tool_tip_tv = (TextView) view.findViewById(R.id.import_tool_tip_tv_layout);
 
                 if (items.child("imported").getValue().equals(true)) {
                     //TextView import_student_tv1 = (TextView) view.findViewById(R.id.import_student_tv_layout);
                     import_student_btn.setVisibility(View.INVISIBLE);
+                    import_tool_tip_tv.setVisibility(View.INVISIBLE);
 
                     student_list_tv1.setVisibility(View.VISIBLE);
                     // broadcast_email_tv.setVisibility(View.INVISIBLE);
@@ -307,6 +309,7 @@ public class ManageCourseFragment extends Fragment implements View.OnClickListen
 
                 } else {
                     import_student_btn.setVisibility(View.VISIBLE);
+                    import_tool_tip_tv.setVisibility(View.VISIBLE);
                     student_list_tv1.setVisibility(View.INVISIBLE);
                     // broadcast_email_tv.setVisibility(View.INVISIBLE);
                     export_records_tv.setVisibility(View.INVISIBLE);
