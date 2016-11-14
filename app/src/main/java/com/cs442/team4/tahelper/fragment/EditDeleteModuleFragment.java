@@ -145,7 +145,7 @@ public class EditDeleteModuleFragment extends Fragment {
     }
 
 
-    @Override
+  /*  @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
@@ -158,7 +158,7 @@ public class EditDeleteModuleFragment extends Fragment {
         }
 
 
-    }
+    }*/
 
 
     private void showZerothShowCase(){

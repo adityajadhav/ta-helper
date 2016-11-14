@@ -47,10 +47,6 @@ public class MainActivity extends AppCompatActivity implements
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login_activity);
 
-        SignInButton signInbtn = (SignInButton) findViewById(R.id.sign_in_button);
-        //signInbtn.setStyle(SignInButton.SIZE_WIDE, SignInButton.COLOR_DARK);
-//signInbtn.setBackground(getDrawable(R.drawable.common_google_signin_btn_icon_dark));
-        // setGooglePlusButtonText(signInbtn,"Login via Google");
         if (!isNetworkAvailable()) {
             Toast.makeText(this, " Please Switch On Your Internet ", Toast.LENGTH_LONG).show();
             Intent intent = new Intent(Intent.ACTION_MAIN);
@@ -95,11 +91,13 @@ public class MainActivity extends AppCompatActivity implements
         signInButton.setSize(SignInButton.SIZE_STANDARD);
         signInButton.setScopes(gso.getScopeArray());
         // [END customize_button]
+
     }
 
     @Override
     public void onStart() {
         super.onStart();
+
         OptionalPendingResult<GoogleSignInResult> opr = Auth.GoogleSignInApi.silentSignIn(mGoogleApiClient);
         if (opr.isDone()) {
             // If the user's cached credentials are valid, the OptionalPendingResult will be "done"
@@ -121,6 +119,7 @@ public class MainActivity extends AppCompatActivity implements
             });
 
         }
+
     }
 
     // [START onActivityResult]
@@ -149,7 +148,8 @@ public class MainActivity extends AppCompatActivity implements
 
             SharedPreferences pref = getApplicationContext().getSharedPreferences("CurrentUser", MODE_PRIVATE);
             SharedPreferences.Editor editor = pref.edit();
-            editor.putString("UserEntity", acct.getEmail());
+            editor.clear();
+             editor.putString("UserEntity", acct.getEmail());
             editor.commit();
             //updateUI(true);
             Intent intent = new Intent(this, CourseActivity.class);

@@ -1,14 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-   >
+    android:paddingTop="40sp"
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+    >
+
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:layout_weight="2"
+    android:weightSum="1">
+
 
         <TextView
             android:layout_width="match_parent"
@@ -16,42 +23,33 @@
             android:text="Courses"
             android:textSize="30sp"
             android:textStyle="normal|bold"
-            android:textColor="@color/colorBlack"
+            android:textColor="@color/colorMaroon"
             android:textAlignment="center" />
 
-    </LinearLayout>
+        <ListView
+            android:layout_width="wrap_content"
+            android:id="@+id/course_list_view"
+            android:layout_height="348dp"
+            android:layout_marginTop="45dp"
+            android:layout_weight="1.02">
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        >
 
-    </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true">
 
-    <Button
-        android:text="Add Course"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/add_course_fab_layout"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginBottom="16dp" />
-    </LinearLayout>
+        </ListView>
+</LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-    <ListView
-        android:layout_width="wrap_content"
-        android:id="@+id/course_list_view"
-        android:layout_height="300dp"
-        android:layout_marginTop="45dp"
-        android:layout_below="@+id/linearLayout"
-        android:layout_toEndOf="@+id/linearLayout2">
-    </ListView>
+        <Button
+            android:text="Add Course"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/add_course_fab_layout"
 
-</RelativeLayout>
+            android:layout_marginBottom="16dp" />
+        </LinearLayout>
+
+</LinearLayout>

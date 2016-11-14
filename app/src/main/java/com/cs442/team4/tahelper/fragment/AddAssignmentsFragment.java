@@ -183,7 +183,7 @@ public class AddAssignmentsFragment extends Fragment {
         }
     }
 
-    @Override
+  /*  @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
@@ -196,7 +196,7 @@ public class AddAssignmentsFragment extends Fragment {
         }
 
 
-    }
+    }*/
 
     private void showFirstShowCase(){
         new ShowcaseView.Builder(getActivity())

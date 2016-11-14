@@ -1,9 +1,11 @@
 package com.cs442.team4.tahelper;
 
 import android.app.Fragment;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringDef;
 import android.util.Log;
@@ -16,6 +18,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -174,7 +178,7 @@ public class add_course_fragment extends Fragment {
     public void onViewCreated(final View view, Bundle savedInstanceState) {
 
         SharedPreferences pref = getContext().getSharedPreferences("CurrentUser", MODE_PRIVATE);
-        user = pref.getString("User","");
+        user = pref.getString("UserEntity","");
         Log.i("Username",user);
 
 
@@ -313,7 +317,23 @@ public class add_course_fragment extends Fragment {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
 
-//                             if(dataSnapshot.hasChild(courseId))
+//                            for (DataSnapshot items : dataSnapshot.getChildren()) {
+//
+//                                if(items.getKey().equals(course_id)) {
+//                                    exists_flag = 1;
+//
+//                                    break;
+//                                }
+//
+//                            }
+//                            if(exists_flag == 1)
+//
+//                            {
+//                                Toast.makeText(getContext(), "Course id " + course_id + " already exists", Toast.LENGTH_SHORT).show();
+//                            }
+
+
+//                            if(dataSnapshot.hasChild(courseId))
 //                             {
 //                                 Toast.makeText(getContext(),"Course id " + course_id + " exists",Toast.LENGTH_SHORT).show();
 //                                 exists_flag = 1;
@@ -339,10 +359,12 @@ public class add_course_fragment extends Fragment {
 
 
 
-                //if(exists_flag == 0)
-                // {
+//                if(exists_flag == 0)
+//                 {
                 Course_Entity ce = new Course_Entity(course_name, course_id, professor_FN, professor_LN, professor_email, professor_UN, "");
 
+                final ProgressDialog dialog = ProgressDialog.show(getContext(), "",
+                        "Loading. Please wait...", true);
                 myRef.child(course_id).setValue(ce);
                 exists_flag = 0;
 
@@ -354,10 +376,19 @@ public class add_course_fragment extends Fragment {
                     Toast.makeText(getContext(), "Add TA members by clicking on Add TAs button", Toast.LENGTH_SHORT).show();
                 }
 
-                myRef.child(course_id).child("imported").setValue(false);
+                myRef.child(course_id).child("imported").setValue(false).addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
 
-                mFinish.closeAddCourseFragment();
-                // }
+                        Log.i("Comp","Now Completed");
+                        dialog.dismiss();
+                        Toast.makeText(getContext(),"Course Added successfully", Toast.LENGTH_SHORT).show();
+                        mFinish.closeAddCourseFragment();
+                    }
+                });
+                Log.i("Comp2","Now Completed");
+                //mFinish.closeAddCourseFragment();
+               //  }
             }
         });
 

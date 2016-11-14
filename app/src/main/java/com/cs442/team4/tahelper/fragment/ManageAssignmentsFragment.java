@@ -150,7 +150,7 @@ public class ManageAssignmentsFragment extends Fragment {
         }
     }
 
-    @Override
+  /*  @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
@@ -163,7 +163,7 @@ public class ManageAssignmentsFragment extends Fragment {
         }
 
 
-    }
+    }*/
 
 
     private void showFirstShowCase(){

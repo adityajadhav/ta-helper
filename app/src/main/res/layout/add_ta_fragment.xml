@@ -3,7 +3,8 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:focusable="false"
-    android:descendantFocusability="blocksDescendants">
+    android:descendantFocusability="blocksDescendants"
+    android:paddingTop="40sp">
 
     <TextView
         android:text="Select TAs from drop down"
@@ -12,7 +13,8 @@
         android:id="@+id/textView"
         android:focusable="false"
         android:descendantFocusability="blocksDescendants"
-        android:textSize="25sp" />
+        android:textSize="25sp"
+        android:textColor="@color/colorBlack" />
 
 
     <LinearLayout
