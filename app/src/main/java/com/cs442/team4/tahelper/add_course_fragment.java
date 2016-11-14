@@ -64,7 +64,68 @@ public class add_course_fragment extends Fragment {
         adapter.notifyDataSetChanged();
         Log.i("got",ta_memebers.toString());
         final TextView course_name_tv = (TextView) global_view.findViewById(R.id.course_name_tv_layout);
+
         course_name_tv.setText(getMembers.get(0));
+    }
+
+
+
+    public boolean checkValues()
+    {
+        boolean result = true;
+        final TextView course_name_tv = (TextView) getView().findViewById(R.id.course_name_tv_layout);
+        final TextView course_id_tv = (TextView) getView().findViewById(R.id.course_id_tv_layout);
+        final TextView professor_FN_tv = (TextView) getView().findViewById(R.id.professor_FN_tv_layout);
+        final TextView professor_LN_tv = (TextView) getView().findViewById(R.id.professor_LN_tv_layout);
+        final TextView professor_UN_tv = (TextView) getView().findViewById(R.id.professor_UN_tv_layout);
+        final TextView professor_email_tv = (TextView) getView().findViewById(R.id.professor_email_tv_layout);
+
+
+
+        final String course_name = course_name_tv.getText().toString();
+        if(course_name.trim().length() <=0)
+        {
+            course_name_tv.setError("Course Name cannot be empty");
+            result = false;
+        }
+        final String course_id = course_id_tv.getText().toString();
+        if(course_id.trim().length() <=0)
+        {
+            course_id_tv.setError("Course Id cannot be empty");
+            result = false;
+        }
+
+        final String professor_FN = professor_FN_tv.getText().toString();
+
+        if(professor_FN.trim().length() <=0)
+        {
+            professor_FN_tv.setError("First Name cannot be empty");
+            result = false;
+        }
+        final String professor_LN = professor_LN_tv.getText().toString();
+
+        if(professor_LN.trim().length() <=0)
+        {
+            professor_LN_tv.setError("Last Name cannot be empty");
+            result = false;
+        }
+        final String professor_UN = professor_UN_tv.getText().toString();
+
+        if(professor_UN.trim().length() <=0)
+        {
+            professor_UN_tv.setError("User Name cannot be empty");
+            result = false;
+        }
+        final String professor_email = professor_email_tv.getText().toString();
+
+        if(professor_email.trim().length() <=0)
+        {
+            professor_email_tv.setError("Email cannot be empty");
+            result = false;
+        }
+
+        return result;
+
     }
 
 
@@ -127,8 +188,9 @@ public class add_course_fragment extends Fragment {
         final TextView professor_LN_tv = (TextView) getView().findViewById(R.id.professor_LN_tv_layout);
         final TextView professor_UN_tv = (TextView) getView().findViewById(R.id.professor_UN_tv_layout);
         final TextView professor_email_tv = (TextView) getView().findViewById(R.id.professor_email_tv_layout);
-      //  final TextView ta_email_tv = (TextView) getView().findViewById(R.id.ta_email_tv_layout);
+        //  final TextView ta_email_tv = (TextView) getView().findViewById(R.id.ta_email_tv_layout);
         final ListView ta_display__lv = (ListView) getView().findViewById(R.id.ta_display_lv_layout);
+
 
         Button add_course_btn = (Button) getView().findViewById(R.id.add_course_btn_layout);
         Button add_ta_btn = (Button) getView().findViewById(R.id.add_ta_btn_layout);
@@ -171,7 +233,7 @@ public class add_course_fragment extends Fragment {
                             professor_LN_tv.setText(c_p_last);
                             professor_UN_tv.setText(c_p_un);
                             professor_email_tv.setText(c_p_email);
-                          //  ta_email_tv.setText(c_p_un);
+                            //  ta_email_tv.setText(c_p_un);
 
                             GenericTypeIndicator<ArrayList<String>> t = new GenericTypeIndicator<ArrayList<String>>() {};
 
@@ -212,26 +274,34 @@ public class add_course_fragment extends Fragment {
             }
         }
 
-                add_ta_btn.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        mFinish.callAddTAs_to_activity(ta_memebers);
-
-                    }
-                });
-
-
-                add_course_btn.setOnClickListener(new View.OnClickListener() {
+        add_ta_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                mFinish.callAddTAs_to_activity(ta_memebers);
+
+            }
+        });
+
+
+        add_course_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                boolean check = checkValues();
+
+                if(!check)
+                {
+                    Toast.makeText(getContext(),"Please fill all the fields",Toast.LENGTH_SHORT).show();
+                    return;
+                }
 
                 final String course_name = course_name_tv.getText().toString();
                 final String course_id = course_id_tv.getText().toString();
                 final String professor_FN = professor_FN_tv.getText().toString();
                 final String professor_LN = professor_LN_tv.getText().toString();
-                final String professor_UN = professor_UN_tv.getText().toString();
+                final  String professor_UN = professor_UN_tv.getText().toString();
                 final String professor_email = professor_email_tv.getText().toString();
-               // final String ta_email = ta_email_tv.getText().toString();
+                // final String ta_email = ta_email_tv.getText().toString();
                 if(smode.equals("edit"))
                 {
                     myRef.child(old_course_id).removeValue();
@@ -270,24 +340,24 @@ public class add_course_fragment extends Fragment {
 
 
                 //if(exists_flag == 0)
-               // {
-                    Course_Entity ce = new Course_Entity(course_name, course_id, professor_FN, professor_LN, professor_email, professor_UN, "");
+                // {
+                Course_Entity ce = new Course_Entity(course_name, course_id, professor_FN, professor_LN, professor_email, professor_UN, "");
 
-                    myRef.child(course_id).setValue(ce);
-                    exists_flag = 0;
+                myRef.child(course_id).setValue(ce);
+                exists_flag = 0;
 
 
-                    if (ta_memebers.size() > 0) {
-                        myRef.child(course_id).child("ta_members").setValue(ta_memebers);
+                if (ta_memebers.size() > 0) {
+                    myRef.child(course_id).child("ta_members").setValue(ta_memebers);
 
-                    } else {
-                        Toast.makeText(getContext(), "Add TA members by clicking on Add TAs button", Toast.LENGTH_SHORT).show();
-                    }
+                } else {
+                    Toast.makeText(getContext(), "Add TA members by clicking on Add TAs button", Toast.LENGTH_SHORT).show();
+                }
 
-                    myRef.child(course_id).child("imported").setValue(false);
+                myRef.child(course_id).child("imported").setValue(false);
 
-                    mFinish.closeAddCourseFragment();
-               // }
+                mFinish.closeAddCourseFragment();
+                // }
             }
         });
 
