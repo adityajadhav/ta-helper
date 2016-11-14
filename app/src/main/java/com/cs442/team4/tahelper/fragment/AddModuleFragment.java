@@ -141,7 +141,7 @@ public class AddModuleFragment extends Fragment{
     }
 
 
-    @Override
+/*    @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
@@ -154,7 +154,7 @@ public class AddModuleFragment extends Fragment{
         }
 
 
-    }
+    }*/
 
     private void showFirstShowCase(){
         new ShowcaseView.Builder(getActivity())

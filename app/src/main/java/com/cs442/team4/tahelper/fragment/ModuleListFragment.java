@@ -82,7 +82,6 @@ public class ModuleListFragment extends Fragment{
         backButton = (Button) view.findViewById(R.id.moduleListFragmentBackButton);
         loadingLayout = (RelativeLayout) view.findViewById(R.id.loadingPanel);
         mDatabase = FirebaseDatabase.getInstance().getReference();
-
         backButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
@@ -234,7 +233,7 @@ public class ModuleListFragment extends Fragment{
         }
     }
 
-    @Override
+   /* @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
@@ -247,7 +246,7 @@ public class ModuleListFragment extends Fragment{
         }
 
 
-    }
+    }*/
 
     private void showFirstShowCase(){
         new ShowcaseView.Builder(getActivity())
