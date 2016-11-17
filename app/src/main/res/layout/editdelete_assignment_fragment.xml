@@ -3,121 +3,136 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:weightSum="10">
-
-    <Space
-        android:layout_width="match_parent"
-        android:layout_height="10dp" />
+    android:weightSum="10"
+    android:background="@color/colorBlack"
+    android:alpha="0.8">
 
     <EditText
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="40dp"
         android:id="@+id/editDeleteAssignmentsFragmentTextView"
         android:textSize="25dp"
         android:gravity="center"
-        android:textStyle="bold"
         android:hint="Enter Assignment Name"
+        android:textColor="@color/colorBlack"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/edit_text"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
         />
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="10dp"></Space>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="40dp"
         android:orientation="horizontal"
-        android:weightSum="5">
+        android:weightSum="6">
 
         <EditText
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="2"
+            android:layout_weight="3"
             android:id="@+id/editDeleteAssignmentFragmentSplitName"
             android:hint="Split Name"
+            android:textSize="25dp"
+            android:textColor="@color/colorBlack"
+            android:background="@drawable/edit_text"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:gravity="center"
 
             />
 
         <EditText
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="2"
+            android:layout_weight="3"
             android:inputType="number"
             android:id="@+id/editDeleteAssignmentFragmentSplitScore"
             android:hint="Split Score"
-            />
-
-        <Button
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:id="@+id/editDeleteAssignmentsFragmentButton"
-            android:text="Add"
-            android:textSize="18dp"
+            android:textSize="25dp"
+            android:textColor="@color/colorBlack"
+            android:background="@drawable/edit_text"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
             android:gravity="center"
             />
 
     </LinearLayout>
 
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="10dp"></Space>
+
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:id="@+id/editDeleteAssignmentsFragmentButton"
+        android:text="Add"
+        android:textSize="15dp"
+        android:gravity="center"
+        android:background="@color/colorMaroon"
+        android:textColor="@color/colorWhite"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        />
+
+
+
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="40dp"
         android:orientation="horizontal"
-        android:weightSum="2">
+        android:weightSum="2"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp">
 
         <TextView
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="0.5"
+            android:layout_weight="1"
             android:id="@+id/editDeleteAssignmentFragmentTotal"
             android:text="Total"
-            android:textSize="20dp"
+            android:textSize="25dp"
             android:textStyle="bold"
-            android:gravity="center_vertical"
+            android:gravity="right"
+            android:textAlignment="center"
+            android:layout_marginLeft="10dp"
+            android:textColor="@color/colorWhite"
             />
 
         <EditText
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1.5"
+            android:layout_weight="1"
             android:id="@+id/editDeleteAssignmentFragmentTotalScore"
             android:inputType="number"
             android:hint="Total Score"
+            android:gravity="center"
+            android:textSize="25dp"
+            android:textColor="@color/colorBlack"
+            android:background="@drawable/edit_text"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="10dp"
             />
     </LinearLayout>
 
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:orientation="horizontal"
-        android:weightSum="2">
-
-        <Button
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="60dp"
-            android:id="@+id/editDeleteAssignmentsFragmentEditButton"
-            android:text=" Edit "
-            android:textSize="18dp"
-            android:gravity="center"
-        />
-
-        <Button
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="60dp"
-            android:id="@+id/editDeleteAssignmentsFragmentDeleteButton"
-            android:text="Delete"
-            android:textSize="18dp"
-            android:gravity="center"
-            />
-    </LinearLayout>
 
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:text="Split List"
-        android:textSize="20dp"
+        android:textSize="25dp"
         android:textStyle="bold"
-        android:gravity="center"
+        android:gravity="right"
+        android:textAlignment="center"
+        android:layout_marginLeft="10dp"
+        android:textColor="@color/colorWhite"
         />
 
     <ListView
@@ -127,15 +142,54 @@
         android:id="@+id/editDeleteAssignmentsFragmentListView"
         />
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:orientation="horizontal"
+        android:weightSum="2">
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="40dp"
+            android:id="@+id/editDeleteAssignmentsFragmentEditButton"
+            android:text=" Edit "
+            android:textSize="15dp"
+            android:gravity="center"
+            android:background="@color/colorMaroon"
+            android:textColor="@color/colorWhite"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            />
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="40dp"
+            android:id="@+id/editDeleteAssignmentsFragmentDeleteButton"
+            android:text="Delete"
+            android:textSize="15dp"
+            android:gravity="center"
+            android:background="@color/colorMaroon"
+            android:textColor="@color/colorWhite"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            />
+    </LinearLayout>
+
+
 
     <Button
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="40dp"
         android:id="@+id/editDeleteAssignmentsFragmentBackButton"
         android:text=" BACK "
-        android:textSize="18dp"
-        android:layout_gravity="bottom"
-        android:layout_marginBottom="20dp"
+        android:textSize="15dp"
+        android:gravity="center"
+        android:background="@color/colorMaroon"
+        android:textColor="@color/colorWhite"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
         />
 
 
