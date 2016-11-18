@@ -7,15 +7,25 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
-
     <application
-
         android:allowBackup="true"
         android:icon="@mipmap/ta_launher"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
+            android:name=".activity.SplashActivity"
+            android:label="@string/app_name"
+            android:theme="@style/SplashTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".MainActivity" />
+
+       <!-- <activity
             android:name=".MainActivity"
             android:windowSoftInputMode="adjustPan">
             <intent-filter>
@@ -23,58 +33,47 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
-
-
+        </activity>-->
         <activity
             android:name=".CourseActivity"
-            android:windowSoftInputMode="adjustPan">
+            android:windowSoftInputMode="adjustPan"></activity>
 
-        </activity>
-
-        <!--
-        <activity android:name=".student.GradeStudentListActivity"></activity>
-        -->
-        <activity android:name=".student.GradeStudentListActivity"></activity>
-        <activity android:name=".activity.ModuleListActivity"></activity>
-        <activity android:name=".activity.AddModuleActivity"></activity>
-        <activity android:name=".activity.EditDeleteModuleActivity"></activity>
-        <activity android:name=".activity.ManageAssignmentsActivity"></activity>
-        <activity android:name=".activity.AddAssignmentsActivity"></activity>
-        <activity android:name=".activity.EditDeleteAssignmentActivity"></activity>
-        <activity android:name=".student.StudentModulesActivity"></activity>
-        <activity android:name=".student.StudentAssignmentListActivity"></activity>
-        <activity android:name=".student.StudentAssignmentSplitsListActivity"></activity>
-        <activity android:name=".student.StudentListActivity"></activity>
+        <!--         <activity android:name=".student.GradeStudentListActivity"></activity> -->
+        <activity android:name=".student.GradeStudentListActivity" />
+        <activity android:name=".activity.ModuleListActivity" />
+        <activity android:name=".activity.AddModuleActivity" />
+        <activity android:name=".activity.EditDeleteModuleActivity" />
+        <activity android:name=".activity.ManageAssignmentsActivity" />
+        <activity android:name=".activity.AddAssignmentsActivity" />
+        <activity android:name=".activity.EditDeleteAssignmentActivity" />
+        <activity android:name=".student.StudentModulesActivity" />
+        <activity android:name=".student.StudentAssignmentListActivity" />
+        <activity android:name=".student.StudentAssignmentSplitsListActivity" />
+        <activity android:name=".student.StudentListActivity" />
         <activity
             android:name=".showcase.ActionItemsSampleActivity"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar"></activity>
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
             android:name=".preferences.MyPreferenceActivity"
-            android:theme="@style/PreferencesTheme"></activity>
-
-
+            android:theme="@style/PreferencesTheme" />
         <activity
             android:name=".student.GradeWithSplitsActivity"
-            android:windowSoftInputMode="adjustNothing"></activity>
-        <activity android:name=".student.GradeWithoutSplitsActivity"></activity>
+            android:windowSoftInputMode="adjustNothing" />
+        <activity android:name=".student.GradeWithoutSplitsActivity" />
 
         <service android:name=".services.MyFirebaseMessagingService">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
-
         <service android:name=".services.MyFirebaseInstanceIDService">
             <intent-filter>
                 <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
             </intent-filter>
         </service>
-
         <service
             android:name=".services.ModuleDatabaseUpdationIntentService"
             android:exported="false" />
-
         <service
             android:name=".services.AssignmentsDatabaseUpdationService"
             android:exported="false" />
