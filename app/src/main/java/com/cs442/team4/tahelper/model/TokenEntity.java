@@ -29,6 +29,14 @@ public class TokenEntity {
         return id;
     }
 
+    public String getCreatedDate() {
+        return createdDate;
+    }
+
+    public void setCreatedDate(String createdDate) {
+        this.createdDate = createdDate;
+    }
+
     public void setId(String id) {
         this.id = id;
     }
