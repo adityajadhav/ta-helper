@@ -150,8 +150,9 @@ public class course_list_fragment extends Fragment {
                             //String c_p_full = items.child("professorFullName").getValue().toString();
                             String c_ta = items.child("taemailIds").getValue().toString();
                             String c_p_un = items.child("professorUserName").getValue().toString();
+                            String imported = items.child("imported").getValue().toString();
 
-                            course_array.add(new Course_Entity(c_name, c_id, c_p_first, c_p_last, c_p_email, c_p_un, c_ta));
+                            course_array.add(new Course_Entity(c_name, c_id, c_p_first, c_p_last, c_p_email, c_p_un, c_ta,imported));
                             display_flag = 0;
                         }
                         catch(Exception e)

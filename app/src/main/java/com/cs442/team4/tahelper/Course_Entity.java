@@ -13,6 +13,7 @@ public class Course_Entity {
     private String professorLastName;
     private String professorEmailId;
     private String professorUsername;
+    private String imported = "false";
 
 
 
@@ -66,7 +67,7 @@ public class Course_Entity {
 
 
     public Course_Entity(String name, String code, String professor_first_name, String professor_last_name,
-                         String professor_email_id, String professor_username, String TA_email_ids) {
+                         String professor_email_id, String professor_username, String TA_email_ids, String imported) {
         this.name = name;
         this.code = code;
         this.professorFirstName = professor_first_name;
@@ -76,6 +77,7 @@ public class Course_Entity {
         this.professorFullName = professor_last_name + "," + professor_first_name;
         this.professorUsername = professor_username;
         this.TAEmailIds = TA_email_ids;
+        this.imported = imported;
     }
 
     //Constructor needed for firebsae
@@ -83,6 +85,10 @@ public class Course_Entity {
 
     }
 
+    public String getImportStatus()
+    {
+        return imported;
+    }
 
     public String getCourseName() {
 

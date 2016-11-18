@@ -1,12 +1,17 @@
 package com.cs442.team4.tahelper;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import org.apache.poi.ss.formula.functions.T;
 
 import java.util.ArrayList;
 
@@ -53,6 +58,16 @@ public class Course_list_array_adapter extends ArrayAdapter<Course_Entity> {
         }
 
         final Course_Entity course = getItem(position);
+        final Button grade_course_btn = (Button) view.findViewById(R.id.grade_course_btn_layout);
+//        if(course.getImportStatus().equals("false"))
+//        {
+//            grade_course_btn.setEnabled(false);
+//
+//        }
+//        else
+//        {
+//            grade_course_btn.setEnabled(true);
+//        }
 
         TextView course_name_tv = (TextView) view.findViewById(R.id.course_name_tv_layout);
         course_name_tv.setText(course.getCourseName());
@@ -77,11 +92,35 @@ public class Course_list_array_adapter extends ArrayAdapter<Course_Entity> {
 
         });
 
-        Button grade_course_btn = (Button) view.findViewById(R.id.grade_course_btn_layout);
+
         grade_course_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                obj.callModulesActivity_to_fragment(courseId);
+                if(course.getImportStatus().equals("false"))
+                {
+
+                    new AlertDialog.Builder(context)
+                            .setTitle("Error!")
+                            .setMessage("Import Students to the course first. Click on Manage and import the student list")
+                            .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    // continue with delete
+                                }
+                            })
+//                            .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+//                                public void onClick(DialogInterface dialog, int which) {
+//                                    // do nothing
+//                                }
+//                            })
+//                            .setIcon(android.R.drawable.ic_dialog_alert)
+                            .show();
+
+
+                }
+                else {
+
+                    obj.callModulesActivity_to_fragment(courseId);
+                }
             }
         });
 

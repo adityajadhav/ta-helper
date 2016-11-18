@@ -230,6 +230,7 @@ public class add_course_fragment extends Fragment {
                             String c_ta = items.child("taemailIds").getValue().toString();
                             String c_p_un = items.child("professorUserName").getValue().toString();
 
+
                             course_name_tv.setText(c_name);
                             course_id_tv.setText(c_id);
                             old_course_id =  c_id;
@@ -361,7 +362,7 @@ public class add_course_fragment extends Fragment {
 
 //                if(exists_flag == 0)
 //                 {
-                Course_Entity ce = new Course_Entity(course_name, course_id, professor_FN, professor_LN, professor_email, professor_UN, "");
+                Course_Entity ce = new Course_Entity(course_name, course_id, professor_FN, professor_LN, professor_email, professor_UN, "","false");
 
                 final ProgressDialog dialog = ProgressDialog.show(getContext(), "",
                         "Loading. Please wait...", true);
