@@ -60,7 +60,7 @@
         android:divider="@color/colorGrey"
     />
 
-    <Button
+    <!--<Button
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:id="@+id/manageAssignmentsFragmentBackButton"
@@ -74,7 +74,7 @@
         android:layout_marginRight="10dp"
         android:layout_marginTop="10dp"
         android:layout_marginBottom="10dp"
-        />
+        />-->
 
 
 </LinearLayout>

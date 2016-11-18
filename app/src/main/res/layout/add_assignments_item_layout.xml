@@ -5,10 +5,17 @@
     android:layout_height="50dp"
     android:weightSum="10">
 
+    <View android:id="@+id/separator2"
+        android:background="@color/colorGrey"
+        android:layout_width = "4px"
+        android:layout_height="fill_parent"
+        android:layout_centerVertical ="true"
+        android:layout_alignParentTop="true"/>
+
     <TextView
         android:layout_height="match_parent"
         android:layout_width="0dp"
-        android:layout_weight="5"
+        android:layout_weight="4"
         android:id="@+id/addAssignmentsSplitName"
         android:textSize="18dp"
         android:textAlignment="center"
@@ -17,10 +24,17 @@
         android:textColor="@color/colorWhite"
         />
 
+    <View android:id="@+id/separator"
+        android:background="@color/colorGrey"
+        android:layout_width = "4px"
+        android:layout_height="fill_parent"
+        android:layout_centerVertical ="true"
+        android:layout_alignParentTop="true"/>
+
     <TextView
         android:layout_height="match_parent"
         android:layout_width="0dp"
-        android:layout_weight="5"
+        android:layout_weight="3"
         android:id="@+id/addAssignmentsSplitScore"
         android:textSize="18dp"
         android:textAlignment="center"
@@ -29,9 +43,17 @@
         android:textColor="@color/colorWhite"
         />
 
+    <View android:id="@+id/separator1"
+        android:background="@color/colorGrey"
+        android:layout_width = "4px"
+        android:layout_height="fill_parent"
+        android:layout_centerVertical ="true"
+        android:layout_alignParentTop="true"/>
+
     <Button
         android:layout_height="match_parent"
-        android:layout_width="70dp"
+        android:layout_width="0dp"
+        android:layout_weight="3"
         android:id="@+id/addAssignmentsSplitDelete"
         android:text="Delete"
         android:gravity="center"
@@ -44,5 +66,13 @@
         android:layout_marginRight="10dp"
 
         />
+
+
+    <View android:id="@+id/separator4"
+        android:background="@color/colorGrey"
+        android:layout_width = "4px"
+        android:layout_height="fill_parent"
+        android:layout_centerVertical ="true"
+        android:layout_alignParentTop="true"/>
 
 </LinearLayout>

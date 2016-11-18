@@ -11,7 +11,6 @@ import java.util.Iterator;
 public class ModuleEntity {
 
 
-
     private static HashMap<String,ArrayList<AssignmentEntity>> moduleToAssignmets = new HashMap<>();
 
 

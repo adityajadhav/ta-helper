@@ -53,12 +53,12 @@ public class AddAssignmentsFragment extends Fragment {
     private DatabaseReference mDatabase;
     private String moduleName;
     private AddAssignmentsFragmentListener addAssignmentFragmentListener;
-    private Button backButton;
+    //private Button backButton;
     private String courseCode;
 
     public interface AddAssignmentsFragmentListener{
         public void notifyAddAssignmentEvent(String moduleName);
-        public void notifyBackEvent(String moduleName);
+        //public void notifyBackEvent(String moduleName);
 
     }
 
@@ -74,17 +74,17 @@ public class AddAssignmentsFragment extends Fragment {
         addAssignment = (Button) layout.findViewById(R.id.addAssignmentsFragmentAddButton);
         assignmentName = (EditText) layout.findViewById(R.id.addAssignmentsFragmentTextView);
         assignmentTotalScore = (EditText) layout.findViewById(R.id.addAssignmentFragmentTotalScore);
-        backButton = (Button) layout.findViewById(R.id.addAssignmentsFragmentBackButton);
+        //backButton = (Button) layout.findViewById(R.id.addAssignmentsFragmentBackButton);
         assignmentSplitsList = new ArrayList<AssignmentSplit>();
         assignmentAdapter = new AddAssignmentListItemAdapter(getActivity(),R.layout.add_assignments_item_layout,assignmentSplitsList);
         splitList.setAdapter(assignmentAdapter);
 
-        backButton.setOnClickListener(new View.OnClickListener() {
+        /*backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                  addAssignmentFragmentListener.notifyBackEvent(moduleName);;
             }
-        });
+        });*/
 
         addSplitButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -107,6 +107,10 @@ public class AddAssignmentsFragment extends Fragment {
                handleAddAssignment();
             }
         });
+
+        moduleName = getArguments().getString(IntentConstants.MODULE_NAME);
+        //backButton.setText(" BACK TO "+moduleName+" MODULE LIST");
+        courseCode = getArguments().getString(IntentConstants.COURSE_ID);
         return layout;
     }
 
@@ -161,13 +165,13 @@ public class AddAssignmentsFragment extends Fragment {
         assignmentAdapter.notifyDataSetChanged();
     }
 
-    public void initialise(Intent intent) {
+/*    public void initialise(Intent intent) {
         if(intent!=null && intent.getStringExtra(IntentConstants.MODULE_NAME)!=null){
             moduleName = intent.getStringExtra(IntentConstants.MODULE_NAME);
             backButton.setText(" BACK TO "+moduleName+" MODULE LIST");
             courseCode = intent.getStringExtra(IntentConstants.COURSE_ID);
         }
-    }
+    }*/
 
 
     @Override
@@ -299,14 +303,14 @@ public class AddAssignmentsFragment extends Fragment {
 
                     @Override
                     public void onShowcaseViewDidHide(ShowcaseView showcaseView) {
-                        showSeventhShowCase();
+                        showEightShowCase();
                     }
 
                 })
                 .build();
     }
 
-    private void showSeventhShowCase() {
+    /*private void showSeventhShowCase() {
         new ShowcaseView.Builder(getActivity())
                 .withMaterialShowcase()
                 .setStyle(R.style.CustomShowcaseTheme2)
@@ -322,7 +326,7 @@ public class AddAssignmentsFragment extends Fragment {
 
                 })
                 .build();
-    }
+    }*/
 
 
     private void showEightShowCase() {

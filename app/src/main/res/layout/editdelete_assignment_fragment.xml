@@ -72,7 +72,7 @@
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:id="@+id/editDeleteAssignmentsFragmentButton"
-        android:text="Add"
+        android:text="Add Split"
         android:textSize="15dp"
         android:gravity="center"
         android:background="@color/colorMaroon"
@@ -122,10 +122,16 @@
     </LinearLayout>
 
 
+    <View android:id="@+id/separator1"
+        android:background="@color/colorGrey"
+        android:layout_width = "fill_parent"
+        android:layout_height="4px"
+        android:layout_centerVertical ="true"
+        android:layout_alignParentTop="true"/>
 
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="40dp"
         android:text="Split List"
         android:textSize="25dp"
         android:textStyle="bold"
@@ -135,10 +141,18 @@
         android:textColor="@color/colorWhite"
         />
 
+    <View android:id="@+id/separator2"
+        android:background="@color/colorGrey"
+        android:layout_width = "fill_parent"
+        android:layout_height="4px"
+        android:layout_centerVertical ="true"
+        android:layout_alignParentTop="true"/>
+
+
     <ListView
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="8"
+        android:layout_weight="10"
         android:id="@+id/editDeleteAssignmentsFragmentListView"
         />
 
@@ -146,7 +160,9 @@
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:orientation="horizontal"
-        android:weightSum="2">
+        android:weightSum="2"
+        android:layout_gravity="bottom"
+        android:layout_marginBottom="10dp">
 
         <Button
             android:layout_width="0dp"
@@ -179,7 +195,7 @@
 
 
 
-    <Button
+    <!--<Button
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:id="@+id/editDeleteAssignmentsFragmentBackButton"
@@ -190,7 +206,7 @@
         android:textColor="@color/colorWhite"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        />
+        />-->
 
 
 

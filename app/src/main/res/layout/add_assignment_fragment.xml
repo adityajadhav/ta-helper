@@ -123,12 +123,31 @@
             />
     </LinearLayout>
 
+    <View android:id="@+id/separator1"
+        android:background="@color/colorGrey"
+        android:layout_width = "fill_parent"
+        android:layout_height="4px"
+        android:layout_centerVertical ="true"
+        android:layout_alignParentTop="true"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:text="Split List"
+        android:textSize="25dp"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:textColor="@color/colorWhite"
+        android:layout_marginBottom="5dp"
+        />
+
     <View android:id="@+id/separator"
         android:background="@color/colorGrey"
         android:layout_width = "fill_parent"
         android:layout_height="4px"
         android:layout_centerVertical ="true"
         android:layout_alignParentTop="true"/>
+
 
 
     <ListView
@@ -169,7 +188,7 @@
         android:textColor="@color/colorWhite"
         />-->
 
-
+<!--
     <Button
         android:layout_width="match_parent"
         android:layout_height="40dp"
@@ -183,7 +202,7 @@
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:layout_marginBottom="10dp"
-        />
+        />-->
 
 
 </LinearLayout>

@@ -38,18 +38,20 @@
             android:name=".CourseActivity"
             android:windowSoftInputMode="adjustPan"></activity>
 
-        <!--         <activity android:name=".student.GradeStudentListActivity"></activity> -->
-        <activity android:name=".student.GradeStudentListActivity" />
-        <activity android:name=".activity.ModuleListActivity" />
-        <activity android:name=".activity.AddModuleActivity" />
-        <activity android:name=".activity.EditDeleteModuleActivity" />
-        <activity android:name=".activity.ManageAssignmentsActivity" />
-        <activity android:name=".activity.AddAssignmentsActivity" />
-        <activity android:name=".activity.EditDeleteAssignmentActivity" />
-        <activity android:name=".student.StudentModulesActivity" />
-        <activity android:name=".student.StudentAssignmentListActivity" />
-        <activity android:name=".student.StudentAssignmentSplitsListActivity" />
-        <activity android:name=".student.StudentListActivity" />
+        <!--
+        <activity android:name=".student.GradeStudentListActivity"></activity>
+        -->
+        <activity android:name=".student.GradeStudentListActivity"></activity>
+        <activity android:name=".activity.ModuleListActivity"></activity>
+        <activity android:name=".activity.AddModuleActivity"></activity>
+        <activity android:name=".activity.EditDeleteModuleActivity"></activity>
+        <activity android:name=".activity.ManageAssignmentsActivity"></activity>
+        <activity android:name=".activity.AddAssignmentsActivity"></activity>
+        <activity android:name=".activity.EditDeleteAssignmentActivity"></activity>
+        <activity android:name=".student.StudentModulesActivity"></activity>
+        <activity android:name=".student.StudentAssignmentListActivity"></activity>
+        <activity android:name=".student.StudentAssignmentSplitsListActivity"></activity>
+        <activity android:name=".student.StudentListActivity"></activity>
         <activity
             android:name=".showcase.ActionItemsSampleActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />

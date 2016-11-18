@@ -44,7 +44,7 @@ public class CourseActivity extends AppCompatActivity implements add_course_frag
     String courseId = null;
     private GoogleApiClient mGoogleApiClient;
     final Add_ta_fragment newAddTAFragment = new Add_ta_fragment();
-
+    UserEntity user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,7 +52,7 @@ public class CourseActivity extends AppCompatActivity implements add_course_frag
         setContentView(R.layout.activity_main);
 
         Intent intent = getIntent();
-        UserEntity user = (UserEntity) intent.getSerializableExtra("USER_DETAILS");
+        user = (UserEntity) intent.getSerializableExtra("USER_DETAILS");
         Log.d("taem4", user.toString());
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -167,6 +167,7 @@ public class CourseActivity extends AppCompatActivity implements add_course_frag
                             public void callModuleActivity_to_activity(String courseCode) {
                                 Intent intent = new Intent(getApplicationContext(), ModuleListActivity.class);
                                 intent.putExtra("course_id", courseCode);
+                                intent.putExtra("USER_DETAILS", user);
                                 startActivity(intent);
                             }
                         }

@@ -2,6 +2,7 @@ package com.cs442.team4.tahelper.activity;
 
 import android.app.Activity;
 import android.app.ActivityOptions;
+import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
@@ -26,6 +27,7 @@ import com.cs442.team4.tahelper.contants.IntentConstants;
 import com.cs442.team4.tahelper.fragment.AddModuleFragment;
 import com.cs442.team4.tahelper.fragment.ManageAssignmentsFragment;
 import com.cs442.team4.tahelper.fragment.ModuleListFragment;
+import com.cs442.team4.tahelper.model.UserEntity;
 import com.cs442.team4.tahelper.preferences.MyPreferenceActivity;
 import com.cs442.team4.tahelper.preferences.MyPreferenceFragment;
 import com.cs442.team4.tahelper.showcase.ActionItemsSampleActivity;
@@ -44,20 +46,28 @@ public class ModuleListActivity  extends AppCompatActivity implements ModuleList
     private ActionBarDrawerToggle mDrawerToggle;
     private static final int SHOW_PREFERENCES = 0;
     private String courseCode;
-
+    UserEntity user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.module_list_activity);
         drawerCode();
+        android.app.FragmentManager fm = getFragmentManager();
+        FragmentTransaction ft = fm.beginTransaction();
+        ModuleListFragment moduleListFragment = new ModuleListFragment();
+
+
         if(getIntent().getStringExtra(IntentConstants.COURSE_ID)!=null){
             courseCode = getIntent().getStringExtra(IntentConstants.COURSE_ID);
+            user = (UserEntity) getIntent().getSerializableExtra("USER_DETAILS");
+            Bundle bundle = new Bundle();
+            bundle.putString(IntentConstants.COURSE_ID,courseCode);
+            moduleListFragment.setArguments(bundle);
         }
-        ModuleListFragment moduleListFragment = (ModuleListFragment) getFragmentManager().findFragmentById(R.id.ModuleListActivityView);
-        moduleListFragment.initialise(getIntent());
-
-
+        ft.replace(R.id.ModuleListActivityFrameLayout, moduleListFragment, "ModuleListFragment");
+        //ft.addToBackStack("ModuleListFragment");
+        ft.commit();
     }
 
     private void drawerCode() {
@@ -99,12 +109,23 @@ public class ModuleListActivity  extends AppCompatActivity implements ModuleList
         Log.i("", "isNotification : " + isNotification);
     }
 
+   /* @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(this, CourseActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.putExtra(IntentConstants.COURSE_ID,courseCode);
+        intent.putExtra("USER_DETAILS",user);
+        startActivity(intent);
+    }*/
+
+
     @Override
     public void addNewModuleEvent(View view) {
         Intent intent = new Intent(this, AddModuleActivity.class);
         intent.putExtra(IntentConstants.COURSE_ID,courseCode);
         startActivity(intent);
         overridePendingTransition(R.anim.left_slide_in, R.anim.left_slide_out);
+        finish();
     }
 
     public void onModuleItemClickEditDelete(String moduleName) {
@@ -113,26 +134,28 @@ public class ModuleListActivity  extends AppCompatActivity implements ModuleList
         intent.putExtra(IntentConstants.COURSE_ID,courseCode);
         startActivity(intent);
         overridePendingTransition(R.anim.right_slide_in, R.anim.right_slide_out);
-
+        finish();
     }
 
     public void onModuleItemClickedManage(String moduleName) {
         Intent intent = new Intent(this, ManageAssignmentsActivity.class);
+        intent.putExtra("USER_DETAILS",user);
         intent.putExtra(IntentConstants.MODULE_NAME, moduleName);
         intent.putExtra(IntentConstants.COURSE_ID,courseCode);
+        intent.putExtra("USER_DETAILS",user);
         startActivity(intent);
         overridePendingTransition(R.anim.left_slide_in, R.anim.left_slide_out);
     }
 
-    public void notifyBackButtonEvent(View view) {
+   /* public void notifyBackButtonEvent(View view) {
         Intent intent = new Intent(this, CourseActivity.class);
         intent.putExtra(IntentConstants.COURSE_ID,courseCode);
 
-     /*   ActivityOptions options = ActivityOptions.makeScaleUpAnimation(view, 0,
-                0, view.getWidth(), view.getHeight());*/
+     *//*   ActivityOptions options = ActivityOptions.makeScaleUpAnimation(view, 0,
+                0, view.getWidth(), view.getHeight());*//*
         startActivity(intent);
         overridePendingTransition(R.anim.right_slide_in, R.anim.right_slide_out);
-    }
+    }*/
 
     private class DrawerItemClickListener implements ListView.OnItemClickListener {
         @Override

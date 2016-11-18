@@ -1,5 +1,6 @@
 package com.cs442.team4.tahelper.activity;
 
+import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
@@ -35,22 +36,33 @@ public class AddAssignmentsActivity extends AppCompatActivity implements AddAssi
     private ActionBarDrawerToggle mDrawerToggle;
     private static final int SHOW_PREFERENCES = 0;
     private String courseCode;
+    private String moduleName;
+    AddAssignmentsFragment addAssignmentsFragment;
 
     @Override
     protected void onCreate(Bundle onSavedInstance){
         super.onCreate(onSavedInstance);
         setContentView(R.layout.add_assignments_activity);
+        android.app.FragmentManager fm = getFragmentManager();
+        FragmentTransaction ft = fm.beginTransaction();
+        addAssignmentsFragment = new AddAssignmentsFragment();
+
         if(getIntent().getStringExtra(IntentConstants.COURSE_ID)!=null){
             courseCode = getIntent().getStringExtra(IntentConstants.COURSE_ID);
+            moduleName = getIntent().getStringExtra(IntentConstants.MODULE_NAME);
+            Bundle bundle = new Bundle();
+            bundle.putString(IntentConstants.COURSE_ID,courseCode);
+            bundle.putString(IntentConstants.MODULE_NAME,moduleName);
+            addAssignmentsFragment.setArguments(bundle);
         }
-        AddAssignmentsFragment addAssignmentsFragment = (AddAssignmentsFragment) getFragmentManager().findFragmentById(R.id.AddAssignmentsFragmentView);
-        addAssignmentsFragment.initialise(getIntent());
         drawerCode();
+        ft.replace(R.id.AddAssignmentsFragmentFrameLayout, addAssignmentsFragment, "add_assignment_fragment");
+        ft.commit();
     }
 
     public void deleteSplit(AssignmentSplit split) {
-        AddAssignmentsFragment editDeleteModuleFragment = (AddAssignmentsFragment) getFragmentManager().findFragmentById(R.id.AddAssignmentsFragmentView);
-        editDeleteModuleFragment.deleteSplit(split);
+        //AddAssignmentsFragment editDeleteModuleFragment = (AddAssignmentsFragment) getFragmentManager().findFragmentById(R.id.AddAssignmentsFragmentView);
+        addAssignmentsFragment.deleteSplit(split);
 
     }
 
@@ -60,14 +72,26 @@ public class AddAssignmentsActivity extends AppCompatActivity implements AddAssi
         intent.putExtra(IntentConstants.MODULE_NAME,moduleName);
         intent.putExtra(IntentConstants.COURSE_ID,courseCode);
         startActivity(intent);
+        finish();
+
     }
 
-    public void notifyBackEvent(String moduleName){
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(this, ManageAssignmentsActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.putExtra(IntentConstants.MODULE_NAME,moduleName);
+        intent.putExtra(IntentConstants.COURSE_ID,courseCode);
+        startActivity(intent);
+        finish();
+    }
+
+   /* public void notifyBackEvent(String moduleName){
         Intent intent = new Intent(this,ManageAssignmentsActivity.class);
         intent.putExtra(IntentConstants.MODULE_NAME,moduleName);
         intent.putExtra(IntentConstants.COURSE_ID,courseCode);
         startActivity(intent);
-    }
+    }*/
 
     private void drawerCode() {
         mDrawerList = (ListView) findViewById(R.id.left_drawer_add_assignment);

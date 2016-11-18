@@ -5,11 +5,19 @@ android:layout_width="match_parent"
 android:layout_height="match_parent"
     android:background="@drawable/edit_delete_module">
 <!-- The main content view -->
-<fragment android:name="com.cs442.team4.tahelper.fragment.EditDeleteAssignmentFragment"
+
+
+    <FrameLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:id="@+id/EditDeleteAssignmentsFragmentFrameLayout"/>
+
+
+<!--<fragment android:name="com.cs442.team4.tahelper.fragment.EditDeleteAssignmentFragment"
     android:id="@+id/EditDeleteAssignmentsFragmentView"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    />
+    />-->
 <!-- The navigation drawer -->
 <ListView android:id="@+id/left_drawer"
     android:layout_width="240dp"

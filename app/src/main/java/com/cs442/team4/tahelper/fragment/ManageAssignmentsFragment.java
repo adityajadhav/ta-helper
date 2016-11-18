@@ -55,12 +55,12 @@ public class ManageAssignmentsFragment extends Fragment {
    // private TextView assignmentName;
     private Button addAssignmentButton;
     private ManageAssignmentFragmentListener manageAssignmentFragmentListener;
-    private Button backButton;
+    //private Button backButton;
     private RelativeLayout loadingLayout;
 
     public interface ManageAssignmentFragmentListener{
         public void notifyAddAssignmentEvent();
-        public void notifyBackButton();
+        //public void notifyBackButton();
     }
 
     @Override
@@ -69,19 +69,19 @@ public class ManageAssignmentsFragment extends Fragment {
         manageAssignmentsList = (ListView) layout.findViewById(R.id.manageAssignmentsFragmentList);
        // assignmentName = (TextView) layout.findViewById(R.id.manageAssignmentsFragmentTextView);
         addAssignmentButton = (Button) layout.findViewById(R.id.manageAssignmentsFragmentAddAssignmentButton);
-        backButton = (Button) layout.findViewById(R.id.manageAssignmentsFragmentBackButton);
+        //backButton = (Button) layout.findViewById(R.id.manageAssignmentsFragmentBackButton);
         loadingLayout = (RelativeLayout) layout.findViewById(R.id.loadingPanelManageAssignments);
 
         mDatabase = FirebaseDatabase.getInstance().getReference();
 
 
-        backButton.setOnClickListener(new View.OnClickListener(){
+       /* backButton.setOnClickListener(new View.OnClickListener(){
 
             @Override
             public void onClick(View v) {
                 manageAssignmentFragmentListener.notifyBackButton();
             }
-        });
+        });*/
 
         addAssignmentButton.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -89,6 +89,13 @@ public class ManageAssignmentsFragment extends Fragment {
                 manageAssignmentFragmentListener.notifyAddAssignmentEvent();
             }
         });
+
+        moduleName = getArguments().getString(IntentConstants.MODULE_NAME);
+        courseCode = getArguments().getString(IntentConstants.COURSE_ID);
+        addAssignmentButton.setText(" Add "+moduleName+" Sub Module ");
+        loadExistingAssignmentFromDatabase();
+
+
         return layout;
     }
 
@@ -127,15 +134,6 @@ public class ManageAssignmentsFragment extends Fragment {
         });
     }
 
-    public void initialise(Intent intent) {
-        if(intent!=null && intent.getStringExtra(IntentConstants.MODULE_NAME)!=null){
-            moduleName = intent.getStringExtra(IntentConstants.MODULE_NAME);
-         //   assignmentName.setText(moduleName+" Module ");
-            courseCode = intent.getStringExtra(IntentConstants.COURSE_ID);
-            addAssignmentButton.setText(" Add "+moduleName+" Sub Module ");
-            loadExistingAssignmentFromDatabase();
-        }
-    }
 
     @Override
     public void onAttach(Activity activity) {
@@ -177,30 +175,13 @@ public class ManageAssignmentsFragment extends Fragment {
 
                     @Override
                     public void onShowcaseViewDidHide(ShowcaseView showcaseView) {
-                        showSecondShowCase();
-                    }
-
-                })
-                .build();
-    }
-
-    private void showSecondShowCase() {
-        new ShowcaseView.Builder(getActivity())
-                .withMaterialShowcase()
-                .setStyle(R.style.CustomShowcaseTheme2)
-                .setTarget(new ViewTarget(backButton))
-                .hideOnTouchOutside()
-                .setContentTitle("Click the button to go back to module list.")
-                .setShowcaseEventListener(new SimpleShowcaseEventListener() {
-
-                    @Override
-                    public void onShowcaseViewDidHide(ShowcaseView showcaseView) {
                         showThirdShowCase();
                     }
 
                 })
                 .build();
     }
+
 
     private void showThirdShowCase() {
         new ShowcaseView.Builder(getActivity())

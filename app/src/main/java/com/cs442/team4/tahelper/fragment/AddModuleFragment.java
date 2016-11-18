@@ -36,7 +36,7 @@ public class AddModuleFragment extends Fragment{
 
     private EditText enterModuleNameFragmentView;
     private Button addModuleFragmentView;
-    private Button backButton;
+   // private Button backButton;
     private DatabaseReference mDatabase;
     private AddModuleFragmentListener addModuleFragmentListener;
     private String courseName;
@@ -44,7 +44,7 @@ public class AddModuleFragment extends Fragment{
 
     public interface AddModuleFragmentListener{
         public void addModuleEvent();
-        public void backToModuleList();
+       // public void backToModuleList();
     }
 
     @Override
@@ -52,15 +52,16 @@ public class AddModuleFragment extends Fragment{
         LinearLayout layout= (LinearLayout) inflater.inflate(R.layout.add_module_fragment,container,false);
         enterModuleNameFragmentView = (EditText) layout.findViewById(R.id.enterModuleNameFragmentView);
         addModuleFragmentView = (Button)layout.findViewById(R.id.addModuleButtonFragmentView);
-        backButton = (Button) layout.findViewById(R.id.addModuleButtonFragmentViewBackButton);
+       // backButton = (Button) layout.findViewById(R.id.addModuleButtonFragmentViewBackButton);
         mDatabase = FirebaseDatabase.getInstance().getReference();
+        courseName = getArguments().getString(IntentConstants.COURSE_ID);
 
-        backButton.setOnClickListener(new View.OnClickListener(){
+      /*  backButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
                 addModuleFragmentListener.backToModuleList();
             }
-        });
+        });*/
 
         addModuleFragmentView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -185,14 +186,14 @@ public class AddModuleFragment extends Fragment{
 
                     @Override
                     public void onShowcaseViewDidHide(ShowcaseView showcaseView) {
-                        showThirdShowCase();
+                        showFourthShowCase();
                     }
 
                 })
                 .build();
     }
 
-    private void showThirdShowCase() {
+ /*   private void showThirdShowCase() {
         new ShowcaseView.Builder(getActivity())
                 .withMaterialShowcase()
                 .setStyle(R.style.CustomShowcaseTheme2)
@@ -208,7 +209,7 @@ public class AddModuleFragment extends Fragment{
 
                 })
                 .build();
-    }
+    }*/
 
 
 
@@ -222,11 +223,11 @@ public class AddModuleFragment extends Fragment{
                 .build();
     }
 
-    public void initialise(Intent intent) {
+ /*   public void initialise(Intent intent) {
         if(intent!=null && intent.getStringExtra(IntentConstants.COURSE_ID)!=null){
             courseName = intent.getStringExtra(IntentConstants.COURSE_ID);
         }
-    }
+    }*/
 
 
 

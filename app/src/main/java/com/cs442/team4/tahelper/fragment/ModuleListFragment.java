@@ -53,7 +53,7 @@ public class ModuleListFragment extends Fragment{
     private ArrayList<String> moduleItemList;
     private ModuleListItemAdapter moduleListItemAdapter;
     private Button addModuleButton;
-    private Button backButton;
+    //private Button backButton;
     private RelativeLayout loadingLayout;
     private String courseCode;
 
@@ -69,7 +69,7 @@ public class ModuleListFragment extends Fragment{
 
     public interface ModuleListFragmentListener{
         public void addNewModuleEvent(View view);
-        public void notifyBackButtonEvent(View view);
+        //public void notifyBackButtonEvent(View view);
 
     }
 
@@ -77,17 +77,18 @@ public class ModuleListFragment extends Fragment{
     public View onCreateView(LayoutInflater inflater,ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.module_list_fragment,container,false);
+        courseCode = getArguments().getString(IntentConstants.COURSE_ID);
         moduleListView = (ListView) view.findViewById(R.id.moduleListFragmentView);
         addModuleButton = (Button)view.findViewById(R.id.moduleListFragmentButtonView);
-        backButton = (Button) view.findViewById(R.id.moduleListFragmentBackButton);
+        //backButton = (Button) view.findViewById(R.id.moduleListFragmentBackButton);
         loadingLayout = (RelativeLayout) view.findViewById(R.id.loadingPanel);
         mDatabase = FirebaseDatabase.getInstance().getReference();
-        backButton.setOnClickListener(new View.OnClickListener(){
+        /*backButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
                 moduleListFragmentListener.notifyBackButtonEvent(backButton);
             }
-        });
+        });*/
 
         addModuleButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -96,6 +97,7 @@ public class ModuleListFragment extends Fragment{
             }
         });
        // registerListChangeListener();
+        loadPredefinedModules();
 
         return view;
     }
@@ -259,30 +261,14 @@ public class ModuleListFragment extends Fragment{
 
                     @Override
                     public void onShowcaseViewDidHide(ShowcaseView showcaseView) {
-                        showSecondShowCase();
+                        showThirdShowCase();
                     }
 
                 })
                 .build();
     }
 
-    private void showSecondShowCase() {
-        new ShowcaseView.Builder(getActivity())
-                .withMaterialShowcase()
-                .setStyle(R.style.CustomShowcaseTheme2)
-                .setTarget(new ViewTarget(backButton))
-                .hideOnTouchOutside()
-                .setContentTitle("Click the button to go back to course list.")
-                .setShowcaseEventListener(new SimpleShowcaseEventListener() {
 
-                    @Override
-                    public void onShowcaseViewDidHide(ShowcaseView showcaseView) {
-                      showThirdShowCase();
-                    }
-
-                })
-                .build();
-    }
 
     private void showThirdShowCase() {
         new ShowcaseView.Builder(getActivity())
@@ -330,13 +316,5 @@ public class ModuleListFragment extends Fragment{
                 .build();
     }
 
-
-
-    public void initialise(Intent intent) {
-        if(intent.getStringExtra(IntentConstants.COURSE_ID)!=null){
-            courseCode = intent.getStringExtra(IntentConstants.COURSE_ID);
-            loadPredefinedModules();
-        }
-    }
 
 }
