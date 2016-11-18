@@ -1,5 +1,8 @@
 package com.cs442.team4.tahelper.activity;
 
+import android.app.Fragment;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
@@ -39,27 +42,47 @@ public class EditDeleteModuleActivity extends AppCompatActivity implements  Edit
     protected void onCreate(Bundle onSavedInstance){
         super.onCreate(onSavedInstance);
         setContentView(R.layout.edit_delete_module_activity);
-        EditDeleteModuleFragment editDeleteModuleFragment = (EditDeleteModuleFragment) getFragmentManager().findFragmentById(R.id.editDeleteModuleActivityView);
-        editDeleteModuleFragment.initialise(getIntent());
+        android.app.FragmentManager fm = getFragmentManager();
+        FragmentTransaction ft = fm.beginTransaction();
+        EditDeleteModuleFragment editDeleteModuleFragment = new EditDeleteModuleFragment();
+
+
         if(getIntent().getStringExtra(IntentConstants.COURSE_ID)!=null){
             courseCode = getIntent().getStringExtra(IntentConstants.COURSE_ID);
+            Bundle bundle = new Bundle();
+            bundle.putString(IntentConstants.MODULE_NAME,getIntent().getStringExtra(IntentConstants.MODULE_NAME));
+            bundle.putString(IntentConstants.COURSE_ID,courseCode);
+            editDeleteModuleFragment.setArguments(bundle);
         }
         drawerCode();
+        ft.replace(R.id.editDeleteModuleActivityFrameLayout, editDeleteModuleFragment, "edit_delete_module_fragment");
+        ft.commit();
 
     }
 
     @Override
     public void clickButtonEvent() {
+
         Intent intent = new Intent(this,ModuleListActivity.class);
         intent.putExtra(IntentConstants.COURSE_ID,courseCode);
         startActivity(intent);
+        finish();
     }
 
-    public void backToModuleList(){
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(this, ModuleListActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.putExtra(IntentConstants.COURSE_ID,courseCode);
+        startActivity(intent);
+        finish();
+    }
+
+ /*   public void backToModuleList(){
         Intent intent = new Intent(this,ModuleListActivity.class);
         intent.putExtra(IntentConstants.COURSE_ID,courseCode);
         startActivity(intent);
-    }
+    }*/
 
     private void drawerCode() {
         mDrawerList = (ListView) findViewById(R.id.left_drawer_edit_delete_module);

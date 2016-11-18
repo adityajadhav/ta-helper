@@ -43,7 +43,7 @@
             android:layout_width="match_parent"
             android:layout_height="10dp"></Space>
 
-        <Button
+       <!-- <Button
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:text=" BACK TO MODULE LIST"
@@ -53,6 +53,6 @@
             android:textColor="@color/colorWhite"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
-        />
+        />-->
 
 </LinearLayout>

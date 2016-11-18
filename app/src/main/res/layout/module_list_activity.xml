@@ -6,11 +6,10 @@
     android:background="@drawable/module_list"
     >
 
-<fragment android:name="com.cs442.team4.tahelper.fragment.ModuleListFragment"
-        android:id="@+id/ModuleListActivityView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-    />
+    <FrameLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:id="@+id/ModuleListActivityFrameLayout"/>
 
     <ListView android:id="@+id/left_drawer_module_list"
         android:layout_width="200dp"

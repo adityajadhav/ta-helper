@@ -36,10 +36,13 @@
         <activity android:name=".student.GradeStudentListActivity"></activity>
         -->
         <activity android:name=".student.GradeStudentListActivity"></activity>
-        <activity android:name=".activity.ModuleListActivity"></activity>
-        <activity android:name=".activity.AddModuleActivity"></activity>
+        <activity android:name=".activity.ModuleListActivity"
+            android:parentActivityName=".CourseActivity" ></activity>
+        <activity android:name=".activity.AddModuleActivity"
+            ></activity>
         <activity android:name=".activity.EditDeleteModuleActivity"></activity>
-        <activity android:name=".activity.ManageAssignmentsActivity"></activity>
+        <activity android:name=".activity.ManageAssignmentsActivity"
+            android:parentActivityName=".activity.ModuleListActivity" ></activity>
         <activity android:name=".activity.AddAssignmentsActivity"></activity>
         <activity android:name=".activity.EditDeleteAssignmentActivity"></activity>
         <activity android:name=".student.StudentModulesActivity"></activity>

@@ -1,5 +1,10 @@
 package com.cs442.team4.tahelper.activity;
 
+import android.app.Activity;
+import android.app.ActivityManager;
+import android.app.Fragment;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
@@ -20,7 +25,10 @@ import com.cs442.team4.tahelper.R;
 import com.cs442.team4.tahelper.contants.IntentConstants;
 import com.cs442.team4.tahelper.fragment.AddModuleFragment;
 import com.cs442.team4.tahelper.fragment.ManageAssignmentsFragment;
+import com.cs442.team4.tahelper.fragment.ModuleListFragment;
 import com.cs442.team4.tahelper.preferences.MyPreferenceActivity;
+
+import java.util.List;
 
 /**
  * Created by sowmyaparameshwara on 10/30/16.
@@ -41,29 +49,48 @@ public class AddModuleActivity extends AppCompatActivity implements AddModuleFra
         super.onCreate(onSavedInstance);
         setContentView(R.layout.add_module_activity);
         drawerCode();
-        AddModuleFragment addModuleFragment = (AddModuleFragment) getFragmentManager().findFragmentById(R.id.addModuleActivityView);
-        addModuleFragment.initialise(getIntent());
+        android.app.FragmentManager fm = getFragmentManager();
+        FragmentTransaction ft = fm.beginTransaction();
+        AddModuleFragment addModuleFragment = new AddModuleFragment();
+
         if(getIntent().getStringExtra(IntentConstants.COURSE_ID)!=null){
             courseCode = getIntent().getStringExtra(IntentConstants.COURSE_ID);
+            Bundle bundle = new Bundle();
+            bundle.putString(IntentConstants.COURSE_ID,courseCode);
+            addModuleFragment.setArguments(bundle);
         }
+        ft.replace(R.id.addModuleActivityFrameLayout, addModuleFragment, "add_module_fragment");
+        ft.commit();
     }
 
     @Override
     public void addModuleEvent() {
+
+        Intent intent = new Intent(this,ModuleListActivity.class);
+        intent.putExtra(IntentConstants.COURSE_ID,courseCode);
+        startActivity(intent);
+        finish();
+        overridePendingTransition(R.anim.right_slide_in, R.anim.right_slide_out);
+
+
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(this, ModuleListActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.putExtra(IntentConstants.COURSE_ID,courseCode);
+        startActivity(intent);
+        finish();
+    }
+
+  /*  public void backToModuleList(){
         Intent intent = new Intent(this,ModuleListActivity.class);
         intent.putExtra(IntentConstants.COURSE_ID,courseCode);
         startActivity(intent);
         overridePendingTransition(R.anim.right_slide_in, R.anim.right_slide_out);
 
-    }
-
-    public void backToModuleList(){
-        Intent intent = new Intent(this,ModuleListActivity.class);
-        intent.putExtra(IntentConstants.COURSE_ID,courseCode);
-        startActivity(intent);
-        overridePendingTransition(R.anim.right_slide_in, R.anim.right_slide_out);
-
-    }
+    }*/
 
     private void drawerCode() {
         mDrawerList = (ListView) findViewById(R.id.left_drawer_add_module);

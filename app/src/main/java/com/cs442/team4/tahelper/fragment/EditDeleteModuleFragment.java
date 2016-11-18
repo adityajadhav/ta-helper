@@ -43,11 +43,11 @@ public class EditDeleteModuleFragment extends Fragment {
     private String moduleNameString;
     private String courseCode;
     private EditDeleteButtonListner editDeleteButtonListner;
-    private Button backButton;
+    //private Button backButton;
 
     public interface EditDeleteButtonListner{
         public void clickButtonEvent();
-        public void backToModuleList();
+        //public void backToModuleList();
     }
 
 
@@ -57,14 +57,14 @@ public class EditDeleteModuleFragment extends Fragment {
         moduleName = (EditText) layout.findViewById(R.id.editDeleteModuleNameFragmentEditTextView);
         editButton = (Button)layout.findViewById(R.id.editModuleButtonFragmentView);
         deleteButton = (Button)layout.findViewById(R.id.deleteModuleButtonFragmentView);
-        backButton = (Button) layout.findViewById(R.id.editDeleteModuleFragmentListViewBackButton);
+        //backButton = (Button) layout.findViewById(R.id.editDeleteModuleFragmentListViewBackButton);
 
-        backButton.setOnClickListener(new View.OnClickListener() {
+       /* backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 editDeleteButtonListner.backToModuleList();
             }
-        });
+        });*/
         deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -119,17 +119,22 @@ public class EditDeleteModuleFragment extends Fragment {
             }
         });
 
+        moduleNameString = getArguments().getString(IntentConstants.MODULE_NAME);
+        moduleName.setText(moduleNameString);
+        moduleName.setSelection(moduleName.getText().length());
+        courseCode = getArguments().getString(IntentConstants.COURSE_ID);
+
         return layout;
     }
 
-    public void initialise(Intent intent) {
+  /*  public void initialise(Intent intent) {
         if(intent!=null && intent.getStringExtra(IntentConstants.MODULE_NAME)!=null){
             moduleNameString = intent.getStringExtra(IntentConstants.MODULE_NAME);
             moduleName.setText(moduleNameString);
             moduleName.setSelection(moduleName.getText().length());
             courseCode = intent.getStringExtra(IntentConstants.COURSE_ID);
         }
-    }
+    }*/
 
     @Override
     public void onAttach(Activity activity) {
@@ -208,31 +213,12 @@ public class EditDeleteModuleFragment extends Fragment {
 
                     @Override
                     public void onShowcaseViewDidHide(ShowcaseView showcaseView) {
-                        showThirdShowCase();
-                    }
-
-                })
-                .build();
-    }
-
-    private void showThirdShowCase() {
-        new ShowcaseView.Builder(getActivity())
-                .withMaterialShowcase()
-                .setStyle(R.style.CustomShowcaseTheme2)
-                .setTarget(new ViewTarget(backButton))
-                .hideOnTouchOutside()
-                .setContentTitle("Click to go back to module list without editing.")
-                .setShowcaseEventListener(new SimpleShowcaseEventListener() {
-
-                    @Override
-                    public void onShowcaseViewDidHide(ShowcaseView showcaseView) {
                         showFourthShowCase();
                     }
 
                 })
                 .build();
     }
-
 
 
     private void showFourthShowCase() {

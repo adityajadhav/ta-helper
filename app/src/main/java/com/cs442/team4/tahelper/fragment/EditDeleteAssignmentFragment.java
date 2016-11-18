@@ -51,12 +51,12 @@ public class EditDeleteAssignmentFragment extends Fragment {
     private String moduleName;
     private EditDeleteAssignmentsFragmentListener editDeleteAssignmentFragmentListener;
     private String originalAssignmentName;
-    private Button backButton;
+    //private Button backButton;
     private String courseCode;
 
     public interface EditDeleteAssignmentsFragmentListener{
         public void notifyEditDeleteAssignmentEvent(String moduleName);
-        public void notifyBackButtonEvent(String moduleName);
+        //public void notifyBackButtonEvent(String moduleName);
     }
 
 
@@ -72,18 +72,18 @@ public class EditDeleteAssignmentFragment extends Fragment {
         deleteAssignment = (Button) layout.findViewById(R.id.editDeleteAssignmentsFragmentDeleteButton);
         assignmentName = (EditText) layout.findViewById(R.id.editDeleteAssignmentsFragmentTextView);
         assignmentTotalScore = (EditText) layout.findViewById(R.id.editDeleteAssignmentFragmentTotalScore);
-        backButton = (Button) layout.findViewById(R.id.editDeleteAssignmentsFragmentBackButton);
+        //backButton = (Button) layout.findViewById(R.id.editDeleteAssignmentsFragmentBackButton);
 
         assignmentSplitsList = new ArrayList<AssignmentSplit>();
         assignmentAdapter = new EditDeleteAssignmentListItemAdapter(getActivity(),R.layout.add_assignments_item_layout,assignmentSplitsList);
         splitList.setAdapter(assignmentAdapter);
 
-        backButton.setOnClickListener(new View.OnClickListener(){
+        /*backButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
                 editDeleteAssignmentFragmentListener.notifyBackButtonEvent(moduleName);
             }
-        });
+        });*/
 
         addSplitButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -112,6 +112,15 @@ public class EditDeleteAssignmentFragment extends Fragment {
                 handleDeleteAssignment();
             }
         });
+
+        moduleName = getArguments().getString(IntentConstants.MODULE_NAME);
+        courseCode = getArguments().getString(IntentConstants.COURSE_ID);
+        originalAssignmentName = getArguments().getString(IntentConstants.ASSIGNMENT_NAME);
+        //backButton.setText(" BACK TO "+moduleName+" MODULE LIST");
+        assignmentName.setText(originalAssignmentName);
+        assignmentName.setSelection(assignmentName.getText().length());
+        mDatabase = FirebaseDatabase.getInstance().getReference("modules").child(courseCode);
+        loadFromDatabase();
         return layout;
     }
 
@@ -199,7 +208,7 @@ public class EditDeleteAssignmentFragment extends Fragment {
         assignmentAdapter.notifyDataSetChanged();
     }
 
-    public void initialise(Intent intent) {
+  /*  public void initialise(Intent intent) {
         if(intent!=null && intent.getStringExtra(IntentConstants.MODULE_NAME)!=null){
             moduleName = intent.getStringExtra(IntentConstants.MODULE_NAME);
             courseCode = intent.getStringExtra(IntentConstants.COURSE_ID);
@@ -211,7 +220,7 @@ public class EditDeleteAssignmentFragment extends Fragment {
             loadFromDatabase();
         }
     }
-
+*/
     private void loadFromDatabase() {
         mDatabase.child(moduleName).child(originalAssignmentName).push();
         mDatabase.child(moduleName+"/"+originalAssignmentName).addValueEventListener(new ValueEventListener() {

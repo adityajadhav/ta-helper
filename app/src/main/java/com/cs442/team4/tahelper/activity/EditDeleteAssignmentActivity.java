@@ -2,6 +2,7 @@ package com.cs442.team4.tahelper.activity;
 
 import android.app.Fragment;
 import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
@@ -31,15 +32,26 @@ public class EditDeleteAssignmentActivity extends AppCompatActivity implements E
     private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mDrawerToggle;
     private String courseCode;
-
+    private String moduleName;
+    EditDeleteAssignmentFragment editDeleteAssignmentFragment;
 
 
     @Override
     protected void onCreate(Bundle onSavedInstance){
         super.onCreate(onSavedInstance);
         setContentView(R.layout.editdelete_assignments_activity);
+        android.app.FragmentManager fm = getFragmentManager();
+        FragmentTransaction ft = fm.beginTransaction();
+        editDeleteAssignmentFragment = new EditDeleteAssignmentFragment();
+
         if(getIntent().getStringExtra(IntentConstants.COURSE_ID)!=null){
             courseCode = getIntent().getStringExtra(IntentConstants.COURSE_ID);
+            moduleName = getIntent().getStringExtra(IntentConstants.MODULE_NAME);
+            Bundle bundle = new Bundle();
+            bundle.putString(IntentConstants.COURSE_ID,courseCode);
+            bundle.putString(IntentConstants.MODULE_NAME,moduleName);
+            bundle.putString(IntentConstants.ASSIGNMENT_NAME,getIntent().getStringExtra(IntentConstants.ASSIGNMENT_NAME));
+            editDeleteAssignmentFragment.setArguments(bundle);
         }
         mDrawerList = (ListView) findViewById(R.id.left_drawer);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -76,13 +88,13 @@ public class EditDeleteAssignmentActivity extends AppCompatActivity implements E
 
 
 
-        EditDeleteAssignmentFragment editDeleteAssignmentsFragment = (EditDeleteAssignmentFragment) getFragmentManager().findFragmentById(R.id.EditDeleteAssignmentsFragmentView);
-        editDeleteAssignmentsFragment.initialise(getIntent());
+        ft.replace(R.id.EditDeleteAssignmentsFragmentFrameLayout, editDeleteAssignmentFragment, "editdelete_assignment_fragment");
+        ft.commit();
     }
 
     public void deleteSplit(AssignmentSplit split) {
-        EditDeleteAssignmentFragment editDeleteAssignmentsFragment = (EditDeleteAssignmentFragment) getFragmentManager().findFragmentById(R.id.EditDeleteAssignmentsFragmentView);
-        editDeleteAssignmentsFragment.deleteSplit(split);
+       // EditDeleteAssignmentFragment editDeleteAssignmentsFragment = (EditDeleteAssignmentFragment) getFragmentManager().findFragmentById(R.id.EditDeleteAssignmentsFragmentView);
+        editDeleteAssignmentFragment.deleteSplit(split);
 
     }
 
@@ -93,15 +105,28 @@ public class EditDeleteAssignmentActivity extends AppCompatActivity implements E
         intent.putExtra(IntentConstants.COURSE_ID,courseCode);
 
         startActivity(intent);
+        finish();
+
     }
 
-    public void notifyBackButtonEvent(String moduleName){
+
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(this, ManageAssignmentsActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.putExtra(IntentConstants.MODULE_NAME,moduleName);
+        intent.putExtra(IntentConstants.COURSE_ID,courseCode);
+        startActivity(intent);
+        finish();
+    }
+
+   /* public void notifyBackButtonEvent(String moduleName){
         Intent intent = new Intent(this,ManageAssignmentsActivity.class);
         intent.putExtra(IntentConstants.MODULE_NAME,moduleName);
         intent.putExtra(IntentConstants.COURSE_ID,courseCode);
 
         startActivity(intent);
-    }
+    }*/
 
     private class DrawerItemClickListener implements ListView.OnItemClickListener {
         @Override
