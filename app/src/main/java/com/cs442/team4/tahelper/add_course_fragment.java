@@ -27,6 +27,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.GenericTypeIndicator;
 import com.google.firebase.database.ValueEventListener;
 
+import org.apache.poi.ss.formula.functions.T;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -314,81 +316,129 @@ public class add_course_fragment extends Fragment {
 
                 else
                 {
-                    myRef.addValueEventListener(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(DataSnapshot dataSnapshot) {
 
-//                            for (DataSnapshot items : dataSnapshot.getChildren()) {
-//
-//                                if(items.getKey().equals(course_id)) {
-//                                    exists_flag = 1;
-//
-//                                    break;
-//                                }
-//
-//                            }
-//                            if(exists_flag == 1)
-//
-//                            {
-//                                Toast.makeText(getContext(), "Course id " + course_id + " already exists", Toast.LENGTH_SHORT).show();
-//                            }
+                    myRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot snapshot) {
 
+                        if (snapshot.hasChild(course_id)) {
 
-//                            if(dataSnapshot.hasChild(courseId))
-//                             {
-//                                 Toast.makeText(getContext(),"Course id " + course_id + " exists",Toast.LENGTH_SHORT).show();
-//                                 exists_flag = 1;
-//                             }
-
-
-
-
-                            try {
-
-                            } catch (Exception e) {
-                                Log.i("Exception", e.toString());
-                            }
+                            Toast.makeText(getContext(),"Course already exists",Toast.LENGTH_SHORT).show();
+                            course_id_tv.setError("Course ID already exists");
                         }
+                        else
+                        {
+                            exists_flag = 1;
+                            Course_Entity ce = new Course_Entity(course_name, course_id, professor_FN, professor_LN, professor_email, professor_UN, "","false");
+
+                            final ProgressDialog dialog = ProgressDialog.show(getContext(), "",
+                                    "Loading. Please wait...", true);
+                            myRef.child(course_id).setValue(ce);
+                            exists_flag = 0;
 
 
+                            if (ta_memebers.size() > 0) {
+                                myRef.child(course_id).child("ta_members").setValue(ta_memebers);
+
+                            } else {
+                                Toast.makeText(getContext(), "Add TA members by clicking on Add TAs button", Toast.LENGTH_SHORT).show();
+                            }
+
+                            myRef.child(course_id).child("imported").setValue(false).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+
+                                    Log.i("Comp","Now Completed");
+                                    dialog.dismiss();
+                                    Toast.makeText(getContext(),"Course Added successfully", Toast.LENGTH_SHORT).show();
+                                    mFinish.closeAddCourseFragment();
+                                }
+                            });
+                            Log.i("Comp2","Now Completed");
+                            //mFinish.closeAddCourseFragment();
+                        }
+                    }
                         @Override
                         public void onCancelled(DatabaseError e) {
 
                         }
-                    });
-                }
-
-
-
-//                if(exists_flag == 0)
-//                 {
-                Course_Entity ce = new Course_Entity(course_name, course_id, professor_FN, professor_LN, professor_email, professor_UN, "","false");
-
-                final ProgressDialog dialog = ProgressDialog.show(getContext(), "",
-                        "Loading. Please wait...", true);
-                myRef.child(course_id).setValue(ce);
-                exists_flag = 0;
-
-
-                if (ta_memebers.size() > 0) {
-                    myRef.child(course_id).child("ta_members").setValue(ta_memebers);
-
-                } else {
-                    Toast.makeText(getContext(), "Add TA members by clicking on Add TAs button", Toast.LENGTH_SHORT).show();
-                }
-
-                myRef.child(course_id).child("imported").setValue(false).addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-
-                        Log.i("Comp","Now Completed");
-                        dialog.dismiss();
-                        Toast.makeText(getContext(),"Course Added successfully", Toast.LENGTH_SHORT).show();
-                        mFinish.closeAddCourseFragment();
-                    }
                 });
-                Log.i("Comp2","Now Completed");
-                //mFinish.closeAddCourseFragment();
+
+//                    myRef.addValueEventListener(new ValueEventListener() {
+//                        @Override
+//                        public void onDataChange(DataSnapshot dataSnapshot) {
+//
+////                            for (DataSnapshot items : dataSnapshot.getChildren()) {
+////
+////                                if(items.getKey().equals(course_id)) {
+////                                    exists_flag = 1;
+////
+////                                    break;
+////                                }
+////
+////                            }
+////                            if(exists_flag == 1)
+////
+////                            {
+////                                Toast.makeText(getContext(), "Course id " + course_id + " already exists", Toast.LENGTH_SHORT).show();
+////                            }
+//
+//
+////                            if(dataSnapshot.hasChild(courseId))
+////                             {
+////                                 Toast.makeText(getContext(),"Course id " + course_id + " exists",Toast.LENGTH_SHORT).show();
+////                                 exists_flag = 1;
+////                             }
+//
+//
+//
+//
+//                            try {
+//
+//                            } catch (Exception e) {
+//                                Log.i("Exception", e.toString());
+//                            }
+//                        }
+//
+//
+//                        @Override
+//                        public void onCancelled(DatabaseError e) {
+//
+//                        }
+//                    });
+                }
+
+
+
+           //    if(exists_flag == 1)
+            //   {
+//                Course_Entity ce = new Course_Entity(course_name, course_id, professor_FN, professor_LN, professor_email, professor_UN, "","false");
+//
+//                final ProgressDialog dialog = ProgressDialog.show(getContext(), "",
+//                        "Loading. Please wait...", true);
+//                myRef.child(course_id).setValue(ce);
+//                exists_flag = 0;
+//
+//
+//                if (ta_memebers.size() > 0) {
+//                    myRef.child(course_id).child("ta_members").setValue(ta_memebers);
+//
+//                } else {
+//                    Toast.makeText(getContext(), "Add TA members by clicking on Add TAs button", Toast.LENGTH_SHORT).show();
+//                }
+//
+//                myRef.child(course_id).child("imported").setValue(false).addOnCompleteListener(new OnCompleteListener<Void>() {
+//                    @Override
+//                    public void onComplete(@NonNull Task<Void> task) {
+//
+//                        Log.i("Comp","Now Completed");
+//                        dialog.dismiss();
+//                        Toast.makeText(getContext(),"Course Added successfully", Toast.LENGTH_SHORT).show();
+//                        mFinish.closeAddCourseFragment();
+//                    }
+//                });
+//                Log.i("Comp2","Now Completed");
+//                //mFinish.closeAddCourseFragment();
                //  }
             }
         });
