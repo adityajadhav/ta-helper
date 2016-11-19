@@ -3,6 +3,7 @@ package com.cs442.team4.tahelper.fragment;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
@@ -29,6 +30,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import org.apache.poi.poifs.crypt.dsig.ExpiredCertificateSecurityException;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
@@ -114,7 +116,10 @@ public class ManageCourseFragment extends Fragment implements View.OnClickListen
                 importfile = new File(uri.getPath());
                 filepath = importfile.getAbsolutePath().split(":")[1];
                 Log.i("String:", filepath);
+                final ProgressDialog dialog = ProgressDialog.show(getContext(), "",
+                        "Loading. Please wait...", true);
                 importStudentData();
+                dialog.dismiss();
             } catch (Exception e) {
                 Log.i("File operation error", e.toString());
             }
@@ -147,6 +152,7 @@ public class ManageCourseFragment extends Fragment implements View.OnClickListen
     }
 
     private void importStudentData() {
+
         final FirebaseDatabase database = FirebaseDatabase.getInstance();
         final DatabaseReference myRef = database.getReference("students");
         try {
@@ -216,7 +222,9 @@ public class ManageCourseFragment extends Fragment implements View.OnClickListen
 
         } catch (Exception e) {
             e.printStackTrace();
+
         }
+
     }
 
     private boolean checkPermission() {
@@ -274,6 +282,7 @@ public class ManageCourseFragment extends Fragment implements View.OnClickListen
                     Toast.makeText(getContext(), "This feature works only in marshmallow!", Toast.LENGTH_SHORT);
                     return;
                 }
+
                 openFileEx();
             }
         });
@@ -294,28 +303,33 @@ public class ManageCourseFragment extends Fragment implements View.OnClickListen
                 TextView generate_groups_tv = (TextView) view.findViewById(generate_groups_tv_layout);
                 FloatingActionButton sendBcastBtn = (FloatingActionButton) view.findViewById(R.id.sendBcastBtn);
                 TextView import_tool_tip_tv = (TextView) view.findViewById(R.id.import_tool_tip_tv_layout);
+                try {
+                    if (items.child("imported").getValue().equals(true)) {
+                        //TextView import_student_tv1 = (TextView) view.findViewById(R.id.import_student_tv_layout);
+                        import_student_btn.setVisibility(View.INVISIBLE);
+                        import_tool_tip_tv.setVisibility(View.INVISIBLE);
 
-                if (items.child("imported").getValue().equals(true)) {
-                    //TextView import_student_tv1 = (TextView) view.findViewById(R.id.import_student_tv_layout);
-                    import_student_btn.setVisibility(View.INVISIBLE);
-                    import_tool_tip_tv.setVisibility(View.INVISIBLE);
-
-                    student_list_tv1.setVisibility(View.VISIBLE);
-                    // broadcast_email_tv.setVisibility(View.INVISIBLE);
-                    export_records_tv.setVisibility(View.VISIBLE);
-                    generate_groups_tv.setVisibility(View.VISIBLE);
-                    sendBcastBtn.setVisibility(View.VISIBLE);
+                        student_list_tv1.setVisibility(View.VISIBLE);
+                        // broadcast_email_tv.setVisibility(View.INVISIBLE);
+                        export_records_tv.setVisibility(View.VISIBLE);
+                        generate_groups_tv.setVisibility(View.VISIBLE);
+                        sendBcastBtn.setVisibility(View.VISIBLE);
 
 
-                } else {
-                    import_student_btn.setVisibility(View.VISIBLE);
-                    import_tool_tip_tv.setVisibility(View.VISIBLE);
-                    student_list_tv1.setVisibility(View.INVISIBLE);
-                    // broadcast_email_tv.setVisibility(View.INVISIBLE);
-                    export_records_tv.setVisibility(View.INVISIBLE);
-                    generate_groups_tv.setVisibility(View.INVISIBLE);
-                    sendBcastBtn.setVisibility(View.INVISIBLE);
+                    } else {
+                        import_student_btn.setVisibility(View.VISIBLE);
+                        import_tool_tip_tv.setVisibility(View.VISIBLE);
+                        student_list_tv1.setVisibility(View.INVISIBLE);
+                        // broadcast_email_tv.setVisibility(View.INVISIBLE);
+                        export_records_tv.setVisibility(View.INVISIBLE);
+                        generate_groups_tv.setVisibility(View.INVISIBLE);
+                        sendBcastBtn.setVisibility(View.INVISIBLE);
 
+                    }
+                }
+                catch (Exception e)
+                {
+                    Log.i("Exception",e.toString());
                 }
 
             }

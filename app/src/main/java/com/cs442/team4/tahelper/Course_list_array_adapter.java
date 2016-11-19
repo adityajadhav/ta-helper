@@ -29,6 +29,7 @@ public class Course_list_array_adapter extends ArrayAdapter<Course_Entity> {
          void callManageCourseFragment(String courseCode);
         void editCourseFragment(String mode, String coursecode);
         public void callModulesActivity_to_fragment(String coursecode);
+        void deleteCourse(String courseCode,int index);
     }
     private Course_list_adapter_interface obj;
 
@@ -71,6 +72,7 @@ public class Course_list_array_adapter extends ArrayAdapter<Course_Entity> {
 
         TextView course_name_tv = (TextView) view.findViewById(R.id.course_name_tv_layout);
         course_name_tv.setText(course.getCourseName());
+
         final String courseId = course.getCourseCode();
 
         Button manage_course_btn = (Button) view.findViewById(R.id.manage_course_btn_layout);
@@ -121,6 +123,30 @@ public class Course_list_array_adapter extends ArrayAdapter<Course_Entity> {
 
                     obj.callModulesActivity_to_fragment(courseId);
                 }
+            }
+        });
+
+        final Button delete_course_btn = (Button) view.findViewById(R.id.delete_course_btn_layout);
+        delete_course_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new AlertDialog.Builder(context)
+                        .setTitle("Delete Course")
+                        .setMessage("Are you sure you want to delet the course. All the details related to the course will be deleted")
+                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                obj.deleteCourse(courseId,position);
+                            }
+                        })
+                            .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                               public void onClick(DialogInterface dialog, int which) {
+                                    Toast.makeText(getContext(),"Operation Cancelled",Toast.LENGTH_SHORT).show();
+                              }
+                           })
+  //                         .setIcon(android.R.drawable.ic_dialog_alert)
+                        .show();
+
+
             }
         });
 

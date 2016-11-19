@@ -4,6 +4,7 @@ import android.app.Fragment;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -11,7 +12,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -29,7 +33,7 @@ import static android.content.Context.MODE_PRIVATE;
 public class course_list_fragment extends Fragment {
     @Nullable
     String user = null;
-
+    int display_flag =0;
     OnActionButtonClickListener mClick;
 
     public interface OnActionButtonClickListener{
@@ -118,10 +122,68 @@ public class course_list_fragment extends Fragment {
             {
                 mClick.callModuleActivity_to_activity(courseCode);
             }
+
+
+            @Override
+            public void deleteCourse(final String courseCode, final int index)
+            {
+
+                FirebaseDatabase fdb = FirebaseDatabase.getInstance();
+                final DatabaseReference studentNode = fdb.getReference("students");
+
+
+                studentNode.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        if(dataSnapshot.hasChild(courseCode))
+                        {
+                            studentNode.child(courseCode).removeValue();
+
+
+                        }
+
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
+
+
+
+                players.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        if(players.child(courseCode) != null)
+                        {
+                            players.child(courseCode).removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+
+                                    Toast.makeText(getContext(),"Course id " + courseCode + " removed!",Toast.LENGTH_SHORT).show();
+                                    course_array.remove(index);
+                                    adapter.notifyDataSetChanged();
+                                }
+                            });
+
+
+                        }
+
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
+            }
+
+
         });
 
         players.addValueEventListener(new ValueEventListener() {
-            int display_flag =0;
+
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                // if(dataSnapshot.hasChildren()) {
