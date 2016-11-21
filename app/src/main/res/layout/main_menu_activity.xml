@@ -61,4 +61,10 @@
         android:textStyle="normal|italic"
         android:textAllCaps="false" />
 
+    <Button
+        android:text="Export"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/export_btn_layout" />
+
 </LinearLayout>

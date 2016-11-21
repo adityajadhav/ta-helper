@@ -102,6 +102,7 @@ public class course_list_fragment extends Fragment {
         ListView course_list_list_view = (ListView) getView().findViewById(R.id.course_list_view);
 
 
+
         final Course_list_array_adapter adapter = new Course_list_array_adapter(course_array,getContext());
 
         course_list_list_view.setAdapter(adapter);
@@ -138,8 +139,6 @@ public class course_list_fragment extends Fragment {
                         if(dataSnapshot.hasChild(courseCode))
                         {
                             studentNode.child(courseCode).removeValue();
-
-
                         }
 
                     }

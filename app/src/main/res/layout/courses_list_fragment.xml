@@ -4,8 +4,10 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingTop="40sp"
+    android:paddingTop="60sp"
 
+    android:background="@color/colorBlack"
+    android:alpha="0.8"
     >
 
 
@@ -23,7 +25,7 @@
             android:text="Courses"
             android:textSize="30sp"
             android:textStyle="normal|bold"
-            android:textColor="@color/colorMaroon"
+            android:textColor="@color/colorSilver"
             android:textAlignment="center" />
 
         <ListView
@@ -31,7 +33,12 @@
             android:id="@+id/course_list_view"
             android:layout_height="348dp"
             android:layout_marginTop="45dp"
-            android:layout_weight="1.02">
+            android:layout_weight="1.02"
+
+            android:divider="#ffffff"
+            android:dividerHeight="1dp"
+
+            >
 
 
 
@@ -48,7 +55,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/add_course_fab_layout"
-
+            android:background="@color/colorMaroon"
+            android:textColor="@color/colorWhite"
             android:layout_marginBottom="16dp" />
         </LinearLayout>
 

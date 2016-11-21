@@ -6,7 +6,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        >
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -19,7 +20,7 @@
                 android:layout_toStartOf="@+id/manage_course_btn_layout"
                 android:layout_alignBottom="@+id/manage_course_btn_layout"
                 android:layout_alignParentTop="true"
-                android:textColor="@color/colorBlack" />
+                android:textColor="@color/colorBrightWhite" />
         </LinearLayout>
 
 
@@ -38,21 +39,21 @@
                 android:layout_alignParentTop="true"
                 android:text="Manage"
                 style="?android:attr/buttonBarButtonStyle"
-                android:textColor="@color/colorPrimaryDark" />
+                android:textColor="#fe4242" />
             <Button
                 android:text="Edit"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/edit_course_btn_layout"
                 style="?android:attr/buttonBarButtonStyle"
-                android:textColor="@color/colorPrimaryDark" />
+                android:textColor="#fe4242" />
             <Button
                 android:text="Grade"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/grade_course_btn_layout"
                 style="?android:attr/buttonBarButtonStyle"
-                android:textColor="@color/colorPrimaryDark" />
+                android:textColor="#fe4242"/>
 
             <Button
                 android:text="Delete"
@@ -61,7 +62,7 @@
                 android:id="@+id/delete_course_btn_layout"
 
                 style="?android:attr/buttonBarButtonStyle"
-                android:textColor="@color/colorPrimaryDark" />
+                android:textColor="#fe4242" />
 
         </LinearLayout>
     </LinearLayout>

@@ -5,6 +5,7 @@ import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
@@ -33,14 +34,18 @@ import com.google.firebase.database.ValueEventListener;
 import org.apache.poi.poifs.crypt.dsig.ExpiredCertificateSecurityException;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.util.Iterator;
 
 import static android.app.Activity.RESULT_OK;
+import static android.content.Context.VIBRATOR_SERVICE;
 import static com.cs442.team4.tahelper.R.id.generate_groups_tv_layout;
 import static com.cs442.team4.tahelper.R.id.sendBcastBtn;
 
@@ -149,6 +154,8 @@ public class ManageCourseFragment extends Fragment implements View.OnClickListen
 
         return inflater.inflate(R.layout.main_menu_activity, container, false);
 
+
+
     }
 
     private void importStudentData() {
@@ -199,6 +206,7 @@ public class ManageCourseFragment extends Fragment implements View.OnClickListen
 
                     Iterator<Cell> cellIterator = row.cellIterator();
                     Cell cell = cellIterator.next();
+
                     name = cell.getStringCellValue();
                     myRef.child(courseId).child(name).setValue("");
                     cell = cellIterator.next();
@@ -227,8 +235,112 @@ public class ManageCourseFragment extends Fragment implements View.OnClickListen
 
     }
 
+
+
+
+
+    private void exportStudentData() {
+
+        //final FirebaseDatabase database = FirebaseDatabase.getInstance();
+        //final DatabaseReference myRef = database.getReference("students");
+        try {
+            //FileInputStream file = new FileInputStream(new File("C:\\Users\\Mohammed\\Desktop\\Students.xlsx"));
+
+            // Creating Input Stream
+//            File file = new File(Environment.getExternalStorageDirectory()
+//                    + "/Download/Students.xlsx");
+            String path = getActivity().getApplicationInfo().dataDir;
+
+            Workbook wb = new XSSFWorkbook();
+            String filename = "workbook.xls";
+            //FileOutputStream fileOut = new FileOutputStream(new File(Environment.getExternalStorageDirectory().toString() + "/workbook.xlsx"));
+            FileOutputStream fileOut = new FileOutputStream(new File(path + "/" + filename));
+            Sheet o_sheet = wb.createSheet("Sheet 1");
+
+            Row row1 = o_sheet.createRow((short)0);
+
+            // Create a cell and put a value in it
+            Cell cell1 = row1.createCell(0);
+            cell1.setCellValue(2);
+
+
+
+           // String[] format = filepath.split("\\.");
+//            if (format[format.length - 1].equals("xls") || format[format.length - 1].equals("xlsx")) {
+//
+//
+//                File file = new File(Environment.getExternalStorageDirectory() + "/" + "export.xlsx");
+//
+//
+//                FileInputStream myInput = new FileInputStream(file);
+//                //FileInputStream myInput = new FileInputStream(importfile);
+//
+//                // Create a POIFSFileSystem object
+//                //POIFSFileSystem myFileSystem = new POIFSFileSystem(myInput);
+//
+//
+//                //Create Workbook instance holding reference to .xlsx file
+//                XSSFWorkbook workbook = new XSSFWorkbook(myInput);
+//
+//                //Get first/desired sheet from the workbook
+//                XSSFSheet sheet = workbook.getSheetAt(0);
+//
+//                //Iterate through each rows one by one
+//                Iterator<Row> rowIterator = sheet.iterator();
+//
+//               // int noOfColumns = sheet.getRow(0).getLastCellNum();
+//                //Log.i("Number of col", Integer.toString(noOfColumns));
+//                String name = null;
+//
+//                //if (noOfColumns != 4) {
+//                  //  Toast.makeText(getContext(), "Number of columns should be 2. Import failed!", Toast.LENGTH_SHORT).show();
+//                    //return;
+//                //}
+//
+//                //while (rowIterator.hasNext()) {
+//                    Row row = rowIterator.next();
+//                    //For each row, iterate through all the columns
+//
+//                    Iterator<Cell> cellIterator = row.cellIterator();
+//                    Cell cell = cellIterator.next();
+//
+//                    name = cell.getStringCellValue();
+//                  //  myRef.child(courseId).child(name).setValue("");
+//                    cell = cellIterator.next();
+//                    //myRef.child(courseId).child(name).child("email").setValue(cell.getStringCellValue());
+//                    cell = cellIterator.next();
+//                    //myRef.child(courseId).child(name).child("lastName").setValue(cell.getStringCellValue());
+//                    cell = cellIterator.next();
+//                    //myRef.child(courseId).child(name).child("firstName").setValue(cell.getStringCellValue());
+//
+//
+//
+//                //}
+//                //file.close();
+//                //DatabaseReference myRef1 = database.getReference("courses");
+//                //myRef1.child(courseId).child("imported").setValue(true);
+//                Toast.makeText(getContext(), "Import Completed", Toast.LENGTH_SHORT).show();
+//            } else {
+//                Toast.makeText(getContext(), "only xls or xlsx file format supported", Toast.LENGTH_SHORT).show();
+//                return;
+//            }
+            wb.write(fileOut);
+            fileOut.close();
+            Toast.makeText(getContext(),"File name " + filename + " saved in "+ path,Toast.LENGTH_LONG).show();
+        } catch (Exception e) {
+            e.printStackTrace();
+
+        }
+
+    }
+
+
+
+
+
+
     private boolean checkPermission() {
-        int result = ContextCompat.checkSelfPermission(getContext(), android.Manifest.permission.READ_EXTERNAL_STORAGE);
+        int result = ContextCompat.checkSelfPermission(getContext(), android.Manifest.permission.WRITE_EXTERNAL_STORAGE);
         if (result == PackageManager.PERMISSION_GRANTED) {
             return true;
         } else {
@@ -237,7 +349,7 @@ public class ManageCourseFragment extends Fragment implements View.OnClickListen
     }
 
     private void requestPermission() {
-        requestPermissions(new String[]{android.Manifest.permission.READ_EXTERNAL_STORAGE}, 1);
+        requestPermissions(new String[]{android.Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
     }
 
     @Override
@@ -338,6 +450,26 @@ public class ManageCourseFragment extends Fragment implements View.OnClickListen
             @Override
             public void onCancelled(DatabaseError e) {
 
+            }
+        });
+
+
+        Button export = (Button) view.findViewById(R.id.export_btn_layout);
+        export.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (Build.VERSION.SDK_INT >= 23) {
+                    if (checkPermission()) {
+                        // Code for above or equal 23 API Oriented Device
+                        // Create a common Method for both
+                    } else {
+                        requestPermission();
+                    }
+                } else {
+                    Toast.makeText(getContext(), "This feature works only in marshmallow!", Toast.LENGTH_SHORT);
+                    return;
+                }
+                exportStudentData();
             }
         });
 
