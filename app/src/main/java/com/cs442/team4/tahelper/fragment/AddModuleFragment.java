@@ -35,6 +35,7 @@ import static android.content.Context.MODE_PRIVATE;
 public class AddModuleFragment extends Fragment{
 
     private EditText enterModuleNameFragmentView;
+    private EditText enterModuleWeightageFragmentView;
     private Button addModuleFragmentView;
    // private Button backButton;
     private DatabaseReference mDatabase;
@@ -51,6 +52,7 @@ public class AddModuleFragment extends Fragment{
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         LinearLayout layout= (LinearLayout) inflater.inflate(R.layout.add_module_fragment,container,false);
         enterModuleNameFragmentView = (EditText) layout.findViewById(R.id.enterModuleNameFragmentView);
+        enterModuleWeightageFragmentView = (EditText) layout.findViewById(R.id.enterModuleWeightage);
         addModuleFragmentView = (Button)layout.findViewById(R.id.addModuleButtonFragmentView);
        // backButton = (Button) layout.findViewById(R.id.addModuleButtonFragmentViewBackButton);
         mDatabase = FirebaseDatabase.getInstance().getReference();
@@ -67,7 +69,9 @@ public class AddModuleFragment extends Fragment{
             @Override
             public void onClick(View v) {
                 String moduleName = enterModuleNameFragmentView.getText().toString();
-                if(moduleName!=null && moduleName.length()>0){
+                String moduleWeightage = enterModuleWeightageFragmentView.getText().toString();
+
+                if(moduleName!=null && moduleName.length()>0 && moduleWeightage!=null && moduleWeightage.length()>0){
                     String key; /* = mDatabase.push().getKey();
                     mDatabase.child("modules").child(key).child("name").setValue(moduleName);
                     ModuleEntity.addKeyValue("InClass Assignments",key);
@@ -105,14 +109,15 @@ public class AddModuleFragment extends Fragment{
                     mDatabase.child("modules").child("Final Score").setValue("");*/
                     // key  = mDatabase.push().getKey();
                   //  mDatabase.child("modules").child(key).child("name").setValue(moduleName);
-                    mDatabase.child("modules").child(courseName).child(moduleName).setValue("");
-                    ModuleEntity.addModule(moduleName);
+                    mDatabase.child("modules").child(courseName).child(moduleName).child("weightage").setValue(moduleWeightage);
+                    ModuleEntity.addModule(moduleName,moduleWeightage);
 
 
                     Intent serviceIntent = new Intent(getActivity(), ModuleDatabaseUpdationIntentService.class);
                     serviceIntent.putExtra(IntentConstants.MODULE_NAME,moduleName);
                     serviceIntent.putExtra(IntentConstants.MODE,"Add");
                     serviceIntent.putExtra(IntentConstants.COURSE_ID,courseName);
+                    serviceIntent.putExtra(IntentConstants.MODULE_WEIGHTAGE,moduleWeightage);
 
                     getActivity().startService(serviceIntent);
 
@@ -120,7 +125,14 @@ public class AddModuleFragment extends Fragment{
                     addModuleFragmentListener.addModuleEvent();;
 
                 }else{
-                    Toast.makeText(getActivity()," Please enter module name and try again.",Toast.LENGTH_LONG).show();
+                    Toast.makeText(getActivity()," Please correct the errors and try again.",Toast.LENGTH_LONG).show();
+                    if(moduleName.trim().length() <=0)
+                    {
+                        enterModuleNameFragmentView.setError("Module Name cannot be empty");
+                    }
+                    if(moduleWeightage.trim().length() <=0 ){
+                        enterModuleWeightageFragmentView.setError("Module weightage cannot be empty");
+                    }
                 }
 
             }

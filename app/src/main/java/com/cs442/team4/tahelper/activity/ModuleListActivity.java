@@ -27,6 +27,7 @@ import com.cs442.team4.tahelper.contants.IntentConstants;
 import com.cs442.team4.tahelper.fragment.AddModuleFragment;
 import com.cs442.team4.tahelper.fragment.ManageAssignmentsFragment;
 import com.cs442.team4.tahelper.fragment.ModuleListFragment;
+import com.cs442.team4.tahelper.model.ModuleEntity;
 import com.cs442.team4.tahelper.model.UserEntity;
 import com.cs442.team4.tahelper.preferences.MyPreferenceActivity;
 import com.cs442.team4.tahelper.preferences.MyPreferenceFragment;
@@ -131,6 +132,7 @@ public class ModuleListActivity  extends AppCompatActivity implements ModuleList
     public void onModuleItemClickEditDelete(String moduleName) {
         Intent intent = new Intent(this, EditDeleteModuleActivity.class);
         intent.putExtra(IntentConstants.MODULE_NAME, moduleName);
+        intent.putExtra(IntentConstants.MODULE_WEIGHTAGE, ModuleEntity.getWeightage(moduleName));
         intent.putExtra(IntentConstants.COURSE_ID,courseCode);
         startActivity(intent);
         overridePendingTransition(R.anim.right_slide_in, R.anim.right_slide_out);

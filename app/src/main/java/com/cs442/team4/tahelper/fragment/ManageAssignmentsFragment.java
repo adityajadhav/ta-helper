@@ -115,7 +115,7 @@ public class ManageAssignmentsFragment extends Fragment {
                 assignmentsList.removeAll(assignmentsList);
                 Log.i("","Snaphot "+dataSnapshot+"  "+dataSnapshot.getChildren()+"  "+dataSnapshot.getValue());
                 for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
-                    if(!assignmentsList.contains(postSnapshot.getKey())) {
+                    if(!postSnapshot.getKey().equals("weightage") && !assignmentsList.contains(postSnapshot.getKey())) {
                         assignmentsList.add((String)postSnapshot.getKey());
                      /*   Iterator it = (Iterator) map.entrySet();
                         while(it.hasNext()){

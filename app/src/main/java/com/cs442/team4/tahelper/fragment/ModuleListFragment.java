@@ -175,36 +175,44 @@ public class ModuleListFragment extends Fragment{
                 for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
                     if(!moduleItemList.contains(postSnapshot.getKey())) {
                         moduleItemList.add((String)postSnapshot.getKey());
-                        ModuleEntity.addModule((String)postSnapshot.getKey());
+                        ModuleEntity.addModule((String)postSnapshot.getKey(),null);
                         Log.i("ModuleList","value "+postSnapshot.getValue());
-                        if(postSnapshot.getValue()!=null && postSnapshot.getValue()!="" && !postSnapshot.getValue().getClass().equals(String.class)) {
+                        if(postSnapshot.getValue()!=null && postSnapshot.getValue()!="" && postSnapshot.getValue().getClass().equals(HashMap.class)) {
                             HashMap assignmentsMap = (HashMap) postSnapshot.getValue();
                             Iterator entries = assignmentsMap.entrySet().iterator();
                             while (entries.hasNext()) {
-                                AssignmentEntity assignmentEntity = new AssignmentEntity();
-                                ArrayList<AssignmentSplit> splitsList = new ArrayList<AssignmentSplit>();
-                                assignmentEntity.setAssignmentSplits(splitsList);
                                 Map.Entry thisEntry = (Map.Entry) entries.next();
-                                String key = (String) thisEntry.getKey();
-                                assignmentEntity.setAssignmentName(key);
-                                HashMap value = (HashMap) thisEntry.getValue();
-                                Iterator entries1 = value.entrySet().iterator();
-                                while (entries1.hasNext()) {
-                                    Map.Entry thisEntry1 = (Map.Entry) entries1.next();
-                                    String key1 = (String) thisEntry1.getKey();
-                                    if (key1.equals("Total")) {
-                                        assignmentEntity.setTotalScore((String) thisEntry1.getValue());
-                                    } else if (key1.equals("Splits")) {
-                                        Map<String, String> splitList = (Map<String, String>) thisEntry1.getValue();
-                                        Iterator entries2 = splitList.entrySet().iterator();
-                                        while (entries2.hasNext()) {
-                                            Map.Entry thisEntry2 = (Map.Entry) entries2.next();
-                                            splitsList.add(new AssignmentSplit((String) thisEntry2.getKey(), Integer.parseInt((String) thisEntry2.getValue())));
-                                        }
+                                if(thisEntry.getKey().equals("weightage")){
+                                    ModuleEntity.updateWeightage((String) postSnapshot.getKey(), (String)thisEntry.getValue());
 
+                                }else{
+                                    AssignmentEntity assignmentEntity = new AssignmentEntity();
+                                    ArrayList<AssignmentSplit> splitsList = new ArrayList<AssignmentSplit>();
+                                    assignmentEntity.setAssignmentSplits(splitsList);
+                                    String key = (String) thisEntry.getKey();
+                                    assignmentEntity.setAssignmentName(key);
+                                    HashMap value = (HashMap) thisEntry.getValue();
+                                    Iterator entries1 = value.entrySet().iterator();
+                                    while (entries1.hasNext()) {
+                                        Map.Entry thisEntry1 = (Map.Entry) entries1.next();
+                                        String key1 = (String) thisEntry1.getKey();
+                                        if (key1.equals("Total")) {
+                                            assignmentEntity.setTotalScore((String) thisEntry1.getValue());
+                                        } else if (key1.equals("Splits")) {
+                                            Map<String, String> splitList = (Map<String, String>) thisEntry1.getValue();
+                                            Iterator entries2 = splitList.entrySet().iterator();
+                                            while (entries2.hasNext()) {
+                                                Map.Entry thisEntry2 = (Map.Entry) entries2.next();
+                                                splitsList.add(new AssignmentSplit((String) thisEntry2.getKey(), Integer.parseInt((String) thisEntry2.getValue())));
+                                            }
+
+                                        } else if(key1.equals("weightage")){
+                                            assignmentEntity.setAssignmentWeightage((String) thisEntry1.getValue());
+                                        }
                                     }
+                                    ModuleEntity.addAssignments((String) postSnapshot.getKey(), assignmentEntity);
+
                                 }
-                                ModuleEntity.addAssignments((String) postSnapshot.getKey(), assignmentEntity);
 
                             }
                         }

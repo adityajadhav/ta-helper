@@ -51,6 +51,7 @@ public class EditDeleteModuleActivity extends AppCompatActivity implements  Edit
             courseCode = getIntent().getStringExtra(IntentConstants.COURSE_ID);
             Bundle bundle = new Bundle();
             bundle.putString(IntentConstants.MODULE_NAME,getIntent().getStringExtra(IntentConstants.MODULE_NAME));
+            bundle.putString(IntentConstants.MODULE_WEIGHTAGE,getIntent().getStringExtra(IntentConstants.MODULE_WEIGHTAGE));
             bundle.putString(IntentConstants.COURSE_ID,courseCode);
             editDeleteModuleFragment.setArguments(bundle);
         }

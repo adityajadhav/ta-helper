@@ -12,6 +12,7 @@ public class ModuleEntity {
 
 
     private static HashMap<String,ArrayList<AssignmentEntity>> moduleToAssignmets = new HashMap<>();
+    private static HashMap<String,String> moduleToWeightage = new HashMap<>();
 
 
     public ModuleEntity(){
@@ -19,10 +20,13 @@ public class ModuleEntity {
     }
 
 
-    public static void addModule(String moduleName){
+    public static void addModule(String moduleName,String moduleWeightage){
         if(moduleToAssignmets.get(moduleName)==null) {
             ArrayList<AssignmentEntity> assignmentList = new ArrayList<AssignmentEntity>();
             moduleToAssignmets.put(moduleName, assignmentList);
+            if(moduleWeightage!=null) {
+                moduleToWeightage.put(moduleName, moduleWeightage);
+            }
         }
     }
 
@@ -42,12 +46,12 @@ public class ModuleEntity {
         moduleToAssignmets.remove(name);
     }
 
-    public  static void editModule(String originalName,String newName){
+    public  static void editModule(String originalName,String newName,String weightage){
         ArrayList<AssignmentEntity> assignmentOldList =moduleToAssignmets.get(originalName);
         ArrayList<AssignmentEntity> assignmentNewList = new ArrayList<AssignmentEntity>();
         assignmentNewList.addAll(assignmentOldList);
         moduleToAssignmets.remove(originalName);
-
+        moduleToWeightage.put(newName,weightage);
         moduleToAssignmets.put(newName,assignmentNewList);
     }
 
@@ -65,5 +69,13 @@ public class ModuleEntity {
     }
 
 
+    public static void updateWeightage(String moduleName, String weightage) {
+        if(moduleToWeightage.get(moduleName)==null) {
+            moduleToWeightage.put(moduleName, weightage);
+        }
+    }
 
+    public static String getWeightage(String moduleName) {
+        return moduleToWeightage.get(moduleName);
+    }
 }

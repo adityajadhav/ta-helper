@@ -70,11 +70,13 @@ public class AssignmentsDatabaseUpdationService extends IntentService{
                     String moduleName = intent.getStringExtra(IntentConstants.MODULE_NAME);
                     String assignmentName = intent.getStringExtra(IntentConstants.ASSIGNMENT_NAME);
                     String courseCode = intent.getStringExtra(IntentConstants.COURSE_ID);
-                    String total = intent.getStringExtra(IntentConstants.TOTAL);
+                    String assignmentWeightage = intent.getStringExtra(IntentConstants.ASSIGNMENT_WEIGHTAGE);
+
                     ArrayList<AssignmentSplit> assignmentSplitsList = intent.getParcelableArrayListExtra(IntentConstants.SPLIT);
 
                     for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
                         mDatabase.child("students").child(courseCode).child(postSnapshot.getKey()).child(moduleName).child(assignmentName).child("Total").setValue("0.0");
+                        mDatabase.child("students").child(courseCode).child(postSnapshot.getKey()).child(moduleName).child(assignmentName).child("weightage").setValue(assignmentWeightage);
                         for (int i = 0; i < assignmentSplitsList.size(); i++) {
                             AssignmentSplit split = assignmentSplitsList.get(i);
                             mDatabase.child("students").child(courseCode).child(postSnapshot.getKey()).child(moduleName).child(assignmentName).child("Splits").child(split.getSplitName()).setValue("0.0");
@@ -85,13 +87,16 @@ public class AssignmentsDatabaseUpdationService extends IntentService{
                     String assignmentOldName = intent.getStringExtra(IntentConstants.ASSIGNMENT_OLD_NAME);
                     String assignmentNewName = intent.getStringExtra(IntentConstants.ASSIGNMENT_NEW_NAME);
                     String courseCode = intent.getStringExtra(IntentConstants.COURSE_ID);
-                    String total = intent.getStringExtra(IntentConstants.TOTAL);
+                    String assignmentWeightage = intent.getStringExtra(IntentConstants.ASSIGNMENT_WEIGHTAGE);
+
                     ArrayList<AssignmentSplit> assignmentSplitsList = intent.getParcelableArrayListExtra(IntentConstants.SPLIT);
 
                     for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
                         Log.i("AssignmentsUpdation", "Edit : " + postSnapshot.getKey());
                         mDatabase.child("students").child(courseCode).child(postSnapshot.getKey()).child(moduleName).child(assignmentOldName).removeValue();
                         mDatabase.child("students").child(courseCode).child(postSnapshot.getKey()).child(moduleName).child(assignmentNewName).child("Total").setValue("0.0");
+                        mDatabase.child("students").child(courseCode).child(postSnapshot.getKey()).child(moduleName).child(assignmentNewName).child("weightage").setValue(assignmentWeightage);
+
                         for (int i = 0; i < assignmentSplitsList.size(); i++) {
                             AssignmentSplit split = assignmentSplitsList.get(i);
                             Log.i("AssignmentsUpdation", "i : " + i + "split  " + split.getSplitName());
@@ -102,12 +107,8 @@ public class AssignmentsDatabaseUpdationService extends IntentService{
                     String moduleName = intent.getStringExtra(IntentConstants.MODULE_NAME);
                     String assignmentName = intent.getStringExtra(IntentConstants.ASSIGNMENT_NAME);
                     String courseCode = intent.getStringExtra(IntentConstants.COURSE_ID);
-                    boolean retainModuleName = intent.getBooleanExtra(IntentConstants.RETAIN_MODULE_NAME,false);
                     for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
                         mDatabase.child("students").child(courseCode).child(postSnapshot.getKey()).child(moduleName).child(assignmentName).removeValue();
-                        if(retainModuleName){
-                            mDatabase.child("students").child(courseCode).child(postSnapshot.getKey()).child(moduleName).setValue("");
-                        }
                     }
                 }
             }
