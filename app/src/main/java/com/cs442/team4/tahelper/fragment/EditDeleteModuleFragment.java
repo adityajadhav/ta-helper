@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.cs442.team4.tahelper.R;
 import com.cs442.team4.tahelper.activity.AddModuleActivity;
@@ -38,9 +39,11 @@ import static android.content.Context.MODE_PRIVATE;
 public class EditDeleteModuleFragment extends Fragment {
 
     private EditText moduleName;
+    private EditText moduleWeightage;
     private Button editButton;
     private Button deleteButton;
     private String moduleNameString;
+    private String moduleWeightageString;
     private String courseCode;
     private EditDeleteButtonListner editDeleteButtonListner;
     //private Button backButton;
@@ -55,6 +58,8 @@ public class EditDeleteModuleFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         LinearLayout layout= (LinearLayout) inflater.inflate(R.layout.edit_delete_module_fragment,container,false);
         moduleName = (EditText) layout.findViewById(R.id.editDeleteModuleNameFragmentEditTextView);
+        moduleWeightage = (EditText) layout.findViewById(R.id.editDeleteModuleWeightageFragmentEditTextView);
+
         editButton = (Button)layout.findViewById(R.id.editModuleButtonFragmentView);
         deleteButton = (Button)layout.findViewById(R.id.deleteModuleButtonFragmentView);
         //backButton = (Button) layout.findViewById(R.id.editDeleteModuleFragmentListViewBackButton);
@@ -68,10 +73,11 @@ public class EditDeleteModuleFragment extends Fragment {
         deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                 FirebaseDatabase.getInstance().getReference("modules/"+moduleNameString).removeValue();
+                 FirebaseDatabase.getInstance().getReference("modules/"+courseCode+"/"+moduleNameString).removeValue();
                 ModuleEntity.removeModule(moduleNameString);
                 Intent serviceIntent = new Intent(getActivity(), ModuleDatabaseUpdationIntentService.class);
                 serviceIntent.putExtra(IntentConstants.MODULE_NAME,moduleNameString);
+                serviceIntent.putExtra(IntentConstants.COURSE_ID,courseCode);
                 serviceIntent.putExtra(IntentConstants.MODE,"Delete");
                 getActivity().startService(serviceIntent);
 
@@ -83,15 +89,16 @@ public class EditDeleteModuleFragment extends Fragment {
         editButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                if(moduleName.getText().toString()!=null && moduleName.getText().toString().length()>0) {
-                    ModuleEntity.editModule(moduleNameString,moduleName.getText().toString());
+                if(moduleName.getText().toString()!=null && moduleName.getText().toString().length()>0 && moduleWeightage.getText().toString()!=null
+                        && moduleWeightage.getText().toString().length()>0) {
+                    ModuleEntity.editModule(moduleNameString,moduleName.getText().toString(),moduleWeightage.getText().toString());
 
                     FirebaseDatabase.getInstance().getReference("modules/"+courseCode+"/"+moduleNameString).removeValue();
 
                     DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("modules");
                    // String key  = databaseReference.push().getKey();
                     //databaseReference.child(key).child("name").setValue(moduleName.getText().toString());
-                    databaseReference.child(courseCode).child(moduleName.getText().toString()).setValue("");
+                    databaseReference.child(courseCode).child(moduleName.getText().toString()).child("weightage").setValue(moduleWeightage.getText().toString());
                     ArrayList<AssignmentEntity> assignmentsList = ModuleEntity.getAssignmentList(moduleName.getText().toString());
                     for(int i = 0 ; i <assignmentsList.size(); i++){
                         AssignmentEntity assignmentEntity = assignmentsList.get(i);
@@ -109,17 +116,30 @@ public class EditDeleteModuleFragment extends Fragment {
                     serviceIntent.putExtra(IntentConstants.MODULE_NEW_NAME,moduleName.getText().toString());
                     serviceIntent.putExtra(IntentConstants.ASSIGNMENT_list,assignmentsList);
                     serviceIntent.putExtra(IntentConstants.COURSE_ID,courseCode);
+                    serviceIntent.putExtra(IntentConstants.MODULE_WEIGHTAGE,moduleWeightage.getText().toString());
 
                     serviceIntent.putExtra(IntentConstants.MODE,"Edit");
                     getActivity().startService(serviceIntent);
 
                     //ModuleEntity.addKeyValue(moduleName.getText().toString(),key);
                     editDeleteButtonListner.clickButtonEvent();
+                }else{
+                    Toast.makeText(getActivity()," Please correct the errors and try again.",Toast.LENGTH_LONG).show();
+                    if(moduleName.getText().toString().trim().length() <=0)
+                    {
+                        moduleName.setError("Module Name cannot be empty");
+                    }
+                    if(moduleWeightage.getText().toString().trim().length() <=0 ){
+                        moduleWeightage.setError("Module weightage cannot be empty");
+                    }
                 }
             }
         });
 
         moduleNameString = getArguments().getString(IntentConstants.MODULE_NAME);
+        moduleWeightageString = getArguments().getString(IntentConstants.MODULE_WEIGHTAGE);
+        moduleWeightage.setText(moduleWeightageString);
+        moduleWeightage.setSelection(moduleWeightageString.length());
         moduleName.setText(moduleNameString);
         moduleName.setSelection(moduleName.getText().length());
         courseCode = getArguments().getString(IntentConstants.COURSE_ID);

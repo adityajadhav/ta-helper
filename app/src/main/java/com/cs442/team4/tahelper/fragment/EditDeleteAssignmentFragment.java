@@ -40,6 +40,7 @@ public class EditDeleteAssignmentFragment extends Fragment {
     private Button addSplitButton;
     private EditText assignmentName;
     private EditText assignmentTotalScore;
+    private EditText assignmentWeightage;
     private EditText splitName;
     private EditText splitScore;
     private ListView splitList;
@@ -72,6 +73,7 @@ public class EditDeleteAssignmentFragment extends Fragment {
         deleteAssignment = (Button) layout.findViewById(R.id.editDeleteAssignmentsFragmentDeleteButton);
         assignmentName = (EditText) layout.findViewById(R.id.editDeleteAssignmentsFragmentTextView);
         assignmentTotalScore = (EditText) layout.findViewById(R.id.editDeleteAssignmentFragmentTotalScore);
+        assignmentWeightage = (EditText) layout.findViewById(R.id.editDeleteAssignmentFragmentWeightageValue);
         //backButton = (Button) layout.findViewById(R.id.editDeleteAssignmentsFragmentBackButton);
 
         assignmentSplitsList = new ArrayList<AssignmentSplit>();
@@ -125,13 +127,16 @@ public class EditDeleteAssignmentFragment extends Fragment {
     }
 
     private void handleEditAssignment() {
-        if(assignmentName.getText()!=null && assignmentName.getText().length()>0 && assignmentTotalScore.getText()!=null && assignmentTotalScore.getText().length()>0){
+        if(assignmentName.getText()!=null && assignmentName.getText().length()>0 && assignmentTotalScore.getText()!=null && assignmentTotalScore.getText().length()>0
+                && assignmentWeightage.getText()!=null && assignmentWeightage.getText().length()>0){
             if(validateTotal()){
                 mDatabase.child(moduleName).child(originalAssignmentName).removeValue();
                 ModuleEntity.removeAssignmentFromModule(moduleName,originalAssignmentName);
 
                 mDatabase.child(moduleName).child(assignmentName.getText().toString()).child("Total").setValue(assignmentTotalScore.getText().toString());
-               // assignmentSplitsList.remove(assignmentSplitsList);
+                mDatabase.child(moduleName).child(assignmentName.getText().toString()).child("weightage").setValue(assignmentWeightage.getText().toString());
+
+                // assignmentSplitsList.remove(assignmentSplitsList);
                 for(int i = 0 ; i <assignmentSplitsList.size();i++){
                     AssignmentSplit split = assignmentSplitsList.get(i);
                     mDatabase.child(moduleName).child(assignmentName.getText().toString()).child("Splits").child(split.getSplitName()).setValue(String.valueOf(split.getSplitScore()));
@@ -144,10 +149,11 @@ public class EditDeleteAssignmentFragment extends Fragment {
                 serviceIntent.putExtra(IntentConstants.ASSIGNMENT_NEW_NAME,assignmentName.getText().toString());
                 serviceIntent.putExtra(IntentConstants.TOTAL,assignmentTotalScore.getText().toString());
                 serviceIntent.putExtra(IntentConstants.SPLIT,assignmentSplitsList);
+                serviceIntent.putExtra(IntentConstants.ASSIGNMENT_WEIGHTAGE,assignmentWeightage.getText().toString());
                 serviceIntent.putExtra(IntentConstants.MODE,"Edit");
                 getActivity().startService(serviceIntent);
 
-                ModuleEntity.addAssignments(moduleName,new AssignmentEntity(assignmentName.getText().toString(),assignmentTotalScore.getText().toString(),assignmentSplitsList));
+                ModuleEntity.addAssignments(moduleName,new AssignmentEntity(assignmentName.getText().toString(),assignmentTotalScore.getText().toString(),assignmentWeightage.getText().toString(),assignmentSplitsList));
 
                 assignmentAdapter.notifyDataSetChanged();
 
@@ -157,7 +163,19 @@ public class EditDeleteAssignmentFragment extends Fragment {
             }
 
         }else{
-            Toast.makeText(getActivity(),"Please enter both assignment name, total score and try again.",Toast.LENGTH_LONG).show();
+            Toast.makeText(getActivity(),"Please correct all errors and try again.",Toast.LENGTH_LONG).show();
+            if(assignmentName.getText().toString().trim().length() <=0)
+            {
+                assignmentName.setError("Assignment Name cannot be empty");
+            }
+            if(assignmentTotalScore.getText().toString().trim().length() <=0)
+            {
+                assignmentTotalScore.setError("Total Score cannot be empty");
+            }
+            if(assignmentWeightage.getText().toString().trim().length() <=0)
+            {
+                assignmentWeightage.setError("Assignment Weightage cannot be empty");
+            }
         }
     }
 
@@ -179,22 +197,16 @@ public class EditDeleteAssignmentFragment extends Fragment {
     }
 
     private void handleDeleteAssignment() {
-        boolean retainModuleName = false;
 
-        if(ModuleEntity.getAssignmentList(moduleName).size()==1){
-            mDatabase.child(moduleName).child(originalAssignmentName).setValue(null);
-            mDatabase.child(moduleName).setValue("");
-            retainModuleName = true;
-        }else{
+
             mDatabase.child(moduleName).child(originalAssignmentName).setValue(null);
 
-        }
+
         ModuleEntity.removeAssignmentFromModule(moduleName,originalAssignmentName);
 
         Intent serviceIntent = new Intent(getActivity(), AssignmentsDatabaseUpdationService.class);
         serviceIntent.putExtra(IntentConstants.MODULE_NAME,moduleName);
         serviceIntent.putExtra(IntentConstants.ASSIGNMENT_NAME,originalAssignmentName);
-        serviceIntent.putExtra(IntentConstants.RETAIN_MODULE_NAME,retainModuleName);
         serviceIntent.putExtra(IntentConstants.COURSE_ID, courseCode);
         serviceIntent.putExtra(IntentConstants.MODE,"Delete");
         getActivity().startService(serviceIntent);
@@ -240,6 +252,10 @@ public class EditDeleteAssignmentFragment extends Fragment {
                           assignmentSplitsList.add(new AssignmentSplit(splits.getKey(),Integer.parseInt(splits.getValue().toString())));
                        }
                        assignmentAdapter.notifyDataSetChanged();
+                    }
+                    if(postSnapshot.getKey().equals("weightage")){
+                        assignmentWeightage.setText(postSnapshot.getValue(String.class));
+                        assignmentWeightage.setSelection(assignmentWeightage.length());
                     }
                 }
             }

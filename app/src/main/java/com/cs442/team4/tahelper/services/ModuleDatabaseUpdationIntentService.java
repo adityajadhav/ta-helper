@@ -70,17 +70,19 @@ public class ModuleDatabaseUpdationIntentService extends IntentService {
                 if(mode.equals("Add")) {
                     String moduleName = intent.getStringExtra(IntentConstants.MODULE_NAME);
                     String courseName = intent.getStringExtra(IntentConstants.COURSE_ID);
+                    String moduleWeightage = intent.getStringExtra(IntentConstants.MODULE_WEIGHTAGE);
                     for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
-                        mDatabase.child("students").child(courseName).child(postSnapshot.getKey()).child(moduleName).setValue("");
+                        mDatabase.child("students").child(courseName).child(postSnapshot.getKey()).child(moduleName).child("weightage").setValue(moduleWeightage);
                     }
                 }else if(mode.equals("Edit")){
                     String moduleOldName = intent.getStringExtra(IntentConstants.MODULE_OLD_NAME);
                     String moduleNewName = intent.getStringExtra(IntentConstants.MODULE_NEW_NAME);
                     String courseName = intent.getStringExtra(IntentConstants.COURSE_ID);
+                    String moduleWeightage = intent.getStringExtra(IntentConstants.MODULE_WEIGHTAGE);
 
                     for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
                         FirebaseDatabase.getInstance().getReference("students/"+courseName+"/"+postSnapshot.getKey()+"/"+moduleOldName).removeValue();
-                        mDatabase.child("students").child(courseName).child(postSnapshot.getKey()).child(moduleNewName).setValue("");
+                        mDatabase.child("students").child(courseName).child(postSnapshot.getKey()).child(moduleNewName).child("weightage").setValue(moduleWeightage);
 
                         ArrayList<AssignmentEntity> assignmentEntityArrayList = intent.getParcelableArrayListExtra(IntentConstants.ASSIGNMENT_list);
                         for(int i =0 ; i < assignmentEntityArrayList.size();i++){

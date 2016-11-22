@@ -36,5 +36,8 @@ public class IntentConstants {
 
     public static final String COURSE_ID = "course_id";
 
+    public static final String MODULE_WEIGHTAGE = "module_weightage";
+
+    public static final String ASSIGNMENT_WEIGHTAGE = "assignment_weightage";
 
 }

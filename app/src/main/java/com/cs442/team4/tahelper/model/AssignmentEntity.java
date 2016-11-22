@@ -12,11 +12,13 @@ import java.util.ArrayList;
 public class AssignmentEntity implements Parcelable{
 
     private String assignmentName;
+    private String assignmentWeightage;
     private String totalScore;
     private ArrayList<AssignmentSplit> splits;
 
-    public AssignmentEntity(String assignmentName, String totalScore, ArrayList<AssignmentSplit> splits){
+    public AssignmentEntity(String assignmentName, String totalScore, String weightage, ArrayList<AssignmentSplit> splits){
         this.assignmentName = assignmentName;
+        this.assignmentWeightage = weightage;
         this.totalScore = totalScore;
         this.splits = splits;
     }
@@ -27,6 +29,7 @@ public class AssignmentEntity implements Parcelable{
 
     protected AssignmentEntity(Parcel in) {
         assignmentName = in.readString();
+        assignmentWeightage = in.readString();
         totalScore = in.readString();
         splits = in.createTypedArrayList(AssignmentSplit.CREATOR);
     }
@@ -34,6 +37,7 @@ public class AssignmentEntity implements Parcelable{
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(assignmentName);
+        dest.writeString(assignmentWeightage);
         dest.writeString(totalScore);
         dest.writeTypedList(splits);
     }
@@ -73,6 +77,14 @@ public class AssignmentEntity implements Parcelable{
 
     public void setAssignmentName(String assignmentName) {
         this.assignmentName = assignmentName;
+    }
+
+    public String getAssignmentWeightage() {
+        return assignmentWeightage;
+    }
+
+    public void setAssignmentWeightage(String assignmentWeightage) {
+        this.assignmentWeightage = assignmentWeightage;
     }
 
     public void setAssignmentSplits(ArrayList<AssignmentSplit> assignmentSplits) {

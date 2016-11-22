@@ -44,6 +44,7 @@ public class AddAssignmentsFragment extends Fragment {
     private Button addSplitButton;
     private EditText assignmentName;
     private EditText assignmentTotalScore;
+    private EditText assignmentWeightage;
     private EditText splitName;
     private EditText splitScore;
     private ListView splitList;
@@ -74,6 +75,7 @@ public class AddAssignmentsFragment extends Fragment {
         addAssignment = (Button) layout.findViewById(R.id.addAssignmentsFragmentAddButton);
         assignmentName = (EditText) layout.findViewById(R.id.addAssignmentsFragmentTextView);
         assignmentTotalScore = (EditText) layout.findViewById(R.id.addAssignmentFragmentTotalScore);
+        assignmentWeightage = (EditText) layout.findViewById(R.id.addAssignmentFragmentWeightageValue);
         //backButton = (Button) layout.findViewById(R.id.addAssignmentsFragmentBackButton);
         assignmentSplitsList = new ArrayList<AssignmentSplit>();
         assignmentAdapter = new AddAssignmentListItemAdapter(getActivity(),R.layout.add_assignments_item_layout,assignmentSplitsList);
@@ -116,9 +118,12 @@ public class AddAssignmentsFragment extends Fragment {
 
     private void handleAddAssignment() {
         mDatabase = FirebaseDatabase.getInstance().getReference("modules").child(courseCode);
-        if(assignmentName.getText()!=null && assignmentName.getText().length()>0 && assignmentTotalScore.getText()!=null && assignmentTotalScore.getText().length()>0){
+        if(assignmentName.getText()!=null && assignmentName.getText().length()>0 && assignmentTotalScore.getText()!=null && assignmentTotalScore.getText().length()>0
+                && assignmentWeightage.getText()!=null && assignmentWeightage.getText().length()>0){
             if(validateTotal()){
                 mDatabase.child(moduleName).child(assignmentName.getText().toString()).child("Total").setValue(assignmentTotalScore.getText().toString());
+                mDatabase.child(moduleName).child(assignmentName.getText().toString()).child("weightage").setValue(assignmentWeightage.getText().toString());
+
                 for (int i = 0; i < assignmentSplitsList.size(); i++) {
                     AssignmentSplit split = assignmentSplitsList.get(i);
                     mDatabase.child(moduleName).child(assignmentName.getText().toString()).child("Splits").child(split.getSplitName()).setValue(String.valueOf(split.getSplitScore()));
@@ -129,17 +134,31 @@ public class AddAssignmentsFragment extends Fragment {
                 serviceIntent.putExtra(IntentConstants.COURSE_ID, courseCode);
                 serviceIntent.putExtra(IntentConstants.ASSIGNMENT_NAME, assignmentName.getText().toString());
                 serviceIntent.putExtra(IntentConstants.TOTAL, assignmentTotalScore.getText().toString());
+                serviceIntent.putExtra(IntentConstants.ASSIGNMENT_WEIGHTAGE, assignmentWeightage.getText().toString());
+
                 serviceIntent.putExtra(IntentConstants.SPLIT, assignmentSplitsList);
                 serviceIntent.putExtra(IntentConstants.MODE, "Add");
                 getActivity().startService(serviceIntent);
 
-                ModuleEntity.addAssignments(moduleName,new AssignmentEntity(assignmentName.getText().toString(),assignmentTotalScore.getText().toString(),assignmentSplitsList));
+                ModuleEntity.addAssignments(moduleName,new AssignmentEntity(assignmentName.getText().toString(),assignmentTotalScore.getText().toString(),assignmentWeightage.getText().toString(),assignmentSplitsList));
                 addAssignmentFragmentListener.notifyAddAssignmentEvent(moduleName);
             }else {
                 Toast.makeText(getActivity(),"Total count does not match with Sum of Splits.Please correct it and try again.",Toast.LENGTH_LONG).show();
             }
         }else{
-            Toast.makeText(getActivity(),"Please enter both assignment name, total score and try again.",Toast.LENGTH_LONG).show();
+            Toast.makeText(getActivity(),"Please correct all errors and try again.",Toast.LENGTH_LONG).show();
+            if(assignmentName.getText().toString().trim().length() <=0)
+            {
+                assignmentName.setError("Assignment Name cannot be empty");
+            }
+            if(assignmentTotalScore.getText().toString().trim().length() <=0)
+            {
+                assignmentTotalScore.setError("Total Score cannot be empty");
+            }
+            if(assignmentWeightage.getText().toString().trim().length() <=0)
+            {
+                assignmentWeightage.setError("Assignment Weightage cannot be empty");
+            }
         }
     }
 
