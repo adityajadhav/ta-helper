@@ -7,6 +7,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.FirebaseInstanceIdService;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 /**
  * Created by neo on 12-11-2016.
@@ -24,7 +25,7 @@ public class MyFirebaseInstanceIDService extends FirebaseInstanceIdService {
         //Getting registration token
         String refreshedToken = FirebaseInstanceId.getInstance().getToken();
 
-        //Displaying token on logcat
+        FirebaseMessaging.getInstance().subscribeToTopic("allDevices");        //Displaying token on logcat
         Log.d(TAG, "Refreshed token: " + refreshedToken);
         sendRegistrationToServer(refreshedToken);
     }

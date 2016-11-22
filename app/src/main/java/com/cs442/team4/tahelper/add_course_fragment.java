@@ -7,7 +7,6 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.annotation.StringDef;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,6 +17,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.cs442.team4.tahelper.model.PushNotification;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
@@ -26,11 +26,15 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.GenericTypeIndicator;
 import com.google.firebase.database.ValueEventListener;
-
-import org.apache.poi.ss.formula.functions.T;
+import com.google.gson.Gson;
+import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.AsyncHttpResponseHandler;
 
 import java.util.ArrayList;
-import java.util.List;
+
+import cz.msebera.android.httpclient.Header;
+import cz.msebera.android.httpclient.entity.ContentType;
+import cz.msebera.android.httpclient.entity.StringEntity;
 
 import static android.content.Context.MODE_PRIVATE;
 
@@ -47,11 +51,13 @@ public class add_course_fragment extends Fragment {
     String buttonLabel = "ADd Course";
     String old_course_id = null;
     ArrayList<String> ta_memebers = new ArrayList<>();
-    int flag =0 ;
+    int flag = 0;
     String user;
-    int exists_flag =0;
+    int exists_flag = 0;
+
     public interface OnFinishAddCourseInterface {
         public void closeAddCourseFragment();
+
         public void callAddTAs_to_activity(ArrayList<String> ta_members);
     }
 
@@ -61,23 +67,21 @@ public class add_course_fragment extends Fragment {
 
     View global_view;
     ArrayAdapter<String> adapter;
-    public void setTAMembers(ArrayList<String> getMembers)
-    {
+
+    public void setTAMembers(ArrayList<String> getMembers) {
         final ListView ta_display__lv = (ListView) global_view.findViewById(R.id.ta_display_lv_layout);
         ta_memebers = getMembers;
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(),R.layout.ta_display_list_view,R.id.ta_email_tv_layout,ta_memebers);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(), R.layout.ta_display_list_view, R.id.ta_email_tv_layout, ta_memebers);
         ta_display__lv.setAdapter(adapter);
         adapter.notifyDataSetChanged();
-        Log.i("got",ta_memebers.toString());
+        Log.i("got", ta_memebers.toString());
         final TextView course_name_tv = (TextView) global_view.findViewById(R.id.course_name_tv_layout);
 
         course_name_tv.setText(getMembers.get(0));
     }
 
 
-
-    public boolean checkValues()
-    {
+    public boolean checkValues() {
         boolean result = true;
         final TextView course_name_tv = (TextView) getView().findViewById(R.id.course_name_tv_layout);
         final TextView course_id_tv = (TextView) getView().findViewById(R.id.course_id_tv_layout);
@@ -87,45 +91,38 @@ public class add_course_fragment extends Fragment {
         final TextView professor_email_tv = (TextView) getView().findViewById(R.id.professor_email_tv_layout);
 
 
-
         final String course_name = course_name_tv.getText().toString();
-        if(course_name.trim().length() <=0)
-        {
+        if (course_name.trim().length() <= 0) {
             course_name_tv.setError("Course Name cannot be empty");
             result = false;
         }
         final String course_id = course_id_tv.getText().toString();
-        if(course_id.trim().length() <=0)
-        {
+        if (course_id.trim().length() <= 0) {
             course_id_tv.setError("Course Id cannot be empty");
             result = false;
         }
 
         final String professor_FN = professor_FN_tv.getText().toString();
 
-        if(professor_FN.trim().length() <=0)
-        {
+        if (professor_FN.trim().length() <= 0) {
             professor_FN_tv.setError("First Name cannot be empty");
             result = false;
         }
         final String professor_LN = professor_LN_tv.getText().toString();
 
-        if(professor_LN.trim().length() <=0)
-        {
+        if (professor_LN.trim().length() <= 0) {
             professor_LN_tv.setError("Last Name cannot be empty");
             result = false;
         }
         final String professor_UN = professor_UN_tv.getText().toString();
 
-        if(professor_UN.trim().length() <=0)
-        {
+        if (professor_UN.trim().length() <= 0) {
             professor_UN_tv.setError("User Name cannot be empty");
             result = false;
         }
         final String professor_email = professor_email_tv.getText().toString();
 
-        if(professor_email.trim().length() <=0)
-        {
+        if (professor_email.trim().length() <= 0) {
             professor_email_tv.setError("Email cannot be empty");
             result = false;
         }
@@ -141,7 +138,7 @@ public class add_course_fragment extends Fragment {
 
         final ListView ta_display__lv = (ListView) global_view.findViewById(R.id.ta_display_lv_layout);
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(),R.layout.ta_display_list_view,R.id.ta_email_tv_layout,ta_memebers);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(), R.layout.ta_display_list_view, R.id.ta_email_tv_layout, ta_memebers);
         ta_display__lv.setAdapter(adapter);
         adapter.notifyDataSetChanged();
     }
@@ -149,11 +146,6 @@ public class add_course_fragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
-
-
-
-
         Bundle args = getArguments();
         if (args != null) {
             String mode = getArguments().getString("mode");
@@ -161,10 +153,8 @@ public class add_course_fragment extends Fragment {
 
             try {
                 courseId = args.getString("course_code");
-            }
-            catch(Exception e)
-            {
-                Log.i("Exception",e.toString());
+            } catch (Exception e) {
+                Log.i("Exception", e.toString());
             }
 
 
@@ -175,13 +165,12 @@ public class add_course_fragment extends Fragment {
     }
 
 
-
     @Override
     public void onViewCreated(final View view, Bundle savedInstanceState) {
 
         SharedPreferences pref = getContext().getSharedPreferences("CurrentUser", MODE_PRIVATE);
-        user = pref.getString("UserEntity","");
-        Log.i("Username",user);
+        user = pref.getString("UserEntity", "");
+        Log.i("Username", user);
 
 
         final FirebaseDatabase database = FirebaseDatabase.getInstance();
@@ -202,9 +191,6 @@ public class add_course_fragment extends Fragment {
         Button add_ta_btn = (Button) getView().findViewById(R.id.add_ta_btn_layout);
 
 
-
-
-
         if (smode.length() > 0) {
             if (smode.equals("edit")) {
                 TextView add_course_heading_tv = (TextView) view.findViewById(R.id.add_course_heading_tv_layout);
@@ -217,7 +203,6 @@ public class add_course_fragment extends Fragment {
                         DataSnapshot items = dataSnapshot.child(courseId);
 
                         //for (DataSnapshot items : values.getChildren()) {
-
 
 
                         try {
@@ -235,16 +220,17 @@ public class add_course_fragment extends Fragment {
 
                             course_name_tv.setText(c_name);
                             course_id_tv.setText(c_id);
-                            old_course_id =  c_id;
+                            old_course_id = c_id;
                             professor_FN_tv.setText(c_p_first);
                             professor_LN_tv.setText(c_p_last);
                             professor_UN_tv.setText(c_p_un);
                             professor_email_tv.setText(c_p_email);
                             //  ta_email_tv.setText(c_p_un);
 
-                            GenericTypeIndicator<ArrayList<String>> t = new GenericTypeIndicator<ArrayList<String>>() {};
+                            GenericTypeIndicator<ArrayList<String>> t = new GenericTypeIndicator<ArrayList<String>>() {
+                            };
 
-                            if(flag == 0) {
+                            if (flag == 0) {
                                 ta_memebers = items.child("ta_members").getValue(t);
 
                                 if (ta_memebers.size() > 0) {
@@ -252,11 +238,8 @@ public class add_course_fragment extends Fragment {
                                     ta_display__lv.setAdapter(adapter);
 
                                 }
-                                flag =1;
+                                flag = 1;
                             }
-
-
-
 
 
                         } catch (Exception e) {
@@ -270,11 +253,8 @@ public class add_course_fragment extends Fragment {
 
                     }
                 });
-            }
-            else
-            {
-                if(!ta_memebers.contains(user) && flag ==0)
-                {
+            } else {
+                if (!ta_memebers.contains(user) && flag == 0) {
                     ta_memebers.add(user);
 
                 }
@@ -296,9 +276,8 @@ public class add_course_fragment extends Fragment {
 
                 boolean check = checkValues();
 
-                if(!check)
-                {
-                    Toast.makeText(getContext(),"Please fill all the fields",Toast.LENGTH_SHORT).show();
+                if (!check) {
+                    Toast.makeText(getContext(), "Please fill all the fields", Toast.LENGTH_SHORT).show();
                     return;
                 }
 
@@ -306,63 +285,59 @@ public class add_course_fragment extends Fragment {
                 final String course_id = course_id_tv.getText().toString();
                 final String professor_FN = professor_FN_tv.getText().toString();
                 final String professor_LN = professor_LN_tv.getText().toString();
-                final  String professor_UN = professor_UN_tv.getText().toString();
+                final String professor_UN = professor_UN_tv.getText().toString();
                 final String professor_email = professor_email_tv.getText().toString();
                 // final String ta_email = ta_email_tv.getText().toString();
-                if(smode.equals("edit"))
-                {
+                if (smode.equals("edit")) {
                     myRef.child(old_course_id).removeValue();
-                }
-
-                else
-                {
+                } else {
 
                     myRef.addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot snapshot) {
+                        @Override
+                        public void onDataChange(DataSnapshot snapshot) {
 
-                        if (snapshot.hasChild(course_id)) {
+                            if (snapshot.hasChild(course_id)) {
 
-                            Toast.makeText(getContext(),"Course already exists",Toast.LENGTH_SHORT).show();
-                            course_id_tv.setError("Course ID already exists");
-                        }
-                        else
-                        {
-                            exists_flag = 1;
-                            Course_Entity ce = new Course_Entity(course_name, course_id, professor_FN, professor_LN, professor_email, professor_UN, "","false");
-
-                            final ProgressDialog dialog = ProgressDialog.show(getContext(), "",
-                                    "Loading. Please wait...", true);
-                            myRef.child(course_id).setValue(ce);
-                            exists_flag = 0;
-
-
-                            if (ta_memebers.size() > 0) {
-                                myRef.child(course_id).child("ta_members").setValue(ta_memebers);
-
+                                Toast.makeText(getContext(), "Course already exists", Toast.LENGTH_SHORT).show();
+                                course_id_tv.setError("Course ID already exists");
                             } else {
-                                Toast.makeText(getContext(), "Add TA members by clicking on Add TAs button", Toast.LENGTH_SHORT).show();
-                            }
+                                exists_flag = 1;
+                                final Course_Entity ce = new Course_Entity(course_name, course_id, professor_FN, professor_LN, professor_email, professor_UN, "", "false");
 
-                            myRef.child(course_id).child("imported").setValue(false).addOnCompleteListener(new OnCompleteListener<Void>() {
-                                @Override
-                                public void onComplete(@NonNull Task<Void> task) {
+                                final ProgressDialog dialog = ProgressDialog.show(getContext(), "",
+                                        "Loading. Please wait...", true);
+                                myRef.child(course_id).setValue(ce);
+                                exists_flag = 0;
 
-                                    Log.i("Comp","Now Completed");
-                                    dialog.dismiss();
-                                    Toast.makeText(getContext(),"Course Added successfully", Toast.LENGTH_SHORT).show();
-                                    mFinish.closeAddCourseFragment();
+
+                                if (ta_memebers.size() > 0) {
+                                    myRef.child(course_id).child("ta_members").setValue(ta_memebers);
+
+                                } else {
+                                    Toast.makeText(getContext(), "Add TA members by clicking on Add TAs button", Toast.LENGTH_SHORT).show();
                                 }
-                            });
-                            Log.i("Comp2","Now Completed");
-                            //mFinish.closeAddCourseFragment();
+
+                                myRef.child(course_id).child("imported").setValue(false).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<Void> task) {
+
+                                        Log.i("Comp", "Now Completed");
+                                        dialog.dismiss();
+                                        Toast.makeText(getContext(), "Course Added successfully", Toast.LENGTH_SHORT).show();
+                                        sendNotification(ce);
+                                        mFinish.closeAddCourseFragment();
+                                    }
+                                });
+                                Log.i("Comp2", "Now Completed");
+                                //mFinish.closeAddCourseFragment();
+                            }
                         }
-                    }
+
                         @Override
                         public void onCancelled(DatabaseError e) {
 
                         }
-                });
+                    });
 
 //                    myRef.addValueEventListener(new ValueEventListener() {
 //                        @Override
@@ -409,9 +384,8 @@ public class add_course_fragment extends Fragment {
                 }
 
 
-
-           //    if(exists_flag == 1)
-            //   {
+                //    if(exists_flag == 1)
+                //   {
 //                Course_Entity ce = new Course_Entity(course_name, course_id, professor_FN, professor_LN, professor_email, professor_UN, "","false");
 //
 //                final ProgressDialog dialog = ProgressDialog.show(getContext(), "",
@@ -439,16 +413,37 @@ public class add_course_fragment extends Fragment {
 //                });
 //                Log.i("Comp2","Now Completed");
 //                //mFinish.closeAddCourseFragment();
-               //  }
+                //  }
             }
         });
 
 
-
-
-
         super.onViewCreated(view, savedInstanceState);
 
+    }
+
+    private void sendNotification(Course_Entity ce) {
+
+        PushNotification nf = new PushNotification("/topics/allDevices", "Course Registered", ce.getName());
+
+        AsyncHttpClient client = new AsyncHttpClient();
+        Gson gson = new Gson();
+        client.addHeader("Authorization", "key=AIzaSyCkUwwUofJ5rw7Y8lALsNG2hfmmzPY6B5o");
+        StringEntity entity = new StringEntity(gson.toJson(nf), ContentType.APPLICATION_JSON);
+        client.post(getActivity(), "https://fcm.googleapis.com/fcm/send", entity, "application/json", new AsyncHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+                Log.d("team6", "REST POST Code " + statusCode);
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+
+            }
+        });
+
+
+        //sendJson(nf);
     }
 
     @Override
@@ -466,4 +461,42 @@ public class add_course_fragment extends Fragment {
         super.onAttach(context);
         mFinish = (OnFinishAddCourseInterface) context;
     }
+
+/*    protected void sendJson(final PushNotification notification) {
+        Thread t = new Thread() {
+
+            public void run() {
+                Looper.prepare(); //For Preparing Message Pool for the child Thread
+                HttpClient client = new DefaultHttpClient();
+                HttpConnectionParams.setConnectionTimeout(client.getParams(), 10000); //Timeout Limit
+                HttpResponse response;
+                JSONObject json = new JSONObject();
+
+                try {
+                    HttpPost post = new HttpPost("https://fcm.googleapis.com/fcm/send");
+                    Gson gson = new Gson();
+                    String jsonString = gson.toJson(notification);
+                    StringEntity se = new StringEntity(jsonString);
+                    se.setContentType(new BasicHeader(HTTP.CONTENT_TYPE, "application/json"));
+                    se.setContentType(new BasicHeader("Authorization", "key=AIzaSyCkUwwUofJ5rw7Y8lALsNG2hfmmzPY6B5o"));
+
+                    post.setEntity(se);
+                    response = client.execute(post);
+
+                    *//*Checking response *//*
+                    if (response != null) {
+                        InputStream in = response.getEntity().getContent(); //Get the data in the entity
+                    }
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+                Looper.loop(); //Loop in the message queue
+            }
+        };
+
+        t.start();
+    }*/
+
 }
