@@ -2,7 +2,9 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingTop="40sp">
+    android:paddingTop="40sp"
+    android:background="@color/colorBlack"
+    android:alpha="0.8">
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -10,7 +12,8 @@
             android:layout_width="match_parent"
             android:layout_height="1000sp"
             android:orientation="vertical"
-            android:weightSum="1">
+            android:weightSum="1"
+            >
 
             <TextView
                 android:text="Add Course"
@@ -22,7 +25,8 @@
                 android:id="@+id/add_course_heading_tv_layout"
                 android:textSize="25sp"
                 android:textStyle="normal|bold"
-                android:textColor="@android:color/background_dark" />
+                android:textColor="@color/colorBrightWhite"
+                android:textAlignment="center" />
 
             <TextView
                 android:text="Course Name:"
@@ -34,7 +38,7 @@
                 android:id="@+id/textView2"
                 android:textSize="20sp"
                 android:textStyle="normal|bold"
-                android:textColor="@android:color/background_dark" />
+                android:textColor="@color/colorBrightWhite" />
 
             <EditText
                 android:layout_width="wrap_content"
@@ -43,6 +47,7 @@
                 android:ems="10"
                 android:id="@+id/course_name_tv_layout"
                 android:textSize="20sp"
+                android:backgroundTint="@android:color/holo_red_light"
                 android:hint="Name of the Course"
                 android:layout_alignBaseline="@+id/textView2"
                 android:layout_alignBottom="@+id/textView2"
@@ -55,7 +60,7 @@
                 android:id="@+id/student_list_tv_layout"
                 android:textSize="20sp"
                 android:textStyle="normal|bold"
-                android:textColor="@android:color/background_dark"
+                android:textColor="@color/colorBrightWhite"
                 android:layout_below="@+id/course_name_tv_layout"
                 android:layout_alignParentStart="true" />
 
@@ -66,6 +71,7 @@
                 android:ems="10"
                 android:id="@+id/course_id_tv_layout"
                 android:textSize="20sp"
+                android:backgroundTint="@android:color/holo_red_light"
                 android:layout_alignBaseline="@+id/student_list_tv_layout"
                 android:layout_alignBottom="@+id/student_list_tv_layout"
                 android:layout_alignParentEnd="true"
@@ -78,7 +84,7 @@
                 android:id="@+id/textView7"
                 android:textSize="20sp"
                 android:textStyle="normal|bold"
-                android:textColor="@android:color/background_dark"
+                android:textColor="@color/colorBrightWhite"
                 android:layout_below="@+id/course_id_tv_layout"
                 android:layout_alignParentStart="true"
                 android:layout_toStartOf="@+id/course_id_tv_layout"
@@ -91,6 +97,7 @@
                 android:ems="10"
                 android:id="@+id/professor_FN_tv_layout"
                 android:textSize="20sp"
+                android:backgroundTint="@android:color/holo_red_light"
                 android:layout_alignBaseline="@+id/textView7"
                 android:layout_alignBottom="@+id/textView7"
                 android:layout_alignParentEnd="true"
@@ -102,7 +109,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/textView13"
                 android:textSize="20sp"
-                android:textColor="@android:color/background_dark"
+                android:textColor="@color/colorBrightWhite"
                 android:textStyle="normal|bold"
                 android:layout_marginTop="19dp"
                 android:layout_below="@+id/textView7"
@@ -114,6 +121,7 @@
                 android:inputType="textPersonName"
                 android:ems="10"
                 android:id="@+id/professor_LN_tv_layout"
+                android:backgroundTint="@android:color/holo_red_light"
                 android:hint="Last Name of Professor"
                 android:layout_alignTop="@+id/textView13"
                 android:layout_alignStart="@+id/professor_FN_tv_layout" />
@@ -127,7 +135,7 @@
                 android:layout_marginTop="12dp"
                 android:id="@+id/textview90"
                 android:textSize="20sp"
-                android:textColor="@android:color/background_dark"
+                android:textColor="@color/colorBrightWhite"
                 android:layout_alignEnd="@+id/textView13"
                 android:textStyle="normal|bold" />
 
@@ -137,6 +145,7 @@
                 android:inputType="textPersonName"
                 android:ems="10"
                 android:id="@+id/professor_UN_tv_layout"
+                android:backgroundTint="@android:color/holo_red_light"
                 android:layout_above="@+id/textView17"
                 android:layout_toEndOf="@+id/textview90"
                 android:hint="Username of Professor" />
@@ -151,13 +160,14 @@
                 android:id="@+id/textView17"
                 android:textSize="20sp"
                 android:textStyle="normal|bold"
-                android:textColor="@android:color/background_dark" />
+                android:textColor="@color/colorBrightWhite" />
 
             <EditText
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:inputType="textPersonName"
                 android:ems="10"
+                android:backgroundTint="@android:color/holo_red_light"
                 android:layout_below="@+id/professor_UN_tv_layout"
                 android:layout_alignStart="@+id/ta_email_tv_layout"
                 android:layout_marginTop="11dp"
@@ -175,7 +185,7 @@
                 android:id="@+id/textView8"
                 android:textSize="20sp"
                 android:textStyle="normal|bold"
-                android:textColor="@android:color/background_dark"
+                android:textColor="@color/colorBrightWhite"
                 android:layout_marginBottom="17dp"
                 android:layout_above="@+id/add_course_btn_layout"
                 android:layout_alignParentStart="true"
@@ -188,7 +198,9 @@
                     android:id="@+id/add_ta_btn_layout"
                     android:layout_alignBottom="@+id/ta_email_tv_layout"
                     android:layout_alignParentEnd="true"
-                    android:layout_weight="1"/>
+                    android:layout_weight="1"
+                    android:background="@color/colorMaroon"
+                    android:textColor="@color/colorBrightWhite" />
 
             </LinearLayout>
 
@@ -214,7 +226,9 @@
                 android:layout_alignParentBottom="true"
                 android:layout_alignStart="@+id/ta_email_tv_layout"
                 android:layout_marginBottom="29dp"
-                android:layout_weight="0.24" />
+                android:layout_weight="0.24"
+                android:textColor="@color/colorBrightWhite"
+                android:background="@color/colorMaroon" />
 
 
         </LinearLayout>

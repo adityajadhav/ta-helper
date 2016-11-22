@@ -20,7 +20,7 @@ import java.io.FileOutputStream;
 public class Export {
 
 Activity callerActivity;
-    Context callerContext;
+
     public void exportMarks(Activity activity)
     {
         this.callerActivity = activity;
