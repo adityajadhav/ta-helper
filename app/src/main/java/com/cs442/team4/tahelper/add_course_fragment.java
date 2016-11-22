@@ -314,8 +314,7 @@ public class add_course_fragment extends Fragment {
                     myRef.child(old_course_id).removeValue();
                 }
 
-                else
-                {
+
 
                     myRef.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
@@ -406,7 +405,7 @@ public class add_course_fragment extends Fragment {
 //
 //                        }
 //                    });
-                }
+
 
 
 
