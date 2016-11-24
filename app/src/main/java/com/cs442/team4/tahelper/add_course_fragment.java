@@ -17,7 +17,11 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.cs442.team4.tahelper.contants.ApplicationConstants;
+import com.cs442.team4.tahelper.messages.Message;
 import com.cs442.team4.tahelper.model.PushNotification;
+import com.cs442.team4.tahelper.model.UserEntity;
+import com.cs442.team4.tahelper.utils.ObjectUtils;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
@@ -27,14 +31,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.GenericTypeIndicator;
 import com.google.firebase.database.ValueEventListener;
 import com.google.gson.Gson;
-import com.loopj.android.http.AsyncHttpClient;
-import com.loopj.android.http.AsyncHttpResponseHandler;
 
 import java.util.ArrayList;
-
-import cz.msebera.android.httpclient.Header;
-import cz.msebera.android.httpclient.entity.ContentType;
-import cz.msebera.android.httpclient.entity.StringEntity;
 
 import static android.content.Context.MODE_PRIVATE;
 
@@ -44,6 +42,7 @@ import static android.content.Context.MODE_PRIVATE;
 
 public class add_course_fragment extends Fragment {
 
+    private DatabaseReference mDatabase;
     OnFinishAddCourseInterface mFinish;
     String smode = null;
     String courseId = null;
@@ -147,6 +146,8 @@ public class add_course_fragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         Bundle args = getArguments();
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+
         if (args != null) {
             String mode = getArguments().getString("mode");
             smode = mode;
@@ -325,6 +326,9 @@ public class add_course_fragment extends Fragment {
                                         dialog.dismiss();
                                         Toast.makeText(getContext(), "Course Added successfully", Toast.LENGTH_SHORT).show();
                                         sendNotification(ce);
+                                        if (ObjectUtils.isNotEmpty(ta_memebers)) {
+                                            sendNotificationToCourseTA(ce, ta_memebers);
+                                        }
                                         mFinish.closeAddCourseFragment();
                                     }
                                 });
@@ -339,81 +343,10 @@ public class add_course_fragment extends Fragment {
                         }
                     });
 
-//                    myRef.addValueEventListener(new ValueEventListener() {
-//                        @Override
-//                        public void onDataChange(DataSnapshot dataSnapshot) {
-//
-////                            for (DataSnapshot items : dataSnapshot.getChildren()) {
-////
-////                                if(items.getKey().equals(course_id)) {
-////                                    exists_flag = 1;
-////
-////                                    break;
-////                                }
-////
-////                            }
-////                            if(exists_flag == 1)
-////
-////                            {
-////                                Toast.makeText(getContext(), "Course id " + course_id + " already exists", Toast.LENGTH_SHORT).show();
-////                            }
-//
-//
-////                            if(dataSnapshot.hasChild(courseId))
-////                             {
-////                                 Toast.makeText(getContext(),"Course id " + course_id + " exists",Toast.LENGTH_SHORT).show();
-////                                 exists_flag = 1;
-////                             }
-//
-//
-//
-//
-//                            try {
-//
-//                            } catch (Exception e) {
-//                                Log.i("Exception", e.toString());
-//                            }
-//                        }
-//
-//
-//                        @Override
-//                        public void onCancelled(DatabaseError e) {
-//
-//                        }
-//                    });
+
                 }
 
 
-                //    if(exists_flag == 1)
-                //   {
-//                Course_Entity ce = new Course_Entity(course_name, course_id, professor_FN, professor_LN, professor_email, professor_UN, "","false");
-//
-//                final ProgressDialog dialog = ProgressDialog.show(getContext(), "",
-//                        "Loading. Please wait...", true);
-//                myRef.child(course_id).setValue(ce);
-//                exists_flag = 0;
-//
-//
-//                if (ta_memebers.size() > 0) {
-//                    myRef.child(course_id).child("ta_members").setValue(ta_memebers);
-//
-//                } else {
-//                    Toast.makeText(getContext(), "Add TA members by clicking on Add TAs button", Toast.LENGTH_SHORT).show();
-//                }
-//
-//                myRef.child(course_id).child("imported").setValue(false).addOnCompleteListener(new OnCompleteListener<Void>() {
-//                    @Override
-//                    public void onComplete(@NonNull Task<Void> task) {
-//
-//                        Log.i("Comp","Now Completed");
-//                        dialog.dismiss();
-//                        Toast.makeText(getContext(),"Course Added successfully", Toast.LENGTH_SHORT).show();
-//                        mFinish.closeAddCourseFragment();
-//                    }
-//                });
-//                Log.i("Comp2","Now Completed");
-//                //mFinish.closeAddCourseFragment();
-                //  }
             }
         });
 
@@ -422,28 +355,75 @@ public class add_course_fragment extends Fragment {
 
     }
 
-    private void sendNotification(Course_Entity ce) {
+    private ArrayList<UserEntity> usersList;
+    private String to = "";
+    private UserEntity currentUser;
 
-        PushNotification nf = new PushNotification("/topics/allDevices", "Course Registered", ce.getName());
+    private void sendNotificationToCourseTA(final Course_Entity ce, final ArrayList<String> ta_memebers) {
+        usersList = new ArrayList<>();
 
-        AsyncHttpClient client = new AsyncHttpClient();
-        Gson gson = new Gson();
-        client.addHeader("Authorization", "key=AIzaSyCkUwwUofJ5rw7Y8lALsNG2hfmmzPY6B5o");
-        StringEntity entity = new StringEntity(gson.toJson(nf), ContentType.APPLICATION_JSON);
-        client.post(getActivity(), "https://fcm.googleapis.com/fcm/send", entity, "application/json", new AsyncHttpResponseHandler() {
+
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("CurrentUser", MODE_PRIVATE);
+        String userJson = sharedPreferences.getString("UserEntityJson", "");
+        if (ObjectUtils.isNotEmpty(userJson)) {
+            Gson gson = new Gson();
+            currentUser = gson.fromJson(userJson, UserEntity.class);
+        }
+        DatabaseReference ref = mDatabase.child("users");
+        ref.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
-                Log.d("team6", "REST POST Code " + statusCode);
+            public void onDataChange(DataSnapshot snapshot) {
+                if (ObjectUtils.isNotEmpty(snapshot.getChildren())) {
+                    for (DataSnapshot postSnapshot : snapshot.getChildren()) {
+                        UserEntity users = postSnapshot.getValue(UserEntity.class);
+                        if (!ObjectUtils.isEmpty(users)) {
+                            usersList.add(users);
+                        }
+                    }
+                }
+                if (ObjectUtils.isNotEmpty(usersList)) {
+                    for (String taEmail : ta_memebers) {
+                        for (UserEntity user : usersList) {
+                            if (user.getEmail().equals(taEmail)/* && !user.getEmail().equals(user.getEmail())*/) {
+                                to += user.getToken() + ",";
+                            }
+                        }
+
+                    }
+                    if (to.endsWith(",")) {
+                        to = to.substring(0, to.length() - 1);
+                    }
+                    if (ObjectUtils.isNotEmpty(to)) {
+                        PushNotification nf = new PushNotification(to, ApplicationConstants.APP.APP_NAME, "TA " + currentUser.getDisplayName() + " added you as collaborator for Course " + ce.getName());
+                        Message.notify(getActivity(), nf);
+                    }
+
+
+                }
+
             }
 
             @Override
-            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-
+            public void onCancelled(DatabaseError firebaseError) {
+                Log.e("The read failed: ", firebaseError.getMessage());
             }
         });
 
 
-        //sendJson(nf);
+    }
+
+    private void sendNotification(Course_Entity ce) {
+
+        UserEntity user = null;
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("CurrentUser", MODE_PRIVATE);
+        String userJson = sharedPreferences.getString("UserEntityJson", "");
+        if (ObjectUtils.isNotEmpty(userJson)) {
+            Gson gson = new Gson();
+            user = gson.fromJson(userJson, UserEntity.class);
+        }
+        PushNotification nf = new PushNotification(ApplicationConstants.SERVER.REGISTERED_DEVICE, ApplicationConstants.APP.APP_NAME, "TA " + user.getDisplayName() + " added Course " + ce.getName());
+        Message.notify(getActivity(), nf);
+
     }
 
     @Override
