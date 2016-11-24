@@ -26,8 +26,11 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.OptionalPendingResult;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.gson.Gson;
 
 public class MainActivity extends AppCompatActivity implements
         GoogleApiClient.OnConnectionFailedListener,
@@ -144,19 +147,41 @@ public class MainActivity extends AppCompatActivity implements
             mStatusTextView.setText(getString(R.string.signed_in_fmt, acct.getDisplayName()));
 
 
-            UserEntity user = writeNewUser(acct);
+            final UserEntity user = new UserEntity();
+            user.setId(acct.getId());
+            user.setName(acct.getGivenName());
+            user.setEmail(acct.getEmail());
+            user.setFamilyName(acct.getFamilyName());
+            user.setDisplayName(acct.getDisplayName());
+            if (ObjectUtils.isNotEmpty(acct.getPhotoUrl()))
+                user.setPhotoUrl(acct.getPhotoUrl().toString());
+            user.setUsername(acct.getDisplayName());
+            user.setLastLogedIn();
 
-            SharedPreferences pref = getApplicationContext().getSharedPreferences("CurrentUser", MODE_PRIVATE);
-            SharedPreferences.Editor editor = pref.edit();
-            editor.clear();
-            editor.putString("UserEntity", acct.getEmail());
-            editor.commit();
-            //updateUI(true);
-            Intent intent = new Intent(this, CourseActivity.class);
-            intent.putExtra("USER_DETAILS", user);
-            startActivity(intent);
+            SharedPreferences prefs = getSharedPreferences("TAHelper", MODE_PRIVATE);
+            String token = prefs.getString("refreshedToken", "");
+            user.setToken(token);
 
-            finish();
+
+            mDatabase.child("users").child(user.getId()).setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {
+                @Override
+                public void onComplete(@NonNull Task<Void> task) {
+
+                    SharedPreferences pref = getApplicationContext().getSharedPreferences("CurrentUser", MODE_PRIVATE);
+                    SharedPreferences.Editor editor = pref.edit();
+                    editor.clear();
+                    editor.putString("UserEntity", user.getEmail());
+                    Gson gson = new Gson();
+                    editor.putString("UserEntityJson", gson.toJson(user));
+                    editor.commit();
+                    //updateUI(true);
+                    Intent intent = new Intent(getApplicationContext(), CourseActivity.class);
+                    intent.putExtra("USER_DETAILS", user);
+                    startActivity(intent);
+                    finish();
+                }
+            });
+
         } else {
             // Signed out, show unauthenticated UI.
             updateUI(false);
@@ -221,21 +246,6 @@ public class MainActivity extends AppCompatActivity implements
                 break;
 
         }
-    }
-
-    private UserEntity writeNewUser(GoogleSignInAccount acct) {
-        UserEntity user = new UserEntity();
-        user.setId(acct.getId());
-        user.setName(acct.getGivenName());
-        user.setEmail(acct.getEmail());
-        user.setFamilyName(acct.getFamilyName());
-        user.setDisplayName(acct.getDisplayName());
-        if (ObjectUtils.isNotEmpty(acct.getPhotoUrl()))
-            user.setPhotoUrl(acct.getPhotoUrl().toString());
-        user.setUsername(acct.getDisplayName());
-        user.setLastLogedIn();
-        mDatabase.child("users").child(user.getId()).setValue(user);
-        return user;
     }
 
     private boolean isNetworkAvailable() {

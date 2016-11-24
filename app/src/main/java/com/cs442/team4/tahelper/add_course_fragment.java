@@ -462,41 +462,4 @@ public class add_course_fragment extends Fragment {
         mFinish = (OnFinishAddCourseInterface) context;
     }
 
-/*    protected void sendJson(final PushNotification notification) {
-        Thread t = new Thread() {
-
-            public void run() {
-                Looper.prepare(); //For Preparing Message Pool for the child Thread
-                HttpClient client = new DefaultHttpClient();
-                HttpConnectionParams.setConnectionTimeout(client.getParams(), 10000); //Timeout Limit
-                HttpResponse response;
-                JSONObject json = new JSONObject();
-
-                try {
-                    HttpPost post = new HttpPost("https://fcm.googleapis.com/fcm/send");
-                    Gson gson = new Gson();
-                    String jsonString = gson.toJson(notification);
-                    StringEntity se = new StringEntity(jsonString);
-                    se.setContentType(new BasicHeader(HTTP.CONTENT_TYPE, "application/json"));
-                    se.setContentType(new BasicHeader("Authorization", "key=AIzaSyCkUwwUofJ5rw7Y8lALsNG2hfmmzPY6B5o"));
-
-                    post.setEntity(se);
-                    response = client.execute(post);
-
-                    *//*Checking response *//*
-                    if (response != null) {
-                        InputStream in = response.getEntity().getContent(); //Get the data in the entity
-                    }
-
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-
-                Looper.loop(); //Loop in the message queue
-            }
-        };
-
-        t.start();
-    }*/
-
 }

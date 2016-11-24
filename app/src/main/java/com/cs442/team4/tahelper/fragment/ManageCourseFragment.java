@@ -5,7 +5,6 @@ import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
@@ -25,28 +24,24 @@ import android.widget.Toast;
 import com.cs442.team4.tahelper.CourseActivity;
 import com.cs442.team4.tahelper.Export;
 import com.cs442.team4.tahelper.R;
-import com.cs442.team4.tahelper.student.StudentListActivity;
+import com.cs442.team4.tahelper.contants.IntentConstants;
+import com.cs442.team4.tahelper.student.StudentListFragment;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import org.apache.poi.poifs.crypt.dsig.ExpiredCertificateSecurityException;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.util.Iterator;
 
 import static android.app.Activity.RESULT_OK;
-import static android.content.Context.VIBRATOR_SERVICE;
 import static com.cs442.team4.tahelper.R.id.generate_groups_tv_layout;
 import static com.cs442.team4.tahelper.R.id.sendBcastBtn;
 
@@ -62,9 +57,7 @@ public class ManageCourseFragment extends Fragment implements View.OnClickListen
         switch (v.getId()) {
             case R.id.student_list_tv_layout:
                 //manageCourseInterface.openModule("STUDENT_LIST");
-                Intent intent = new Intent(getContext(), StudentListActivity.class);
-                intent.putExtra("course_id", courseId);
-                startActivity(intent);
+                openStudentList();
                 break;
             case sendBcastBtn:
                 openBcastNotificationFragment();
@@ -76,6 +69,18 @@ public class ManageCourseFragment extends Fragment implements View.OnClickListen
                 openGenerateGroupFragment();
                 break;
         }
+    }
+
+    private void openStudentList() {
+        StudentListFragment studentListFragment = new StudentListFragment();
+        Bundle bundle = new Bundle();
+        bundle.putString(IntentConstants.COURSE_ID, courseId);
+        studentListFragment.setArguments(bundle);
+        FragmentManager fm = getFragmentManager();
+        FragmentTransaction ft = fm.beginTransaction();
+        ft.replace(R.id.course_activity_frame_layout, studentListFragment, "studentListFragment");
+        ft.addToBackStack("course_list_fragment");
+        ft.commit();
     }
 
 

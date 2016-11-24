@@ -1,5 +1,6 @@
 package com.cs442.team4.tahelper.services;
 
+import android.content.SharedPreferences;
 import android.util.Log;
 
 import com.cs442.team4.tahelper.model.TokenEntity;
@@ -25,7 +26,12 @@ public class MyFirebaseInstanceIDService extends FirebaseInstanceIdService {
         //Getting registration token
         String refreshedToken = FirebaseInstanceId.getInstance().getToken();
 
-        FirebaseMessaging.getInstance().subscribeToTopic("allDevices");        //Displaying token on logcat
+        FirebaseMessaging.getInstance().subscribeToTopic("allDevices");//Displaying token on logcat
+
+        SharedPreferences.Editor editor = getSharedPreferences("TAHelper", MODE_PRIVATE).edit();
+        editor.clear();
+        editor.putString("refreshedToken", refreshedToken);
+        editor.commit();
         Log.d(TAG, "Refreshed token: " + refreshedToken);
         sendRegistrationToServer(refreshedToken);
     }

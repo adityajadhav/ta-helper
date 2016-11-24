@@ -18,6 +18,16 @@ public class UserEntity implements Serializable {
     private String familyName;
     private String photoUrl;
 
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
+
+    private String token;
+
     public String getId() {
         return id;
     }

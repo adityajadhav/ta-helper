@@ -51,7 +51,6 @@
         <activity android:name=".student.StudentModulesActivity"></activity>
         <activity android:name=".student.StudentAssignmentListActivity"></activity>
         <activity android:name=".student.StudentAssignmentSplitsListActivity"></activity>
-        <activity android:name=".student.StudentListActivity"></activity>
         <activity
             android:name=".showcase.ActionItemsSampleActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
