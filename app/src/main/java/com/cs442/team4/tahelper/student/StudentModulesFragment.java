@@ -22,6 +22,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 /**
@@ -33,12 +34,28 @@ public class StudentModulesFragment extends ListFragment {
     String studentId;
     String courseName;
 
+    double currentTotalPointsGained = 0.0;
+    double currentTotalPointsPossible = 0.0;
+    TextView totalPercentageTextView;
+    TextView totalGradeTextView;
+
+    double finalTotalPointsGained = 0.0;
+    double finalTotalPointsPossible = 0.0;
+    TextView totalScoreTextView;
+
+    double finalPossibleWeightage = 0.0;
+    double finalGainedWeightage = 0.0;
+
+
+    double totalPoints = 0.0;
+
     private DatabaseReference mDatabase;
     View myFragmentView;
     TextView modulesTextView;
     StudentModulesFragment.OnModuleClickListener moduleClickListener;
 
-    public static ArrayList<String> modulesArraylist;
+    public static ArrayList<TotalGrade> modulesArraylist;
+    //public static ArrayList<String> modulesArraylist;
     public static StudentModulesListAdapter modulesListAdapter;
 
     public interface OnModuleClickListener{
@@ -58,17 +75,26 @@ public class StudentModulesFragment extends ListFragment {
 
         myFragmentView = inflater.inflate(R.layout.student_modules_fragment, container, false);
         modulesTextView = (TextView) myFragmentView.findViewById(R.id.textView11);
+        totalScoreTextView = (TextView) myFragmentView.findViewById(R.id.totalScoreTextView);
+        totalPercentageTextView = (TextView) myFragmentView.findViewById(R.id.totalPercentageTextView);
+        totalGradeTextView = (TextView) myFragmentView.findViewById(R.id.totalGradeTextView);
 
-        modulesTextView.setText(studentId+"'s Modules");
+        modulesTextView.setText(courseName+" | "+studentId);
 
         int resID = R.layout.student_list_textview;
 
-        modulesArraylist = new ArrayList<String>();
+        modulesArraylist = new ArrayList<TotalGrade>();
 
         modulesListAdapter = new StudentModulesListAdapter(getContext(), resID, modulesArraylist);
         setListAdapter(modulesListAdapter);
 
         loadFromDatabase();
+
+        //getTotalGainedScoresForEachModule();
+
+        //getTotalPossibleScoresForEachModule();
+
+        //getTotalMarksFromAllModules();
 
         return myFragmentView;
     }
@@ -86,13 +112,146 @@ public class StudentModulesFragment extends ListFragment {
                     if(!modulesArraylist.contains(postSnapshot.getKey()))
                     {
                         String key = (String)postSnapshot.getKey();
-                        Long count = postSnapshot.getChildrenCount();
+                        final Long count = postSnapshot.getChildrenCount();
 
                         Log.d("Key : "," Name: "+key);
                         Log.d("Count : "," Name: "+count);
 
-                        if(count!=0)
-                            modulesArraylist.add((String)postSnapshot.getKey());
+                        final TotalGrade module = new TotalGrade();
+                        module.setModuleName((String)postSnapshot.getKey());
+                        final String moduleName = module.getModuleName();
+
+                        //final double currentTotalPointsGained = 0.0;
+                        //final double currentTotalPointsPossible = 0.0;
+
+                        //***********************************************************************************
+
+                        mDatabase.child("students").child(courseName).child(studentId).child(moduleName).push();
+                        mDatabase.child("students").child(courseName).child(studentId).child(moduleName).addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                                double total = 0;
+                                for (DataSnapshot postSnapshot: dataSnapshot.getChildren())
+                                {
+                                    if(!postSnapshot.getKey().equals("weightage"))
+                                    {
+                                        String score = (String) postSnapshot.child("Total").getValue();
+                                        Double score1 = Double.parseDouble(score);
+                                        total = total + score1;
+                                        currentTotalPointsGained = currentTotalPointsGained+total;
+                                    }
+                                }
+                                //currentTotalPointsGained = total;
+                                finalTotalPointsGained = finalTotalPointsGained+total;
+                                Log.d("Total Gained : "," finalTotalPointsGained: "+finalTotalPointsGained);
+                                module.setTotalGainedMarks(total);
+
+                                //For fetching maximum points
+                                //mDatabase.child("modules").child(courseName).child(moduleName).push();
+                                mDatabase.child("modules").child(courseName).child(moduleName).push();
+                                mDatabase.child("modules").child(courseName).child(moduleName).addValueEventListener(new ValueEventListener() {
+
+                                    @Override
+                                    public void onDataChange(DataSnapshot dataSnapshot) {
+
+                                        int i = 0;
+                                        double total1 = 0;
+                                        double currentPossibleWeightage = 0.0;
+
+                                        for (DataSnapshot postSnapshot: dataSnapshot.getChildren())
+                                        {
+                                            if(!postSnapshot.getKey().equals("weightage"))
+                                            {
+                                                String score = (String) postSnapshot.child("Total").getValue();
+                                                Double score1 = Double.parseDouble(score);
+                                                total1 = total1 + score1;
+                                                currentTotalPointsPossible=total1;
+                                                //i++;
+                                            }
+                                            else if(postSnapshot.getKey().equals("weightage"))
+                                            {
+                                                String weightage1 = (String) postSnapshot.getValue();
+                                                currentPossibleWeightage = Double.parseDouble(weightage1);
+                                                Log.d(""," currentPossibleWeightage Inside elseif: "+currentPossibleWeightage);
+
+                                            }
+                                        }
+
+                                        finalTotalPointsPossible = finalTotalPointsPossible+total1;
+                                        totalScoreTextView.setText(finalTotalPointsGained+"/"+finalTotalPointsPossible+"  ");
+                                        Log.d("Total Possible : "," finalTotalPointsPossible: "+finalTotalPointsPossible);
+                                        module.setTotalPossibleMarks(total1);
+
+                                        //****************************************************************
+
+                                        /*
+                                        finalPossibleWeightage = finalPossibleWeightage + currentPossibleWeightage;
+                                        Log.d(""," finalPossibleWeightage: "+finalPossibleWeightage);
+
+                                        double currentGainedWeightage = 0.0;
+
+                                        currentGainedWeightage = (currentPossibleWeightage*currentTotalPointsGained)/currentTotalPointsPossible;
+                                        Log.d(""," currentTotalPointsGained: "+currentTotalPointsGained);
+                                        Log.d(""," currentTotalPointsPossible: "+currentTotalPointsPossible);
+                                        Log.d(""," currentPossibleWeightage: "+currentPossibleWeightage);
+                                        Log.d(""," currentGainedWeightage: "+currentGainedWeightage);
+
+                                        finalGainedWeightage = finalGainedWeightage + currentGainedWeightage;
+                                        Log.d(""," finalGainedWeightage: "+finalGainedWeightage);
+                                        */
+
+                                        DecimalFormat df = new DecimalFormat("####0.00");
+                                        double percentage = 0.0;
+                                        percentage = (100*finalTotalPointsGained)/finalTotalPointsPossible;
+                                        Log.d(""," percentage: "+percentage);
+                                        
+                                        totalPercentageTextView.setText(""+df.format(percentage)+"%  ");
+
+                                        if(percentage>=90.0)
+                                        {
+                                            totalGradeTextView.setText("A  ");
+                                        }
+                                        else if(percentage>=80.0)
+                                        {
+                                            totalGradeTextView.setText("B  ");
+                                        }
+                                        else if(percentage>=70)
+                                        {
+                                            totalGradeTextView.setText("C  ");
+                                        }
+                                        else
+                                        {
+                                            totalGradeTextView.setText("F  ");
+                                        }
+
+                                        //*****************************************************************************
+
+
+                                        if(count!=0)
+                                            modulesArraylist.add(module);
+
+                                        modulesListAdapter.notifyDataSetChanged();
+
+                                    }
+
+                                    @Override
+                                    public void onCancelled(DatabaseError databaseError) {
+                                        Log.d("ModuleListFragment : "," Read cancelled due to "+databaseError.getMessage());
+                                    }
+                                });
+
+
+                            }
+
+                            @Override
+                            public void onCancelled(DatabaseError databaseError) {
+                                Log.d("ModuleListFragment : "," Read cancelled due to "+databaseError.getMessage());
+                            }
+                        });
+
+                        //***************************************************************************************
+
                     }
                 }
                 modulesListAdapter.notifyDataSetChanged();
@@ -108,11 +267,110 @@ public class StudentModulesFragment extends ListFragment {
     @Override
     public void onListItemClick(ListView l, View v, int position, long id) {
 
-        String module =  (String)getListView().getItemAtPosition(position);
+        TotalGrade moduleName = (TotalGrade)getListView().getItemAtPosition(position);
+
+        String module =  moduleName.getModuleName();
 
         //Toast.makeText(getActivity(), "Module Name: "+module, Toast.LENGTH_SHORT).show();
 
         moduleClickListener.showSelectedModuleContent(courseName, studentId, module);
+
+    }
+
+    private void getTotalGainedScoresForEachModule()
+    {
+        Log.d("moduleName : ", "Inside method getTotalGainedScoresForEachModule");
+        String moduleName = "InClass";
+        Log.d("moduleName : ", moduleName);
+        int i;
+        for(i=0; i<modulesArraylist.size();i++)
+        {
+            moduleName = modulesArraylist.get(i).getModuleName();
+            final TotalGrade moduleTotalGrade = modulesArraylist.get(i);
+            Log.d("moduleName : ", moduleName);
+
+            mDatabase.child("students").child(courseName).child(studentId).child(moduleName).push();
+            mDatabase.child("students").child(courseName).child(studentId).child(moduleName).addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+
+                    //modulesArraylist.removeAll(modulesArraylist);
+                    for (DataSnapshot postSnapshot: dataSnapshot.getChildren())
+                    {
+                        if(!modulesArraylist.contains(postSnapshot.getKey()) && !postSnapshot.getKey().equals("weightage"))
+                        {
+                            String score = (String) postSnapshot.child("Total").getValue();
+                            Double score1 = Double.parseDouble(score);
+                            totalPoints=0;
+                            totalPoints = moduleTotalGrade.getTotalGainedMarks() + score1;
+
+                            moduleTotalGrade.setTotalGainedMarks(totalPoints);
+                            //modulesArraylist.add(assignment);
+                        }
+                    }
+                    modulesListAdapter.notifyDataSetChanged();
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+                    Log.d("ModuleListFragment : "," Read cancelled due to "+databaseError.getMessage());
+                }
+            });
+
+            //moduleTotalGrade.setTotalGainedMarks(totalPoints);
+
+            i++;
+
+        }
+
+
+
+    }
+
+    private void getTotalPossibleScoresForEachModule()
+    {
+        //final String moduleName = "InClass";
+        final ArrayList<String> moduleNames = new ArrayList<String>();
+        moduleNames.add("InClass");
+        moduleNames.add("Thesis");
+
+        final ArrayList<Double> moduleTotalScores = new ArrayList<Double>();
+
+
+        for(String moduleName: moduleNames)
+        {
+            mDatabase.child("students").child(courseName).child(studentId).child(moduleName).push();
+            mDatabase.child("students").child(courseName).child(studentId).child(moduleName).addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+
+                    //modulesArraylist.removeAll(modulesArraylist);
+                    for (DataSnapshot postSnapshot: dataSnapshot.getChildren())
+                    {
+                        if(!modulesArraylist.contains(postSnapshot.getKey()) && !postSnapshot.getKey().equals("weightage"))
+                        {
+                            String score = (String) postSnapshot.child("Total").getValue();
+                            Double score1 = Double.parseDouble(score);
+                            totalPoints = totalPoints + score1;
+                            Log.d("totalPoints : ", ": "+totalPoints);
+                            //modulesArraylist.add(assignment);
+                        }
+
+                        moduleTotalScores.add(totalPoints);
+                        Log.d("moduleTotalScores : ", ": "+moduleTotalScores);
+                    }
+
+
+                    //modulesListAdapter.notifyDataSetChanged();
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+                    Log.d("ModuleListFragment : "," Read cancelled due to "+databaseError.getMessage());
+                }
+            });
+        }
+
 
     }
 
@@ -128,5 +386,65 @@ public class StudentModulesFragment extends ListFragment {
                     " must implement OnStudentClickListener");
         }
     }
+
+    private void getTotalMarksFromAllModules()
+    {
+        final ArrayList<String> moduleNames = new ArrayList<String>();
+        moduleNames.add("InClass");
+        moduleNames.add("Thesis");
+
+        final ArrayList<Double> moduleTotalScores = new ArrayList<Double>();
+
+
+        for(String moduleName: moduleNames)
+        {
+            mDatabase.child("students").child(courseName).child(studentId).child(moduleName).push();
+            mDatabase.child("students").child(courseName).child(studentId).child(moduleName).addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+
+                    double total = 0;
+                    for (DataSnapshot postSnapshot: dataSnapshot.getChildren())
+                    {
+                        if(!postSnapshot.getKey().equals("weightage"))
+                        {
+                            String score = (String) postSnapshot.child("Total").getValue();
+                            Double score1 = Double.parseDouble(score);
+                            //moduleTotalScores.add(score1);
+
+                            total = total + score1;
+                            //Log.d("totalPoints : ", ": "+totalPoints);
+                            //modulesArraylist.add(assignment);
+                        }
+
+                        //moduleTotalScores.add(totalPoints);
+                        //Log.d("moduleTotalScores : ", ": "+moduleTotalScores);
+                    }
+                    moduleTotalScores.add(total);
+                    Log.d("moduleTotalScores : ", ": "+total);
+
+                    Log.d("moduleTotalScores : ", "Arraylist: "+moduleTotalScores);
+
+
+                    Log.d("Outside for : ", ": ");
+                    int i =0;
+                    for(TotalGrade totalGrade: modulesArraylist)
+                    {
+                        Log.d("Inside for : ", ": ");
+                        totalGrade.setTotalGainedMarks(moduleTotalScores.get(i));
+                        i++;
+                    }
+
+                    modulesListAdapter.notifyDataSetChanged();
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+                    Log.d("ModuleListFragment : "," Read cancelled due to "+databaseError.getMessage());
+                }
+            });
+        }
+    }
+
 
 }

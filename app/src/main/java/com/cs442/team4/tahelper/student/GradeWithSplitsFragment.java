@@ -253,10 +253,13 @@ public class GradeWithSplitsFragment extends Fragment {
 
                 for (DataSnapshot postSnapshot: dataSnapshot.getChildren())
                 {
-                    String score = (String) postSnapshot.child("Total").getValue();
+                    if(postSnapshot.getKey().equals(moduleItem))
+                    {
+                        String score = (String) postSnapshot.child("Total").getValue();
 
-                    moduleItemGainedScore = score;
-                    totalEditText.setText(moduleItemGainedScore);
+                        moduleItemGainedScore = score;
+                        totalEditText.setText(moduleItemGainedScore);
+                    }
 
                     //Log.d("moduleItemGainedScore:"," "+moduleItemGainedScore);
 
@@ -265,13 +268,19 @@ public class GradeWithSplitsFragment extends Fragment {
                     mDatabase.child("modules").child(courseName).child(moduleName).addValueEventListener(new ValueEventListener() {
 
                         @Override
-                        public void onDataChange(DataSnapshot dataSnapshot) {
-
+                        public void onDataChange(DataSnapshot dataSnapshot)
+                        {
                             for (DataSnapshot postSnapshot: dataSnapshot.getChildren())
                             {
-                                String score2 = (String) postSnapshot.child("Total").getValue();
-                                moduleItemMaxScore = score2;
-                                maxPointsTextView.setText("/ "+moduleItemMaxScore);
+
+                                if(postSnapshot.getKey().equals(moduleItem))
+                                {
+                                    String score2 = (String) postSnapshot.child("Total").getValue();
+                                    moduleItemMaxScore = score2;
+                                    maxPointsTextView.setText("/ "+moduleItemMaxScore);
+                                }
+
+
                                 //Log.d("moduleItemMaxScore:"," "+moduleItemMaxScore);
                             }
 
