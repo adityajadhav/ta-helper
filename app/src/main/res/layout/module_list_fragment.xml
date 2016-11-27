@@ -6,6 +6,7 @@
     android:weightSum="10"
     android:background="@color/colorBlack"
     android:alpha="0.8"
+    android:layout_marginTop="?attr/actionBarSize"
     >
 
 <!--

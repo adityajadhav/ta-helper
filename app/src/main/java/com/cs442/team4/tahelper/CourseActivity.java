@@ -42,7 +42,7 @@ public class CourseActivity extends AppCompatActivity implements add_course_frag
     final public static String COURCE_ID_KEY = "COURSE_ID";
     static String COURSE_ID = null;
     String courseId = null;
-    private GoogleApiClient mGoogleApiClient;
+    GoogleApiClient mGoogleApiClient;
     final Add_ta_fragment newAddTAFragment = new Add_ta_fragment();
     UserEntity user;
 

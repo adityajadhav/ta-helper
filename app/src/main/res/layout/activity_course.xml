@@ -4,7 +4,6 @@
     android:id="@+id/activity_course"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-
     tools:context="com.cs442.team4.tahelper.CourseActivity"
     android:windowSoftInputMode="adjustPan|adjustResize"
     >
