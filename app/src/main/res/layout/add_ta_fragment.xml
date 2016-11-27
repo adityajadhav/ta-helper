@@ -4,7 +4,16 @@
     android:layout_height="match_parent"
     android:focusable="false"
     android:descendantFocusability="blocksDescendants"
-    android:paddingTop="40sp">
+    android:paddingTop="40sp"
+    android:background="@color/colorBlack"
+    android:alpha="0.8">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:paddingTop="40sp"
+        android:weightSum="1">
 
     <TextView
         android:text="Select TAs from drop down"
@@ -14,7 +23,8 @@
         android:focusable="false"
         android:descendantFocusability="blocksDescendants"
         android:textSize="25sp"
-        android:textColor="@color/colorBlack" />
+        android:textColor="@color/colorBrightWhite"
+        android:layout_marginBottom="10sp"/>
 
 
     <LinearLayout
@@ -25,26 +35,36 @@
 
     <Spinner
         android:layout_width="260dp"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:id="@+id/ta_drop_down_layout"
         android:focusable="false"
         android:descendantFocusability="blocksDescendants"
-        />
+        android:background="@color/colorBrightWhite" />
     <Button
         android:text="Add"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/add_to_list_btn_layout" />
+        android:id="@+id/add_to_list_btn_layout"
+        android:background="@color/colorMaroon"
+        android:textColor="@color/colorBrightWhite"/>
     </LinearLayout>
 
     <ListView
+        android:layout_marginTop="20sp"
         android:layout_width="match_parent"
-        android:layout_height="388dp"
-        android:id="@+id/ta_list_view_layout"/>
+        android:layout_height="199dp"
+        android:id="@+id/ta_list_view_layout"
+        android:divider="#ffffff"
+        android:dividerHeight="1dp"
+        android:layout_weight="0.78" />
 
-    <Button
-        android:text="Add TAs"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/add_ta_final_btn_layout" />
+        <Button
+            android:text="Add TAs"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorMaroon"
+            android:textColor="@color/colorBrightWhite"
+            android:id="@+id/add_ta_final_btn_layout" />
+
+    </LinearLayout>
 </LinearLayout>
