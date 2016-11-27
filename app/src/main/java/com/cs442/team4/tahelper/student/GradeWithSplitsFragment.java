@@ -1,6 +1,7 @@
 package com.cs442.team4.tahelper.student;
 
 import android.app.Fragment;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextWatcher;
@@ -8,6 +9,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -104,7 +106,7 @@ public class GradeWithSplitsFragment extends Fragment {
         maxPointsTextView = (TextView) myFragmentView.findViewById(R.id.maxPointsTextView);
 
         totalEditText = (EditText) myFragmentView.findViewById(R.id.gradeWithSplitsTotalEditText);
-        totalEditText.setFocusable(false);
+        totalEditText.setFocusable(true);
 
         calculateTotalButton = (Button) myFragmentView.findViewById(R.id.gradeWithSplitsCalculateTotalButton);
         submitButton = (Button) myFragmentView.findViewById(R.id.gradeWithSplitsSubmitButton);

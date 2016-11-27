@@ -69,6 +69,9 @@ public class StudentModulesFragment extends ListFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
+        finalTotalPointsPossible = 0.0;
+        finalTotalPointsGained = 0.0;
+
         mDatabase = FirebaseDatabase.getInstance().getReference();
 
         //Later, will have to check if bundle is there or not and then only assign the value...
@@ -294,6 +297,11 @@ public class StudentModulesFragment extends ListFragment {
         bundle.putString(IntentConstants.MODULE_NAME, module);
         studentAssignmentListFragment.setArguments(bundle);
         ft.replace(R.id.course_activity_frame_layout,studentAssignmentListFragment,"student_assignment_list_fragment");
+
+        //Trial code for maintaining instance variable state
+        //ft.add(R.id.course_activity_frame_layout, studentAssignmentListFragment);
+        //ft.hide(StudentModulesFragment.this);
+
         ft.addToBackStack("student_modules_fragment");
         ft.commit();
 

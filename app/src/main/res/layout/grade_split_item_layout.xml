@@ -14,7 +14,8 @@
 
     <EditText
         android:layout_width="85dp"
-        android:layout_height="match_parent"
+        android:layout_height="37dp"
+        android:background="@color/colorMetallicSilver"
         android:inputType="numberDecimal"
         android:ems="10"
         android:id="@+id/gradeSplitEditText"

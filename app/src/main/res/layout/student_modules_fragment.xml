@@ -64,7 +64,7 @@
         >
 
         <TextView
-            android:text="  Percentage:"
+            android:text="  Current Percentage:"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:id="@+id/percentageTeextView"
@@ -94,7 +94,7 @@
         >
 
         <TextView
-            android:text="  Grade:"
+            android:text="  Current Grade:"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:id="@+id/gradeWithSplitsCourseName"
