@@ -243,6 +243,7 @@ public class ExportFragment extends Fragment {
                            String path = exportValues.exportInClassAssignmentMarks(getActivity(),studentNames,studentMarks,exportType);
                             if(path != null)
                             {
+                                dialog.dismiss();
                                 Toast.makeText(getContext(),"File " + exportType + " saved to " + path,Toast.LENGTH_LONG).show();
                             }
 
@@ -281,7 +282,7 @@ public class ExportFragment extends Fragment {
         @Override
         protected void onPostExecute(String result) {
             // execution of result of Long time consuming operation
-            dialog.dismiss();
+
         }
 
         /*
