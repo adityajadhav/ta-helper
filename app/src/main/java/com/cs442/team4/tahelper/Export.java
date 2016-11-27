@@ -1,6 +1,7 @@
 package com.cs442.team4.tahelper;
 
 import android.app.Activity;
+import android.util.Log;
 import android.widget.Toast;
 
 import org.apache.poi.ss.usermodel.Cell;
@@ -12,6 +13,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.util.ArrayList;
 
 /**
  * Created by ullas on 11/21/2016.
@@ -113,6 +115,50 @@ Activity callerActivity;
             e.printStackTrace();
 
         }
+
+    }
+
+    public String exportInClassAssignmentMarks(Activity activity, ArrayList<String> studentNames, ArrayList<String> studentMarks, String fileName)
+    {
+        this.callerActivity = activity;
+        String path = null;
+
+        try {
+            //FileInputStream file = new FileInputStream(new File("C:\\Users\\Mohammed\\Desktop\\Students.xlsx"));
+
+            // Creating Input Stream
+//            File file = new File(Environment.getExternalStorageDirectory()
+//                    + "/Download/Students.xlsx");
+            path = callerActivity.getApplicationInfo().dataDir;
+
+            Workbook wb = new XSSFWorkbook();
+            String filename = fileName + ".xls";
+            //FileOutputStream fileOut = new FileOutputStream(new File(Environment.getExternalStorageDirectory().toString() + "/workbook.xlsx"));
+            FileOutputStream fileOut = new FileOutputStream(new File(path + "/" + filename));
+            Sheet o_sheet = wb.createSheet("Sheet 1");
+
+            for(int i=0; i< studentNames.size();i++) {
+
+                Row row1 = o_sheet.createRow((short) i);
+                // Create a cell and put a value in it
+                Cell cell1 = row1.createCell(0);
+                cell1.setCellValue(studentNames.get(i));
+                Cell cell2 = row1.createCell(1);
+                cell2.setCellValue(studentMarks.get(i));
+            }
+
+
+
+
+            wb.write(fileOut);
+            fileOut.close();
+//            Toast.makeText(callerActivity,"File name " + filename + " saved in "+ path,Toast.LENGTH_LONG).show();
+            Log.i("log","File name " + filename + " saved in "+ path);
+        } catch (Exception e) {
+            e.printStackTrace();
+
+        }
+        return path;
 
     }
 

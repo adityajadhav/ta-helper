@@ -51,6 +51,16 @@ public class ManageCourseFragment extends Fragment implements View.OnClickListen
     File importfile;
     String filepath;
 
+    public interface ManageCourseFragmentInterface {
+
+        public void callExportFragment(String courseId);
+    }
+    ManageCourseFragmentInterface mcfi;
+
+    public void setManageCourseFragmentInterface(ManageCourseFragmentInterface obj)
+    {
+        this.mcfi = obj;
+    }
 
     @Override
     public void onClick(View v) {
@@ -365,7 +375,14 @@ public class ManageCourseFragment extends Fragment implements View.OnClickListen
             }
         });
 
+        TextView export_records_tv = (TextView) view.findViewById(R.id.export_records_tv_layout);
 
+        export_records_tv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mcfi.callExportFragment(courseId);
+            }
+        });
         Button export = (Button) view.findViewById(R.id.export_btn_layout);
         export.setOnClickListener(new View.OnClickListener() {
             @Override

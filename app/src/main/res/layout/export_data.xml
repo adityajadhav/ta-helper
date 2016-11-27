@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorBlack"
+    android:alpha="0.8"
+    >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="470dp"
+        android:orientation="vertical"
+        android:weightSum="1"
+        android:paddingTop="100sp">
+
+        <TextView
+            android:text="Select what to expot from the drop down"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView3"
+            android:layout_weight="0.12"
+            android:textColor="@color/colorBrightWhite"
+            android:textAlignment="center"
+            android:textSize="18sp" />
+
+        <Spinner
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/export_list_spinner_layout"
+            android:layout_weight="0.12"
+
+            android:background="@android:drawable/screen_background_light" />
+
+        <Button
+            android:text="Export"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/export_btn_layout"
+            android:background="@color/colorMaroon"
+            android:textColor="@color/colorBrightWhite"
+            />
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <Button
+            android:text="Done"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/done_btn_layout"
+            android:background="@color/colorMaroon"
+            android:textColor="@color/colorWhite"/>
+
+    </LinearLayout>
+
+</LinearLayout>
