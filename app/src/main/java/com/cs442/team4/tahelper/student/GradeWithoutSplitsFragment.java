@@ -39,9 +39,9 @@ public class GradeWithoutSplitsFragment extends Fragment {
     View myFragmentView;
     private DatabaseReference mDatabase;
 
-    TextView courseTextView;
+    //TextView courseTextView;
     TextView studentIdTextView;
-    TextView moduleItemTextView;
+    //TextView moduleItemTextView;
     TextView maxPointsTextView;
     EditText totalEditText;
 
@@ -64,9 +64,9 @@ public class GradeWithoutSplitsFragment extends Fragment {
 
         myFragmentView = inflater.inflate(R.layout.grade_without_splits_fragment, container, false);
 
-        courseTextView = (TextView) myFragmentView.findViewById(R.id.gradeWithoutSplitsCourseName);
+        //courseTextView = (TextView) myFragmentView.findViewById(R.id.gradeWithoutSplitsCourseName);
         studentIdTextView = (TextView) myFragmentView.findViewById(R.id.gradeWithoutSplitsStudentId);
-        moduleItemTextView = (TextView) myFragmentView.findViewById(R.id.gradeWithoutSplitsModuleItem);
+        //moduleItemTextView = (TextView) myFragmentView.findViewById(R.id.gradeWithoutSplitsModuleItem);
         maxPointsTextView = (TextView) myFragmentView.findViewById(R.id.maxPointsTextView2);
 
         totalEditText = (EditText) myFragmentView.findViewById(R.id.gradeWithoutSplitsTotalEditText);
@@ -93,9 +93,9 @@ public class GradeWithoutSplitsFragment extends Fragment {
             }
         });
 
-        courseTextView.setText(courseName);
-        studentIdTextView.setText(studentId);
-        moduleItemTextView.setText(moduleItem);
+        //courseTextView.setText(courseName);
+        studentIdTextView.setText(moduleItem+" | "+studentId);
+        //moduleItemTextView.setText(moduleItem);
 
         int resID = R.layout.grade_split_item_layout;
 

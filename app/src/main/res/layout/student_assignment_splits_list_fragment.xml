@@ -2,6 +2,11 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:paddingTop="60sp"
+    android:paddingLeft="6sp"
+    android:paddingRight="6sp"
+    android:background="@color/colorBlack"
+    android:alpha="0.8"
     android:weightSum="1">
 
     <TextView
@@ -11,12 +16,21 @@
         android:id="@+id/assignmentNameTextView"
         android:layout_gravity="center_horizontal"
         android:gravity="center"
-        android:textSize="25dp"
-        android:background="#cdd6f3"/>
+        android:textSize="22dp"
+
+        android:background="@color/colorMaroon"
+        android:textColor="@color/colorWhite"
+        android:paddingBottom="8sp"/>
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="10dp"></Space>
 
     <ListView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@android:id/list" />
+        android:id="@android:id/list"
+        android:divider="#ffffff"
+        android:dividerHeight="1dp"/>
 
 </LinearLayout>

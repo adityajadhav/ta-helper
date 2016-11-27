@@ -4,6 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:paddingTop="60sp"
+    android:paddingLeft="6sp"
+    android:paddingRight="6sp"
+    android:background="@color/colorBlack"
+    android:alpha="0.8"
     android:weightSum="1">
 
     <TextView
@@ -11,20 +16,34 @@
         android:layout_height="43dp"
         android:text="Student List: CS442"
         android:id="@+id/gradeStudentListTextView"
-        android:layout_gravity="center_horizontal"
+
         android:gravity="center"
-        android:textSize="16sp"
-        android:background="#cdd6f3" />
+        android:paddingBottom="8sp"
+        android:background="@color/colorMaroon"
+        android:textColor="@color/colorWhite"
+        android:textAlignment="center"
+        android:textSize="18sp" />
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="10dp"></Space>
 
     <SearchView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/colorSilver"
         android:id="@+id/gradeStudentListSearchBar" />
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="10dp"></Space>
 
     <ListView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/gradeStudentListView"
+        android:divider="#ffffff"
+        android:dividerHeight="1dp"
         />
 
 </LinearLayout>

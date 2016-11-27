@@ -1,6 +1,8 @@
 package com.cs442.team4.tahelper.student;
 
 import android.app.Fragment;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -74,14 +76,14 @@ public class StudentListFragment extends Fragment implements SearchView.OnQueryT
         studentListTextView = (TextView) myFragmentView.findViewById(R.id.studentListTextView);
         searchView = (SearchView) myFragmentView.findViewById(R.id.searchBar);
         studentListView = (ListView) myFragmentView.findViewById(R.id.studentListView);
-        searchView.setQueryHint("Enter Student Name");
+        searchView.setQueryHint("Search With Student Id");
         searchView.setIconifiedByDefault(false);
         searchView.setOnQueryTextListener(this);
         searchView.setSubmitButtonEnabled(true);
 
         studentListView.setTextFilterEnabled(true);
 
-        studentListTextView.setText("Student List: " + courseName);
+        studentListTextView.setText("Student List | " + courseName);
 
         int resID = R.layout.student_list_textview;
 
@@ -97,12 +99,26 @@ public class StudentListFragment extends Fragment implements SearchView.OnQueryT
 
                 Student_Entity student = (Student_Entity) studentListView.getItemAtPosition(position);
 
-
+                /*
                 Intent intent = new Intent(getActivity(), StudentModulesActivity.class);
                 intent.putExtra(IntentConstants.STUDENT_ID, student.getStudentUserName());
                 intent.putExtra(IntentConstants.COURSE_NAME, courseName);
                 startActivity(intent);
+                */
 
+                //jkanskjkjkajbs
+
+                FragmentManager fm = getFragmentManager();
+                FragmentTransaction ft = fm.beginTransaction();
+                StudentModulesFragment studentModulesFragment = new StudentModulesFragment();
+                Bundle bundle = new Bundle();
+                bundle.putString(IntentConstants.STUDENT_ID, student.getStudentUserName());
+                bundle.putString(IntentConstants.COURSE_NAME, courseName);
+                studentModulesFragment.setArguments(bundle);
+
+                ft.replace(R.id.course_activity_frame_layout,studentModulesFragment,"student_modules_fragment");
+                ft.addToBackStack("student_list_fragment");
+                ft.commit();
 
             }
         });

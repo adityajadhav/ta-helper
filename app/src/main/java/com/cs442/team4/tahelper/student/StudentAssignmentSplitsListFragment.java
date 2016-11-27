@@ -52,7 +52,7 @@ public class StudentAssignmentSplitsListFragment extends ListFragment {
         myFragmentView = inflater.inflate(R.layout.student_assignment_splits_list_fragment, container, false);
         assignmentName = (TextView) myFragmentView.findViewById(R.id.assignmentNameTextView);
 
-        assignmentName.setText(moduleItem + " Splits");
+        assignmentName.setText(moduleItem + " Splits"+" | "+studentId);
 
         int resID = R.layout.assignment_score_item_layout;
 

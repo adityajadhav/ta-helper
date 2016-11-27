@@ -2,6 +2,11 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:paddingTop="60sp"
+    android:paddingLeft="6sp"
+    android:paddingRight="6sp"
+    android:background="@color/colorBlack"
+    android:alpha="0.8"
     android:weightSum="1">
 
     <TextView
@@ -12,13 +17,21 @@
         android:layout_gravity="center_horizontal"
         android:gravity="center"
         android:textSize="25dp"
-        android:background="#cdd6f3"/>
+
+        android:background="@color/colorMaroon"
+        android:textColor="@color/colorWhite"
+        android:paddingBottom="8sp"
+        />
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="10dp"></Space>
 
     <LinearLayout
         android:orientation="horizontal" android:layout_width="match_parent"
-        android:layout_height="35dp"
+        android:layout_height="25dp"
         android:weightSum="1"
-        android:layout_weight="0.54">
+        >
 
         <TextView
             android:text="  Total Score:"
@@ -28,7 +41,8 @@
             android:gravity="center_vertical"
             android:textSize="20sp"
             android:textStyle="bold"
-            android:layout_weight="0.60" />
+            android:textColor="@color/colorSilver"
+             />
 
         <TextView
             android:layout_width="wrap_content"
@@ -37,15 +51,17 @@
             android:gravity="center_vertical|right"
             android:textSize="20sp"
             android:textStyle="bold"
-            android:layout_weight="0.34" />
+            android:textColor="@color/colorSilver"
+            android:layout_weight="0.96"
+            android:text="200/500  " />
 
     </LinearLayout>
 
     <LinearLayout
         android:orientation="horizontal" android:layout_width="match_parent"
-        android:layout_height="35dp"
+        android:layout_height="25dp"
         android:weightSum="1"
-        android:layout_weight="0.54">
+        >
 
         <TextView
             android:text="  Percentage:"
@@ -55,25 +71,27 @@
             android:gravity="center_vertical"
             android:textSize="20sp"
             android:textStyle="bold"
-            android:layout_weight="0.53" />
+            android:textColor="@color/colorSilver"
+             />
 
         <TextView
             android:text="89.75%  "
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:id="@+id/totalPercentageTextView"
             android:gravity="center_vertical|right"
             android:textSize="20sp"
             android:textStyle="bold"
-            android:layout_weight="0.42" />
+            android:textColor="@color/colorSilver"
+             />
 
     </LinearLayout>
 
     <LinearLayout
         android:orientation="horizontal" android:layout_width="match_parent"
-        android:layout_height="35dp"
+        android:layout_height="25dp"
         android:weightSum="1"
-        android:layout_weight="0.54">
+        >
 
         <TextView
             android:text="  Grade:"
@@ -83,7 +101,8 @@
             android:gravity="center_vertical"
             android:textSize="20sp"
             android:textStyle="bold"
-            android:layout_weight="0.52" />
+            android:textColor="@color/colorSilver"
+             />
 
         <TextView
             android:text="B  "
@@ -93,13 +112,16 @@
             android:gravity="center_vertical|right"
             android:textSize="20sp"
             android:textStyle="bold"
-            android:layout_weight="0.45" />
+            android:textColor="@color/colorSilver"
+            android:layout_weight="0.96" />
 
     </LinearLayout>
 
     <ListView
         android:layout_width="match_parent"
-        android:layout_height="373dp"
-        android:id="@android:id/list"/>
+        android:layout_height="291dp"
+        android:id="@android:id/list"
+        android:divider="#ffffff"
+        android:dividerHeight="1dp"/>
 
 </LinearLayout>
