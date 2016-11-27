@@ -9,16 +9,20 @@
         android:layout_height="match_parent"
         android:id="@+id/gradeSplitTextView"
         android:textSize="18sp"
+        android:textColor="#fe4242"
         android:gravity="center" />
 
     <EditText
         android:layout_width="85dp"
-        android:layout_height="match_parent"
+        android:layout_height="37dp"
+        android:background="@color/colorMetallicSilver"
         android:inputType="numberDecimal"
         android:ems="10"
         android:id="@+id/gradeSplitEditText"
         android:gravity="center"
         android:textSize="18sp"
+        android:textColor="#fe4242"
+
         android:layout_weight="0.06" />
 
     <TextView
@@ -28,6 +32,7 @@
         android:id="@+id/maxSplitPointsTextView"
         android:textSize="18sp"
         android:gravity="center"
+        android:textColor="#fe4242"
         android:layout_weight="0.31" />
 
 </LinearLayout>

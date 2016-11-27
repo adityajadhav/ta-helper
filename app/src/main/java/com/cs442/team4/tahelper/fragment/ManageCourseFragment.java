@@ -7,6 +7,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
@@ -51,6 +52,16 @@ public class ManageCourseFragment extends Fragment implements View.OnClickListen
     File importfile;
     String filepath;
 
+    public interface ManageCourseFragmentInterface {
+
+        public void callExportFragment(String courseId);
+    }
+    ManageCourseFragmentInterface mcfi;
+
+    public void setManageCourseFragmentInterface(ManageCourseFragmentInterface obj)
+    {
+        this.mcfi = obj;
+    }
 
     @Override
     public void onClick(View v) {
@@ -113,8 +124,100 @@ public class ManageCourseFragment extends Fragment implements View.OnClickListen
     public void openFileEx() {
         Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
         intent.setType("*/*");
+
         startActivityForResult(intent, 15);
+
+
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+    public class ImportFunctionRunner extends AsyncTask<String, String, String> {
+
+        final ProgressDialog dialog = ProgressDialog.show(getContext(), "",
+                "Importing. Please wait...", true);
+        @Override
+        protected String doInBackground(String... params) {
+            // publishProgress("Sleeping..."); // Calls onProgressUpdate()
+            try {
+                // Do your long operations here and return the result
+
+                importStudentData();
+
+                dialog.dismiss();
+
+                // Sleeping for given time period
+
+
+            }  catch (Exception e) {
+                e.printStackTrace();
+                dialog.dismiss();
+
+
+            }
+            return "done";
+        }
+
+        /*
+         * (non-Javadoc)
+         *
+         * @see android.os.AsyncTask#onPostExecute(java.lang.Object)
+         */
+        @Override
+        protected void onPostExecute(String result) {
+            // execution of result of Long time consuming operation
+
+        }
+
+        /*
+         * (non-Javadoc)
+         *
+         * @see android.os.AsyncTask#onPreExecute()
+         */
+        @Override
+        protected void onPreExecute() {
+            // Things to be done before execution of long running operation. For
+            // example showing ProgessDialog
+        }
+
+        /*
+         * (non-Javadoc)
+         *
+         * @see android.os.AsyncTask#onProgressUpdate(Progress[])
+         */
+        @Override
+        protected void onProgressUpdate(String... text) {
+
+            // Things to be done while execution of long running operation is in
+            // progress. For example updating ProgessDialog
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -127,10 +230,11 @@ public class ManageCourseFragment extends Fragment implements View.OnClickListen
                 importfile = new File(uri.getPath());
                 filepath = importfile.getAbsolutePath().split(":")[1];
                 Log.i("String:", filepath);
-                final ProgressDialog dialog = ProgressDialog.show(getContext(), "",
-                        "Loading. Please wait...", true);
-                importStudentData();
-                dialog.dismiss();
+                ImportFunctionRunner ifr = new ImportFunctionRunner();
+                ifr.execute();
+
+              //  importStudentData();
+
             } catch (Exception e) {
                 Log.i("File operation error", e.toString());
             }
@@ -365,7 +469,14 @@ public class ManageCourseFragment extends Fragment implements View.OnClickListen
             }
         });
 
+        TextView export_records_tv = (TextView) view.findViewById(R.id.export_records_tv_layout);
 
+        export_records_tv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mcfi.callExportFragment(courseId);
+            }
+        });
         Button export = (Button) view.findViewById(R.id.export_btn_layout);
         export.setOnClickListener(new View.OnClickListener() {
             @Override

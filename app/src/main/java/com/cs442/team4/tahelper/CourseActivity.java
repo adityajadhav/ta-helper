@@ -100,8 +100,36 @@ public class CourseActivity extends AppCompatActivity implements add_course_frag
             new DownloadImageTask(imageView)
                     .execute(user.getPhotoUrl());
 
+        final ExportFragment newExportFragment = new ExportFragment();
+
+        newExportFragment.setExportFragmentInterface(new ExportFragment.ExportFragmentInterface() {
+            @Override
+            public void closeExportFragmentInterface() {
+                FragmentManager fm = getFragmentManager();
+                FragmentTransaction ft = fm.beginTransaction();
+                Fragment id = fm.findFragmentByTag("export_fragment_tag");
+                ft.remove(id);
+                fm.popBackStack();
+                ft.commit();
+            }
+        });
 
         final ManageCourseFragment newManageCourseFragment = new ManageCourseFragment();
+        newManageCourseFragment.setManageCourseFragmentInterface(new ManageCourseFragment.ManageCourseFragmentInterface() {
+            @Override
+            public void callExportFragment(String courseId) {
+                FragmentManager fm = getFragmentManager();
+                FragmentTransaction ft = fm.beginTransaction();
+                Bundle bundle = new Bundle();
+                bundle.putString("course_code", courseId);
+                newExportFragment.setArguments(bundle);
+
+                ft.replace(R.id.course_activity_frame_layout, newExportFragment, "export_fragment_tag");
+                ft.addToBackStack("manage_course_fragment_tag");
+                ft.commit();
+
+            }
+        });
 
         FragmentManager fm = getFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();

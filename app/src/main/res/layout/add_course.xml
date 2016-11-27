@@ -17,7 +17,7 @@
 
             <TextView
                 android:text="Add Course"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
                 android:layout_centerHorizontal="true"
@@ -51,7 +51,8 @@
                 android:hint="Name of the Course"
                 android:layout_alignBaseline="@+id/textView2"
                 android:layout_alignBottom="@+id/textView2"
-                android:layout_alignParentEnd="true" />
+                android:layout_alignParentEnd="true"
+                android:textColor="@color/colorBrightWhite" />
 
             <TextView
                 android:text="Course ID:"
@@ -75,7 +76,8 @@
                 android:layout_alignBaseline="@+id/student_list_tv_layout"
                 android:layout_alignBottom="@+id/student_list_tv_layout"
                 android:layout_alignParentEnd="true"
-                android:hint="ID of the Course" />
+                android:hint="ID of the Course"
+                android:textColor="@color/colorBrightWhite" />
 
             <TextView
                 android:text="Professor First Name:"
@@ -101,7 +103,8 @@
                 android:layout_alignBaseline="@+id/textView7"
                 android:layout_alignBottom="@+id/textView7"
                 android:layout_alignParentEnd="true"
-                android:hint="First Name of  Professor" />
+                android:hint="First Name of  Professor"
+                android:textColor="@color/colorBrightWhite" />
 
             <TextView
                 android:text="Professor Last Name:"
@@ -124,7 +127,8 @@
                 android:backgroundTint="@android:color/holo_red_light"
                 android:hint="Last Name of Professor"
                 android:layout_alignTop="@+id/textView13"
-                android:layout_alignStart="@+id/professor_FN_tv_layout" />
+                android:layout_alignStart="@+id/professor_FN_tv_layout"
+                android:textColor="@color/colorBrightWhite" />
 
             <TextView
                 android:text="Professor Username:"
@@ -148,7 +152,8 @@
                 android:backgroundTint="@android:color/holo_red_light"
                 android:layout_above="@+id/textView17"
                 android:layout_toEndOf="@+id/textview90"
-                android:hint="Username of Professor" />
+                android:hint="Username of Professor"
+                android:textColor="@color/colorBrightWhite" />
 
             <TextView
                 android:text="Professor email"
@@ -172,7 +177,8 @@
                 android:layout_alignStart="@+id/ta_email_tv_layout"
                 android:layout_marginTop="11dp"
                 android:id="@+id/professor_email_tv_layout"
-                android:hint="Email of Professor" />
+                android:hint="Email of Professor"
+                android:textColor="@color/colorBrightWhite" />
 
             <LinearLayout
                 android:layout_width="match_parent"

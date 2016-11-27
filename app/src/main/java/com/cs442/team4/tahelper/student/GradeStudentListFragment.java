@@ -93,7 +93,7 @@ public class GradeStudentListFragment extends Fragment implements SearchView.OnQ
         gradeStudentListTextView = (TextView) myFragmentView.findViewById(R.id.gradeStudentListTextView);
         searchView = (SearchView) myFragmentView.findViewById(R.id.gradeStudentListSearchBar);
         studentListView = (ListView) myFragmentView.findViewById(R.id.gradeStudentListView);
-        searchView.setQueryHint("Enter Student Name");
+        searchView.setQueryHint("Search With Student Id");
         searchView.setIconifiedByDefault(false);
         searchView.setOnQueryTextListener(this);
         searchView.setSubmitButtonEnabled(true);

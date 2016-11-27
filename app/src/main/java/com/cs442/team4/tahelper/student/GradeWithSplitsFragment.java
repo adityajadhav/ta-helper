@@ -1,6 +1,7 @@
 package com.cs442.team4.tahelper.student;
 
 import android.app.Fragment;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextWatcher;
@@ -8,6 +9,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -98,13 +100,13 @@ public class GradeWithSplitsFragment extends Fragment {
         myFragmentView = inflater.inflate(R.layout.grade_with_splits_fragment, container, false);
         splitListView = (ListView) myFragmentView.findViewById(R.id.gradeWithListListView);
 
-        courseTextView = (TextView) myFragmentView.findViewById(R.id.gradeWithSplitsCourseName);
+        //courseTextView = (TextView) myFragmentView.findViewById(R.id.gradeWithSplitsCourseName);
         studentIdTextView = (TextView) myFragmentView.findViewById(R.id.gradeWithSplitsStudentId);
-        moduleItemTextView = (TextView) myFragmentView.findViewById(R.id.gradeWithSplitsModuleItem);
+        //moduleItemTextView = (TextView) myFragmentView.findViewById(R.id.gradeWithSplitsModuleItem);
         maxPointsTextView = (TextView) myFragmentView.findViewById(R.id.maxPointsTextView);
 
         totalEditText = (EditText) myFragmentView.findViewById(R.id.gradeWithSplitsTotalEditText);
-        totalEditText.setFocusable(false);
+        totalEditText.setFocusable(true);
 
         calculateTotalButton = (Button) myFragmentView.findViewById(R.id.gradeWithSplitsCalculateTotalButton);
         submitButton = (Button) myFragmentView.findViewById(R.id.gradeWithSplitsSubmitButton);
@@ -212,9 +214,9 @@ public class GradeWithSplitsFragment extends Fragment {
             }
         });
 
-        courseTextView.setText(courseName);
-        studentIdTextView.setText(studentId);
-        moduleItemTextView.setText(moduleItem);
+        //courseTextView.setText(courseName);
+        studentIdTextView.setText(moduleItem + " | "+studentId);
+        //moduleItemTextView.setText(moduleItem);
 
         int resID = R.layout.grade_split_item_layout;
 

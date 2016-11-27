@@ -7,11 +7,16 @@
         android:text="TextView"
         android:layout_height="wrap_content"
         android:id="@+id/ta_name_tv_layout"
-        android:layout_width="271dp" />
+        android:layout_width="271dp"
+        android:textColor="@color/colorBrightWhite"/>
 
     <Button
         android:text="Remove"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/select_ta_btn_layout" />
+        android:id="@+id/select_ta_btn_layout"
+        android:background="@color/colorMaroon"
+        android:textColor="@color/colorBrightWhite"
+        android:layout_marginBottom="5sp"
+        android:layout_marginTop="5sp"/>
 </LinearLayout>

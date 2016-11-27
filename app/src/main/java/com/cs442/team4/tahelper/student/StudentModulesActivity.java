@@ -13,7 +13,7 @@ import com.cs442.team4.tahelper.contants.IntentConstants;
  * Created by Mohammed on 11/2/2016.
  */
 
-public class StudentModulesActivity extends AppCompatActivity implements StudentModulesFragment.OnModuleClickListener {
+public class StudentModulesActivity extends AppCompatActivity  {
 
     String studentId = "nothing";
     String courseName = "nothing";

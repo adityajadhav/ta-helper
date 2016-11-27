@@ -14,7 +14,7 @@ import com.cs442.team4.tahelper.contants.IntentConstants;
  * Created by Mohammed on 11/3/2016.
  */
 
-public class StudentAssignmentListActivity extends AppCompatActivity implements StudentAssignmentListFragment.OnAssignmentClickListener {
+public class StudentAssignmentListActivity extends AppCompatActivity {
 
     String studentId, courseName, moduleName;
 

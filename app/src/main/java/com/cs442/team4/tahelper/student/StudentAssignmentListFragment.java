@@ -1,7 +1,10 @@
 package com.cs442.team4.tahelper.student;
 
 import android.app.Activity;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.app.ListFragment;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -33,7 +36,7 @@ public class StudentAssignmentListFragment extends ListFragment {
 
     private DatabaseReference mDatabase;
     View myFragmentView;
-    StudentAssignmentListFragment.OnAssignmentClickListener onAssignmentClickListener;
+    //StudentAssignmentListFragment.OnAssignmentClickListener onAssignmentClickListener;
 
     private ArrayList<Split> checkForSplitsArray;
 
@@ -42,9 +45,11 @@ public class StudentAssignmentListFragment extends ListFragment {
     public static ArrayList<Assignment> assignmentsArraylist;
     public static StudentAssignmentListAdapter studentAssignmentListAdapter;
 
+    /*
     public interface OnAssignmentClickListener {
         public void showAssignmentSplits(String courseName, String studentId, String moduleName, String moduleItem);
     }
+    */
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -62,7 +67,7 @@ public class StudentAssignmentListFragment extends ListFragment {
         myFragmentView = inflater.inflate(R.layout.student_assignment_list_fragment, container, false);
         assignmentName = (TextView) myFragmentView.findViewById(R.id.moduleNameTextView);
 
-        assignmentName.setText(moduleName + ": " + studentId);
+        assignmentName.setText(moduleName + " | " + studentId);
 
         int resID = R.layout.assignment_score_item_layout;
 
@@ -208,7 +213,30 @@ public class StudentAssignmentListFragment extends ListFragment {
 
         if(assignment.getHasSplits()==true)
         {
-            onAssignmentClickListener.showAssignmentSplits(courseName, studentId, moduleName, moduleItem);
+            //onAssignmentClickListener.showAssignmentSplits(courseName, studentId, moduleName, moduleItem);
+
+            /*
+            Intent intent = new Intent(getActivity(),StudentAssignmentSplitsListActivity.class);
+            intent.putExtra(IntentConstants.STUDENT_ID, studentId);
+            intent.putExtra(IntentConstants.COURSE_NAME, courseName);
+            intent.putExtra(IntentConstants.MODULE_NAME, moduleName);
+            intent.putExtra(IntentConstants.MODULE_ITEM, moduleItem);
+            startActivity(intent);
+            */
+
+            FragmentManager fm = getFragmentManager();
+            FragmentTransaction ft = fm.beginTransaction();
+            StudentAssignmentSplitsListFragment studentAssignmentSplitsListFragment = new StudentAssignmentSplitsListFragment();
+            Bundle bundle = new Bundle();
+            bundle.putString(IntentConstants.STUDENT_ID, studentId);
+            bundle.putString(IntentConstants.COURSE_NAME, courseName);
+            bundle.putString(IntentConstants.MODULE_NAME, moduleName);
+            bundle.putString(IntentConstants.MODULE_ITEM, moduleItem);
+            studentAssignmentSplitsListFragment.setArguments(bundle);
+            ft.replace(R.id.course_activity_frame_layout,studentAssignmentSplitsListFragment,"student_assignment_splits_list_fragment");
+            ft.addToBackStack("student_assignment_list_fragment");
+            ft.commit();
+
         }
         else
         {
@@ -219,7 +247,7 @@ public class StudentAssignmentListFragment extends ListFragment {
 
 
 
-
+    /*
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
@@ -232,5 +260,6 @@ public class StudentAssignmentListFragment extends ListFragment {
                     " must implement OnStudentClickListener");
         }
     }
+    */
 
 }

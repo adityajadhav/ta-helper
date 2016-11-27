@@ -1,6 +1,8 @@
 package com.cs442.team4.tahelper.student;
 
 import android.app.Activity;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.app.ListFragment;
 import android.content.Intent;
 import android.os.Bundle;
@@ -52,18 +54,23 @@ public class StudentModulesFragment extends ListFragment {
     private DatabaseReference mDatabase;
     View myFragmentView;
     TextView modulesTextView;
-    StudentModulesFragment.OnModuleClickListener moduleClickListener;
+    //StudentModulesFragment.OnModuleClickListener moduleClickListener;
 
     public static ArrayList<TotalGrade> modulesArraylist;
     //public static ArrayList<String> modulesArraylist;
     public static StudentModulesListAdapter modulesListAdapter;
 
+    /*
     public interface OnModuleClickListener{
         public void showSelectedModuleContent(String courseName, String studentId, String moduleName);
     }
+    */
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
+        finalTotalPointsPossible = 0.0;
+        finalTotalPointsGained = 0.0;
 
         mDatabase = FirebaseDatabase.getInstance().getReference();
 
@@ -180,7 +187,7 @@ public class StudentModulesFragment extends ListFragment {
 
                                         finalTotalPointsPossible = finalTotalPointsPossible+total1;
                                         totalScoreTextView.setText(finalTotalPointsGained+"/"+finalTotalPointsPossible+"  ");
-                                        Log.d("Total Possible : "," finalTotalPointsPossible: "+finalTotalPointsPossible);
+                                        Log.d(": "," finalTotalPointsPossible: "+finalTotalPointsPossible);
                                         module.setTotalPossibleMarks(total1);
 
                                         //****************************************************************
@@ -205,7 +212,7 @@ public class StudentModulesFragment extends ListFragment {
                                         double percentage = 0.0;
                                         percentage = (100*finalTotalPointsGained)/finalTotalPointsPossible;
                                         Log.d(""," percentage: "+percentage);
-                                        
+
                                         totalPercentageTextView.setText(""+df.format(percentage)+"%  ");
 
                                         if(percentage>=90.0)
@@ -273,7 +280,34 @@ public class StudentModulesFragment extends ListFragment {
 
         //Toast.makeText(getActivity(), "Module Name: "+module, Toast.LENGTH_SHORT).show();
 
-        moduleClickListener.showSelectedModuleContent(courseName, studentId, module);
+        /*
+        Intent intent = new Intent(getActivity(),StudentAssignmentListActivity.class);
+        intent.putExtra(IntentConstants.STUDENT_ID, studentId);
+        intent.putExtra(IntentConstants.COURSE_NAME, courseName);
+        intent.putExtra(IntentConstants.MODULE_NAME, module);
+        startActivity(intent);
+        */
+
+        FragmentManager fm = getFragmentManager();
+        FragmentTransaction ft = fm.beginTransaction();
+        StudentAssignmentListFragment studentAssignmentListFragment = new StudentAssignmentListFragment();
+        Bundle bundle = new Bundle();
+        bundle.putString(IntentConstants.STUDENT_ID, studentId);
+        bundle.putString(IntentConstants.COURSE_NAME, courseName);
+        bundle.putString(IntentConstants.MODULE_NAME, module);
+        studentAssignmentListFragment.setArguments(bundle);
+        ft.replace(R.id.course_activity_frame_layout,studentAssignmentListFragment,"student_assignment_list_fragment");
+
+        //Trial code for maintaining instance variable state
+        //ft.add(R.id.course_activity_frame_layout, studentAssignmentListFragment);
+        //ft.hide(StudentModulesFragment.this);
+
+        ft.addToBackStack("student_modules_fragment");
+        ft.commit();
+
+
+
+        //moduleClickListener.showSelectedModuleContent(courseName, studentId, module);
 
     }
 
@@ -374,6 +408,7 @@ public class StudentModulesFragment extends ListFragment {
 
     }
 
+    /*
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
@@ -383,9 +418,10 @@ public class StudentModulesFragment extends ListFragment {
 
         } catch (ClassCastException e) {
             throw new ClassCastException(activity.toString() +
-                    " must implement OnStudentClickListener");
+                    " must implement OnModuleClickListener");
         }
     }
+    */
 
     private void getTotalMarksFromAllModules()
     {
