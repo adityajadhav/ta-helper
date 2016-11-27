@@ -42,7 +42,7 @@
         <activity android:name=".student.GradeStudentListActivity"></activity>
         -->
         <activity android:name=".student.GradeStudentListActivity"></activity>
-        <activity android:name=".activity.ModuleListActivity"></activity>
+        <activity android:name=".activity.ModuleListActivity"      android:windowSoftInputMode="adjustPan"></activity>
         <activity android:name=".activity.AddModuleActivity"></activity>
         <activity android:name=".activity.EditDeleteModuleActivity"></activity>
         <activity android:name=".activity.ManageAssignmentsActivity"></activity>

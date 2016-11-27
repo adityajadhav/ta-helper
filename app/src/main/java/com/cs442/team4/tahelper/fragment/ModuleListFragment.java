@@ -60,11 +60,6 @@ public class ModuleListFragment extends Fragment{
     private ModuleListFragmentListener moduleListFragmentListener;
     private DatabaseReference mDatabase;
 
-    float historicX = Float.NaN, historicY = Float.NaN;
-    static final int DELTA = 50;
-
-    enum Direction {LEFT, RIGHT;}
-
 
 
     public interface ModuleListFragmentListener{
@@ -307,14 +302,14 @@ public class ModuleListFragment extends Fragment{
 
                     @Override
                     public void onShowcaseViewDidHide(ShowcaseView showcaseView) {
-                        showFifthShowCase();
+                       // showFifthShowCase();
                     }
 
                 })
                 .build();
     }
 
-    private void showFifthShowCase() {
+   /* private void showFifthShowCase() {
         new ShowcaseView.Builder(getActivity())
                 .withMaterialShowcase()
                 .setStyle(R.style.CustomShowcaseTheme2)
@@ -323,6 +318,6 @@ public class ModuleListFragment extends Fragment{
                 .setContentTitle("Swipe from left to launch drawer with navigation options.")
                 .build();
     }
-
+*/
 
 }
