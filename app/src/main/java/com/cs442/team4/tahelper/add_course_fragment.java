@@ -384,7 +384,7 @@ public class add_course_fragment extends Fragment {
                 if (ObjectUtils.isNotEmpty(usersList)) {
                     for (String taEmail : ta_memebers) {
                         for (UserEntity user : usersList) {
-                            if (user.getEmail().equals(taEmail)/* && !user.getEmail().equals(user.getEmail())*/) {
+                            if (user.getEmail().equals(taEmail) && !user.getEmail().equals(user.getEmail())) {
                                 to += user.getToken() + ",";
                             }
                         }
