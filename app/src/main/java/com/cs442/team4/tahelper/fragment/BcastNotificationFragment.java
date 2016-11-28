@@ -56,7 +56,7 @@ public class BcastNotificationFragment extends Fragment implements AdapterView.O
         list.add("All");
         list.add("TA's");
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(getContext(),
-                android.R.layout.simple_spinner_item, list);
+                R.layout.spinner_item, list);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         toEdtTxt.setAdapter(dataAdapter);
 
