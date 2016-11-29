@@ -105,13 +105,15 @@ public class ModuleListActivity  extends AppCompatActivity implements ModuleList
         TextView userName = (TextView) hView.findViewById(R.id.userName);
         TextView emailIdtextView = (TextView) hView.findViewById(R.id.emailIdtextView);
 
+        if(user!=null) {
 
-        emailIdtextView.setText(user.getEmail());
-        userName.setText(user.getDisplayName());
+            emailIdtextView.setText(user.getEmail());
+            userName.setText(user.getDisplayName());
 
-        if (ObjectUtils.isNotEmpty(user.getPhotoUrl()))
-            new DownloadImageTask(imageView)
-                    .execute(user.getPhotoUrl());
+            if (ObjectUtils.isNotEmpty(user.getPhotoUrl()))
+                new DownloadImageTask(imageView)
+                        .execute(user.getPhotoUrl());
+        }
 
         ft.replace(R.id.ModuleListActivityFrameLayout, moduleListFragment, "ModuleListFragment");
         //ft.addToBackStack("ModuleListFragment");
@@ -171,6 +173,7 @@ public class ModuleListActivity  extends AppCompatActivity implements ModuleList
     public void addNewModuleEvent(View view) {
         Intent intent = new Intent(this, AddModuleActivity.class);
         intent.putExtra(IntentConstants.COURSE_ID,courseCode);
+
         startActivity(intent);
         overridePendingTransition(R.anim.left_slide_in, R.anim.left_slide_out);
         finish();
