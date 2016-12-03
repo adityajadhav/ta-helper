@@ -289,19 +289,26 @@ public class add_course_fragment extends Fragment {
                 final String professor_UN = professor_UN_tv.getText().toString();
                 final String professor_email = professor_email_tv.getText().toString();
                 // final String ta_email = ta_email_tv.getText().toString();
-                if (smode.equals("edit")) {
-                    myRef.child(old_course_id).removeValue();
-                } else {
+
+
+
 
                     myRef.addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot snapshot) {
 
-                            if (snapshot.hasChild(course_id)) {
+                            if (smode.equals("edit")) {
+                                myRef.child(old_course_id).removeValue();
+                            }
+
+                            else if (snapshot.hasChild(course_id)) {
 
                                 Toast.makeText(getContext(), "Course already exists", Toast.LENGTH_SHORT).show();
                                 course_id_tv.setError("Course ID already exists");
-                            } else {
+                                return;
+                            }
+
+
                                 exists_flag = 1;
                                 final Course_Entity ce = new Course_Entity(course_name, course_id, professor_FN, professor_LN, professor_email, professor_UN, "", "false");
 
@@ -334,7 +341,7 @@ public class add_course_fragment extends Fragment {
                                 });
                                 Log.i("Comp2", "Now Completed");
                                 //mFinish.closeAddCourseFragment();
-                            }
+
                         }
 
                         @Override
@@ -344,7 +351,7 @@ public class add_course_fragment extends Fragment {
                     });
 
 
-                }
+
 
 
             }
