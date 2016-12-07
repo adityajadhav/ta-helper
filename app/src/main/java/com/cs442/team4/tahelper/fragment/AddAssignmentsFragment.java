@@ -322,7 +322,7 @@ public class AddAssignmentsFragment extends Fragment {
 
                     @Override
                     public void onShowcaseViewDidHide(ShowcaseView showcaseView) {
-                        showEightShowCase();
+                        //showEightShowCase();
                     }
 
                 })
@@ -348,7 +348,7 @@ public class AddAssignmentsFragment extends Fragment {
     }*/
 
 
-    private void showEightShowCase() {
+   /* private void showEightShowCase() {
         new ShowcaseView.Builder(getActivity())
                 .withMaterialShowcase()
                 .setStyle(R.style.CustomShowcaseTheme2)
@@ -356,6 +356,6 @@ public class AddAssignmentsFragment extends Fragment {
                 .hideOnTouchOutside()
                 .setContentTitle("Swipe from left to launch drawer with navigation options.")
                 .build();
-    }
+    }*/
 
 }
