@@ -49,7 +49,7 @@
             android:background="@drawable/edit_text"
             android:ems="10"
             android:hint="group size?"
-            android:inputType="textPersonName"
+            android:inputType="numberSigned"
             android:textAlignment="center"
             android:layout_marginLeft="20dp" />
 

@@ -4,7 +4,7 @@ package com.cs442.team4.tahelper;
  * Created by ullas on 10/29/2016.
  */
 
-public class Course_Entity {
+public class   Course_Entity {
 
     private String name;
     private String code;

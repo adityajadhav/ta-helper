@@ -66,8 +66,6 @@ public class GenerateStudentGroupsFragment extends Fragment {
         studentList.addAll(Arrays.asList(s1, s2, s3, s4));*/
 
         itemsAdapter = new CustomListAdapter<Student_Entity>(getContext(), R.layout.custom_list, studentList);
-
-        //ArrayAdapter<Student_Entity> itemsAdapter = new ArrayAdapter<Student_Entity>(getContext(), android.R.layout.simple_list_item_1, studentList);
         studentLstView.setAdapter(itemsAdapter);
         itemsAdapter.notifyDataSetChanged();
 
@@ -131,7 +129,6 @@ public class GenerateStudentGroupsFragment extends Fragment {
             ref.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot snapshot) {
-                    Log.e("Count ", "" + snapshot.getChildrenCount());
                     if (ObjectUtils.isNotEmpty(snapshot.getChildren())) {
                         for (DataSnapshot postSnapshot : snapshot.getChildren()) {
                             Student_Entity studentEntity = postSnapshot.getValue(Student_Entity.class);
@@ -139,9 +136,7 @@ public class GenerateStudentGroupsFragment extends Fragment {
                         }
                         itemsAdapter.notifyDataSetChanged();
                     }
-
                 }
-
                 @Override
                 public void onCancelled(DatabaseError firebaseError) {
                     Log.e("The read failed: ", firebaseError.getMessage());
