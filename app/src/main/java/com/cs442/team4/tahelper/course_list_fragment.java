@@ -181,7 +181,8 @@ public class course_list_fragment extends Fragment {
 
         });
 
-        players.addValueEventListener(new ValueEventListener() {
+      //  players.addValueEventListener(new ValueEventListener() {
+            players.addListenerForSingleValueEvent(new ValueEventListener() {
 
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
