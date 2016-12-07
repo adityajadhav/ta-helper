@@ -20,6 +20,11 @@ import com.cs442.team4.tahelper.contants.IntentConstants;
 import com.cs442.team4.tahelper.fragment.AddAssignmentsFragment;
 import com.cs442.team4.tahelper.fragment.EditDeleteAssignmentFragment;
 import com.cs442.team4.tahelper.model.AssignmentSplit;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 /**
  * Created by sowmyaparameshwara on 11/1/16.
@@ -33,6 +38,8 @@ public class EditDeleteAssignmentActivity extends AppCompatActivity implements E
     private ActionBarDrawerToggle mDrawerToggle;
     private String courseCode;
     private String moduleName;
+    private String assignmentName;
+    private boolean isGraded;
     EditDeleteAssignmentFragment editDeleteAssignmentFragment;
 
 
@@ -47,6 +54,7 @@ public class EditDeleteAssignmentActivity extends AppCompatActivity implements E
         if(getIntent().getStringExtra(IntentConstants.COURSE_ID)!=null){
             courseCode = getIntent().getStringExtra(IntentConstants.COURSE_ID);
             moduleName = getIntent().getStringExtra(IntentConstants.MODULE_NAME);
+            assignmentName = getIntent().getStringExtra(IntentConstants.ASSIGNMENT_NAME);
             Bundle bundle = new Bundle();
             bundle.putString(IntentConstants.COURSE_ID,courseCode);
             bundle.putString(IntentConstants.MODULE_NAME,moduleName);
@@ -86,10 +94,31 @@ public class EditDeleteAssignmentActivity extends AppCompatActivity implements E
         };
         mDrawerLayout.setDrawerListener(mDrawerToggle);
 
-
+        validateEditButton();
 
         ft.replace(R.id.EditDeleteAssignmentsFragmentFrameLayout, editDeleteAssignmentFragment, "editdelete_assignment_fragment");
         ft.commit();
+    }
+
+    private void validateEditButton() {
+        final DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference("modules").child(courseCode).child(moduleName).child(assignmentName).push();
+        mDatabase.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
+                    if(postSnapshot.getKey().equals("isGraded")){
+                        isGraded = postSnapshot.getValue(Boolean.class);
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+
     }
 
     public void deleteSplit(AssignmentSplit split) {

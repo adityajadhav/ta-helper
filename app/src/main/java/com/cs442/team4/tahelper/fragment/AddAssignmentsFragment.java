@@ -92,7 +92,7 @@ public class AddAssignmentsFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 if(splitName.getText()!=null && splitName.getText().length()>0 && splitScore.getText()!=null && splitScore.getText().length()>0){
-                     assignmentSplitsList.add(new AssignmentSplit(splitName.getText().toString(),Integer.parseInt(splitScore.getText().toString())));
+                     assignmentSplitsList.add(new AssignmentSplit(splitName.getText().toString(),Double.parseDouble(splitScore.getText().toString())));
                      splitName.setText("");
                      splitScore.setText("");
 
@@ -168,7 +168,7 @@ public class AddAssignmentsFragment extends Fragment {
         if(assignmentSplitsList.size()==0){
             isValid = true;
         }else {
-            int splitTotal = 0;
+            double splitTotal = 0;
             for (int i = 0; i < assignmentSplitsList.size(); i++) {
                 AssignmentSplit split = assignmentSplitsList.get(i);
                 splitTotal+= split.getSplitScore();
