@@ -91,7 +91,7 @@ public class EditDeleteAssignmentFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 if(splitName.getText()!=null && splitName.getText().length()>0 && splitScore.getText()!=null && splitScore.getText().length()>0){
-                    assignmentSplitsList.add(new AssignmentSplit(splitName.getText().toString(),Integer.parseInt(splitScore.getText().toString())));
+                    assignmentSplitsList.add(new AssignmentSplit(splitName.getText().toString(),Double.parseDouble(splitScore.getText().toString())));
                     splitName.setText("");
                     splitScore.setText("");
                     assignmentAdapter.notifyDataSetChanged();
@@ -181,11 +181,11 @@ public class EditDeleteAssignmentFragment extends Fragment {
 
     private boolean validateTotal() {
         boolean isValid = false;
-        int total = Integer.parseInt(assignmentTotalScore.getText().toString());
+        double total = Double.parseDouble(assignmentTotalScore.getText().toString());
         if(assignmentSplitsList.size()==0){
             isValid = true;
         }else {
-            int splitTotal = 0;
+            double splitTotal = 0;
             for (int i = 0; i < assignmentSplitsList.size(); i++) {
                 AssignmentSplit split = assignmentSplitsList.get(i);
                 splitTotal+= split.getSplitScore();
@@ -249,7 +249,7 @@ public class EditDeleteAssignmentFragment extends Fragment {
                     if(postSnapshot.getKey().equals("Splits")){
                        assignmentSplitsList.removeAll(assignmentSplitsList);
                        for (DataSnapshot splits: postSnapshot.getChildren()) {
-                          assignmentSplitsList.add(new AssignmentSplit(splits.getKey(),Integer.parseInt(splits.getValue().toString())));
+                          assignmentSplitsList.add(new AssignmentSplit(splits.getKey(),Double.parseDouble(splits.getValue().toString())));
                        }
                        assignmentAdapter.notifyDataSetChanged();
                     }

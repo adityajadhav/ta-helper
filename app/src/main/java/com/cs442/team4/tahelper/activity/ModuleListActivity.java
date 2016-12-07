@@ -173,7 +173,7 @@ public class ModuleListActivity  extends AppCompatActivity implements ModuleList
     public void addNewModuleEvent(View view) {
         Intent intent = new Intent(this, AddModuleActivity.class);
         intent.putExtra(IntentConstants.COURSE_ID,courseCode);
-
+        intent.putExtra("USER_DETAILS",user);
         startActivity(intent);
         overridePendingTransition(R.anim.left_slide_in, R.anim.left_slide_out);
         finish();
@@ -183,6 +183,7 @@ public class ModuleListActivity  extends AppCompatActivity implements ModuleList
         Intent intent = new Intent(this, EditDeleteModuleActivity.class);
         intent.putExtra(IntentConstants.MODULE_NAME, moduleName);
         intent.putExtra(IntentConstants.MODULE_WEIGHTAGE, ModuleEntity.getWeightage(moduleName));
+        intent.putExtra("USER_DETAILS",user);
         intent.putExtra(IntentConstants.COURSE_ID,courseCode);
         startActivity(intent);
         overridePendingTransition(R.anim.right_slide_in, R.anim.right_slide_out);
@@ -194,7 +195,6 @@ public class ModuleListActivity  extends AppCompatActivity implements ModuleList
         intent.putExtra("USER_DETAILS",user);
         intent.putExtra(IntentConstants.MODULE_NAME, moduleName);
         intent.putExtra(IntentConstants.COURSE_ID,courseCode);
-        intent.putExtra("USER_DETAILS",user);
         startActivity(intent);
         overridePendingTransition(R.anim.left_slide_in, R.anim.left_slide_out);
     }

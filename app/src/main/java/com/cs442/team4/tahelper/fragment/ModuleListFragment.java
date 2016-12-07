@@ -198,7 +198,7 @@ public class ModuleListFragment extends Fragment{
                                             Iterator entries2 = splitList.entrySet().iterator();
                                             while (entries2.hasNext()) {
                                                 Map.Entry thisEntry2 = (Map.Entry) entries2.next();
-                                                splitsList.add(new AssignmentSplit((String) thisEntry2.getKey(), Integer.parseInt((String) thisEntry2.getValue())));
+                                                splitsList.add(new AssignmentSplit((String) thisEntry2.getKey(), Double.parseDouble((String) thisEntry2.getValue())));
                                             }
 
                                         } else if(key1.equals("weightage")){

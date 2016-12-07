@@ -198,7 +198,7 @@ public class AddModuleFragment extends Fragment{
 
                     @Override
                     public void onShowcaseViewDidHide(ShowcaseView showcaseView) {
-                        showFourthShowCase();
+                       // showFourthShowCase();
                     }
 
                 })
@@ -225,7 +225,7 @@ public class AddModuleFragment extends Fragment{
 
 
 
-    private void showFourthShowCase() {
+   /* private void showFourthShowCase() {
         new ShowcaseView.Builder(getActivity())
                 .withMaterialShowcase()
                 .setStyle(R.style.CustomShowcaseTheme2)
@@ -233,7 +233,7 @@ public class AddModuleFragment extends Fragment{
                 .hideOnTouchOutside()
                 .setContentTitle("Swipe from left to launch drawer with navigation options.")
                 .build();
-    }
+    }*/
 
  /*   public void initialise(Intent intent) {
         if(intent!=null && intent.getStringExtra(IntentConstants.COURSE_ID)!=null){
