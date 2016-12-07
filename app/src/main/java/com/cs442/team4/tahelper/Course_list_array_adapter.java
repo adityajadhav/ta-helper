@@ -132,7 +132,7 @@ public class Course_list_array_adapter extends ArrayAdapter<Course_Entity> {
             public void onClick(View v) {
                 new AlertDialog.Builder(context)
                         .setTitle("Delete Course")
-                        .setMessage("Are you sure you want to delet the course. All the details related to the course will be deleted")
+                        .setMessage("Are you sure you want to delete the course? All the details related to the course will be deleted")
                         .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
                                 obj.deleteCourse(courseId,position);
