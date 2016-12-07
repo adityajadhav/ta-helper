@@ -210,8 +210,12 @@ public class StudentModulesFragment extends ListFragment {
 
                                         DecimalFormat df = new DecimalFormat("####0.00");
                                         double percentage = 0.0;
-                                        percentage = (100*finalTotalPointsGained)/finalTotalPointsPossible;
+
+                                        if(finalTotalPointsPossible!=0.0)
+                                            percentage = (100*finalTotalPointsGained)/finalTotalPointsPossible;
+
                                         Log.d(""," percentage: "+percentage);
+
 
                                         totalPercentageTextView.setText(""+df.format(percentage)+"%  ");
 

@@ -18,9 +18,9 @@
         android:id="@+id/gradeStudentListTextView"
 
         android:gravity="center"
-        android:paddingBottom="8sp"
-        android:background="@color/colorMaroon"
-        android:textColor="@color/colorWhite"
+
+        android:textStyle="normal|bold"
+        android:textColor="@color/colorSilver"
         android:textAlignment="center"
         android:textSize="18sp" />
 
