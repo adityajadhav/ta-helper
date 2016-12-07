@@ -100,7 +100,7 @@ public class GradeStudentListFragment extends Fragment implements SearchView.OnQ
 
         studentListView.setTextFilterEnabled(true);
 
-        gradeStudentListTextView.setText("Grade: "+courseName+" | "+moduleName+" | "+moduleItem);
+        gradeStudentListTextView.setText("Grade: "+moduleItem);
 
         int resID = R.layout.student_list_textview;
 

@@ -87,14 +87,14 @@ public class GradeWithoutSplitsFragment extends Fragment {
                 {
                     //Toast.makeText(getActivity(),moduleItem+ " marks updated for "+studentId+" for course "+courseName, Toast.LENGTH_SHORT).show();
                     updateGradesToDatabase();
-                    //Toast.makeText(getActivity(),moduleItem+ " marks updated for "+studentId+" for course "+courseName, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(),moduleItem+ " marks updated for "+studentId+" for course "+courseName, Toast.LENGTH_SHORT).show();
                 }
 
             }
         });
 
         //courseTextView.setText(courseName);
-        studentIdTextView.setText(moduleItem+" | "+studentId);
+        studentIdTextView.setText(studentId);
         //moduleItemTextView.setText(moduleItem);
 
         int resID = R.layout.grade_split_item_layout;

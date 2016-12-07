@@ -19,10 +19,9 @@
         android:layout_gravity="center_horizontal"
         android:gravity="center"
         android:textSize="25dp"
-        android:background="@color/colorMaroon"
-        android:textColor="@color/colorWhite"
+        android:textStyle="normal|bold"
+        android:textColor="@color/colorSilver"
 
-        android:paddingBottom="8sp"
          />
 
     <Space
