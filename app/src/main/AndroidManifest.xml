@@ -36,7 +36,8 @@
         </activity>-->
         <activity
             android:name=".CourseActivity"
-            android:windowSoftInputMode="adjustPan"></activity>
+            android:windowSoftInputMode="adjustPan"
+            android:configChanges="orientation|screenSize"></activity>
 
         <!--
         <activity android:name=".student.GradeStudentListActivity"></activity>
