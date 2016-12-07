@@ -26,8 +26,8 @@
             android:id="@+id/gradeWithoutSplitsStudentId"
             android:gravity="center"
             android:textSize="23sp"
-            android:background="@color/colorMaroon"
-            android:textColor="@color/colorWhite"
+            android:textStyle="normal|bold"
+            android:textColor="@color/colorSilver"
             android:layout_weight="0.09" />
 
     </LinearLayout>

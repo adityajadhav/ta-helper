@@ -106,7 +106,7 @@ public class GradeWithSplitsFragment extends Fragment {
         maxPointsTextView = (TextView) myFragmentView.findViewById(R.id.maxPointsTextView);
 
         totalEditText = (EditText) myFragmentView.findViewById(R.id.gradeWithSplitsTotalEditText);
-        totalEditText.setFocusable(true);
+        totalEditText.setFocusable(false);
 
         calculateTotalButton = (Button) myFragmentView.findViewById(R.id.gradeWithSplitsCalculateTotalButton);
         submitButton = (Button) myFragmentView.findViewById(R.id.gradeWithSplitsSubmitButton);
@@ -207,6 +207,8 @@ public class GradeWithSplitsFragment extends Fragment {
                     totalEditText.setText(totalScore.toString());
                     finalScore = totalScore;
                     updateGradesToDatabase();
+
+                    Toast.makeText(getActivity(),moduleItem+ " marks updated for "+studentId+" for course "+courseName, Toast.LENGTH_SHORT).show();
                 }
 
                 //totalEditText.setText(totalScore.toString());
@@ -215,7 +217,7 @@ public class GradeWithSplitsFragment extends Fragment {
         });
 
         //courseTextView.setText(courseName);
-        studentIdTextView.setText(moduleItem + " | "+studentId);
+        studentIdTextView.setText(studentId);
         //moduleItemTextView.setText(moduleItem);
 
         int resID = R.layout.grade_split_item_layout;
