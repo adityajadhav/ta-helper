@@ -46,6 +46,7 @@ public class AddModuleFragment extends Fragment{
     private AddModuleFragmentListener addModuleFragmentListener;
     private String courseName;
     private ArrayList<String> moduleList;
+    public static final double MAX_WEIGHTAGE = 100.0;
 
 
     public interface AddModuleFragmentListener{
@@ -167,6 +168,11 @@ public class AddModuleFragment extends Fragment{
 
         if(!Character.isDigit(moduleWeightage.charAt(0))){
             enterModuleWeightageFragmentView.setError("Module Weightage should begin with a number");
+            return false;
+        }
+        double weigthage = Double.parseDouble(moduleWeightage);
+        if(weigthage>MAX_WEIGHTAGE){
+            enterModuleWeightageFragmentView.setError("Module Weightage should be less than 100.0");
             return false;
         }
 

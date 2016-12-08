@@ -56,6 +56,8 @@ public class EditDeleteAssignmentFragment extends Fragment {
     private String courseCode;
     private ArrayList<String> assignmentList;
     private boolean isGraded;
+    public static final double MAX_WEIGHTAGE = 100.0;
+
 
     public interface EditDeleteAssignmentsFragmentListener{
         public void notifyEditDeleteAssignmentEvent(String moduleName);
@@ -148,9 +150,10 @@ public class EditDeleteAssignmentFragment extends Fragment {
     private void handleEditAssignment() {
         if(assignmentName.getText()!=null && assignmentName.getText().length()>0 && assignmentTotalScore.getText()!=null && assignmentTotalScore.getText().length()>0
                 && assignmentWeightage.getText()!=null && assignmentWeightage.getText().length()>0 ){
+            boolean validWeightage = validateWeightage(assignmentWeightage.getText().toString());
             boolean isValidTotal = validateTotal();
             boolean isValidName = validateName(assignmentName.getText().toString());
-            if(isValidTotal && isValidName){
+            if(isValidTotal && isValidName && validWeightage){
                 mDatabase.child(moduleName).child(originalAssignmentName).removeValue();
                 ModuleEntity.removeAssignmentFromModule(moduleName,originalAssignmentName);
 
@@ -184,6 +187,8 @@ public class EditDeleteAssignmentFragment extends Fragment {
             }else if(!isValidName){
                 Toast.makeText(getActivity(),"Sub module name cannot be duplicate",Toast.LENGTH_LONG).show();
                 assignmentName.setError("Sub module name cannot be duplicate");
+            }else if(!validWeightage){
+                Toast.makeText(getActivity(),"Sub Module Weightage should be less than 100.0.",Toast.LENGTH_LONG).show();
             }
 
         }else{
@@ -201,6 +206,15 @@ public class EditDeleteAssignmentFragment extends Fragment {
                 assignmentWeightage.setError("Assignment Weightage cannot be empty");
             }
         }
+    }
+
+    private boolean validateWeightage(String weightage) {
+        double weigthage = Double.parseDouble(weightage);
+        if(weigthage>MAX_WEIGHTAGE){
+            assignmentWeightage.setError("Sub Module Weightage should be less than 100.0");
+            return false;
+        }
+        return true;
     }
 
     private boolean validateName(String assignmentName) {
