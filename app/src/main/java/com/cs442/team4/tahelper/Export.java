@@ -133,7 +133,7 @@ Activity callerActivity;
             path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS).toString();
 
             Workbook wb = new XSSFWorkbook();
-            String filename = fileName + ".xls";
+            String filename = fileName + ".xlsx";
             //FileOutputStream fileOut = new FileOutputStream(new File(Environment.getExternalStorageDirectory().toString() + "/workbook.xlsx"));
             FileOutputStream fileOut = new FileOutputStream(new File(path + "/" + filename));
             Sheet o_sheet = wb.createSheet("Sheet 1");
