@@ -20,6 +20,8 @@
         android:textStyle="normal|bold"
         android:textColor="@color/colorSilver"
         android:paddingBottom="8sp"
+        android:ellipsize="end"
+        android:maxLines="1"
         />
 
     <Space

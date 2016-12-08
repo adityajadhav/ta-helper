@@ -77,18 +77,25 @@ public class GradeWithoutSplitsFragment extends Fragment {
             @Override
             public void onClick(View v) {
 
-                finalScore = Double.parseDouble(totalEditText.getText().toString());
-
-                if(finalScore > Double.parseDouble(moduleItemMaxScore))
+                if(Character.isDigit(finalScore.toString().charAt(0)))
                 {
-                    Toast.makeText(getActivity(), "Please grade below maximum marks", Toast.LENGTH_SHORT).show();
+                    finalScore = Double.parseDouble(totalEditText.getText().toString());
+
+                    if(finalScore > Double.parseDouble(moduleItemMaxScore))
+                    {
+                        Toast.makeText(getActivity(), "Please grade below maximum marks", Toast.LENGTH_SHORT).show();
+                    }
+                    else
+                    {
+                        updateGradesToDatabase();
+                        Toast.makeText(getActivity(),moduleItem+ " marks updated for "+studentId+" for course "+courseName, Toast.LENGTH_SHORT).show();
+                    }
                 }
                 else
                 {
-                    //Toast.makeText(getActivity(),moduleItem+ " marks updated for "+studentId+" for course "+courseName, Toast.LENGTH_SHORT).show();
-                    updateGradesToDatabase();
-                    Toast.makeText(getActivity(),moduleItem+ " marks updated for "+studentId+" for course "+courseName, Toast.LENGTH_SHORT).show();
+                    totalEditText.setError("Score should begin with a number");
                 }
+
 
             }
         });

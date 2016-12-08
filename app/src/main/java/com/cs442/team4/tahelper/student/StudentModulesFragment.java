@@ -168,7 +168,7 @@ public class StudentModulesFragment extends ListFragment {
 
                                         for (DataSnapshot postSnapshot: dataSnapshot.getChildren())
                                         {
-                                            if(!postSnapshot.getKey().equals("weightage"))
+                                            if(!postSnapshot.getKey().equals("weightage") && !postSnapshot.getKey().equals("isGraded"))
                                             {
                                                 String score = (String) postSnapshot.child("Total").getValue();
                                                 Double score1 = Double.parseDouble(score);

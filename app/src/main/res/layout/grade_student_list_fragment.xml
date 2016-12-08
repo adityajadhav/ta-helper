@@ -4,9 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingTop="60sp"
-    android:paddingLeft="6sp"
-    android:paddingRight="6sp"
+    android:layout_marginTop="?attr/actionBarSize"
     android:background="@color/colorBlack"
     android:alpha="0.8"
     android:weightSum="1">
@@ -22,11 +20,10 @@
         android:textStyle="normal|bold"
         android:textColor="@color/colorSilver"
         android:textAlignment="center"
-        android:textSize="18sp" />
+        android:textSize="18sp"
+        android:ellipsize="end"
+        android:maxLines="1"/>
 
-    <Space
-        android:layout_width="match_parent"
-        android:layout_height="10dp"></Space>
 
     <SearchView
         android:layout_width="match_parent"
