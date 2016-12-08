@@ -1,6 +1,7 @@
 package com.cs442.team4.tahelper;
 
 import android.app.Activity;
+import android.os.Environment;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -128,7 +129,8 @@ Activity callerActivity;
             // Creating Input Stream
 //            File file = new File(Environment.getExternalStorageDirectory()
 //                    + "/Download/Students.xlsx");
-            path = callerActivity.getApplicationInfo().dataDir;
+          //  path = callerActivity.getApplicationInfo().dataDir;
+            path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS).toString();
 
             Workbook wb = new XSSFWorkbook();
             String filename = fileName + ".xls";
