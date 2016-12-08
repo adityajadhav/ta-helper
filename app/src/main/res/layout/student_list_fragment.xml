@@ -21,7 +21,8 @@
         android:textSize="25dp"
         android:textStyle="normal|bold"
         android:textColor="@color/colorSilver"
-
+        android:ellipsize="end"
+        android:maxLines="1"
          />
 
     <Space

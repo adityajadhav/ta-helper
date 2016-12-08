@@ -206,9 +206,20 @@ public class GradeWithSplitsFragment extends Fragment {
 
                     totalEditText.setText(totalScore.toString());
                     finalScore = totalScore;
-                    updateGradesToDatabase();
 
-                    Toast.makeText(getActivity(),moduleItem+ " marks updated for "+studentId+" for course "+courseName, Toast.LENGTH_SHORT).show();
+                    if(Character.isDigit(finalScore.toString().charAt(0))){
+                        //totalEditText.setError("Score should begin with a number");
+                        updateGradesToDatabase();
+                        Toast.makeText(getActivity(),moduleItem+ " marks updated for "+studentId+" for course "+courseName, Toast.LENGTH_SHORT).show();
+                    }
+                    else
+                    {
+                        totalEditText.setError("Score should begin with a number");
+                    }
+
+                    //updateGradesToDatabase();
+
+                    //Toast.makeText(getActivity(),moduleItem+ " marks updated for "+studentId+" for course "+courseName, Toast.LENGTH_SHORT).show();
                 }
 
                 //totalEditText.setText(totalScore.toString());
@@ -217,7 +228,7 @@ public class GradeWithSplitsFragment extends Fragment {
         });
 
         //courseTextView.setText(courseName);
-        studentIdTextView.setText(studentId);
+        studentIdTextView.setText(studentId+" | "+moduleItem);
         //moduleItemTextView.setText(moduleItem);
 
         int resID = R.layout.grade_split_item_layout;
