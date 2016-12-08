@@ -78,8 +78,9 @@ public class BcastNotificationFragment extends Fragment implements AdapterView.O
                 intent.putExtra(android.content.Intent.EXTRA_EMAIL, getSimpleList());
                 intent.putExtra(Intent.EXTRA_SUBJECT, subjectEdtTxt.getText());
                 intent.putExtra(Intent.EXTRA_TEXT, bodyEdtTxt.getText());
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(Intent.createChooser(intent, "Send Email"));
-                getFragmentManager().popBackStack();
+                //getFragmentManager().popBackStack();
             }
         });
         return view;
@@ -136,7 +137,7 @@ public class BcastNotificationFragment extends Fragment implements AdapterView.O
     private void fetchTAs(String courseId) {
         if (ObjectUtils.isNotEmpty(courseId)) {
             studentList = new ArrayList<>();
-            DatabaseReference ref = mDatabase.child("courses").child("500");
+            DatabaseReference ref = mDatabase.child("courses").child(courseId);
             ref.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot snapshot) {
@@ -165,6 +166,13 @@ public class BcastNotificationFragment extends Fragment implements AdapterView.O
                         emails.add(student.getStudentEmail());
                 }
             }
+            if (ObjectUtils.isNotEmpty(taList)) {
+                for (String taEmailId : taList) {
+                    if (ObjectUtils.isNotEmpty(taEmailId))
+                        emails.add(taEmailId);
+                }
+            }
+
         } else {
             emails.clear();
             if (ObjectUtils.isNotEmpty(taList)) {

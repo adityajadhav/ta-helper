@@ -11,6 +11,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.cs442.team4.tahelper.CourseActivity;
 import com.cs442.team4.tahelper.R;
@@ -107,6 +108,7 @@ public class GenerateStudentGroupsFragment extends Fragment {
                                     }
                                 }
                                 itemsAdapter.notifyDataSetChanged();
+                                Toast.makeText(getContext(), "Groups Generated!", Toast.LENGTH_SHORT).show();
                             } else {
                                 Snackbar.make(v, groupSize + " is not a valid input", Snackbar.LENGTH_LONG).setAction("Action", null).show();
 
@@ -137,6 +139,7 @@ public class GenerateStudentGroupsFragment extends Fragment {
                         itemsAdapter.notifyDataSetChanged();
                     }
                 }
+
                 @Override
                 public void onCancelled(DatabaseError firebaseError) {
                     Log.e("The read failed: ", firebaseError.getMessage());
