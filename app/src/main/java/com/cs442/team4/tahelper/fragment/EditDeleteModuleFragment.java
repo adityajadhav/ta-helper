@@ -54,6 +54,8 @@ public class EditDeleteModuleFragment extends Fragment {
     private EditDeleteButtonListner editDeleteButtonListner;
     private ArrayList<String> moduleList;
     private boolean isGraded;
+    public static final double MAX_WEIGHTAGE = 100.0;
+
 
     //private Button backButton;
 
@@ -198,7 +200,8 @@ public class EditDeleteModuleFragment extends Fragment {
         boolean isValid = true;
         for(String existingName : moduleList){
             if(existingName.equals(newModuleName) && !newModuleName.equals(moduleNameString)){
-                moduleName.setError("Duplicate Module Name");
+                moduleName.setError("Duplicate Module Name.");
+                Toast.makeText(getActivity(),"Duplicate Module Name.",Toast.LENGTH_LONG).show();
                 return false;
             }
         }
@@ -207,13 +210,25 @@ public class EditDeleteModuleFragment extends Fragment {
         boolean b = m.find();
         if (b == true){
             moduleName.setError("Module Name should not contain special characters");
+            Toast.makeText(getActivity(),"Module Name should not contain special characters",Toast.LENGTH_LONG).show();
+
             return false;
         }
 
         if(!Character.isDigit(newModuleWeightage.charAt(0))){
             moduleWeightage.setError("Module Weightage should begin with a number");
+            Toast.makeText(getActivity(),"Module Weightage should begin with a number",Toast.LENGTH_LONG).show();
+
             return false;
         }
+        double weigthage = Double.parseDouble(newModuleWeightage);
+        if(weigthage>MAX_WEIGHTAGE){
+            moduleWeightage.setError("Module Weightage should be less than 100.0");
+            Toast.makeText(getActivity(),"Module Weightage should be less than 100.0",Toast.LENGTH_LONG).show();
+
+            return false;
+        }
+
         return isValid;
     }
 

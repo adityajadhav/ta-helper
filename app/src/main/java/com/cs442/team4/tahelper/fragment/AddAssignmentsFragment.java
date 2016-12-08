@@ -31,6 +31,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import static android.content.Context.MODE_PRIVATE;
 
@@ -57,6 +59,8 @@ public class AddAssignmentsFragment extends Fragment {
     //private Button backButton;
     private String courseCode;
     private ArrayList<String> assignmentsList;
+    public static final double MAX_WEIGHTAGE = 100.0;
+
 
 
     public interface AddAssignmentsFragmentListener{
@@ -102,7 +106,7 @@ public class AddAssignmentsFragment extends Fragment {
 
                      assignmentAdapter.notifyDataSetChanged();
                 }else if(!splitName.getText().toString().matches(".*[a-zA-Z]+.*")){
-                    Toast.makeText(getActivity(),"Split name should contain atleast one character.",Toast.LENGTH_LONG).show();
+                    Toast.makeText(getActivity(),"Split name should contain atleast one alphabet.",Toast.LENGTH_LONG).show();
                 }else if(!isUnique(splitName.getText().toString())){
                     Toast.makeText(getActivity(),"Split name needs to be unique.",Toast.LENGTH_LONG).show();
 
@@ -123,6 +127,7 @@ public class AddAssignmentsFragment extends Fragment {
         moduleName = getArguments().getString(IntentConstants.MODULE_NAME);
         //backButton.setText(" BACK TO "+moduleName+" MODULE LIST");
         courseCode = getArguments().getString(IntentConstants.COURSE_ID);
+        assignmentName.setHint("Enter sub "+moduleName+" name.");
         return layout;
     }
 
@@ -141,9 +146,10 @@ public class AddAssignmentsFragment extends Fragment {
         mDatabase = FirebaseDatabase.getInstance().getReference("modules").child(courseCode);
         if(assignmentName.getText()!=null && assignmentName.getText().length()>0 && assignmentTotalScore.getText()!=null && assignmentTotalScore.getText().length()>0
                 && assignmentWeightage.getText()!=null && assignmentWeightage.getText().length()>0){
+            boolean validWeightage = validateWeightage(assignmentWeightage.getText().toString());
             boolean validTotal = validateTotal();
             boolean validName = validName(assignmentName.getText().toString());
-            if(validTotal && validName){
+            if(validTotal && validName && validWeightage){
                 mDatabase.child(moduleName).child(assignmentName.getText().toString()).child("Total").setValue(assignmentTotalScore.getText().toString());
                 mDatabase.child(moduleName).child(assignmentName.getText().toString()).child("weightage").setValue(assignmentWeightage.getText().toString());
 
@@ -165,12 +171,6 @@ public class AddAssignmentsFragment extends Fragment {
 
                 ModuleEntity.addAssignments(moduleName,new AssignmentEntity(assignmentName.getText().toString(),assignmentTotalScore.getText().toString(),assignmentWeightage.getText().toString(),assignmentSplitsList));
                 addAssignmentFragmentListener.notifyAddAssignmentEvent(moduleName);
-            }else if(!validTotal){
-                Toast.makeText(getActivity(),"Total count does not match with Sum of Splits.Please correct it and try again.",Toast.LENGTH_LONG).show();
-            }else if(!validName){
-                Toast.makeText(getActivity(),"Sub module name cannot be duplicate.",Toast.LENGTH_LONG).show();
-                assignmentName.setError("Sub module name cannot be duplicate.");
-
             }
         }else{
             Toast.makeText(getActivity(),"Please correct all errors and try again.",Toast.LENGTH_LONG).show();
@@ -189,18 +189,51 @@ public class AddAssignmentsFragment extends Fragment {
         }
     }
 
-    private boolean validName(String assignmentName) {
+    private boolean validateWeightage(String weightage) {
+        if(!Character.isDigit(weightage.charAt(0))){
+            assignmentWeightage.setError("Sub Module Weightage should begin with a number");
+            Toast.makeText(getActivity(),"Sub Module Weightage should begin with a number",Toast.LENGTH_LONG).show();
+
+            return false;
+        }
+        double weigthage = Double.parseDouble(weightage);
+        if(weigthage>MAX_WEIGHTAGE){
+            assignmentWeightage.setError("Sub Module Weightage should be less than 100.0");
+            Toast.makeText(getActivity(),"Sub Module Weightage should be less than 100.0",Toast.LENGTH_LONG).show();
+
+            return false;
+        }
+        return true;
+    }
+
+    private boolean validName(String assignmentNameString) {
         boolean isValid = true;
         for(String existingName : assignmentsList){
-            if(existingName.equals(assignmentName)){
+            if(existingName.equals(assignmentNameString)){
+                Toast.makeText(getActivity(),"Sub module name cannot be duplicate.",Toast.LENGTH_LONG).show();
+                assignmentName.setError("Sub module name cannot be duplicate.");
                 return false;
             }
+        }
+        Pattern p = Pattern.compile("[^A-Za-z0-9]");
+        Matcher m = p.matcher(assignmentNameString);
+        boolean b = m.find();
+        if (b == true){
+            assignmentName.setError("Sub Module Name should not contain special characters");
+            Toast.makeText(getActivity(),"Sub Module Name should not contain special characters",Toast.LENGTH_LONG).show();
+            return false;
         }
         return isValid;
     }
 
     private boolean validateTotal() {
         boolean isValid = false;
+        if(!Character.isDigit(assignmentTotalScore.getText().toString().charAt(0))){
+            assignmentTotalScore.setError("Sub Module Total should begin with a number");
+            Toast.makeText(getActivity(),"Sub Module Total should begin with a number",Toast.LENGTH_LONG).show();
+
+            return false;
+        }
         double total = Double.parseDouble(assignmentTotalScore.getText().toString());
         if(assignmentSplitsList.size()==0){
             isValid = true;
@@ -212,6 +245,11 @@ public class AddAssignmentsFragment extends Fragment {
 
             }
             isValid = (total==splitTotal)?true:false;
+        }
+        if(!isValid){
+            Toast.makeText(getActivity(),"Total count does not match with Sum of Splits.Please correct it and try again.",Toast.LENGTH_LONG).show();
+            assignmentTotalScore.setError("Total count does not match with Sum of Splits.");
+
         }
         return isValid;
     }

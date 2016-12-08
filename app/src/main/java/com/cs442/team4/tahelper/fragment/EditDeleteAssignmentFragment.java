@@ -29,6 +29,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Created by sowmyaparameshwara on 11/1/16.
@@ -56,6 +58,8 @@ public class EditDeleteAssignmentFragment extends Fragment {
     private String courseCode;
     private ArrayList<String> assignmentList;
     private boolean isGraded;
+    public static final double MAX_WEIGHTAGE = 100.0;
+
 
     public interface EditDeleteAssignmentsFragmentListener{
         public void notifyEditDeleteAssignmentEvent(String moduleName);
@@ -133,6 +137,8 @@ public class EditDeleteAssignmentFragment extends Fragment {
         mDatabase = FirebaseDatabase.getInstance().getReference("modules").child(courseCode);
         loadFromDatabase();
 
+        assignmentName.setHint("Enter sub "+moduleName+" name.");
+
         return layout;
     }
 
@@ -148,9 +154,10 @@ public class EditDeleteAssignmentFragment extends Fragment {
     private void handleEditAssignment() {
         if(assignmentName.getText()!=null && assignmentName.getText().length()>0 && assignmentTotalScore.getText()!=null && assignmentTotalScore.getText().length()>0
                 && assignmentWeightage.getText()!=null && assignmentWeightage.getText().length()>0 ){
+            boolean validWeightage = validateWeightage(assignmentWeightage.getText().toString());
             boolean isValidTotal = validateTotal();
             boolean isValidName = validateName(assignmentName.getText().toString());
-            if(isValidTotal && isValidName){
+            if(isValidTotal && isValidName && validWeightage){
                 mDatabase.child(moduleName).child(originalAssignmentName).removeValue();
                 ModuleEntity.removeAssignmentFromModule(moduleName,originalAssignmentName);
 
@@ -179,11 +186,6 @@ public class EditDeleteAssignmentFragment extends Fragment {
                 assignmentAdapter.notifyDataSetChanged();
 
                 editDeleteAssignmentFragmentListener.notifyEditDeleteAssignmentEvent(moduleName);
-            }else if(!isValidTotal){
-                Toast.makeText(getActivity(),"Total count does not match with Sum of Splits.Please correct it and try again.",Toast.LENGTH_LONG).show();
-            }else if(!isValidName){
-                Toast.makeText(getActivity(),"Sub module name cannot be duplicate",Toast.LENGTH_LONG).show();
-                assignmentName.setError("Sub module name cannot be duplicate");
             }
 
         }else{
@@ -203,18 +205,50 @@ public class EditDeleteAssignmentFragment extends Fragment {
         }
     }
 
-    private boolean validateName(String assignmentName) {
+    private boolean validateWeightage(String weightage) {
+        if(!Character.isDigit(weightage.charAt(0))){
+            assignmentWeightage.setError("Sub Module Weightage should begin with a number");
+            Toast.makeText(getActivity(),"Sub Module Weightage should begin with a number",Toast.LENGTH_LONG).show();
+
+            return false;
+        }
+        double weigthage = Double.parseDouble(weightage);
+        if(weigthage>MAX_WEIGHTAGE){
+            assignmentWeightage.setError("Sub Module Weightage should be less than 100.0");
+            Toast.makeText(getActivity(),"Sub Module Weightage should be less than 100.0",Toast.LENGTH_LONG).show();
+            return false;
+        }
+        return true;
+    }
+
+    private boolean validateName(String assignmentNameString) {
         boolean isValid = true;
         for(String existingName : assignmentList){
-            if(existingName.equals(assignmentName) && !existingName.equals(originalAssignmentName)){
+            if(existingName.equals(assignmentNameString) && !existingName.equals(originalAssignmentName)){
+                Toast.makeText(getActivity(),"Sub module name cannot be duplicate.",Toast.LENGTH_LONG).show();
+                assignmentName.setError("Sub module name cannot be duplicate.");
                 return false;
             }
+        }
+        Pattern p = Pattern.compile("[^A-Za-z0-9]");
+        Matcher m = p.matcher(assignmentNameString);
+        boolean b = m.find();
+        if (b == true){
+            assignmentName.setError("Sub Module Name should not contain special characters");
+            Toast.makeText(getActivity(),"Sub Module Name should not contain special characters",Toast.LENGTH_LONG).show();
+            return false;
         }
         return isValid;
     }
 
     private boolean validateTotal() {
         boolean isValid = false;
+        if(!Character.isDigit(assignmentTotalScore.getText().toString().charAt(0))){
+            assignmentTotalScore.setError("Sub Module Total should begin with a number");
+            Toast.makeText(getActivity(),"Sub Module Total should begin with a number",Toast.LENGTH_LONG).show();
+
+            return false;
+        }
         double total = Double.parseDouble(assignmentTotalScore.getText().toString());
         if(assignmentSplitsList.size()==0){
             isValid = true;
@@ -226,6 +260,11 @@ public class EditDeleteAssignmentFragment extends Fragment {
 
             }
             isValid = (total==splitTotal)?true:false;
+        }
+        if(!isValid){
+            Toast.makeText(getActivity(),"Total count does not match with Sum of Splits.Please correct it and try again.",Toast.LENGTH_LONG).show();
+            assignmentTotalScore.setError("Total count does not match with Sum of Splits.");
+
         }
         return isValid;
     }
