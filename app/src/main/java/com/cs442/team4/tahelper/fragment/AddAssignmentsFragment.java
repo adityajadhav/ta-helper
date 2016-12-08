@@ -125,6 +125,7 @@ public class AddAssignmentsFragment extends Fragment {
         moduleName = getArguments().getString(IntentConstants.MODULE_NAME);
         //backButton.setText(" BACK TO "+moduleName+" MODULE LIST");
         courseCode = getArguments().getString(IntentConstants.COURSE_ID);
+        assignmentName.setHint("Enter sub "+moduleName+" name.");
         return layout;
     }
 
