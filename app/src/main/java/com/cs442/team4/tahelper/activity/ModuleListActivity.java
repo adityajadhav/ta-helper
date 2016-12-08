@@ -56,6 +56,8 @@ import com.google.android.gms.common.api.OptionalPendingResult;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
 
+import java.util.ArrayList;
+
 /**
  * Created by sowmyaparameshwara on 10/30/16.
  */
@@ -170,20 +172,23 @@ public class ModuleListActivity  extends AppCompatActivity implements ModuleList
 
 
     @Override
-    public void addNewModuleEvent(View view) {
+    public void addNewModuleEvent(View view,ArrayList<String> moduleList) {
         Intent intent = new Intent(this, AddModuleActivity.class);
         intent.putExtra(IntentConstants.COURSE_ID,courseCode);
-
+        intent.putExtra("USER_DETAILS",user);
+        intent.putStringArrayListExtra(IntentConstants.MODULE_LIST,moduleList);
         startActivity(intent);
         overridePendingTransition(R.anim.left_slide_in, R.anim.left_slide_out);
         finish();
     }
 
-    public void onModuleItemClickEditDelete(String moduleName) {
+    public void onModuleItemClickEditDelete(String moduleName,ArrayList<String> moduleList) {
         Intent intent = new Intent(this, EditDeleteModuleActivity.class);
         intent.putExtra(IntentConstants.MODULE_NAME, moduleName);
         intent.putExtra(IntentConstants.MODULE_WEIGHTAGE, ModuleEntity.getWeightage(moduleName));
+        intent.putExtra("USER_DETAILS",user);
         intent.putExtra(IntentConstants.COURSE_ID,courseCode);
+        intent.putStringArrayListExtra(IntentConstants.MODULE_LIST,moduleList);
         startActivity(intent);
         overridePendingTransition(R.anim.right_slide_in, R.anim.right_slide_out);
         finish();
@@ -194,7 +199,6 @@ public class ModuleListActivity  extends AppCompatActivity implements ModuleList
         intent.putExtra("USER_DETAILS",user);
         intent.putExtra(IntentConstants.MODULE_NAME, moduleName);
         intent.putExtra(IntentConstants.COURSE_ID,courseCode);
-        intent.putExtra("USER_DETAILS",user);
         startActivity(intent);
         overridePendingTransition(R.anim.left_slide_in, R.anim.left_slide_out);
     }

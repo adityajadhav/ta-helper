@@ -352,6 +352,9 @@ public class CourseActivity extends AppCompatActivity implements add_course_frag
                     Fragment id = fm.findFragmentByTag("add_ta_fragment_tag");
                     ft.remove(id);
                     fm.popBackStack();
+//                    FragmentManager manager = getFragmentManager();
+//                    FragmentManager.BackStackEntry first = manager.getBackStackEntryAt(0);
+//                    manager.popBackStack(first.getId(), FragmentManager.POP_BACK_STACK_INCLUSIVE);
                     ft.commit();
                 }
             });

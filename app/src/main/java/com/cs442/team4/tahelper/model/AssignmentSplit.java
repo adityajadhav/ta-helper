@@ -11,22 +11,22 @@ import android.widget.EditText;
 public class AssignmentSplit implements Parcelable{
 
     private String splitName;
-    private int splitScore;
+    private double splitScore;
 
-    public AssignmentSplit(String splitName, int splitScore) {
+    public AssignmentSplit(String splitName, double splitScore) {
         this.splitName = splitName;
         this.splitScore = splitScore;
     }
 
     protected AssignmentSplit(Parcel in) {
         splitName = in.readString();
-        splitScore = in.readInt();
+        splitScore = in.readDouble();
     }
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(splitName);
-        dest.writeInt(splitScore);
+        dest.writeDouble(splitScore);
     }
 
     @Override
@@ -54,7 +54,7 @@ public class AssignmentSplit implements Parcelable{
         this.splitName = splitName;
     }
 
-    public int getSplitScore() {
+    public double getSplitScore() {
         return splitScore;
     }
 

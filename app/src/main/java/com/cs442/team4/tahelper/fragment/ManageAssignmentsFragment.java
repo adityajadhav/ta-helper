@@ -59,7 +59,7 @@ public class ManageAssignmentsFragment extends Fragment {
     private RelativeLayout loadingLayout;
 
     public interface ManageAssignmentFragmentListener{
-        public void notifyAddAssignmentEvent();
+        public void notifyAddAssignmentEvent(ArrayList<String> assignmentsList);
         //public void notifyBackButton();
     }
 
@@ -86,7 +86,7 @@ public class ManageAssignmentsFragment extends Fragment {
         addAssignmentButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                manageAssignmentFragmentListener.notifyAddAssignmentEvent();
+                manageAssignmentFragmentListener.notifyAddAssignmentEvent(assignmentsList);
             }
         });
 
@@ -115,13 +115,8 @@ public class ManageAssignmentsFragment extends Fragment {
                 assignmentsList.removeAll(assignmentsList);
                 Log.i("","Snaphot "+dataSnapshot+"  "+dataSnapshot.getChildren()+"  "+dataSnapshot.getValue());
                 for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
-                    if(!postSnapshot.getKey().equals("weightage") && !assignmentsList.contains(postSnapshot.getKey())) {
+                    if(!postSnapshot.getKey().equals("weightage") && !postSnapshot.getKey().equals("isGraded") && !assignmentsList.contains(postSnapshot.getKey())) {
                         assignmentsList.add((String)postSnapshot.getKey());
-                     /*   Iterator it = (Iterator) map.entrySet();
-                        while(it.hasNext()){
-
-                        }*/
-                      //  ModuleSEntity.addAssignments(moduleName,new AssignmentEntity((String)postSnapshot.getKey(),));
                     }
 
                 }
@@ -212,14 +207,14 @@ public class ManageAssignmentsFragment extends Fragment {
 
                     @Override
                     public void onShowcaseViewDidHide(ShowcaseView showcaseView) {
-                        showFifthShowCase();
+                       // showFifthShowCase();
                     }
 
                 })
                 .build();
     }
 
-    private void showFifthShowCase() {
+/*    private void showFifthShowCase() {
         new ShowcaseView.Builder(getActivity())
                 .withMaterialShowcase()
                 .setStyle(R.style.CustomShowcaseTheme2)
@@ -231,6 +226,6 @@ public class ManageAssignmentsFragment extends Fragment {
 
 
 
-    }
+    }*/
 
 }

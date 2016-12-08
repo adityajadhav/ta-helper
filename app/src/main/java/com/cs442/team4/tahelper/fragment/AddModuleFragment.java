@@ -26,6 +26,8 @@ import com.github.amlcurran.showcaseview.targets.ViewTarget;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.ArrayList;
+
 import static android.content.Context.MODE_PRIVATE;
 
 /**
@@ -41,6 +43,7 @@ public class AddModuleFragment extends Fragment{
     private DatabaseReference mDatabase;
     private AddModuleFragmentListener addModuleFragmentListener;
     private String courseName;
+    private ArrayList<String> moduleList;
 
 
     public interface AddModuleFragmentListener{
@@ -57,6 +60,7 @@ public class AddModuleFragment extends Fragment{
        // backButton = (Button) layout.findViewById(R.id.addModuleButtonFragmentViewBackButton);
         mDatabase = FirebaseDatabase.getInstance().getReference();
         courseName = getArguments().getString(IntentConstants.COURSE_ID);
+        moduleList = getArguments().getStringArrayList(IntentConstants.MODULE_LIST);
 
       /*  backButton.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -109,20 +113,27 @@ public class AddModuleFragment extends Fragment{
                     mDatabase.child("modules").child("Final Score").setValue("");*/
                     // key  = mDatabase.push().getKey();
                   //  mDatabase.child("modules").child(key).child("name").setValue(moduleName);
-                    mDatabase.child("modules").child(courseName).child(moduleName).child("weightage").setValue(moduleWeightage);
-                    ModuleEntity.addModule(moduleName,moduleWeightage);
+                    if(isValidName(moduleName)){
+                        mDatabase.child("modules").child(courseName).child(moduleName).child("weightage").setValue(moduleWeightage);
+                        ModuleEntity.addModule(moduleName,moduleWeightage);
 
 
-                    Intent serviceIntent = new Intent(getActivity(), ModuleDatabaseUpdationIntentService.class);
-                    serviceIntent.putExtra(IntentConstants.MODULE_NAME,moduleName);
-                    serviceIntent.putExtra(IntentConstants.MODE,"Add");
-                    serviceIntent.putExtra(IntentConstants.COURSE_ID,courseName);
-                    serviceIntent.putExtra(IntentConstants.MODULE_WEIGHTAGE,moduleWeightage);
+                        Intent serviceIntent = new Intent(getActivity(), ModuleDatabaseUpdationIntentService.class);
+                        serviceIntent.putExtra(IntentConstants.MODULE_NAME,moduleName);
+                        serviceIntent.putExtra(IntentConstants.MODE,"Add");
+                        serviceIntent.putExtra(IntentConstants.COURSE_ID,courseName);
+                        serviceIntent.putExtra(IntentConstants.MODULE_WEIGHTAGE,moduleWeightage);
 
-                    getActivity().startService(serviceIntent);
+                        getActivity().startService(serviceIntent);
 
-                    //ModuleEntity.addKeyValue(moduleName,key);
-                    addModuleFragmentListener.addModuleEvent();;
+                        //ModuleEntity.addKeyValue(moduleName,key);
+                        addModuleFragmentListener.addModuleEvent();;
+                    }else{
+                        Toast.makeText(getActivity()," A module with this name already exists.",Toast.LENGTH_LONG).show();
+                        enterModuleNameFragmentView.setError("Module Name cannot be duplicate");
+
+                    }
+
 
                 }else{
                     Toast.makeText(getActivity()," Please correct the errors and try again.",Toast.LENGTH_LONG).show();
@@ -138,6 +149,16 @@ public class AddModuleFragment extends Fragment{
             }
         });
         return layout;
+    }
+
+    private boolean isValidName(String moduleName) {
+        boolean isValid = true;
+        for(String existingName : moduleList){
+            if(existingName.equals(moduleName)){
+                return false;
+            }
+        }
+        return isValid;
     }
 
     @Override
@@ -198,7 +219,7 @@ public class AddModuleFragment extends Fragment{
 
                     @Override
                     public void onShowcaseViewDidHide(ShowcaseView showcaseView) {
-                        showFourthShowCase();
+                       // showFourthShowCase();
                     }
 
                 })
@@ -225,7 +246,7 @@ public class AddModuleFragment extends Fragment{
 
 
 
-    private void showFourthShowCase() {
+   /* private void showFourthShowCase() {
         new ShowcaseView.Builder(getActivity())
                 .withMaterialShowcase()
                 .setStyle(R.style.CustomShowcaseTheme2)
@@ -233,7 +254,7 @@ public class AddModuleFragment extends Fragment{
                 .hideOnTouchOutside()
                 .setContentTitle("Swipe from left to launch drawer with navigation options.")
                 .build();
-    }
+    }*/
 
  /*   public void initialise(Intent intent) {
         if(intent!=null && intent.getStringExtra(IntentConstants.COURSE_ID)!=null){

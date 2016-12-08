@@ -228,7 +228,16 @@ public class ManageCourseFragment extends Fragment implements View.OnClickListen
                 Uri uri = data.getData();
                 String mimeType = getContext().getContentResolver().getType(uri);
                 importfile = new File(uri.getPath());
-                filepath = importfile.getAbsolutePath().split(":")[1];
+
+                if(importfile.getAbsolutePath().contains(":")) {
+                    filepath = importfile.getAbsolutePath().split(":")[1];
+                }
+                else
+                {
+                    filepath = importfile.getAbsolutePath();
+                }
+
+
                 Log.i("String:", filepath);
                 ImportFunctionRunner ifr = new ImportFunctionRunner();
                 ifr.execute();

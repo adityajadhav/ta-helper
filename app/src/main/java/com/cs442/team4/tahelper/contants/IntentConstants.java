@@ -40,4 +40,10 @@ public class IntentConstants {
 
     public static final String ASSIGNMENT_WEIGHTAGE = "assignment_weightage";
 
+    public static final String MODULE_LIST = "module_list";
+
+    public static final String ASSIGNMENT_LIST = "assignment_list";
+
+
+
 }

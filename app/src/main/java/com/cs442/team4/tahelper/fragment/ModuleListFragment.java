@@ -63,7 +63,7 @@ public class ModuleListFragment extends Fragment{
 
 
     public interface ModuleListFragmentListener{
-        public void addNewModuleEvent(View view);
+        public void addNewModuleEvent(View view,ArrayList<String> moduleList);
         //public void notifyBackButtonEvent(View view);
 
     }
@@ -88,7 +88,7 @@ public class ModuleListFragment extends Fragment{
         addModuleButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                moduleListFragmentListener.addNewModuleEvent(addModuleButton);
+                moduleListFragmentListener.addNewModuleEvent(addModuleButton,moduleItemList);
             }
         });
        // registerListChangeListener();
@@ -180,7 +180,7 @@ public class ModuleListFragment extends Fragment{
                                 if(thisEntry.getKey().equals("weightage")){
                                     ModuleEntity.updateWeightage((String) postSnapshot.getKey(), (String)thisEntry.getValue());
 
-                                }else{
+                                }else if(!thisEntry.getKey().equals("isGraded")){
                                     AssignmentEntity assignmentEntity = new AssignmentEntity();
                                     ArrayList<AssignmentSplit> splitsList = new ArrayList<AssignmentSplit>();
                                     assignmentEntity.setAssignmentSplits(splitsList);
@@ -198,7 +198,7 @@ public class ModuleListFragment extends Fragment{
                                             Iterator entries2 = splitList.entrySet().iterator();
                                             while (entries2.hasNext()) {
                                                 Map.Entry thisEntry2 = (Map.Entry) entries2.next();
-                                                splitsList.add(new AssignmentSplit((String) thisEntry2.getKey(), Integer.parseInt((String) thisEntry2.getValue())));
+                                                splitsList.add(new AssignmentSplit((String) thisEntry2.getKey(), Double.parseDouble((String) thisEntry2.getValue())));
                                             }
 
                                         } else if(key1.equals("weightage")){

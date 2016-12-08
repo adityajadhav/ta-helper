@@ -53,6 +53,7 @@ public class add_course_fragment extends Fragment {
     int flag = 0;
     String user;
     int exists_flag = 0;
+    String oldImportedMode = null;
 
     public interface OnFinishAddCourseInterface {
         public void closeAddCourseFragment();
@@ -217,6 +218,7 @@ public class add_course_fragment extends Fragment {
                             String c_p_full = items.child("professorFullName").getValue().toString();
                             String c_ta = items.child("taemailIds").getValue().toString();
                             String c_p_un = items.child("professorUserName").getValue().toString();
+                            oldImportedMode = items.child("imported").getValue().toString();
 
 
                             course_name_tv.setText(c_name);
@@ -324,8 +326,14 @@ public class add_course_fragment extends Fragment {
                                 } else {
                                     Toast.makeText(getContext(), "Add TA members by clicking on Add TAs button", Toast.LENGTH_SHORT).show();
                                 }
-
-                                myRef.child(course_id).child("imported").setValue(false).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                boolean value = false;
+                                if(smode.equals("edit")){
+                                    if (oldImportedMode.contains("true"))
+                                    {
+                                        value = true;
+                                    }
+                                }
+                                myRef.child(course_id).child("imported").setValue(value).addOnCompleteListener(new OnCompleteListener<Void>() {
                                     @Override
                                     public void onComplete(@NonNull Task<Void> task) {
 
