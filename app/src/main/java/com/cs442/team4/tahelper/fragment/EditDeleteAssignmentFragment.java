@@ -135,6 +135,8 @@ public class EditDeleteAssignmentFragment extends Fragment {
         mDatabase = FirebaseDatabase.getInstance().getReference("modules").child(courseCode);
         loadFromDatabase();
 
+        assignmentName.setHint("Enter sub "+moduleName+" name.");
+
         return layout;
     }
 
