@@ -102,7 +102,7 @@ public class Course_list_array_adapter extends ArrayAdapter<Course_Entity> {
                 {
 
                     new AlertDialog.Builder(context)
-                            .setTitle("Error!")
+                            .setTitle("No Students Found!")
                             .setMessage("Import Students to the course first. Click on Manage and import the student list")
                             .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int which) {
