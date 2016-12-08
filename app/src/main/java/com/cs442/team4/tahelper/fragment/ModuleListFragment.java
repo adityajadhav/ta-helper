@@ -49,10 +49,10 @@ import static android.content.Context.MODE_PRIVATE;
 
 public class ModuleListFragment extends Fragment{
 
-    private ListView moduleListView;
+    public ListView moduleListView;
     private ArrayList<String> moduleItemList;
     private ModuleListItemAdapter moduleListItemAdapter;
-    private Button addModuleButton;
+    public Button addModuleButton;
     //private Button backButton;
     private RelativeLayout loadingLayout;
     private String courseCode;

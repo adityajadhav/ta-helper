@@ -216,11 +216,95 @@ public class ModuleListActivity  extends AppCompatActivity implements ModuleList
                 getFragmentManager().popBackStack();
             } catch (ActivityNotFoundException e) {
             }
+        }else if(id == R.id.nav_notification_settings){
+            Class<?> c = Build.VERSION.SDK_INT < Build.VERSION_CODES.HONEYCOMB ?
+                    MyPreferenceActivity.class : MyPreferenceActivity.class;
+
+            Intent i = new Intent(this, c);
+            startActivityForResult(i, 0);
+        }else if(id == R.id.nav_notification_help){
+            showCase();
+
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout_module_list);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    private void showCase() {
+        ModuleListFragment moduleListFragment = (ModuleListFragment) getFragmentManager().findFragmentById(R.id.ModuleListActivityFrameLayout);
+        new ShowcaseView.Builder(this)
+                .withMaterialShowcase()
+                .setStyle(R.style.CustomShowcaseTheme2)
+                .setTarget(new ViewTarget(moduleListFragment.moduleListView.getChildAt(0).findViewById(R.id.moduleNameView)))
+                .hideOnTouchOutside()
+                .setContentTitle("This shows the list of all modules for this course.\n Modules will further contain sub-modules.\n Example of modules : 1) InClassAssignments \n 2) HW Assignments \n 3) Project \n 4) Exam")
+                .setShowcaseEventListener(new SimpleShowcaseEventListener() {
+
+                    @Override
+                    public void onShowcaseViewDidHide(ShowcaseView showcaseView) {
+                        showSecondShowCase();
+                    }
+
+                })
+                .build();
+    }
+
+    private void showSecondShowCase() {
+        ModuleListFragment moduleListFragment = (ModuleListFragment) getFragmentManager().findFragmentById(R.id.ModuleListActivityFrameLayout);
+        new ShowcaseView.Builder(this)
+                .withMaterialShowcase()
+                .setStyle(R.style.CustomShowcaseTheme2)
+                .setTarget(new ViewTarget(moduleListFragment.moduleListView.getChildAt(0).findViewById(R.id.editModuleButtonView)))
+                .hideOnTouchOutside()
+                .setContentTitle("Click this to edit or delete this module details. For example to change the module name or change the module weightage")
+                .setShowcaseEventListener(new SimpleShowcaseEventListener() {
+
+                    @Override
+                    public void onShowcaseViewDidHide(ShowcaseView showcaseView) {
+                        showThirdShowCase();
+                    }
+
+                })
+                .build();
+    }
+
+    private void showThirdShowCase() {
+        ModuleListFragment moduleListFragment = (ModuleListFragment) getFragmentManager().findFragmentById(R.id.ModuleListActivityFrameLayout);
+        new ShowcaseView.Builder(this)
+                .withMaterialShowcase()
+                .setStyle(R.style.CustomShowcaseTheme2)
+                .setTarget(new ViewTarget(moduleListFragment.moduleListView.getChildAt(0).findViewById(R.id.manageModuleButtonView)))
+                .hideOnTouchOutside()
+                .setContentTitle("Click this to view the sub modules list associated with this module.")
+                .setShowcaseEventListener(new SimpleShowcaseEventListener() {
+
+                    @Override
+                    public void onShowcaseViewDidHide(ShowcaseView showcaseView) {
+                        showFourthShowCase();
+                    }
+
+                })
+                .build();
+    }
+
+    private void showFourthShowCase() {
+        ModuleListFragment moduleListFragment = (ModuleListFragment) getFragmentManager().findFragmentById(R.id.ModuleListActivityFrameLayout);
+        new ShowcaseView.Builder(this)
+                .withMaterialShowcase()
+                .setStyle(R.style.CustomShowcaseTheme2)
+                .setTarget(new ViewTarget(moduleListFragment.addModuleButton))
+                .hideOnTouchOutside()
+                .setContentTitle("Click this button to add a new module for this course.")
+                .setShowcaseEventListener(new SimpleShowcaseEventListener() {
+
+                    @Override
+                    public void onShowcaseViewDidHide(ShowcaseView showcaseView) {
+                    }
+
+                })
+                .build();
     }
 
    /* public void notifyBackButtonEvent(View view) {

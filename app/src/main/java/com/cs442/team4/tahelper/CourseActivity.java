@@ -6,6 +6,7 @@ import android.app.FragmentTransaction;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -24,6 +25,7 @@ import android.widget.TextView;
 import com.cs442.team4.tahelper.activity.ModuleListActivity;
 import com.cs442.team4.tahelper.fragment.ManageCourseFragment;
 import com.cs442.team4.tahelper.model.UserEntity;
+import com.cs442.team4.tahelper.preferences.MyPreferenceActivity;
 import com.cs442.team4.tahelper.utils.ObjectUtils;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
@@ -45,6 +47,7 @@ public class CourseActivity extends AppCompatActivity implements add_course_frag
     GoogleApiClient mGoogleApiClient;
     final Add_ta_fragment newAddTAFragment = new Add_ta_fragment();
     UserEntity user;
+    private static final int SHOW_PREFERENCES = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -444,6 +447,12 @@ public class CourseActivity extends AppCompatActivity implements add_course_frag
                 getFragmentManager().popBackStack();
             } catch (ActivityNotFoundException e) {
             }
+        }else if(id == R.id.nav_notification_settings){
+            Class<?> c = Build.VERSION.SDK_INT < Build.VERSION_CODES.HONEYCOMB ?
+                    MyPreferenceActivity.class : MyPreferenceActivity.class;
+
+            Intent i = new Intent(this, c);
+            startActivityForResult(i, SHOW_PREFERENCES);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

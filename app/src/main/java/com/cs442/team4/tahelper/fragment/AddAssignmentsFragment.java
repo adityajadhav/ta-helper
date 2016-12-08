@@ -95,14 +95,20 @@ public class AddAssignmentsFragment extends Fragment {
         addSplitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(splitName.getText()!=null && splitName.getText().length()>0 && splitScore.getText()!=null && splitScore.getText().length()>0){
+                if(splitName.getText()!=null && splitName.getText().length()>0 && splitScore.getText()!=null && splitScore.getText().length()>0 && splitName.getText().toString().matches(".*[a-zA-Z]+.*") && isUnique(splitName.getText().toString())){
                      assignmentSplitsList.add(new AssignmentSplit(splitName.getText().toString(),Double.parseDouble(splitScore.getText().toString())));
                      splitName.setText("");
                      splitScore.setText("");
 
                      assignmentAdapter.notifyDataSetChanged();
+                }else if(!splitName.getText().toString().matches(".*[a-zA-Z]+.*")){
+                    Toast.makeText(getActivity(),"Split name should contain atleast one character.",Toast.LENGTH_LONG).show();
+                }else if(!isUnique(splitName.getText().toString())){
+                    Toast.makeText(getActivity(),"Split name needs to be unique.",Toast.LENGTH_LONG).show();
+
                 }else{
                     Toast.makeText(getActivity(),"Please enter both split name, score and try again.",Toast.LENGTH_LONG).show();
+
                 }
             }
         });
@@ -120,6 +126,17 @@ public class AddAssignmentsFragment extends Fragment {
         return layout;
     }
 
+    private boolean isUnique(String splitName) {
+        for(AssignmentSplit assignmentSplit : assignmentSplitsList){
+            if(assignmentSplit.getSplitName().equals(splitName)){
+                return false;
+            }
+        }
+        return true;
+    }
+
+
+
     private void handleAddAssignment() {
         mDatabase = FirebaseDatabase.getInstance().getReference("modules").child(courseCode);
         if(assignmentName.getText()!=null && assignmentName.getText().length()>0 && assignmentTotalScore.getText()!=null && assignmentTotalScore.getText().length()>0
@@ -132,7 +149,7 @@ public class AddAssignmentsFragment extends Fragment {
 
                 for (int i = 0; i < assignmentSplitsList.size(); i++) {
                     AssignmentSplit split = assignmentSplitsList.get(i);
-                    mDatabase.child(moduleName).child(assignmentName.getText().toString()).child("Splits").child(split.getSplitName()).setValue(String.valueOf(split.getSplitScore()));
+                    mDatabase.child(moduleName).child(assignmentName.getText().toString()).child("Splits").child(String.valueOf(split.getSplitName())).setValue(String.valueOf(split.getSplitScore()));
                 }
 
                 Intent serviceIntent = new Intent(getActivity(), AssignmentsDatabaseUpdationService.class);

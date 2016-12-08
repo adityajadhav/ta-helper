@@ -79,7 +79,7 @@ public class AssignmentsDatabaseUpdationService extends IntentService{
                         mDatabase.child("students").child(courseCode).child(postSnapshot.getKey()).child(moduleName).child(assignmentName).child("weightage").setValue(assignmentWeightage);
                         for (int i = 0; i < assignmentSplitsList.size(); i++) {
                             AssignmentSplit split = assignmentSplitsList.get(i);
-                            mDatabase.child("students").child(courseCode).child(postSnapshot.getKey()).child(moduleName).child(assignmentName).child("Splits").child(split.getSplitName()).setValue("0.0");
+                            mDatabase.child("students").child(courseCode).child(postSnapshot.getKey()).child(moduleName).child(assignmentName).child("Splits").child(String.valueOf(split.getSplitName())).setValue("0.0");
                         }
                     }
                 } else if (mode.equals("Edit")) {
@@ -100,7 +100,7 @@ public class AssignmentsDatabaseUpdationService extends IntentService{
                         for (int i = 0; i < assignmentSplitsList.size(); i++) {
                             AssignmentSplit split = assignmentSplitsList.get(i);
                             Log.i("AssignmentsUpdation", "i : " + i + "split  " + split.getSplitName());
-                            mDatabase.child("students").child(courseCode).child(postSnapshot.getKey()).child(moduleName).child(assignmentNewName).child("Splits").child(split.getSplitName()).setValue("0.0");
+                            mDatabase.child("students").child(courseCode).child(postSnapshot.getKey()).child(moduleName).child(assignmentNewName).child("Splits").child(String.valueOf(split.getSplitName())).setValue("0.0");
                         }
                     }
                 } else if (mode.equals("Delete")) {

@@ -124,6 +124,12 @@ public class AddAssignmentsActivity extends AppCompatActivity implements AddAssi
                 getFragmentManager().popBackStack();
             } catch (ActivityNotFoundException e) {
             }
+        }else if(id == R.id.nav_notification_settings){
+            Class<?> c = Build.VERSION.SDK_INT < Build.VERSION_CODES.HONEYCOMB ?
+                    MyPreferenceActivity.class : MyPreferenceActivity.class;
+
+            Intent i = new Intent(this, c);
+            startActivityForResult(i, 0);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout_add_assignments);

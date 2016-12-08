@@ -5,6 +5,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
@@ -430,14 +431,18 @@ public class add_course_fragment extends Fragment {
     private void sendNotification(Course_Entity ce) {
 
         UserEntity user = null;
-        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("CurrentUser", MODE_PRIVATE);
-        String userJson = sharedPreferences.getString("UserEntityJson", "");
-        if (ObjectUtils.isNotEmpty(userJson)) {
-            Gson gson = new Gson();
-            user = gson.fromJson(userJson, UserEntity.class);
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        boolean isNotification = sharedPref.getBoolean("PREF_CHECK_BOX", false);
+        if(isNotification) {
+            SharedPreferences sharedPreferences = getActivity().getSharedPreferences("CurrentUser", MODE_PRIVATE);
+            String userJson = sharedPreferences.getString("UserEntityJson", "");
+            if (ObjectUtils.isNotEmpty(userJson)) {
+                Gson gson = new Gson();
+                user = gson.fromJson(userJson, UserEntity.class);
+            }
+            PushNotification nf = new PushNotification(ApplicationConstants.SERVER.REGISTERED_DEVICE, ApplicationConstants.APP.APP_NAME, "TA " + user.getDisplayName() + " added Course " + ce.getName());
+            Message.notify(getActivity(), nf);
         }
-        PushNotification nf = new PushNotification(ApplicationConstants.SERVER.REGISTERED_DEVICE, ApplicationConstants.APP.APP_NAME, "TA " + user.getDisplayName() + " added Course " + ce.getName());
-        Message.notify(getActivity(), nf);
 
     }
 

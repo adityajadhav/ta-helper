@@ -30,4 +30,24 @@
         </menu>
     </item>
 
+    <item android:title="Settings">
+        <menu>
+            <item
+                android:id="@+id/nav_notification_settings"
+                android:title="Notifications" />
+
+        </menu>
+    </item>
+
+    <item android:title="Help"
+        >
+        <menu>
+            <item
+                android:id="@+id/nav_notification_help"
+                android:icon="@drawable/icon_help"
+                android:title="Help" />
+
+        </menu>
+    </item>
+
 </menu>
