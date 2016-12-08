@@ -77,7 +77,7 @@ public class GradeWithoutSplitsFragment extends Fragment {
             @Override
             public void onClick(View v) {
 
-                if(Character.isDigit(finalScore.toString().charAt(0)))
+                if(Character.isDigit(totalEditText.getText().toString().charAt(0)))
                 {
                     finalScore = Double.parseDouble(totalEditText.getText().toString());
 
