@@ -11,6 +11,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.cs442.team4.tahelper.CourseActivity;
 import com.cs442.team4.tahelper.R;
@@ -93,20 +94,26 @@ public class GenerateStudentGroupsFragment extends Fragment {
 
 
                             if (groupSize > 0) {
-                                List<List<Student_Entity>> groups = new LexicographicStudentGroupsImpl().generateGroups(studentList, groupSize);
-                                studentList.removeAll(studentList);
+                                if (groupSize <= studentList.size()) {
+                                    List<List<Student_Entity>> groups = new LexicographicStudentGroupsImpl().generateGroups(studentList, groupSize);
+                                    studentList.removeAll(studentList);
 
-                                if (ObjectUtils.isNotEmpty(groups)) {
-                                    for (int j = 0; j < groups.size(); j++) {
-                                        for (int i = 0; i < groups.get(j).size(); i++) {
-                                            Student_Entity student = groups.get(j).get(i);
-                                            student.setBelongToGroup(j + 1);
-                                            studentList.add(student);
-                                            System.out.println(groups.get(j).get(i).getStudentFirstName() + "\t" + j);
+                                    if (ObjectUtils.isNotEmpty(groups)) {
+                                        for (int j = 0; j < groups.size(); j++) {
+                                            for (int i = 0; i < groups.get(j).size(); i++) {
+                                                Student_Entity student = groups.get(j).get(i);
+                                                student.setBelongToGroup(j + 1);
+                                                studentList.add(student);
+                                                System.out.println(groups.get(j).get(i).getStudentFirstName() + "\t" + j);
+                                            }
                                         }
                                     }
+                                    itemsAdapter.notifyDataSetChanged();
+                                    Toast.makeText(getContext(), "Groups Generated!", Toast.LENGTH_SHORT).show();
+                                } else {
+                                    Snackbar.make(v, "Group size should not exceeds the number of students", Snackbar.LENGTH_LONG).setAction("Action", null).show();
                                 }
-                                itemsAdapter.notifyDataSetChanged();
+
                             } else {
                                 Snackbar.make(v, groupSize + " is not a valid input", Snackbar.LENGTH_LONG).setAction("Action", null).show();
 
@@ -137,6 +144,7 @@ public class GenerateStudentGroupsFragment extends Fragment {
                         itemsAdapter.notifyDataSetChanged();
                     }
                 }
+
                 @Override
                 public void onCancelled(DatabaseError firebaseError) {
                     Log.e("The read failed: ", firebaseError.getMessage());
