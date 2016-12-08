@@ -239,6 +239,8 @@ public class GradeWithSplitsFragment extends Fragment {
 
     private void updateGradesToDatabase()
     {
+        mDatabase.child("modules").child(courseName).child(moduleName).child(moduleItem).child("isGraded").setValue(true);
+        mDatabase.child("modules").child(courseName).child(moduleName).child("isGraded").setValue(true);
         mDatabase.child("students").child(courseName).child(studentId).child(moduleName).child(moduleItem).child("Total").setValue(finalScore.toString());
 
         for (int i = 0; i < splitsArrayList.size(); i++) {

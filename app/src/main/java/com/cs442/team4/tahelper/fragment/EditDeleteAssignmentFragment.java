@@ -54,6 +54,8 @@ public class EditDeleteAssignmentFragment extends Fragment {
     private String originalAssignmentName;
     //private Button backButton;
     private String courseCode;
+    private ArrayList<String> assignmentList;
+    private boolean isGraded;
 
     public interface EditDeleteAssignmentsFragmentListener{
         public void notifyEditDeleteAssignmentEvent(String moduleName);
@@ -79,6 +81,7 @@ public class EditDeleteAssignmentFragment extends Fragment {
         assignmentSplitsList = new ArrayList<AssignmentSplit>();
         assignmentAdapter = new EditDeleteAssignmentListItemAdapter(getActivity(),R.layout.add_assignments_item_layout,assignmentSplitsList);
         splitList.setAdapter(assignmentAdapter);
+        assignmentList = getArguments().getStringArrayList(IntentConstants.ASSIGNMENT_LIST);
 
         /*backButton.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -123,13 +126,16 @@ public class EditDeleteAssignmentFragment extends Fragment {
         assignmentName.setSelection(assignmentName.getText().length());
         mDatabase = FirebaseDatabase.getInstance().getReference("modules").child(courseCode);
         loadFromDatabase();
+
         return layout;
     }
 
     private void handleEditAssignment() {
         if(assignmentName.getText()!=null && assignmentName.getText().length()>0 && assignmentTotalScore.getText()!=null && assignmentTotalScore.getText().length()>0
                 && assignmentWeightage.getText()!=null && assignmentWeightage.getText().length()>0){
-            if(validateTotal()){
+            boolean isValidTotal = validateTotal();
+            boolean isValidName = validateName(assignmentName.getText().toString());
+            if(isValidTotal && isValidName){
                 mDatabase.child(moduleName).child(originalAssignmentName).removeValue();
                 ModuleEntity.removeAssignmentFromModule(moduleName,originalAssignmentName);
 
@@ -158,8 +164,11 @@ public class EditDeleteAssignmentFragment extends Fragment {
                 assignmentAdapter.notifyDataSetChanged();
 
                 editDeleteAssignmentFragmentListener.notifyEditDeleteAssignmentEvent(moduleName);
-            }else{
+            }else if(!isValidTotal){
                 Toast.makeText(getActivity(),"Total count does not match with Sum of Splits.Please correct it and try again.",Toast.LENGTH_LONG).show();
+            }else if(!isValidName){
+                Toast.makeText(getActivity(),"Sub module name cannot be duplicate",Toast.LENGTH_LONG).show();
+                assignmentName.setError("Sub module name cannot be duplicate");
             }
 
         }else{
@@ -177,6 +186,16 @@ public class EditDeleteAssignmentFragment extends Fragment {
                 assignmentWeightage.setError("Assignment Weightage cannot be empty");
             }
         }
+    }
+
+    private boolean validateName(String assignmentName) {
+        boolean isValid = true;
+        for(String existingName : assignmentList){
+            if(existingName.equals(assignmentName) && !existingName.equals(originalAssignmentName)){
+                return false;
+            }
+        }
+        return isValid;
     }
 
     private boolean validateTotal() {
@@ -256,6 +275,16 @@ public class EditDeleteAssignmentFragment extends Fragment {
                     if(postSnapshot.getKey().equals("weightage")){
                         assignmentWeightage.setText(postSnapshot.getValue(String.class));
                         assignmentWeightage.setSelection(assignmentWeightage.length());
+                    }
+                    if(postSnapshot.getKey().equals("isGraded")){
+                        isGraded = postSnapshot.getValue(Boolean.class);
+                        editAssignment.setVisibility(View.GONE);
+                        LinearLayout.LayoutParams param = new LinearLayout.LayoutParams(
+                                LinearLayout.LayoutParams.MATCH_PARENT,
+                                LinearLayout.LayoutParams.MATCH_PARENT, 2.0f);
+
+                        deleteAssignment.setLayoutParams(param);
+
                     }
                 }
             }

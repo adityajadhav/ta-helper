@@ -5,7 +5,8 @@
     android:layout_height="match_parent"
     android:weightSum="10"
     android:background="@color/colorBlack"
-    android:alpha="0.8">
+    android:alpha="0.8"
+    android:layout_marginTop="?attr/actionBarSize">
 
 
         <EditText

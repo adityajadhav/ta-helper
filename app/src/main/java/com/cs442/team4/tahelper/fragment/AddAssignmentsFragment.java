@@ -56,6 +56,8 @@ public class AddAssignmentsFragment extends Fragment {
     private AddAssignmentsFragmentListener addAssignmentFragmentListener;
     //private Button backButton;
     private String courseCode;
+    private ArrayList<String> assignmentsList;
+
 
     public interface AddAssignmentsFragmentListener{
         public void notifyAddAssignmentEvent(String moduleName);
@@ -80,6 +82,8 @@ public class AddAssignmentsFragment extends Fragment {
         assignmentSplitsList = new ArrayList<AssignmentSplit>();
         assignmentAdapter = new AddAssignmentListItemAdapter(getActivity(),R.layout.add_assignments_item_layout,assignmentSplitsList);
         splitList.setAdapter(assignmentAdapter);
+
+        assignmentsList = getArguments().getStringArrayList(IntentConstants.ASSIGNMENT_LIST);
 
         /*backButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -120,7 +124,9 @@ public class AddAssignmentsFragment extends Fragment {
         mDatabase = FirebaseDatabase.getInstance().getReference("modules").child(courseCode);
         if(assignmentName.getText()!=null && assignmentName.getText().length()>0 && assignmentTotalScore.getText()!=null && assignmentTotalScore.getText().length()>0
                 && assignmentWeightage.getText()!=null && assignmentWeightage.getText().length()>0){
-            if(validateTotal()){
+            boolean validTotal = validateTotal();
+            boolean validName = validName(assignmentName.getText().toString());
+            if(validTotal && validName){
                 mDatabase.child(moduleName).child(assignmentName.getText().toString()).child("Total").setValue(assignmentTotalScore.getText().toString());
                 mDatabase.child(moduleName).child(assignmentName.getText().toString()).child("weightage").setValue(assignmentWeightage.getText().toString());
 
@@ -142,8 +148,12 @@ public class AddAssignmentsFragment extends Fragment {
 
                 ModuleEntity.addAssignments(moduleName,new AssignmentEntity(assignmentName.getText().toString(),assignmentTotalScore.getText().toString(),assignmentWeightage.getText().toString(),assignmentSplitsList));
                 addAssignmentFragmentListener.notifyAddAssignmentEvent(moduleName);
-            }else {
+            }else if(!validTotal){
                 Toast.makeText(getActivity(),"Total count does not match with Sum of Splits.Please correct it and try again.",Toast.LENGTH_LONG).show();
+            }else if(!validName){
+                Toast.makeText(getActivity(),"Sub module name cannot be duplicate.",Toast.LENGTH_LONG).show();
+                assignmentName.setError("Sub module name cannot be duplicate.");
+
             }
         }else{
             Toast.makeText(getActivity(),"Please correct all errors and try again.",Toast.LENGTH_LONG).show();
@@ -162,9 +172,19 @@ public class AddAssignmentsFragment extends Fragment {
         }
     }
 
+    private boolean validName(String assignmentName) {
+        boolean isValid = true;
+        for(String existingName : assignmentsList){
+            if(existingName.equals(assignmentName)){
+                return false;
+            }
+        }
+        return isValid;
+    }
+
     private boolean validateTotal() {
         boolean isValid = false;
-        int total = Integer.parseInt(assignmentTotalScore.getText().toString());
+        double total = Double.parseDouble(assignmentTotalScore.getText().toString());
         if(assignmentSplitsList.size()==0){
             isValid = true;
         }else {

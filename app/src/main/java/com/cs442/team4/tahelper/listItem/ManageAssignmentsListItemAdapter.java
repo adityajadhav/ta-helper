@@ -24,12 +24,14 @@ public class ManageAssignmentsListItemAdapter extends ArrayAdapter<String>{
 
     private int resource;
     private Context context;
+    ArrayList<String> manageAssignmentsList;
 
 
     public ManageAssignmentsListItemAdapter(Context context, int resource, ArrayList<String> manageAssignmentsList) {
         super(context, resource,manageAssignmentsList);
         this.resource = resource;
         this.context = context;
+        this.manageAssignmentsList = manageAssignmentsList;
     }
 
     @Override
@@ -54,7 +56,7 @@ public class ManageAssignmentsListItemAdapter extends ArrayAdapter<String>{
 
             @Override
             public void onClick(View v) {
-                ((ManageAssignmentsActivity)context).onAssignmentItemClickEditDelete(assignmentContent);
+                ((ManageAssignmentsActivity)context).onAssignmentItemClickEditDelete(assignmentContent,manageAssignmentsList);
             }
         });
         scoreButton.setOnClickListener(new View.OnClickListener(){

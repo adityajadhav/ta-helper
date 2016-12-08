@@ -80,6 +80,7 @@ public class AddModuleActivity extends AppCompatActivity implements AddModuleFra
             user = (UserEntity) getIntent().getSerializableExtra("USER_DETAILS");
             Bundle bundle = new Bundle();
             bundle.putString(IntentConstants.COURSE_ID,courseCode);
+            bundle.putStringArrayList(IntentConstants.MODULE_LIST,getIntent().getStringArrayListExtra(IntentConstants.MODULE_LIST));
             addModuleFragment.setArguments(bundle);
         }
 
@@ -190,6 +191,7 @@ public class AddModuleActivity extends AppCompatActivity implements AddModuleFra
 
         Intent intent = new Intent(this,ModuleListActivity.class);
         intent.putExtra(IntentConstants.COURSE_ID,courseCode);
+        intent.putExtra("USER_DETAILS",user);
         startActivity(intent);
         finish();
         overridePendingTransition(R.anim.right_slide_in, R.anim.right_slide_out);

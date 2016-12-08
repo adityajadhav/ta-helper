@@ -22,12 +22,13 @@ public class ModuleListItemAdapter extends ArrayAdapter<String>{
 
     private int resource;
     private Context context;
-
+    ArrayList<String> moduleItemList;
 
     public ModuleListItemAdapter(Context context, int resource, ArrayList<String> moduleItemList) {
         super(context, resource,moduleItemList);
         this.resource = resource;
         this.context = context;
+        this.moduleItemList = moduleItemList;
     }
 
     @Override
@@ -52,7 +53,7 @@ public class ModuleListItemAdapter extends ArrayAdapter<String>{
 
            @Override
            public void onClick(View v) {
-              ((ModuleListActivity)context).onModuleItemClickEditDelete(moduleContent);
+              ((ModuleListActivity)context).onModuleItemClickEditDelete(moduleContent,moduleItemList);
            }
         });
         manageModuleButton.setOnClickListener(new View.OnClickListener(){
