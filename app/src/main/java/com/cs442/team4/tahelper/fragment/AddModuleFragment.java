@@ -27,6 +27,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import static android.content.Context.MODE_PRIVATE;
 
@@ -113,7 +115,7 @@ public class AddModuleFragment extends Fragment{
                     mDatabase.child("modules").child("Final Score").setValue("");*/
                     // key  = mDatabase.push().getKey();
                   //  mDatabase.child("modules").child(key).child("name").setValue(moduleName);
-                    if(isValidName(moduleName)){
+                    if(isValidName(moduleName,moduleWeightage)){
                         mDatabase.child("modules").child(courseName).child(moduleName).child("weightage").setValue(moduleWeightage);
                         ModuleEntity.addModule(moduleName,moduleWeightage);
 
@@ -128,10 +130,6 @@ public class AddModuleFragment extends Fragment{
 
                         //ModuleEntity.addKeyValue(moduleName,key);
                         addModuleFragmentListener.addModuleEvent();;
-                    }else{
-                        Toast.makeText(getActivity()," A module with this name already exists.",Toast.LENGTH_LONG).show();
-                        enterModuleNameFragmentView.setError("Module Name cannot be duplicate");
-
                     }
 
 
@@ -151,13 +149,27 @@ public class AddModuleFragment extends Fragment{
         return layout;
     }
 
-    private boolean isValidName(String moduleName) {
+    private boolean isValidName(String moduleName,String moduleWeightage) {
         boolean isValid = true;
         for(String existingName : moduleList){
             if(existingName.equals(moduleName)){
+                enterModuleNameFragmentView.setError("Duplicate Module Name");
                 return false;
             }
         }
+        Pattern p = Pattern.compile("[^A-Za-z0-9]");
+        Matcher m = p.matcher(moduleName);
+        boolean b = m.find();
+        if (b == true){
+            enterModuleNameFragmentView.setError("Module Name should not contain special characters");
+            return false;
+        }
+
+        if(!Character.isDigit(moduleWeightage.charAt(0))){
+            enterModuleWeightageFragmentView.setError("Module Weightage should begin with a number");
+            return false;
+        }
+
         return isValid;
     }
 

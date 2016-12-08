@@ -33,6 +33,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import static android.content.Context.MODE_PRIVATE;
 
@@ -101,7 +103,7 @@ public class EditDeleteModuleFragment extends Fragment {
             public void onClick(View v) {
                 if(moduleName.getText().toString()!=null && moduleName.getText().toString().length()>0 && moduleWeightage.getText().toString()!=null
                         && moduleWeightage.getText().toString().length()>0) {
-                    if(isValidName(moduleName.getText().toString())){
+                    if(isValidName(moduleName.getText().toString(),moduleWeightage.getText().toString())){
                         ModuleEntity.editModule(moduleNameString,moduleName.getText().toString(),moduleWeightage.getText().toString());
 
                         FirebaseDatabase.getInstance().getReference("modules/"+courseCode+"/"+moduleNameString).removeValue();
@@ -134,9 +136,6 @@ public class EditDeleteModuleFragment extends Fragment {
 
                         //ModuleEntity.addKeyValue(moduleName.getText().toString(),key);
                         editDeleteButtonListner.clickButtonEvent();
-                    }else{
-                        Toast.makeText(getActivity()," A module with this name already exists.",Toast.LENGTH_LONG).show();
-                        moduleName.setError("Module Name cannot be duplicate");
                     }
 
                 }else{
@@ -195,12 +194,25 @@ public class EditDeleteModuleFragment extends Fragment {
         });
     }
 
-    private boolean isValidName(String moduleName) {
+    private boolean isValidName(String newModuleName, String newModuleWeightage) {
         boolean isValid = true;
         for(String existingName : moduleList){
-            if(existingName.equals(moduleName) && !existingName.equals(moduleNameString)){
+            if(existingName.equals(newModuleName) && !newModuleName.equals(moduleNameString)){
+                moduleName.setError("Duplicate Module Name");
                 return false;
             }
+        }
+        Pattern p = Pattern.compile("[^A-Za-z0-9]");
+        Matcher m = p.matcher(newModuleName);
+        boolean b = m.find();
+        if (b == true){
+            moduleName.setError("Module Name should not contain special characters");
+            return false;
+        }
+
+        if(!Character.isDigit(newModuleWeightage.charAt(0))){
+            moduleWeightage.setError("Module Weightage should begin with a number");
+            return false;
         }
         return isValid;
     }
