@@ -99,21 +99,32 @@ public class AddAssignmentsFragment extends Fragment {
         addSplitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(splitName.getText()!=null && splitName.getText().length()>0 && splitScore.getText()!=null && splitScore.getText().length()>0 && splitName.getText().toString().matches(".*[a-zA-Z]+.*") && isUnique(splitName.getText().toString())){
+                if(splitName.getText()!=null && splitName.getText().length()>0 && splitScore.getText()!=null && splitScore.getText().length()>0 && splitName.getText().toString().matches(".*[a-zA-Z]+.*") && isUnique(splitName.getText().toString()) && isValidSplitScore(splitScore.getText().toString())){
                      assignmentSplitsList.add(new AssignmentSplit(splitName.getText().toString(),Double.parseDouble(splitScore.getText().toString())));
                      splitName.setText("");
                      splitScore.setText("");
 
                      assignmentAdapter.notifyDataSetChanged();
                 }else if(!splitName.getText().toString().matches(".*[a-zA-Z]+.*")){
+                    splitName.setError("Split name should contain atleast one alphabet.");
                     Toast.makeText(getActivity(),"Split name should contain atleast one alphabet.",Toast.LENGTH_LONG).show();
                 }else if(!isUnique(splitName.getText().toString())){
+                    splitName.setError("Split name needs to be unique.");
                     Toast.makeText(getActivity(),"Split name needs to be unique.",Toast.LENGTH_LONG).show();
 
-                }else{
+                }else if(!isValidSplitScore(splitScore.getText().toString())) {
+                    splitScore.setError("Split score should begin with a number.");
                     Toast.makeText(getActivity(),"Please enter both split name, score and try again.",Toast.LENGTH_LONG).show();
 
+
+                }else{
+                        splitName.setError("Split name cannot be empty.");
+                        splitScore.setError("Split score cannot be unique.");
+
+                        Toast.makeText(getActivity(),"Please enter both split name, score and try again.",Toast.LENGTH_LONG).show();
+
                 }
+
             }
         });
 
@@ -129,6 +140,10 @@ public class AddAssignmentsFragment extends Fragment {
         courseCode = getArguments().getString(IntentConstants.COURSE_ID);
         assignmentName.setHint("Enter sub "+moduleName+" name.");
         return layout;
+    }
+
+    private boolean isValidSplitScore(String splitScore) {
+        return false;
     }
 
     private boolean isUnique(String splitName) {

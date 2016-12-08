@@ -68,7 +68,7 @@
         android:layout_height="match_parent"
         android:layout_width="60dp"
         android:id="@+id/manageModuleButtonView"
-        android:background="@drawable/manage"
+        android:background="@drawable/next"
         android:layout_marginRight="15dp"
         android:scaleType="fitCenter"
         android:layout_marginBottom="5dp"
