@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.util.Log;
@@ -178,6 +179,11 @@ public class EditDeleteModuleFragment extends Fragment {
                     if(postSnapshot.getKey().equals("isGraded")){
                         isGraded = postSnapshot.getValue(Boolean.class);
                         editButton.setVisibility(View.GONE);
+                        moduleWeightage.setFocusable(false);
+                        moduleWeightage.setBackgroundColor(Color.DKGRAY);
+                        moduleName.setFocusable(false);
+                        moduleName.setBackgroundColor(Color.DKGRAY);
+
 
                         LinearLayout.LayoutParams param = new LinearLayout.LayoutParams(
                                 LinearLayout.LayoutParams.MATCH_PARENT,

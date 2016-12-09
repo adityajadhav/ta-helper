@@ -3,6 +3,7 @@ package com.cs442.team4.tahelper.fragment;
 import android.app.Activity;
 import android.app.Fragment;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -362,6 +363,20 @@ public class EditDeleteAssignmentFragment extends Fragment {
                     if(postSnapshot.getKey().equals("isGraded")){
                         isGraded = postSnapshot.getValue(Boolean.class);
                         editAssignment.setVisibility(View.GONE);
+                        assignmentName.setFocusable(false);
+                        assignmentName.setBackgroundColor(Color.DKGRAY);
+                        assignmentTotalScore.setFocusable(false);
+                        assignmentTotalScore.setBackgroundColor(Color.DKGRAY);
+                        assignmentWeightage.setFocusable(false);
+                        assignmentWeightage.setBackgroundColor(Color.DKGRAY);
+                        splitName.setFocusable(false);
+                        splitName.setBackgroundColor(Color.DKGRAY);
+                        splitScore.setFocusable(false);
+                        splitScore.setBackgroundColor(Color.DKGRAY);
+                        addSplitButton.setVisibility(View.GONE);
+                        assignmentAdapter.setGraded(isGraded);
+
+
                         LinearLayout.LayoutParams param = new LinearLayout.LayoutParams(
                                 LinearLayout.LayoutParams.MATCH_PARENT,
                                 LinearLayout.LayoutParams.MATCH_PARENT, 2.0f);
