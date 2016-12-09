@@ -23,10 +23,14 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.cs442.team4.tahelper.activity.ModuleListActivity;
+import com.cs442.team4.tahelper.fragment.AddModuleFragment;
 import com.cs442.team4.tahelper.fragment.ManageCourseFragment;
 import com.cs442.team4.tahelper.model.UserEntity;
 import com.cs442.team4.tahelper.preferences.MyPreferenceActivity;
 import com.cs442.team4.tahelper.utils.ObjectUtils;
+import com.github.amlcurran.showcaseview.ShowcaseView;
+import com.github.amlcurran.showcaseview.SimpleShowcaseEventListener;
+import com.github.amlcurran.showcaseview.targets.ViewTarget;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.auth.api.signin.GoogleSignInResult;
@@ -455,12 +459,91 @@ public class CourseActivity extends AppCompatActivity implements add_course_frag
 
             Intent i = new Intent(this, c);
             startActivityForResult(i, SHOW_PREFERENCES);
+        }else if(id == R.id.nav_notification_help){
+
+
+            course_list_fragment frag = (course_list_fragment) getFragmentManager().findFragmentByTag("course_list_fragment");
+            if (frag != null && frag.isVisible()) {
+                // add your code here
+                courseListShowCase();
+            }
+
+
+
+
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
+
+    private void courseListShowCase() {
+        final course_list_fragment frag = (course_list_fragment) getFragmentManager().findFragmentByTag("course_list_fragment");
+        new ShowcaseView.Builder(this)
+                .withMaterialShowcase()
+                .setStyle(R.style.CustomShowcaseTheme2)
+                .setTarget(new ViewTarget(frag.getView().findViewById(R.id.add_course_fab_layout)))
+                .hideOnTouchOutside()
+                .setContentTitle("Enter the name of the module here. \nExample of module names : \n1)InClass \n2)HW Assignments \n3)Project,etc.")
+                .setShowcaseEventListener(new SimpleShowcaseEventListener() {
+
+                    @Override
+                    public void onShowcaseViewDidHide(ShowcaseView showcaseView) {
+                       // showSecondShowCase();
+                        View vw = frag.getView().findViewById(R.id.manage_course_btn_layout);
+                        if(vw != null)
+                        {
+                            courseListSecondShowCase();
+                        }
+                    }
+
+                })
+                .build();
+    }
+
+    private void courseListSecondShowCase() {
+        course_list_fragment frag = (course_list_fragment) getFragmentManager().findFragmentByTag("course_list_fragment");
+        new ShowcaseView.Builder(this)
+                .withMaterialShowcase()
+                .setStyle(R.style.CustomShowcaseTheme2)
+                .setTarget(new ViewTarget(frag.getView().findViewById(R.id.manage_course_btn_layout)))
+                .hideOnTouchOutside()
+                .setContentTitle("Enter the name of the module here. \nExample of module names : \n1)InClass \n2)HW Assignments \n3)Project,etc.")
+                .setShowcaseEventListener(new SimpleShowcaseEventListener() {
+
+                    @Override
+                    public void onShowcaseViewDidHide(ShowcaseView showcaseView) {
+                         courseListThirdShowCase();
+                    }
+
+                })
+                .build();
+
+    }
+
+    private void courseListThirdShowCase() {
+        course_list_fragment frag = (course_list_fragment) getFragmentManager().findFragmentByTag("course_list_fragment");
+
+        new ShowcaseView.Builder(this)
+                .withMaterialShowcase()
+                .setStyle(R.style.CustomShowcaseTheme2)
+                .setTarget(new ViewTarget(frag.getView().findViewById(R.id.delete_course_btn_layout)))
+                .hideOnTouchOutside()
+                .setContentTitle("Enter the name of the module here. \nExample of module names : \n1)InClass \n2)HW Assignments \n3)Project,etc.")
+                .setShowcaseEventListener(new SimpleShowcaseEventListener() {
+
+                    @Override
+                    public void onShowcaseViewDidHide(ShowcaseView showcaseView) {
+                        // showSecondShowCase();
+                    }
+
+                })
+                .build();
+    }
+
+
 
     @Override
     public void onConnectionFailed(ConnectionResult connectionResult) {
