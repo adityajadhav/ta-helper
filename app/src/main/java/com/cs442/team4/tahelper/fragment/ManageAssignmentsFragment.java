@@ -46,14 +46,14 @@ import static android.content.Context.MODE_PRIVATE;
 
 public class ManageAssignmentsFragment extends Fragment {
 
-    private ListView manageAssignmentsList;
+    public ListView manageAssignmentsList;
     private DatabaseReference mDatabase;
     private ArrayList<String> assignmentsList;
     private ManageAssignmentsListItemAdapter manageAssignmentsAdapter;
     private String moduleName;
     private String courseCode;
    // private TextView assignmentName;
-    private Button addAssignmentButton;
+    public Button addAssignmentButton;
     private ManageAssignmentFragmentListener manageAssignmentFragmentListener;
     //private Button backButton;
     private RelativeLayout loadingLayout;

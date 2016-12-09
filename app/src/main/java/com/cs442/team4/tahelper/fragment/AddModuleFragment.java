@@ -38,9 +38,9 @@ import static android.content.Context.MODE_PRIVATE;
 
 public class AddModuleFragment extends Fragment{
 
-    private EditText enterModuleNameFragmentView;
-    private EditText enterModuleWeightageFragmentView;
-    private Button addModuleFragmentView;
+    public EditText enterModuleNameFragmentView;
+    public EditText enterModuleWeightageFragmentView;
+    public Button addModuleFragmentView;
    // private Button backButton;
     private DatabaseReference mDatabase;
     private AddModuleFragmentListener addModuleFragmentListener;
@@ -155,25 +155,34 @@ public class AddModuleFragment extends Fragment{
         for(String existingName : moduleList){
             if(existingName.equals(moduleName)){
                 enterModuleNameFragmentView.setError("Duplicate Module Name");
-                return false;
+                Toast.makeText(getActivity(),"Please correct the errors and try again.",Toast.LENGTH_LONG).show();
+
+                isValid =  false;
             }
         }
         Pattern p = Pattern.compile("[^A-Za-z0-9]");
         Matcher m = p.matcher(moduleName);
         boolean b = m.find();
-        if (b == true){
+        if (isValid && b == true){
             enterModuleNameFragmentView.setError("Module Name should not contain special characters");
-            return false;
+            Toast.makeText(getActivity(),"Please correct the errors and try again.",Toast.LENGTH_LONG).show();
+
+            isValid =  false;
         }
 
         if(!Character.isDigit(moduleWeightage.charAt(0))){
             enterModuleWeightageFragmentView.setError("Module Weightage should begin with a number");
-            return false;
-        }
-        double weigthage = Double.parseDouble(moduleWeightage);
-        if(weigthage>MAX_WEIGHTAGE){
-            enterModuleWeightageFragmentView.setError("Module Weightage should be less than 100.0");
-            return false;
+            Toast.makeText(getActivity(),"Please correct the errors and try again.",Toast.LENGTH_LONG).show();
+
+            isValid =  false;
+        }else {
+            double weigthage = Double.parseDouble(moduleWeightage);
+            if (isValid && weigthage > MAX_WEIGHTAGE) {
+                enterModuleWeightageFragmentView.setError("Module Weightage should be less than 100.0");
+                Toast.makeText(getActivity(), "Please correct the errors and try again.", Toast.LENGTH_LONG).show();
+
+                isValid = false;
+            }
         }
 
         return isValid;

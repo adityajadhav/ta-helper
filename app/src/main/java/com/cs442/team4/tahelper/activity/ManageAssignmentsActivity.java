@@ -32,10 +32,14 @@ import com.cs442.team4.tahelper.R;
 import com.cs442.team4.tahelper.contants.IntentConstants;
 import com.cs442.team4.tahelper.fragment.EditDeleteModuleFragment;
 import com.cs442.team4.tahelper.fragment.ManageAssignmentsFragment;
+import com.cs442.team4.tahelper.fragment.ModuleListFragment;
 import com.cs442.team4.tahelper.model.UserEntity;
 import com.cs442.team4.tahelper.preferences.MyPreferenceActivity;
 import com.cs442.team4.tahelper.student.GradeStudentListActivity;
 import com.cs442.team4.tahelper.utils.ObjectUtils;
+import com.github.amlcurran.showcaseview.ShowcaseView;
+import com.github.amlcurran.showcaseview.SimpleShowcaseEventListener;
+import com.github.amlcurran.showcaseview.targets.ViewTarget;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.ConnectionResult;
@@ -136,11 +140,89 @@ public class ManageAssignmentsActivity extends AppCompatActivity implements Mana
 
             Intent i = new Intent(this, c);
             startActivityForResult(i, 0);
+        }else if(id == R.id.nav_notification_help){
+            showCase();
+
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout_manage_assignments);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    private void showCase() {
+        ManageAssignmentsFragment manageAssignmentsFragment = (ManageAssignmentsFragment) getFragmentManager().findFragmentById(R.id.ManageAssignmentsFragmentFrameLayout);
+        new ShowcaseView.Builder(this)
+                .withMaterialShowcase()
+                .setStyle(R.style.CustomShowcaseTheme2)
+                .setTarget(new ViewTarget(manageAssignmentsFragment.manageAssignmentsList.getChildAt(0).findViewById(R.id.manageAssignmentNameItem)))
+                .hideOnTouchOutside()
+                .setContentTitle("This shows the list of all sub modules for this module.\n Example if \"module\" is  \"InClassAssignments\" then sub modules can be \n 1) InClass Assignment1 \n 2) InClass Assignment2, etc.")
+                .setShowcaseEventListener(new SimpleShowcaseEventListener() {
+
+                    @Override
+                    public void onShowcaseViewDidHide(ShowcaseView showcaseView) {
+                        showSecondShowCase();
+                    }
+
+                })
+                .build();
+    }
+
+    private void showSecondShowCase() {
+        ManageAssignmentsFragment manageAssignmentsFragment = (ManageAssignmentsFragment) getFragmentManager().findFragmentById(R.id.ManageAssignmentsFragmentFrameLayout);
+        new ShowcaseView.Builder(this)
+                .withMaterialShowcase()
+                .setStyle(R.style.CustomShowcaseTheme2)
+                .setTarget(new ViewTarget(manageAssignmentsFragment.manageAssignmentsList.getChildAt(0).findViewById(R.id.manageAsignmentsManageButton)))
+                .hideOnTouchOutside()
+                .setContentTitle("Click this to edit or delete this sub module details. \n In edit,you can change the sub module name, weightage, total or splits. \n You cannot edit a sub module even if one student has been graded for it.\n")
+                .setShowcaseEventListener(new SimpleShowcaseEventListener() {
+
+                    @Override
+                    public void onShowcaseViewDidHide(ShowcaseView showcaseView) {
+                        showThirdShowCase();
+                    }
+
+                })
+                .build();
+    }
+
+    private void showThirdShowCase() {
+        ManageAssignmentsFragment manageAssignmentsFragment = (ManageAssignmentsFragment) getFragmentManager().findFragmentById(R.id.ManageAssignmentsFragmentFrameLayout);
+        new ShowcaseView.Builder(this)
+                .withMaterialShowcase()
+                .setStyle(R.style.CustomShowcaseTheme2)
+                .setTarget(new ViewTarget(manageAssignmentsFragment.manageAssignmentsList.getChildAt(0).findViewById(R.id.manageAssignmentsScoreButton)))
+                .hideOnTouchOutside()
+                .setContentTitle("Click this to grade the students for this sub module\n")
+                .setShowcaseEventListener(new SimpleShowcaseEventListener() {
+
+                    @Override
+                    public void onShowcaseViewDidHide(ShowcaseView showcaseView) {
+                        showFourthShowCase();
+                    }
+
+                })
+                .build();
+    }
+
+    private void showFourthShowCase() {
+        ManageAssignmentsFragment manageAssignmentsFragment = (ManageAssignmentsFragment) getFragmentManager().findFragmentById(R.id.ManageAssignmentsFragmentFrameLayout);
+        new ShowcaseView.Builder(this)
+                .withMaterialShowcase()
+                .setStyle(R.style.CustomShowcaseTheme2)
+                .setTarget(new ViewTarget(manageAssignmentsFragment.addAssignmentButton))
+                .hideOnTouchOutside()
+                .setContentTitle("Click this button to add a new sub module for this module.\n")
+                .setShowcaseEventListener(new SimpleShowcaseEventListener() {
+
+                    @Override
+                    public void onShowcaseViewDidHide(ShowcaseView showcaseView) {
+                    }
+
+                })
+                .build();
     }
 
     @Override

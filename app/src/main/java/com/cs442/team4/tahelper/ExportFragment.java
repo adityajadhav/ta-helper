@@ -189,7 +189,8 @@ public class ExportFragment extends Fragment {
                 final DatabaseReference myRef = database.getReference("students");
 
 
-                myRef.addValueEventListener(new ValueEventListener() {
+             //   myRef.addValueEventListener(new ValueEventListener() {
+                    myRef.addListenerForSingleValueEvent(new ValueEventListener() {
 
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {

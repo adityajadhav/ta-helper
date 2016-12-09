@@ -1,6 +1,7 @@
 package com.cs442.team4.tahelper;
 
 import android.app.Fragment;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -161,7 +162,7 @@ public class course_list_fragment extends Fragment {
                                 public void onComplete(@NonNull Task<Void> task) {
 
                                     Toast.makeText(getContext(),"Course id " + courseCode + " removed!",Toast.LENGTH_SHORT).show();
-                                    course_array.remove(index);
+                                  //  course_array.remove(index);
                                     adapter.notifyDataSetChanged();
                                 }
                             });
@@ -186,8 +187,11 @@ public class course_list_fragment extends Fragment {
 
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+                final ProgressDialog dialog = ProgressDialog.show(getContext(), "",
+                        "Loading. Please wait...", true);
                // if(dataSnapshot.hasChildren()) {
                 adapter.clear();
+                course_array.clear();
                     for (DataSnapshot items : dataSnapshot.getChildren()) {
 
                         //    Log.i("player", player.child(s + "/courseCode").getValue().toString());
@@ -224,6 +228,7 @@ public class course_list_fragment extends Fragment {
                         }
                     }
                     adapter.notifyDataSetChanged();
+                dialog.dismiss();
                 }
             //}
 

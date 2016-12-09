@@ -13,7 +13,8 @@
             android:layout_height="1000sp"
             android:orientation="vertical"
             android:weightSum="1"
-            >
+            android:paddingLeft="6sp"
+            android:paddingRight="6sp">
 
             <TextView
                 android:text="Add Course"
@@ -30,7 +31,7 @@
 
             <TextView
                 android:text="Course Name:"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/add_course_heading_tv_layout"
                 android:layout_alignParentStart="true"
@@ -38,21 +39,25 @@
                 android:id="@+id/textView2"
                 android:textSize="20sp"
                 android:textStyle="normal|bold"
-                android:textColor="@color/colorBrightWhite" />
+                android:textColor="@color/colorBrightWhite"
+                android:paddingLeft="2sp" />
 
             <EditText
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textPersonName"
                 android:ems="10"
                 android:id="@+id/course_name_tv_layout"
                 android:textSize="20sp"
                 android:backgroundTint="@android:color/holo_red_light"
+
                 android:hint="Name of the Course"
+
                 android:layout_alignBaseline="@+id/textView2"
                 android:layout_alignBottom="@+id/textView2"
                 android:layout_alignParentEnd="true"
-                android:textColor="@color/colorBrightWhite" />
+                android:textColor="@color/colorBrightWhite"
+                android:textColorHint="#ecc5baba" />
 
             <TextView
                 android:text="Course ID:"
@@ -63,10 +68,12 @@
                 android:textStyle="normal|bold"
                 android:textColor="@color/colorBrightWhite"
                 android:layout_below="@+id/course_name_tv_layout"
-                android:layout_alignParentStart="true" />
+                android:layout_alignParentStart="true"
+                android:layout_marginTop="15sp"
+                android:paddingLeft="2sp" />
 
             <EditText
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textPersonName"
                 android:ems="10"
@@ -77,7 +84,8 @@
                 android:layout_alignBottom="@+id/student_list_tv_layout"
                 android:layout_alignParentEnd="true"
                 android:hint="ID of the Course"
-                android:textColor="@color/colorBrightWhite" />
+                android:textColor="@color/colorBrightWhite"
+                android:textColorHint="#ecc5baba" />
 
             <TextView
                 android:text="Professor First Name:"
@@ -90,10 +98,12 @@
                 android:layout_below="@+id/course_id_tv_layout"
                 android:layout_alignParentStart="true"
                 android:layout_toStartOf="@+id/course_id_tv_layout"
-                android:layout_alignEnd="@+id/textView2" />
+                android:layout_alignEnd="@+id/textView2"
+                android:layout_marginTop="15sp"
+                android:paddingLeft="2sp" />
 
             <EditText
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textPersonName"
                 android:ems="10"
@@ -104,7 +114,8 @@
                 android:layout_alignBottom="@+id/textView7"
                 android:layout_alignParentEnd="true"
                 android:hint="First Name of  Professor"
-                android:textColor="@color/colorBrightWhite" />
+                android:textColor="@color/colorBrightWhite"
+                android:textColorHint="#ecc5baba" />
 
             <TextView
                 android:text="Professor Last Name:"
@@ -114,12 +125,13 @@
                 android:textSize="20sp"
                 android:textColor="@color/colorBrightWhite"
                 android:textStyle="normal|bold"
-                android:layout_marginTop="19dp"
                 android:layout_below="@+id/textView7"
-                android:layout_toStartOf="@+id/add_course_heading_tv_layout" />
+                android:layout_toStartOf="@+id/add_course_heading_tv_layout"
+                android:layout_marginTop="15sp"
+                android:paddingLeft="2sp" />
 
             <EditText
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textPersonName"
                 android:ems="10"
@@ -128,7 +140,8 @@
                 android:hint="Last Name of Professor"
                 android:layout_alignTop="@+id/textView13"
                 android:layout_alignStart="@+id/professor_FN_tv_layout"
-                android:textColor="@color/colorBrightWhite" />
+                android:textColor="@color/colorBrightWhite"
+                android:textColorHint="#ecc5baba" />
 
             <TextView
                 android:text="Professor Username:"
@@ -136,15 +149,16 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/textView13"
                 android:layout_alignParentStart="true"
-                android:layout_marginTop="12dp"
+                android:layout_marginTop="15sp"
                 android:id="@+id/textview90"
                 android:textSize="20sp"
                 android:textColor="@color/colorBrightWhite"
                 android:layout_alignEnd="@+id/textView13"
-                android:textStyle="normal|bold" />
+                android:textStyle="normal|bold"
+                android:paddingLeft="2sp" />
 
             <EditText
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textPersonName"
                 android:ems="10"
@@ -153,7 +167,8 @@
                 android:layout_above="@+id/textView17"
                 android:layout_toEndOf="@+id/textview90"
                 android:hint="Username of Professor"
-                android:textColor="@color/colorBrightWhite" />
+                android:textColor="@color/colorBrightWhite"
+                android:textColorHint="#ecc5baba" />
 
             <TextView
                 android:text="Professor email"
@@ -165,10 +180,11 @@
                 android:id="@+id/textView17"
                 android:textSize="20sp"
                 android:textStyle="normal|bold"
-                android:textColor="@color/colorBrightWhite" />
+                android:textColor="@color/colorBrightWhite"
+                android:paddingLeft="2sp" />
 
             <EditText
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textPersonName"
                 android:ems="10"
@@ -178,7 +194,8 @@
                 android:layout_marginTop="11dp"
                 android:id="@+id/professor_email_tv_layout"
                 android:hint="Email of Professor"
-                android:textColor="@color/colorBrightWhite" />
+                android:textColor="@color/colorBrightWhite"
+                android:textColorHint="#ecc5baba" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -195,7 +212,8 @@
                 android:layout_marginBottom="17dp"
                 android:layout_above="@+id/add_course_btn_layout"
                 android:layout_alignParentStart="true"
-                android:layout_weight="2"/>
+                android:layout_weight="2"
+                android:paddingLeft="2sp" />
 
                 <Button
                     android:text="ADD/REMOVE TA"
