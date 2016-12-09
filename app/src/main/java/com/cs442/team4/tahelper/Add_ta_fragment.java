@@ -142,7 +142,7 @@ public class Add_ta_fragment extends Fragment {
         add_to_list_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (selected_item.length() <= 0) {
+                if (selected_item == null) {
                     Toast.makeText(getContext(), "Select a name from dropdown", Toast.LENGTH_SHORT).show();
                 }
                 if (ta_existing_members.contains(selected_item)) {
