@@ -43,16 +43,16 @@ import static android.content.Context.MODE_PRIVATE;
 public class AddAssignmentsFragment extends Fragment {
 
 
-    private Button addSplitButton;
-    private EditText assignmentName;
-    private EditText assignmentTotalScore;
-    private EditText assignmentWeightage;
-    private EditText splitName;
-    private EditText splitScore;
+    public Button addSplitButton;
+    public EditText assignmentName;
+    public EditText assignmentTotalScore;
+    public EditText assignmentWeightage;
+    public EditText splitName;
+    public EditText splitScore;
     private ListView splitList;
     private ArrayList<AssignmentSplit> assignmentSplitsList;
     private AddAssignmentListItemAdapter assignmentAdapter;
-    private Button addAssignment;
+    public Button addAssignment;
     private DatabaseReference mDatabase;
     private String moduleName;
     private AddAssignmentsFragmentListener addAssignmentFragmentListener;

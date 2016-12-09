@@ -38,9 +38,9 @@ import static android.content.Context.MODE_PRIVATE;
 
 public class AddModuleFragment extends Fragment{
 
-    private EditText enterModuleNameFragmentView;
-    private EditText enterModuleWeightageFragmentView;
-    private Button addModuleFragmentView;
+    public EditText enterModuleNameFragmentView;
+    public EditText enterModuleWeightageFragmentView;
+    public Button addModuleFragmentView;
    // private Button backButton;
     private DatabaseReference mDatabase;
     private AddModuleFragmentListener addModuleFragmentListener;

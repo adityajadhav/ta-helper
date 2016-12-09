@@ -36,6 +36,9 @@ import com.cs442.team4.tahelper.model.AssignmentSplit;
 import com.cs442.team4.tahelper.model.UserEntity;
 import com.cs442.team4.tahelper.preferences.MyPreferenceActivity;
 import com.cs442.team4.tahelper.utils.ObjectUtils;
+import com.github.amlcurran.showcaseview.ShowcaseView;
+import com.github.amlcurran.showcaseview.SimpleShowcaseEventListener;
+import com.github.amlcurran.showcaseview.targets.ViewTarget;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.ConnectionResult;
@@ -175,6 +178,9 @@ public class EditDeleteAssignmentActivity extends AppCompatActivity implements E
 
             Intent i = new Intent(this, c);
             startActivityForResult(i, 0);
+        }else if(id == R.id.nav_notification_help){
+            showCase();
+
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout_edit_delete_assignment);
@@ -310,6 +316,240 @@ public class EditDeleteAssignmentActivity extends AppCompatActivity implements E
            startActivity(loginscreen);
        }
     }*/
+
+    private void showCase() {
+        EditDeleteAssignmentFragment editDeleteAssignmentFragment = (EditDeleteAssignmentFragment) getFragmentManager().findFragmentById(R.id.EditDeleteAssignmentsFragmentFrameLayout);
+        if(editDeleteAssignmentFragment.editAssignment.getVisibility()==View.VISIBLE){
+            new ShowcaseView.Builder(this)
+                    .withMaterialShowcase()
+                    .setStyle(R.style.CustomShowcaseTheme2)
+                    .setTarget(new ViewTarget(editDeleteAssignmentFragment.assignmentName))
+                    .hideOnTouchOutside()
+                    .setContentTitle("The sub module name can be renamed here.\n")
+                    .setShowcaseEventListener(new SimpleShowcaseEventListener() {
+
+                        @Override
+                        public void onShowcaseViewDidHide(ShowcaseView showcaseView) {
+                            showSecondShowCase();
+                        }
+
+                    })
+                    .build();
+        }else{
+            new ShowcaseView.Builder(this)
+                    .withMaterialShowcase()
+                    .setStyle(R.style.CustomShowcaseTheme2)
+                    .setTarget(new ViewTarget(editDeleteAssignmentFragment.assignmentName))
+                    .hideOnTouchOutside()
+                    .setContentTitle("The sub module name.\nThis field is disabled since atleast one student has been graded for this sub module.")
+                    .setShowcaseEventListener(new SimpleShowcaseEventListener() {
+
+                        @Override
+                        public void onShowcaseViewDidHide(ShowcaseView showcaseView) {
+                            showSecondShowCase();
+                        }
+
+                    })
+                    .build();
+        }
+
+    }
+
+    private void showSecondShowCase() {
+        EditDeleteAssignmentFragment editDeleteAssignmentFragment = (EditDeleteAssignmentFragment) getFragmentManager().findFragmentById(R.id.EditDeleteAssignmentsFragmentFrameLayout);
+        if(editDeleteAssignmentFragment.editAssignment.getVisibility()==View.VISIBLE){
+            new ShowcaseView.Builder(this)
+                    .withMaterialShowcase()
+                    .setStyle(R.style.CustomShowcaseTheme2)
+                    .setTarget(new ViewTarget(editDeleteAssignmentFragment.assignmentTotalScore))
+                    .hideOnTouchOutside()
+                    .setContentTitle("The sub module total can be changed here.\n")
+                    .setShowcaseEventListener(new SimpleShowcaseEventListener() {
+
+                        @Override
+                        public void onShowcaseViewDidHide(ShowcaseView showcaseView) {
+                            showThirdShowCase();
+                        }
+
+                    })
+                    .build();
+        }else{
+            new ShowcaseView.Builder(this)
+                    .withMaterialShowcase()
+                    .setStyle(R.style.CustomShowcaseTheme2)
+                    .setTarget(new ViewTarget(editDeleteAssignmentFragment.assignmentTotalScore))
+                    .hideOnTouchOutside()
+                    .setContentTitle("Total score for this sub module.\nThis field is disabled since atleast one student has been graded for this sub module.")
+                    .setShowcaseEventListener(new SimpleShowcaseEventListener() {
+
+                        @Override
+                        public void onShowcaseViewDidHide(ShowcaseView showcaseView) {
+                            showThirdShowCase();
+                        }
+
+                    })
+                    .build();
+        }
+
+    }
+
+    private void showThirdShowCase() {
+        EditDeleteAssignmentFragment editDeleteAssignmentFragment = (EditDeleteAssignmentFragment) getFragmentManager().findFragmentById(R.id.EditDeleteAssignmentsFragmentFrameLayout);
+        if(editDeleteAssignmentFragment.editAssignment.getVisibility()==View.VISIBLE){
+            new ShowcaseView.Builder(this)
+                    .withMaterialShowcase()
+                    .setStyle(R.style.CustomShowcaseTheme2)
+                    .setTarget(new ViewTarget(editDeleteAssignmentFragment.assignmentWeightage))
+                    .hideOnTouchOutside()
+                    .setContentTitle("The sub module weightage can be changed here.\n")
+                    .setShowcaseEventListener(new SimpleShowcaseEventListener() {
+
+                        @Override
+                        public void onShowcaseViewDidHide(ShowcaseView showcaseView) {
+                            showFourthShowCase();
+                        }
+
+                    })
+                    .build();
+        }else{
+            new ShowcaseView.Builder(this)
+                    .withMaterialShowcase()
+                    .setStyle(R.style.CustomShowcaseTheme2)
+                    .setTarget(new ViewTarget(editDeleteAssignmentFragment.assignmentWeightage))
+                    .hideOnTouchOutside()
+                    .setContentTitle("Weightage for this sub module.\nThis field is disabled since atleast one student has been graded for this sub module.")
+                    .setShowcaseEventListener(new SimpleShowcaseEventListener() {
+
+                        @Override
+                        public void onShowcaseViewDidHide(ShowcaseView showcaseView) {
+                            showFourthShowCase();
+                        }
+
+                    })
+                    .build();
+        }
+
+    }
+
+    private void showFourthShowCase() {
+        EditDeleteAssignmentFragment editDeleteAssignmentFragment = (EditDeleteAssignmentFragment) getFragmentManager().findFragmentById(R.id.EditDeleteAssignmentsFragmentFrameLayout);
+        if(editDeleteAssignmentFragment.editAssignment.getVisibility()==View.VISIBLE){
+            new ShowcaseView.Builder(this)
+                    .withMaterialShowcase()
+                    .setStyle(R.style.CustomShowcaseTheme2)
+                    .setTarget(new ViewTarget(editDeleteAssignmentFragment.splitName))
+                    .hideOnTouchOutside()
+                    .setContentTitle("This is optional.\n" +
+                            " This is used to define the splits through which sub module scoring can be divided.\n" +
+                            " Name for the split of this sub module.\n")
+                    .setShowcaseEventListener(new SimpleShowcaseEventListener() {
+
+                        @Override
+                        public void onShowcaseViewDidHide(ShowcaseView showcaseView) {
+                            showFifthShowCase();
+                        }
+
+                    })
+                    .build();
+        }else{
+            showFifthShowCase();
+        }
+
+    }
+
+    private void showFifthShowCase() {
+        EditDeleteAssignmentFragment editDeleteAssignmentFragment = (EditDeleteAssignmentFragment) getFragmentManager().findFragmentById(R.id.EditDeleteAssignmentsFragmentFrameLayout);
+        if(editDeleteAssignmentFragment.editAssignment.getVisibility()==View.VISIBLE){
+            new ShowcaseView.Builder(this)
+                    .withMaterialShowcase()
+                    .setStyle(R.style.CustomShowcaseTheme2)
+                    .setTarget(new ViewTarget(editDeleteAssignmentFragment.splitScore))
+                    .hideOnTouchOutside()
+                    .setContentTitle("This is required if split name is defined.\n" +
+                            " Score corresponding to the split name of this sub module.\n" +
+                            "The sum of all the split score should be equal to the total sub module score.\n")
+                    .setShowcaseEventListener(new SimpleShowcaseEventListener() {
+
+                        @Override
+                        public void onShowcaseViewDidHide(ShowcaseView showcaseView) {
+                            showSixthShowCase();
+                        }
+
+                    })
+                    .build();
+        }else{
+            showSixthShowCase();
+        }
+
+    }
+
+    private void showSixthShowCase() {
+        EditDeleteAssignmentFragment editDeleteAssignmentFragment = (EditDeleteAssignmentFragment) getFragmentManager().findFragmentById(R.id.EditDeleteAssignmentsFragmentFrameLayout);
+        if(editDeleteAssignmentFragment.editAssignment.getVisibility()==View.VISIBLE){
+            new ShowcaseView.Builder(this)
+                    .withMaterialShowcase()
+                    .setStyle(R.style.CustomShowcaseTheme2)
+                    .setTarget(new ViewTarget(editDeleteAssignmentFragment.addSplitButton))
+                    .hideOnTouchOutside()
+                    .setContentTitle("Click this button for adding the split.\n")
+                    .setShowcaseEventListener(new SimpleShowcaseEventListener() {
+
+                        @Override
+                        public void onShowcaseViewDidHide(ShowcaseView showcaseView) {
+                            showSeventhShowCase();
+                        }
+
+                    })
+                    .build();
+        }else{
+            showSeventhShowCase();
+        }
+
+    }
+
+    private void showSeventhShowCase() {
+        EditDeleteAssignmentFragment editDeleteAssignmentFragment = (EditDeleteAssignmentFragment) getFragmentManager().findFragmentById(R.id.EditDeleteAssignmentsFragmentFrameLayout);
+        if(editDeleteAssignmentFragment.editAssignment.getVisibility()==View.VISIBLE){
+            new ShowcaseView.Builder(this)
+                    .withMaterialShowcase()
+                    .setStyle(R.style.CustomShowcaseTheme2)
+                    .setTarget(new ViewTarget(editDeleteAssignmentFragment.editAssignment))
+                    .hideOnTouchOutside()
+                    .setContentTitle("Click this button for saving the editted details for this sub module.\n")
+                    .setShowcaseEventListener(new SimpleShowcaseEventListener() {
+
+                        @Override
+                        public void onShowcaseViewDidHide(ShowcaseView showcaseView) {
+                            showEigthShowCase();
+                        }
+
+                    })
+                    .build();
+        }else{
+            showEigthShowCase();
+        }
+
+    }
+
+    private void showEigthShowCase() {
+        EditDeleteAssignmentFragment editDeleteAssignmentFragment = (EditDeleteAssignmentFragment) getFragmentManager().findFragmentById(R.id.EditDeleteAssignmentsFragmentFrameLayout);
+        new ShowcaseView.Builder(this)
+                    .withMaterialShowcase()
+                    .setStyle(R.style.CustomShowcaseTheme2)
+                    .setTarget(new ViewTarget(editDeleteAssignmentFragment.deleteAssignment))
+                    .hideOnTouchOutside()
+                    .setContentTitle("Click this button for deleting this sub module.\n")
+                    .setShowcaseEventListener(new SimpleShowcaseEventListener() {
+
+                        @Override
+                        public void onShowcaseViewDidHide(ShowcaseView showcaseView) {
+
+                        }
+
+                    })
+                    .build();
+
+    }
 
 
 }

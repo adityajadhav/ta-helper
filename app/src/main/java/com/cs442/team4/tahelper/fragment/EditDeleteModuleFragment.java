@@ -45,10 +45,10 @@ import static android.content.Context.MODE_PRIVATE;
 
 public class EditDeleteModuleFragment extends Fragment {
 
-    private EditText moduleName;
-    private EditText moduleWeightage;
-    private Button editButton;
-    private Button deleteButton;
+    public EditText moduleName;
+    public EditText moduleWeightage;
+    public Button editButton;
+    public Button deleteButton;
     private String moduleNameString;
     private String moduleWeightageString;
     private String courseCode;

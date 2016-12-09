@@ -34,9 +34,13 @@ import com.cs442.team4.tahelper.R;
 import com.cs442.team4.tahelper.contants.IntentConstants;
 import com.cs442.team4.tahelper.fragment.AddModuleFragment;
 import com.cs442.team4.tahelper.fragment.EditDeleteModuleFragment;
+import com.cs442.team4.tahelper.fragment.ModuleListFragment;
 import com.cs442.team4.tahelper.model.UserEntity;
 import com.cs442.team4.tahelper.preferences.MyPreferenceActivity;
 import com.cs442.team4.tahelper.utils.ObjectUtils;
+import com.github.amlcurran.showcaseview.ShowcaseView;
+import com.github.amlcurran.showcaseview.SimpleShowcaseEventListener;
+import com.github.amlcurran.showcaseview.targets.ViewTarget;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.ConnectionResult;
@@ -155,11 +159,134 @@ public class EditDeleteModuleActivity extends AppCompatActivity implements  Edit
 
             Intent i = new Intent(this, c);
             startActivityForResult(i, 0);
+        }else if(id == R.id.nav_notification_help){
+            showCase();
+
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout_edit_delete_module);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    private void showCase() {
+        EditDeleteModuleFragment editDeleteModuleFragment = (EditDeleteModuleFragment) getFragmentManager().findFragmentById(R.id.editDeleteModuleActivityFrameLayout);
+        if(editDeleteModuleFragment.editButton.getVisibility() == View.VISIBLE){
+            new ShowcaseView.Builder(this)
+                    .withMaterialShowcase()
+                    .setStyle(R.style.CustomShowcaseTheme2)
+                    .setTarget(new ViewTarget(editDeleteModuleFragment.moduleName))
+                    .hideOnTouchOutside()
+                    .setContentTitle("The module can be renamed here.\n")
+                    .setShowcaseEventListener(new SimpleShowcaseEventListener() {
+
+                        @Override
+                        public void onShowcaseViewDidHide(ShowcaseView showcaseView) {
+                            showSecondShowCase();
+                        }
+
+                    })
+                    .build();
+        }else{
+            new ShowcaseView.Builder(this)
+                    .withMaterialShowcase()
+                    .setStyle(R.style.CustomShowcaseTheme2)
+                    .setTarget(new ViewTarget(editDeleteModuleFragment.moduleName))
+                    .hideOnTouchOutside()
+                    .setContentTitle("The module name.\nThis field is disabled since atleast one sub module associated with this module has been graded for atleast one student.\n")
+                    .setShowcaseEventListener(new SimpleShowcaseEventListener() {
+
+                        @Override
+                        public void onShowcaseViewDidHide(ShowcaseView showcaseView) {
+                            showSecondShowCase();
+                        }
+
+                    })
+                    .build();
+        }
+
+    }
+
+    private void showSecondShowCase() {
+
+        EditDeleteModuleFragment editDeleteModuleFragment = (EditDeleteModuleFragment) getFragmentManager().findFragmentById(R.id.editDeleteModuleActivityFrameLayout);
+        if(editDeleteModuleFragment.editButton.getVisibility() == View.VISIBLE) {
+            new ShowcaseView.Builder(this)
+                    .withMaterialShowcase()
+                    .setStyle(R.style.CustomShowcaseTheme2)
+                    .setTarget(new ViewTarget(editDeleteModuleFragment.moduleWeightage))
+                    .hideOnTouchOutside()
+                    .setContentTitle("Weightage can be changed here.\n")
+                    .setShowcaseEventListener(new SimpleShowcaseEventListener() {
+
+                        @Override
+                        public void onShowcaseViewDidHide(ShowcaseView showcaseView) {
+                            showThirdShowCase();
+                        }
+
+                    })
+                    .build();
+        }else{
+            new ShowcaseView.Builder(this)
+                    .withMaterialShowcase()
+                    .setStyle(R.style.CustomShowcaseTheme2)
+                    .setTarget(new ViewTarget(editDeleteModuleFragment.moduleWeightage))
+                    .hideOnTouchOutside()
+                    .setContentTitle("The module weightage.\n" +
+                            "This field is disabled since atleast one sub module associated with this module has been graded for atleast one student.\n")
+                    .setShowcaseEventListener(new SimpleShowcaseEventListener() {
+
+                        @Override
+                        public void onShowcaseViewDidHide(ShowcaseView showcaseView) {
+                            showThirdShowCase();
+                        }
+
+                    })
+                    .build();
+        }
+
+    }
+
+    private void showThirdShowCase() {
+        EditDeleteModuleFragment editDeleteModuleFragment = (EditDeleteModuleFragment) getFragmentManager().findFragmentById(R.id.editDeleteModuleActivityFrameLayout);
+        if(editDeleteModuleFragment.editButton.getVisibility() == View.VISIBLE){
+            new ShowcaseView.Builder(this)
+                    .withMaterialShowcase()
+                    .setStyle(R.style.CustomShowcaseTheme2)
+                    .setTarget(new ViewTarget(editDeleteModuleFragment.editButton))
+                    .hideOnTouchOutside()
+                    .setContentTitle("Click this to button to finalise the editted changes.\n")
+                    .setShowcaseEventListener(new SimpleShowcaseEventListener() {
+
+                        @Override
+                        public void onShowcaseViewDidHide(ShowcaseView showcaseView) {
+                            showFourthShowCase();
+                        }
+
+                    })
+                    .build();
+        }else{
+            showFourthShowCase();
+        }
+
+    }
+
+    private void showFourthShowCase() {
+        EditDeleteModuleFragment editDeleteModuleFragment = (EditDeleteModuleFragment) getFragmentManager().findFragmentById(R.id.editDeleteModuleActivityFrameLayout);
+        new ShowcaseView.Builder(this)
+                .withMaterialShowcase()
+                .setStyle(R.style.CustomShowcaseTheme2)
+                .setTarget(new ViewTarget(editDeleteModuleFragment.deleteButton))
+                .hideOnTouchOutside()
+                .setContentTitle("Click this button to delete this module from the course.\n")
+                .setShowcaseEventListener(new SimpleShowcaseEventListener() {
+
+                    @Override
+                    public void onShowcaseViewDidHide(ShowcaseView showcaseView) {
+                    }
+
+                })
+                .build();
     }
 
     @Override

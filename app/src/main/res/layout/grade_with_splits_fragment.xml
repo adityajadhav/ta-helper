@@ -84,7 +84,9 @@
         android:layout_height="wrap_content"
         android:background="@color/colorMaroon"
         android:textColor="@color/colorWhite"
-        android:id="@+id/gradeWithSplitsSubmitButton" />
+        android:id="@+id/gradeWithSplitsSubmitButton"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"/>
 
     <ListView
         android:layout_width="match_parent"
@@ -101,7 +103,9 @@
         android:layout_height="wrap_content"
         android:background="@color/colorMaroon"
         android:textColor="@color/colorWhite"
-        android:id="@+id/gradeWithSplitsCalculateTotalButton" />
+        android:id="@+id/gradeWithSplitsCalculateTotalButton"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"/>
 
 
 </LinearLayout>
