@@ -60,8 +60,10 @@ public class GradeWithSplitsAdapter extends ArrayAdapter<Split> {
 
         gradeSplitTextView.setText(split.getSplitName());
 
-        if(split.getSplitGainedPoints()!=0)
+        if(split.getSplitGainedPoints()!=0.0)
             gradeSplitEditText.setText(split.getSplitGainedPoints().toString());
+        else
+            gradeSplitEditText.setText("0.0");
 
         maxSplitPointsTextView.setText("/ " + split.getSplitMaximumPoints());
 
