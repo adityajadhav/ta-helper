@@ -115,8 +115,6 @@ public class GradeWithSplitsFragment extends Fragment {
             @Override
             public void onClick(View v) {
 
-
-
                 HashMap<String, String> splitScoreHashmap = gradeWithSplitsAdapter.textValues;
 
                 boolean isFirstCharacterDigit = true;
@@ -166,6 +164,7 @@ public class GradeWithSplitsFragment extends Fragment {
                     Double totalScore = calculateTotalScore();
 
                     totalEditText.setText(totalScore.toString());
+                    Toast.makeText(getActivity(), "Total calculated and displayed in Total Score", Toast.LENGTH_SHORT).show();
                 }
 
                 //totalEditText.setText(totalScore.toString());
