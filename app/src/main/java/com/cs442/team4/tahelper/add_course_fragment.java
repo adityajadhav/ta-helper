@@ -114,10 +114,10 @@ public class add_course_fragment extends Fragment {
             result = false;
         }
 
-        m = p.matcher(course_name);
+        m = p.matcher(course_id);
         b = m.find();
         if (b){
-            course_name_tv.setError("Course Name should not contain special characters");
+            course_id_tv.setError("Course ID should not contain special characters");
             result = false;
         }
         final String professor_FN = professor_FN_tv.getText().toString();
@@ -126,10 +126,10 @@ public class add_course_fragment extends Fragment {
             professor_FN_tv.setError("First Name cannot be empty");
             result = false;
         }
-        m = p.matcher(course_name);
+        m = p.matcher(professor_FN);
         b = m.find();
         if (b){
-            course_name_tv.setError("Course Name should not contain special characters");
+            professor_FN_tv.setError("Name should not contain special characters");
             result = false;
         }
 
@@ -140,10 +140,10 @@ public class add_course_fragment extends Fragment {
             professor_LN_tv.setError("Last Name cannot be empty");
             result = false;
         }
-        m = p.matcher(course_name);
+        m = p.matcher(professor_LN);
         b = m.find();
         if (b){
-            course_name_tv.setError("Course Name should not contain special characters");
+            professor_LN_tv.setError("Name should not contain special characters");
             result = false;
         }
 
@@ -154,10 +154,10 @@ public class add_course_fragment extends Fragment {
             professor_UN_tv.setError("User Name cannot be empty");
             result = false;
         }
-        m = p.matcher(course_name);
+        m = p.matcher(professor_UN);
         b = m.find();
         if (b){
-            course_name_tv.setError("Course Name should not contain special characters");
+            professor_UN_tv.setError("Name should not contain special characters");
             result = false;
         }
 
@@ -168,13 +168,19 @@ public class add_course_fragment extends Fragment {
             professor_email_tv.setError("Email cannot be empty");
             result = false;
         }
-
-        m = p.matcher(course_name);
-        b = m.find();
-        if (b){
-            course_name_tv.setError("Course Name should not contain special characters");
-            result = false;
+        boolean val = android.util.Patterns.EMAIL_ADDRESS.matcher(professor_email).matches();
+        if(!val)
+        {
+           // professor_email_tv.setError("Invalid email ID format");
         }
+
+
+//        m = p.matcher(course_name);
+//        b = m.find();
+//        if (b){
+//            course_name_tv.setError("Course Name should not contain special characters");
+//            result = false;
+//        }
 
         return result;
 
