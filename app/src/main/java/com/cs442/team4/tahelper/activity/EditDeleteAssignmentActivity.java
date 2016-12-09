@@ -272,7 +272,7 @@ public class EditDeleteAssignmentActivity extends AppCompatActivity implements E
         intent.putExtra(IntentConstants.MODULE_NAME,moduleName);
         intent.putExtra(IntentConstants.COURSE_ID,courseCode);
         intent.putExtra("USER_DETAILS",user);
-
+        overridePendingTransition(R.anim.left_slide_in, R.anim.left_slide_out);
         startActivity(intent);
         finish();
 
@@ -287,6 +287,7 @@ public class EditDeleteAssignmentActivity extends AppCompatActivity implements E
         intent.putExtra(IntentConstants.COURSE_ID,courseCode);
         intent.putExtra("USER_DETAILS",user);
         startActivity(intent);
+        overridePendingTransition(R.anim.left_slide_in, R.anim.left_slide_out);
         finish();
     }
 
@@ -325,7 +326,7 @@ public class EditDeleteAssignmentActivity extends AppCompatActivity implements E
                     .setStyle(R.style.CustomShowcaseTheme2)
                     .setTarget(new ViewTarget(editDeleteAssignmentFragment.assignmentName))
                     .hideOnTouchOutside()
-                    .setContentTitle("The sub module name can be renamed here.\n")
+                    .setContentTitle("The sub module name can be renamed here.\n\n")
                     .setShowcaseEventListener(new SimpleShowcaseEventListener() {
 
                         @Override
@@ -341,7 +342,7 @@ public class EditDeleteAssignmentActivity extends AppCompatActivity implements E
                     .setStyle(R.style.CustomShowcaseTheme2)
                     .setTarget(new ViewTarget(editDeleteAssignmentFragment.assignmentName))
                     .hideOnTouchOutside()
-                    .setContentTitle("The sub module name.\nThis field is disabled since atleast one student has been graded for this sub module.")
+                    .setContentTitle("The sub module name.\n\nThis field is disabled since atleast one student has been graded for this sub module.\n\n")
                     .setShowcaseEventListener(new SimpleShowcaseEventListener() {
 
                         @Override
@@ -363,7 +364,7 @@ public class EditDeleteAssignmentActivity extends AppCompatActivity implements E
                     .setStyle(R.style.CustomShowcaseTheme2)
                     .setTarget(new ViewTarget(editDeleteAssignmentFragment.assignmentTotalScore))
                     .hideOnTouchOutside()
-                    .setContentTitle("The sub module total can be changed here.\n")
+                    .setContentTitle("The sub module total can be changed here.\n\n")
                     .setShowcaseEventListener(new SimpleShowcaseEventListener() {
 
                         @Override
@@ -379,7 +380,7 @@ public class EditDeleteAssignmentActivity extends AppCompatActivity implements E
                     .setStyle(R.style.CustomShowcaseTheme2)
                     .setTarget(new ViewTarget(editDeleteAssignmentFragment.assignmentTotalScore))
                     .hideOnTouchOutside()
-                    .setContentTitle("Total score for this sub module.\nThis field is disabled since atleast one student has been graded for this sub module.")
+                    .setContentTitle("Total score for this sub module.\n\nNote : This field is disabled since atleast one student has been graded for this sub module.\n\n")
                     .setShowcaseEventListener(new SimpleShowcaseEventListener() {
 
                         @Override
@@ -401,7 +402,7 @@ public class EditDeleteAssignmentActivity extends AppCompatActivity implements E
                     .setStyle(R.style.CustomShowcaseTheme2)
                     .setTarget(new ViewTarget(editDeleteAssignmentFragment.assignmentWeightage))
                     .hideOnTouchOutside()
-                    .setContentTitle("The sub module weightage can be changed here.\n")
+                    .setContentTitle("The sub module weightage can be changed here.\n\n")
                     .setShowcaseEventListener(new SimpleShowcaseEventListener() {
 
                         @Override
@@ -417,7 +418,7 @@ public class EditDeleteAssignmentActivity extends AppCompatActivity implements E
                     .setStyle(R.style.CustomShowcaseTheme2)
                     .setTarget(new ViewTarget(editDeleteAssignmentFragment.assignmentWeightage))
                     .hideOnTouchOutside()
-                    .setContentTitle("Weightage for this sub module.\nThis field is disabled since atleast one student has been graded for this sub module.")
+                    .setContentTitle("Weightage for this sub module.\n\nNote : This field is disabled since atleast one student has been graded for this sub module.\n\n")
                     .setShowcaseEventListener(new SimpleShowcaseEventListener() {
 
                         @Override
@@ -439,9 +440,9 @@ public class EditDeleteAssignmentActivity extends AppCompatActivity implements E
                     .setStyle(R.style.CustomShowcaseTheme2)
                     .setTarget(new ViewTarget(editDeleteAssignmentFragment.splitName))
                     .hideOnTouchOutside()
-                    .setContentTitle("This is optional.\n" +
-                            " This is used to define the splits through which sub module scoring can be divided.\n" +
-                            " Name for the split of this sub module.\n")
+                    .setContentTitle("This is optional.\n\n" +
+                            " This is used to define the splits through which sub module scoring can be divided.\n\n" +
+                            " Name for the split of this sub module.\n\n")
                     .setShowcaseEventListener(new SimpleShowcaseEventListener() {
 
                         @Override
@@ -465,9 +466,9 @@ public class EditDeleteAssignmentActivity extends AppCompatActivity implements E
                     .setStyle(R.style.CustomShowcaseTheme2)
                     .setTarget(new ViewTarget(editDeleteAssignmentFragment.splitScore))
                     .hideOnTouchOutside()
-                    .setContentTitle("This is required if split name is defined.\n" +
-                            " Score corresponding to the split name of this sub module.\n" +
-                            "The sum of all the split score should be equal to the total sub module score.\n")
+                    .setContentTitle("This is required if split name is defined.\n\n" +
+                            " Score corresponding to the split name of this sub module.\n\n" +
+                            "Note : The sum of all the split score should be equal to the total sub module score.\n\n")
                     .setShowcaseEventListener(new SimpleShowcaseEventListener() {
 
                         @Override
@@ -491,7 +492,7 @@ public class EditDeleteAssignmentActivity extends AppCompatActivity implements E
                     .setStyle(R.style.CustomShowcaseTheme2)
                     .setTarget(new ViewTarget(editDeleteAssignmentFragment.addSplitButton))
                     .hideOnTouchOutside()
-                    .setContentTitle("Click this button for adding the split.\n")
+                    .setContentTitle("Click this button for adding the split.\n\n")
                     .setShowcaseEventListener(new SimpleShowcaseEventListener() {
 
                         @Override
@@ -515,7 +516,7 @@ public class EditDeleteAssignmentActivity extends AppCompatActivity implements E
                     .setStyle(R.style.CustomShowcaseTheme2)
                     .setTarget(new ViewTarget(editDeleteAssignmentFragment.editAssignment))
                     .hideOnTouchOutside()
-                    .setContentTitle("Click this button for saving the editted details for this sub module.\n")
+                    .setContentTitle("Click this button for saving the editted details for this sub module.\n\n")
                     .setShowcaseEventListener(new SimpleShowcaseEventListener() {
 
                         @Override
@@ -538,7 +539,7 @@ public class EditDeleteAssignmentActivity extends AppCompatActivity implements E
                     .setStyle(R.style.CustomShowcaseTheme2)
                     .setTarget(new ViewTarget(editDeleteAssignmentFragment.deleteAssignment))
                     .hideOnTouchOutside()
-                    .setContentTitle("Click this button for deleting this sub module.\n")
+                    .setContentTitle("Click this button for deleting this sub module.\n\n")
                     .setShowcaseEventListener(new SimpleShowcaseEventListener() {
 
                         @Override
