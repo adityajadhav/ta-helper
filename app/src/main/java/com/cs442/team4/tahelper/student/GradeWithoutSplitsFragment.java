@@ -70,6 +70,9 @@ public class GradeWithoutSplitsFragment extends Fragment {
         maxPointsTextView = (TextView) myFragmentView.findViewById(R.id.maxPointsTextView2);
 
         totalEditText = (EditText) myFragmentView.findViewById(R.id.gradeWithoutSplitsTotalEditText);
+        int pos = totalEditText.getText().length();
+        totalEditText.setSelection(pos);
+        totalEditText.setHint("0.0");
 
         submitButton = (Button) myFragmentView.findViewById(R.id.gradeWithoutSplitsSubmitButton);
 
@@ -134,8 +137,18 @@ public class GradeWithoutSplitsFragment extends Fragment {
                     {
                         String score = (String) postSnapshot.child("Total").getValue();
 
+                        Double scoreDouble = Double.parseDouble(score);
+
                         moduleItemGainedScore = score;
-                        totalEditText.setText(moduleItemGainedScore);
+
+                        if(!score.equals("0.0"))
+                        {
+                            //int pos = totalEditText.getText().length();
+                            //totalEditText.setSelection(pos);
+                            totalEditText.setText(moduleItemGainedScore);
+                        }
+                        else
+                            totalEditText.setHint("0.0");
 
                         //For fetching maximum points
                         mDatabase.child("modules").child(courseName).child(moduleName).push();
