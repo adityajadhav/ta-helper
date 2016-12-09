@@ -44,11 +44,11 @@
         -->
         <activity android:name=".student.GradeStudentListActivity"></activity>
         <activity android:name=".activity.ModuleListActivity"      android:windowSoftInputMode="adjustPan"></activity>
-        <activity android:name=".activity.AddModuleActivity"></activity>
-        <activity android:name=".activity.EditDeleteModuleActivity"></activity>
+        <activity android:name=".activity.AddModuleActivity"  android:windowSoftInputMode="adjustPan" android:configChanges="orientation|screenSize"></activity>
+        <activity android:name=".activity.EditDeleteModuleActivity"   android:windowSoftInputMode="adjustPan" android:configChanges="orientation|screenSize"></activity>
         <activity android:name=".activity.ManageAssignmentsActivity"></activity>
-        <activity android:name=".activity.AddAssignmentsActivity"></activity>
-        <activity android:name=".activity.EditDeleteAssignmentActivity"></activity>
+        <activity android:name=".activity.AddAssignmentsActivity"   android:windowSoftInputMode="adjustPan" android:configChanges="orientation|screenSize"></activity>
+        <activity android:name=".activity.EditDeleteAssignmentActivity"   android:windowSoftInputMode="adjustPan" android:configChanges="orientation|screenSize"></activity>
         <activity android:name=".student.StudentModulesActivity"></activity>
         <activity android:name=".student.StudentAssignmentListActivity"></activity>
         <activity android:name=".student.StudentAssignmentSplitsListActivity"></activity>
