@@ -40,7 +40,7 @@
     </style>
 
     <style name="CustomShowcaseTheme2" parent="ShowcaseView">
-        <item name="sv_backgroundColor">@color/colorGrey</item>
+        <item name="sv_backgroundColor">@color/colorLightMaroon</item>
         <item name="sv_showcaseColor">@color/colorBlack</item>
         <item name="sv_buttonText">Close</item>
         <item name="sv_titleTextAppearance">@style/CustomTitle2</item>

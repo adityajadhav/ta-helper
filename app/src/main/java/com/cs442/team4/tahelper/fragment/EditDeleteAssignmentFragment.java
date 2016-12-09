@@ -40,17 +40,17 @@ import java.util.regex.Pattern;
 public class EditDeleteAssignmentFragment extends Fragment {
 
 
-    private Button addSplitButton;
-    private EditText assignmentName;
-    private EditText assignmentTotalScore;
-    private EditText assignmentWeightage;
-    private EditText splitName;
-    private EditText splitScore;
+    public Button addSplitButton;
+    public EditText assignmentName;
+    public EditText assignmentTotalScore;
+    public EditText assignmentWeightage;
+    public EditText splitName;
+    public EditText splitScore;
     private ListView splitList;
     private ArrayList<AssignmentSplit> assignmentSplitsList;
     private EditDeleteAssignmentListItemAdapter assignmentAdapter;
-    private Button editAssignment;
-    private Button deleteAssignment;
+    public Button editAssignment;
+    public Button deleteAssignment;
     private DatabaseReference mDatabase;
     private String moduleName;
     private EditDeleteAssignmentsFragmentListener editDeleteAssignmentFragmentListener;

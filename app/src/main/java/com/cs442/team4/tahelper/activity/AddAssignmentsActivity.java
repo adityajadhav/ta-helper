@@ -31,10 +31,14 @@ import com.cs442.team4.tahelper.MainActivity;
 import com.cs442.team4.tahelper.R;
 import com.cs442.team4.tahelper.contants.IntentConstants;
 import com.cs442.team4.tahelper.fragment.AddAssignmentsFragment;
+import com.cs442.team4.tahelper.fragment.ModuleListFragment;
 import com.cs442.team4.tahelper.model.AssignmentSplit;
 import com.cs442.team4.tahelper.model.UserEntity;
 import com.cs442.team4.tahelper.preferences.MyPreferenceActivity;
 import com.cs442.team4.tahelper.utils.ObjectUtils;
+import com.github.amlcurran.showcaseview.ShowcaseView;
+import com.github.amlcurran.showcaseview.SimpleShowcaseEventListener;
+import com.github.amlcurran.showcaseview.targets.ViewTarget;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.ConnectionResult;
@@ -130,6 +134,9 @@ public class AddAssignmentsActivity extends AppCompatActivity implements AddAssi
 
             Intent i = new Intent(this, c);
             startActivityForResult(i, 0);
+        }else if(id == R.id.nav_notification_help){
+            showCase();
+
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout_add_assignments);
@@ -288,4 +295,137 @@ public class AddAssignmentsActivity extends AppCompatActivity implements AddAssi
 
         }
     }*/
+
+    private void showCase() {
+        AddAssignmentsFragment addAssignmentsFragment = (AddAssignmentsFragment) getFragmentManager().findFragmentById(R.id.AddAssignmentsFragmentFrameLayout);
+        new ShowcaseView.Builder(this)
+                .withMaterialShowcase()
+                .setStyle(R.style.CustomShowcaseTheme2)
+                .setTarget(new ViewTarget(addAssignmentsFragment.assignmentName))
+                .hideOnTouchOutside()
+                .setContentTitle("The name of this sub module.\n")
+                .setShowcaseEventListener(new SimpleShowcaseEventListener() {
+
+                    @Override
+                    public void onShowcaseViewDidHide(ShowcaseView showcaseView) {
+                        showSecondShowCase();
+                    }
+
+                })
+                .build();
+    }
+
+    private void showSecondShowCase() {
+        AddAssignmentsFragment addAssignmentsFragment = (AddAssignmentsFragment) getFragmentManager().findFragmentById(R.id.AddAssignmentsFragmentFrameLayout);
+        new ShowcaseView.Builder(this)
+                .withMaterialShowcase()
+                .setStyle(R.style.CustomShowcaseTheme2)
+                .setTarget(new ViewTarget(addAssignmentsFragment.assignmentTotalScore))
+                .hideOnTouchOutside()
+                .setContentTitle("Total score for this sub module.\n")
+                .setShowcaseEventListener(new SimpleShowcaseEventListener() {
+
+                    @Override
+                    public void onShowcaseViewDidHide(ShowcaseView showcaseView) {
+                        showThirdShowCase();
+                    }
+
+                })
+                .build();
+    }
+
+    private void showThirdShowCase() {
+        AddAssignmentsFragment addAssignmentsFragment = (AddAssignmentsFragment) getFragmentManager().findFragmentById(R.id.AddAssignmentsFragmentFrameLayout);
+        new ShowcaseView.Builder(this)
+                .withMaterialShowcase()
+                .setStyle(R.style.CustomShowcaseTheme2)
+                .setTarget(new ViewTarget(addAssignmentsFragment.assignmentWeightage))
+                .hideOnTouchOutside()
+                .setContentTitle("Weightage for this sub module.\nWeightage cannot be more than 100.")
+                .setShowcaseEventListener(new SimpleShowcaseEventListener() {
+
+                    @Override
+                    public void onShowcaseViewDidHide(ShowcaseView showcaseView) {
+                        showFourthShowCase();
+                    }
+
+                })
+                .build();
+    }
+
+    private void showFourthShowCase() {
+        AddAssignmentsFragment addAssignmentsFragment = (AddAssignmentsFragment) getFragmentManager().findFragmentById(R.id.AddAssignmentsFragmentFrameLayout);
+        new ShowcaseView.Builder(this)
+                .withMaterialShowcase()
+                .setStyle(R.style.CustomShowcaseTheme2)
+                .setTarget(new ViewTarget(addAssignmentsFragment.splitName))
+                .hideOnTouchOutside()
+                .setContentTitle("This is optional.\n This is used to define the splits through which sub module scoring can be divided.\n Name for the split of this sub module.\n")
+                .setShowcaseEventListener(new SimpleShowcaseEventListener() {
+
+                    @Override
+                    public void onShowcaseViewDidHide(ShowcaseView showcaseView) {
+                        showFifthShowCase();
+                    }
+
+                })
+                .build();
+    }
+
+    private void showFifthShowCase() {
+        AddAssignmentsFragment addAssignmentsFragment = (AddAssignmentsFragment) getFragmentManager().findFragmentById(R.id.AddAssignmentsFragmentFrameLayout);
+        new ShowcaseView.Builder(this)
+                .withMaterialShowcase()
+                .setStyle(R.style.CustomShowcaseTheme2)
+                .setTarget(new ViewTarget(addAssignmentsFragment.splitScore))
+                .hideOnTouchOutside()
+                .setContentTitle("This is required if split name is defined.\n Score corresponding to the split name of this sub module.\nThe sum of all the split score should be equal to the total sub module score.\n")
+                .setShowcaseEventListener(new SimpleShowcaseEventListener() {
+
+                    @Override
+                    public void onShowcaseViewDidHide(ShowcaseView showcaseView) {
+                        showSixthShowCase();
+                    }
+
+                })
+                .build();
+    }
+
+    private void showSixthShowCase() {
+        AddAssignmentsFragment addAssignmentsFragment = (AddAssignmentsFragment) getFragmentManager().findFragmentById(R.id.AddAssignmentsFragmentFrameLayout);
+        new ShowcaseView.Builder(this)
+                .withMaterialShowcase()
+                .setStyle(R.style.CustomShowcaseTheme2)
+                .setTarget(new ViewTarget(addAssignmentsFragment.addSplitButton))
+                .hideOnTouchOutside()
+                .setContentTitle("Click this button for adding the split.\n")
+                .setShowcaseEventListener(new SimpleShowcaseEventListener() {
+
+                    @Override
+                    public void onShowcaseViewDidHide(ShowcaseView showcaseView) {
+                        showSeventhShowCase();
+                    }
+
+                })
+                .build();
+    }
+
+    private void showSeventhShowCase() {
+        AddAssignmentsFragment addAssignmentsFragment = (AddAssignmentsFragment) getFragmentManager().findFragmentById(R.id.AddAssignmentsFragmentFrameLayout);
+        new ShowcaseView.Builder(this)
+                .withMaterialShowcase()
+                .setStyle(R.style.CustomShowcaseTheme2)
+                .setTarget(new ViewTarget(addAssignmentsFragment.addAssignment))
+                .hideOnTouchOutside()
+                .setContentTitle("Click this button for adding the sub module.\n")
+                .setShowcaseEventListener(new SimpleShowcaseEventListener() {
+
+                    @Override
+                    public void onShowcaseViewDidHide(ShowcaseView showcaseView) {
+
+                    }
+
+                })
+                .build();
+    }
 }

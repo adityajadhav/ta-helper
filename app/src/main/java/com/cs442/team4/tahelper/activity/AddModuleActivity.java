@@ -40,6 +40,9 @@ import com.cs442.team4.tahelper.fragment.ModuleListFragment;
 import com.cs442.team4.tahelper.model.UserEntity;
 import com.cs442.team4.tahelper.preferences.MyPreferenceActivity;
 import com.cs442.team4.tahelper.utils.ObjectUtils;
+import com.github.amlcurran.showcaseview.ShowcaseView;
+import com.github.amlcurran.showcaseview.SimpleShowcaseEventListener;
+import com.github.amlcurran.showcaseview.targets.ViewTarget;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.ConnectionResult;
@@ -134,11 +137,71 @@ public class AddModuleActivity extends AppCompatActivity implements AddModuleFra
 
             Intent i = new Intent(this, c);
             startActivityForResult(i, 0);
+        }else if(id == R.id.nav_notification_help){
+            showCase();
+
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout_add_module);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    private void showCase() {
+        AddModuleFragment addModuleFragment = (AddModuleFragment) getFragmentManager().findFragmentById(R.id.addModuleActivityFrameLayout);
+        new ShowcaseView.Builder(this)
+                .withMaterialShowcase()
+                .setStyle(R.style.CustomShowcaseTheme2)
+                .setTarget(new ViewTarget(addModuleFragment.enterModuleNameFragmentView))
+                .hideOnTouchOutside()
+                .setContentTitle("Enter the name of the module here. \nExample of module names : \n1)InClass \n2)HW Assignments \n3)Project,etc.")
+                .setShowcaseEventListener(new SimpleShowcaseEventListener() {
+
+                    @Override
+                    public void onShowcaseViewDidHide(ShowcaseView showcaseView) {
+                        showSecondShowCase();
+                    }
+
+                })
+                .build();
+    }
+
+    private void showSecondShowCase() {
+        AddModuleFragment addModuleFragment = (AddModuleFragment) getFragmentManager().findFragmentById(R.id.addModuleActivityFrameLayout);
+        new ShowcaseView.Builder(this)
+                .withMaterialShowcase()
+                .setStyle(R.style.CustomShowcaseTheme2)
+                .setTarget(new ViewTarget(addModuleFragment.enterModuleWeightageFragmentView))
+                .hideOnTouchOutside()
+                .setContentTitle("Enter the weightage for this module.\nWeightage cannot be more then 100.\n")
+                .setShowcaseEventListener(new SimpleShowcaseEventListener() {
+
+                    @Override
+                    public void onShowcaseViewDidHide(ShowcaseView showcaseView) {
+                        showThirdShowCase();
+                    }
+
+                })
+                .build();
+    }
+
+    private void showThirdShowCase() {
+        AddModuleFragment addModuleFragment = (AddModuleFragment) getFragmentManager().findFragmentById(R.id.addModuleActivityFrameLayout);
+        new ShowcaseView.Builder(this)
+                .withMaterialShowcase()
+                .setStyle(R.style.CustomShowcaseTheme2)
+                .setTarget(new ViewTarget(addModuleFragment.addModuleFragmentView))
+                .hideOnTouchOutside()
+                .setContentTitle("Click this button to add module for this course.")
+                .setShowcaseEventListener(new SimpleShowcaseEventListener() {
+
+                    @Override
+                    public void onShowcaseViewDidHide(ShowcaseView showcaseView) {
+
+                    }
+
+                })
+                .build();
     }
 
     @Override
