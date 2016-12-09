@@ -155,6 +155,7 @@ Activity callerActivity;
             fileOut.close();
 //            Toast.makeText(callerActivity,"File name " + filename + " saved in "+ path,Toast.LENGTH_LONG).show();
             Log.i("log","File name " + filename + " saved in "+ path);
+            wb.close();
         } catch (Exception e) {
             e.printStackTrace();
 

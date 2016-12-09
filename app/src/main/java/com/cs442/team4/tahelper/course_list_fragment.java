@@ -161,7 +161,7 @@ public class course_list_fragment extends Fragment {
                                 public void onComplete(@NonNull Task<Void> task) {
 
                                     Toast.makeText(getContext(),"Course id " + courseCode + " removed!",Toast.LENGTH_SHORT).show();
-                                    course_array.remove(index);
+                                  //  course_array.remove(index);
                                     adapter.notifyDataSetChanged();
                                 }
                             });
@@ -188,6 +188,7 @@ public class course_list_fragment extends Fragment {
             public void onDataChange(DataSnapshot dataSnapshot) {
                // if(dataSnapshot.hasChildren()) {
                 adapter.clear();
+                course_array.clear();
                     for (DataSnapshot items : dataSnapshot.getChildren()) {
 
                         //    Log.i("player", player.child(s + "/courseCode").getValue().toString());
