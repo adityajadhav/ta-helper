@@ -35,8 +35,6 @@ public class GradeWithSplitsAdapter extends ArrayAdapter<Split> {
 
         boolean convertViewWasNull = false;
 
-
-
         final Split split = getItem(position);
 
         if (convertView == null) {

@@ -34,8 +34,11 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import static android.content.Context.MODE_PRIVATE;
+import static com.cs442.team4.tahelper.R.id.enterModuleNameFragmentView;
 
 /**
  * Created by ullas on 10/29/2016.
@@ -91,10 +94,18 @@ public class add_course_fragment extends Fragment {
         final TextView professor_UN_tv = (TextView) getView().findViewById(R.id.professor_UN_tv_layout);
         final TextView professor_email_tv = (TextView) getView().findViewById(R.id.professor_email_tv_layout);
 
+        Pattern p = Pattern.compile("[^A-Za-z0-9]");
 
         final String course_name = course_name_tv.getText().toString();
         if (course_name.trim().length() <= 0) {
             course_name_tv.setError("Course Name cannot be empty");
+            result = false;
+        }
+
+        Matcher m = p.matcher(course_name);
+        boolean b = m.find();
+        if (b){
+            course_name_tv.setError("Course Name should not contain special characters");
             result = false;
         }
         final String course_id = course_id_tv.getText().toString();
@@ -103,30 +114,73 @@ public class add_course_fragment extends Fragment {
             result = false;
         }
 
+        m = p.matcher(course_id);
+        b = m.find();
+        if (b){
+            course_id_tv.setError("Course ID should not contain special characters");
+            result = false;
+        }
         final String professor_FN = professor_FN_tv.getText().toString();
 
         if (professor_FN.trim().length() <= 0) {
             professor_FN_tv.setError("First Name cannot be empty");
             result = false;
         }
+        m = p.matcher(professor_FN);
+        b = m.find();
+        if (b){
+            professor_FN_tv.setError("Name should not contain special characters");
+            result = false;
+        }
+
+
         final String professor_LN = professor_LN_tv.getText().toString();
 
         if (professor_LN.trim().length() <= 0) {
             professor_LN_tv.setError("Last Name cannot be empty");
             result = false;
         }
+        m = p.matcher(professor_LN);
+        b = m.find();
+        if (b){
+            professor_LN_tv.setError("Name should not contain special characters");
+            result = false;
+        }
+
+
         final String professor_UN = professor_UN_tv.getText().toString();
 
         if (professor_UN.trim().length() <= 0) {
             professor_UN_tv.setError("User Name cannot be empty");
             result = false;
         }
+        m = p.matcher(professor_UN);
+        b = m.find();
+        if (b){
+            professor_UN_tv.setError("Name should not contain special characters");
+            result = false;
+        }
+
+
         final String professor_email = professor_email_tv.getText().toString();
 
         if (professor_email.trim().length() <= 0) {
             professor_email_tv.setError("Email cannot be empty");
             result = false;
         }
+        boolean val = android.util.Patterns.EMAIL_ADDRESS.matcher(professor_email).matches();
+        if(!val)
+        {
+           // professor_email_tv.setError("Invalid email ID format");
+        }
+
+
+//        m = p.matcher(course_name);
+//        b = m.find();
+//        if (b){
+//            course_name_tv.setError("Course Name should not contain special characters");
+//            result = false;
+//        }
 
         return result;
 
@@ -301,6 +355,15 @@ public class add_course_fragment extends Fragment {
                         public void onDataChange(DataSnapshot snapshot) {
 
                             if (smode.equals("edit")) {
+
+                                if(!old_course_id.equals(course_id))
+                                {
+                                    if(snapshot.hasChild(course_id))
+                                    {
+                                        Toast.makeText(getContext(), "Course id " + course_id + " already exists." , Toast.LENGTH_SHORT).show();
+                                        return;
+                                    }
+                                }
                                 myRef.child(old_course_id).removeValue();
                             }
 

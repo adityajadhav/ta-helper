@@ -115,17 +115,29 @@ public class GradeWithSplitsFragment extends Fragment {
             @Override
             public void onClick(View v) {
 
-                Double totalScore = calculateTotalScore();
+
 
                 HashMap<String, String> splitScoreHashmap = gradeWithSplitsAdapter.textValues;
 
+                boolean isFirstCharacterDigit = true;
                 boolean somethingWrong = false;
                 int i=0;
 
                 for(Map.Entry<String,String> s :splitScoreHashmap.entrySet())
                 {
                     String score = s.getValue();
-                    Double splitScore = Double.parseDouble(score);
+                    Double splitScore = 0.0;
+
+                    if(Character.isDigit(score.toString().charAt(0)))
+                    {
+                        splitScore = Double.parseDouble(score);
+                    }
+                    else
+                    {
+                        isFirstCharacterDigit = false;
+                        break;
+                    }
+
 
                     if(splitScore > splitsArrayList.get(i).getSplitMaximumPoints())
                     {
@@ -145,8 +157,13 @@ public class GradeWithSplitsFragment extends Fragment {
                 {
                     Toast.makeText(getActivity(), "Please grade below maximum marks", Toast.LENGTH_SHORT).show();
                 }
+                else if(isFirstCharacterDigit==false)
+                {
+                    Toast.makeText(getActivity(), "Split Score should start with a digit", Toast.LENGTH_SHORT).show();
+                }
                 else
                 {
+                    Double totalScore = calculateTotalScore();
 
                     totalEditText.setText(totalScore.toString());
                 }
@@ -160,17 +177,29 @@ public class GradeWithSplitsFragment extends Fragment {
             @Override
             public void onClick(View v) {
 
-                Double totalScore = calculateTotalScore();
+                //Double totalScore = calculateTotalScore();
 
                 HashMap<String, String> splitScoreHashmap = gradeWithSplitsAdapter.textValues;
 
                 boolean somethingWrong = false;
+                boolean isFirstCharacterDigit = true;
                 int i=0;
 
                 for(Map.Entry<String,String> s :splitScoreHashmap.entrySet())
                 {
                     String score = s.getValue();
-                    Double splitScore = Double.parseDouble(score);
+                    Double splitScore = 0.0;
+
+                    if(Character.isDigit(score.toString().charAt(0)))
+                    {
+                        splitScore = Double.parseDouble(score);
+                    }
+                    else
+                    {
+                        isFirstCharacterDigit = false;
+                        break;
+                    }
+
 
                     if(splitScore > splitsArrayList.get(i).getSplitMaximumPoints())
                     {
@@ -186,12 +215,19 @@ public class GradeWithSplitsFragment extends Fragment {
 
                 }
 
+
                 if(somethingWrong)
                 {
                     Toast.makeText(getActivity(), "Please grade below maximum marks", Toast.LENGTH_SHORT).show();
                 }
+                else if(isFirstCharacterDigit==false)
+                {
+                    Toast.makeText(getActivity(), "Split Score should start with a digit", Toast.LENGTH_SHORT).show();
+                }
                 else
                 {
+                    Double totalScore = calculateTotalScore();
+
                     finalSplitValues = new ArrayList<String>();
 
                     for(Map.Entry<String,String> s :splitScoreHashmap.entrySet())
