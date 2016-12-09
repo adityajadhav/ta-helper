@@ -1,6 +1,7 @@
 package com.cs442.team4.tahelper;
 
 import android.app.Fragment;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -186,6 +187,8 @@ public class course_list_fragment extends Fragment {
 
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+                final ProgressDialog dialog = ProgressDialog.show(getContext(), "",
+                        "Loading. Please wait...", true);
                // if(dataSnapshot.hasChildren()) {
                 adapter.clear();
                 course_array.clear();
@@ -225,6 +228,7 @@ public class course_list_fragment extends Fragment {
                         }
                     }
                     adapter.notifyDataSetChanged();
+                dialog.dismiss();
                 }
             //}
 
