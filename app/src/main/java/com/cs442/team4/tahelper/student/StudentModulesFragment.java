@@ -38,6 +38,7 @@ public class StudentModulesFragment extends ListFragment {
 
     double currentTotalPointsGained = 0.0;
     double currentTotalPointsPossible = 0.0;
+
     TextView totalPercentageTextView;
     TextView totalGradeTextView;
 
@@ -114,155 +115,171 @@ public class StudentModulesFragment extends ListFragment {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 modulesArraylist.removeAll(modulesArraylist);
                 //Log.i("","Snaphot "+dataSnapshot+"  "+dataSnapshot.getChildren()+"  "+dataSnapshot.getValue());
-                for (DataSnapshot postSnapshot: dataSnapshot.getChildren())
-                {
-                    if(!modulesArraylist.contains(postSnapshot.getKey()))
+                for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
+
+                    if (!postSnapshot.getKey().equals("email") && !postSnapshot.getKey().equals("firstName") && !postSnapshot.getKey().equals("lastName"))
                     {
-                        String key = (String)postSnapshot.getKey();
-                        final Long count = postSnapshot.getChildrenCount();
 
-                        Log.d("Key : "," Name: "+key);
-                        Log.d("Count : "," Name: "+count);
+                        if (!modulesArraylist.contains(postSnapshot.getKey())) {
+                            String key = (String) postSnapshot.getKey();
+                            final Long count = postSnapshot.getChildrenCount();
 
-                        final TotalGrade module = new TotalGrade();
-                        module.setModuleName((String)postSnapshot.getKey());
-                        final String moduleName = module.getModuleName();
+                            Log.d("Key : ", " Name: " + key);
+                            Log.d("Count : ", " Name: " + count);
 
-                        //final double currentTotalPointsGained = 0.0;
-                        //final double currentTotalPointsPossible = 0.0;
+                            final TotalGrade module = new TotalGrade();
+                            module.setModuleName((String) postSnapshot.getKey());
+                            final String moduleName = module.getModuleName();
 
-                        //***********************************************************************************
+                            //final double currentTotalPointsGained = 0.0;
+                            //final double currentTotalPointsPossible = 0.0;
 
-                        mDatabase.child("students").child(courseName).child(studentId).child(moduleName).push();
-                        mDatabase.child("students").child(courseName).child(studentId).child(moduleName).addValueEventListener(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(DataSnapshot dataSnapshot) {
+                            //***********************************************************************************
 
-                                double total = 0;
-                                for (DataSnapshot postSnapshot: dataSnapshot.getChildren())
-                                {
-                                    if(!postSnapshot.getKey().equals("weightage"))
-                                    {
-                                        String score = (String) postSnapshot.child("Total").getValue();
-                                        Double score1 = Double.parseDouble(score);
-                                        total = total + score1;
-                                        currentTotalPointsGained = currentTotalPointsGained+total;
+                            mDatabase.child("students").child(courseName).child(studentId).child(moduleName).push();
+                            mDatabase.child("students").child(courseName).child(studentId).child(moduleName).addValueEventListener(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(DataSnapshot dataSnapshot) {
+
+                                    double total = 0;
+                                    for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+                                        if (!postSnapshot.getKey().equals("weightage")) {
+                                            String score = (String) postSnapshot.child("Total").getValue();
+                                            Double score1 = Double.parseDouble(score);
+                                            total = total + score1;
+                                            currentTotalPointsGained = currentTotalPointsGained + total;
+                                        }
                                     }
+                                    //currentTotalPointsGained = total;
+                                    finalTotalPointsGained = finalTotalPointsGained + total;
+                                    Log.d("Total Gained : ", " finalTotalPointsGained: " + finalTotalPointsGained);
+                                    module.setTotalGainedMarks(total);
+
+                                    //For fetching maximum points
+                                    //mDatabase.child("modules").child(courseName).child(moduleName).push();
+                                    mDatabase.child("modules").child(courseName).child(moduleName).push();
+                                    mDatabase.child("modules").child(courseName).child(moduleName).addValueEventListener(new ValueEventListener() {
+
+                                        @Override
+                                        public void onDataChange(DataSnapshot dataSnapshot) {
+
+                                            int i = 0;
+                                            double total1 = 0;
+                                            double currentPossibleWeightage = 0.0;
+                                            double currentGainedWeightage = 0.0;
+
+                                            for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+                                                if (!postSnapshot.getKey().equals("weightage") && !postSnapshot.getKey().equals("isGraded")) {
+                                                    String score = (String) postSnapshot.child("Total").getValue();
+                                                    Double score1 = Double.parseDouble(score);
+                                                    total1 = total1 + score1;
+                                                    //currentTotalPointsPossible=total1;
+                                                    //i++;
+                                                } else if (postSnapshot.getKey().equals("weightage")) {
+                                                    String weightage1 = (String) postSnapshot.getValue();
+                                                    currentPossibleWeightage = Double.parseDouble(weightage1);
+                                                    Log.d("", " currentPossibleWeightage Inside elseif: " + currentPossibleWeightage);
+
+                                                }
+                                            }
+
+                                            currentTotalPointsPossible = total1;
+
+                                            finalTotalPointsPossible = finalTotalPointsPossible + total1;
+                                            totalScoreTextView.setText(finalTotalPointsGained + "/" + finalTotalPointsPossible + "  ");
+                                            Log.d(": ", " finalTotalPointsPossible: " + finalTotalPointsPossible);
+                                            module.setTotalPossibleMarks(total1);
+
+                                            //****************************************************************
+
+                                            currentGainedWeightage = (currentPossibleWeightage * module.getTotalGainedMarks()) / module.getTotalPossibleMarks();
+                                            finalPossibleWeightage = finalPossibleWeightage + currentPossibleWeightage;
+                                            finalGainedWeightage = finalGainedWeightage + currentGainedWeightage;
+
+                                            double percentageCheck = 0.0;
+
+                                            if (finalTotalPointsPossible != 0.0)
+                                                percentageCheck = (100 * finalGainedWeightage) / finalPossibleWeightage;
+
+                                            currentTotalPointsGained = 0.0;
+                                            currentTotalPointsPossible = 0.0;
+
+                                            Log.d("", " currentPossibleWeightage: " + currentPossibleWeightage);
+                                            Log.d("", " currentGainedWeightage: " + currentGainedWeightage);
+
+                                            Log.d("", " finalPossibleWeightage: " + finalPossibleWeightage);
+                                            Log.d("", " finalGainedWeightage: " + finalGainedWeightage);
+
+                                            Log.d("", " percentageCheck: " + percentageCheck);
+
+                                            /*
+                                            finalPossibleWeightage = finalPossibleWeightage + currentPossibleWeightage;
+                                            Log.d(""," finalPossibleWeightage: "+finalPossibleWeightage);
+
+                                            double currentGainedWeightage = 0.0;
+
+                                            currentGainedWeightage = (currentPossibleWeightage*currentTotalPointsGained)/currentTotalPointsPossible;
+                                            Log.d(""," currentTotalPointsGained: "+currentTotalPointsGained);
+                                            Log.d(""," currentTotalPointsPossible: "+currentTotalPointsPossible);
+                                            Log.d(""," currentPossibleWeightage: "+currentPossibleWeightage);
+                                            Log.d(""," currentGainedWeightage: "+currentGainedWeightage);
+
+                                            finalGainedWeightage = finalGainedWeightage + currentGainedWeightage;
+                                            Log.d(""," finalGainedWeightage: "+finalGainedWeightage);
+                                            */
+
+                                            DecimalFormat df = new DecimalFormat("####0.00");
+                                            double percentage = 0.0;
+
+                                            if (finalTotalPointsPossible != 0.0)
+                                                percentage = (100 * finalTotalPointsGained) / finalTotalPointsPossible;
+
+                                            Log.d("", " percentage: " + percentage);
+
+
+                                            totalPercentageTextView.setText("" + df.format(percentageCheck) + "%  ");
+
+                                            if (percentageCheck >= 90.0) {
+                                                totalGradeTextView.setText("A  ");
+                                            } else if (percentageCheck >= 80.0) {
+                                                totalGradeTextView.setText("B  ");
+                                            } else if (percentageCheck >= 70) {
+                                                totalGradeTextView.setText("C  ");
+                                            } else {
+                                                totalGradeTextView.setText("F  ");
+                                            }
+
+                                            //*****************************************************************************
+
+
+                                            if (count != 0)
+                                                modulesArraylist.add(module);
+
+                                            modulesListAdapter.notifyDataSetChanged();
+
+                                        }
+
+                                        @Override
+                                        public void onCancelled(DatabaseError databaseError) {
+                                            Log.d("ModuleListFragment : ", " Read cancelled due to " + databaseError.getMessage());
+                                        }
+                                    });
+
+
                                 }
-                                //currentTotalPointsGained = total;
-                                finalTotalPointsGained = finalTotalPointsGained+total;
-                                Log.d("Total Gained : "," finalTotalPointsGained: "+finalTotalPointsGained);
-                                module.setTotalGainedMarks(total);
 
-                                //For fetching maximum points
-                                //mDatabase.child("modules").child(courseName).child(moduleName).push();
-                                mDatabase.child("modules").child(courseName).child(moduleName).push();
-                                mDatabase.child("modules").child(courseName).child(moduleName).addValueEventListener(new ValueEventListener() {
+                                @Override
+                                public void onCancelled(DatabaseError databaseError) {
+                                    Log.d("ModuleListFragment : ", " Read cancelled due to " + databaseError.getMessage());
+                                }
+                            });
 
-                                    @Override
-                                    public void onDataChange(DataSnapshot dataSnapshot) {
+                            currentTotalPointsGained = 0.0;
+                            currentTotalPointsPossible = 0.0;
 
-                                        int i = 0;
-                                        double total1 = 0;
-                                        double currentPossibleWeightage = 0.0;
+                            //***************************************************************************************
 
-                                        for (DataSnapshot postSnapshot: dataSnapshot.getChildren())
-                                        {
-                                            if(!postSnapshot.getKey().equals("weightage") && !postSnapshot.getKey().equals("isGraded"))
-                                            {
-                                                String score = (String) postSnapshot.child("Total").getValue();
-                                                Double score1 = Double.parseDouble(score);
-                                                total1 = total1 + score1;
-                                                currentTotalPointsPossible=total1;
-                                                //i++;
-                                            }
-                                            else if(postSnapshot.getKey().equals("weightage"))
-                                            {
-                                                String weightage1 = (String) postSnapshot.getValue();
-                                                currentPossibleWeightage = Double.parseDouble(weightage1);
-                                                Log.d(""," currentPossibleWeightage Inside elseif: "+currentPossibleWeightage);
-
-                                            }
-                                        }
-
-                                        finalTotalPointsPossible = finalTotalPointsPossible+total1;
-                                        totalScoreTextView.setText(finalTotalPointsGained+"/"+finalTotalPointsPossible+"  ");
-                                        Log.d(": "," finalTotalPointsPossible: "+finalTotalPointsPossible);
-                                        module.setTotalPossibleMarks(total1);
-
-                                        //****************************************************************
-
-                                        /*
-                                        finalPossibleWeightage = finalPossibleWeightage + currentPossibleWeightage;
-                                        Log.d(""," finalPossibleWeightage: "+finalPossibleWeightage);
-
-                                        double currentGainedWeightage = 0.0;
-
-                                        currentGainedWeightage = (currentPossibleWeightage*currentTotalPointsGained)/currentTotalPointsPossible;
-                                        Log.d(""," currentTotalPointsGained: "+currentTotalPointsGained);
-                                        Log.d(""," currentTotalPointsPossible: "+currentTotalPointsPossible);
-                                        Log.d(""," currentPossibleWeightage: "+currentPossibleWeightage);
-                                        Log.d(""," currentGainedWeightage: "+currentGainedWeightage);
-
-                                        finalGainedWeightage = finalGainedWeightage + currentGainedWeightage;
-                                        Log.d(""," finalGainedWeightage: "+finalGainedWeightage);
-                                        */
-
-                                        DecimalFormat df = new DecimalFormat("####0.00");
-                                        double percentage = 0.0;
-
-                                        if(finalTotalPointsPossible!=0.0)
-                                            percentage = (100*finalTotalPointsGained)/finalTotalPointsPossible;
-
-                                        Log.d(""," percentage: "+percentage);
-
-
-                                        totalPercentageTextView.setText(""+df.format(percentage)+"%  ");
-
-                                        if(percentage>=90.0)
-                                        {
-                                            totalGradeTextView.setText("A  ");
-                                        }
-                                        else if(percentage>=80.0)
-                                        {
-                                            totalGradeTextView.setText("B  ");
-                                        }
-                                        else if(percentage>=70)
-                                        {
-                                            totalGradeTextView.setText("C  ");
-                                        }
-                                        else
-                                        {
-                                            totalGradeTextView.setText("F  ");
-                                        }
-
-                                        //*****************************************************************************
-
-
-                                        if(count!=0)
-                                            modulesArraylist.add(module);
-
-                                        modulesListAdapter.notifyDataSetChanged();
-
-                                    }
-
-                                    @Override
-                                    public void onCancelled(DatabaseError databaseError) {
-                                        Log.d("ModuleListFragment : "," Read cancelled due to "+databaseError.getMessage());
-                                    }
-                                });
-
-
-                            }
-
-                            @Override
-                            public void onCancelled(DatabaseError databaseError) {
-                                Log.d("ModuleListFragment : "," Read cancelled due to "+databaseError.getMessage());
-                            }
-                        });
-
-                        //***************************************************************************************
-
+                        }
                     }
                 }
                 modulesListAdapter.notifyDataSetChanged();
