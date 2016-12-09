@@ -591,19 +591,65 @@ public class CourseActivity extends AppCompatActivity implements add_course_frag
         new ShowcaseView.Builder(this)
                 .withMaterialShowcase()
                 .setStyle(R.style.CustomShowcaseTheme2)
-                .setTarget(new ViewTarget(ta_frag.getView().findViewById(R.id.add_course_fab_layout)))
+                .setTarget(new ViewTarget(ta_frag.getView().findViewById(R.id.ta_drop_down_layout)))
                 .hideOnTouchOutside()
                 .setContentTitle("Add a course by clicking on this button")
                 .setShowcaseEventListener(new SimpleShowcaseEventListener() {
 
                     @Override
                     public void onShowcaseViewDidHide(ShowcaseView showcaseView) {
-                        // showSecondShowCase();
-                        View vw = ta_frag.getView().findViewById(R.id.manage_course_btn_layout);
-                        if(vw != null)
-                        {
-                            courseListSecondShowCase();
-                        }
+                        TASecondShowCase();
+//                        View vw = ta_frag.getView().findViewById(R.id.manage_course_btn_layout);
+//                        if(vw != null)
+//                        {
+//                            courseListSecondShowCase();
+//                        }
+                    }
+
+                })
+                .build();
+    }
+    private void TASecondShowCase() {
+        final Add_ta_fragment ta_frag = (Add_ta_fragment) getFragmentManager().findFragmentByTag("add_ta_fragment_tag");
+        new ShowcaseView.Builder(this)
+                .withMaterialShowcase()
+                .setStyle(R.style.CustomShowcaseTheme2)
+                .setTarget(new ViewTarget(ta_frag.getView().findViewById(R.id.add_to_list_btn_layout)))
+                .hideOnTouchOutside()
+                .setContentTitle("Add a course by clicking on this button")
+                .setShowcaseEventListener(new SimpleShowcaseEventListener() {
+
+                    @Override
+                    public void onShowcaseViewDidHide(ShowcaseView showcaseView) {
+                        TAThirdShowCase();
+//                        View vw = ta_frag.getView().findViewById(R.id.manage_course_btn_layout);
+//                        if(vw != null)
+//                        {
+//                            courseListSecondShowCase();
+//                        }
+                    }
+
+                })
+                .build();
+    }
+    private void TAThirdShowCase() {
+        final Add_ta_fragment ta_frag = (Add_ta_fragment) getFragmentManager().findFragmentByTag("add_ta_fragment_tag");
+        new ShowcaseView.Builder(this)
+                .withMaterialShowcase()
+                .setStyle(R.style.CustomShowcaseTheme2)
+                .setTarget(new ViewTarget(ta_frag.getView().findViewById(R.id.add_ta_final_btn_layout)))
+                .hideOnTouchOutside()
+                .setContentTitle("Add a course by clicking on this button")
+                .setShowcaseEventListener(new SimpleShowcaseEventListener() {
+
+                    @Override
+                    public void onShowcaseViewDidHide(ShowcaseView showcaseView) {
+                        //TASecondShowCase();
+//                        View vw = ta_frag.getView().findViewById(R.id.manage_course_btn_layout);
+//                        if(vw != null)
+//                        {
+//                            courseListSecondShowCase();
+//                        }
                     }
 
                 })
