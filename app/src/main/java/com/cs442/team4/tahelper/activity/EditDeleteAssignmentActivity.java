@@ -272,8 +272,8 @@ public class EditDeleteAssignmentActivity extends AppCompatActivity implements E
         intent.putExtra(IntentConstants.MODULE_NAME,moduleName);
         intent.putExtra(IntentConstants.COURSE_ID,courseCode);
         intent.putExtra("USER_DETAILS",user);
-        overridePendingTransition(R.anim.left_slide_in, R.anim.left_slide_out);
         startActivity(intent);
+        overridePendingTransition(R.anim.left_slide_in, R.anim.left_slide_out);
         finish();
 
     }
