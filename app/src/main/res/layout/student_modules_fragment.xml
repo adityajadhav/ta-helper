@@ -123,6 +123,7 @@
         android:layout_height="291dp"
         android:id="@android:id/list"
         android:divider="#ffffff"
-        android:dividerHeight="1dp"/>
+        android:dividerHeight="1dp"
+        android:layout_weight="1.18" />
 
 </LinearLayout>

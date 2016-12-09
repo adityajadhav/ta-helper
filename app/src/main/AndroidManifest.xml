@@ -42,16 +42,16 @@
         <!--
         <activity android:name=".student.GradeStudentListActivity"></activity>
         -->
-        <activity android:name=".student.GradeStudentListActivity"></activity>
+        <activity android:name=".student.GradeStudentListActivity" android:configChanges="orientation|screenSize"></activity>
         <activity android:name=".activity.ModuleListActivity"      android:windowSoftInputMode="adjustPan"></activity>
         <activity android:name=".activity.AddModuleActivity"  android:windowSoftInputMode="adjustPan" android:configChanges="orientation|screenSize"></activity>
         <activity android:name=".activity.EditDeleteModuleActivity"   android:windowSoftInputMode="adjustPan" android:configChanges="orientation|screenSize"></activity>
         <activity android:name=".activity.ManageAssignmentsActivity"></activity>
         <activity android:name=".activity.AddAssignmentsActivity"   android:windowSoftInputMode="adjustPan" android:configChanges="orientation|screenSize"></activity>
         <activity android:name=".activity.EditDeleteAssignmentActivity"   android:windowSoftInputMode="adjustPan" android:configChanges="orientation|screenSize"></activity>
-        <activity android:name=".student.StudentModulesActivity"></activity>
-        <activity android:name=".student.StudentAssignmentListActivity"></activity>
-        <activity android:name=".student.StudentAssignmentSplitsListActivity"></activity>
+        <activity android:name=".student.StudentModulesActivity" android:configChanges="orientation|screenSize"></activity>
+        <activity android:name=".student.StudentAssignmentListActivity" android:configChanges="orientation|screenSize"></activity>
+        <activity android:name=".student.StudentAssignmentSplitsListActivity" android:configChanges="orientation|screenSize"></activity>
         <activity
             android:name=".showcase.ActionItemsSampleActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
@@ -60,7 +60,7 @@
             android:theme="@style/PreferencesTheme" />
         <activity
             android:name=".student.GradeWithSplitsActivity"
-            android:windowSoftInputMode="adjustNothing" />
+            android:windowSoftInputMode="adjustNothing" android:configChanges="orientation|screenSize" />
         <activity android:name=".student.GradeWithoutSplitsActivity" />
 
         <service android:name=".services.MyFirebaseMessagingService">
