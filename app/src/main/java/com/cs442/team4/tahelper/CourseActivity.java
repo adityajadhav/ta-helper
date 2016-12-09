@@ -424,8 +424,10 @@ public class CourseActivity extends AppCompatActivity implements add_course_frag
                     Log.d("team4", "onResult:Logout ");
                     Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                     startActivity(intent);
+                    finish();
                 }
             });
+
             return true;
         }
 
