@@ -193,7 +193,7 @@ public class ModuleListFragment extends Fragment{
                                         String key1 = (String) thisEntry1.getKey();
                                         if (key1.equals("Total")) {
                                             assignmentEntity.setTotalScore((String) thisEntry1.getValue());
-                                        } else if (key1.equals("Splits")) {
+                                        } else if (key1.equals("Splits") && thisEntry1.getValue().getClass().equals(Map.class)) {
                                             Map<String, String> splitList = (Map<String, String>) thisEntry1.getValue();
                                             Iterator entries2 = splitList.entrySet().iterator();
                                             while (entries2.hasNext()) {
