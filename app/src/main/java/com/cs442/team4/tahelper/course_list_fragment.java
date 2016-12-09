@@ -86,6 +86,8 @@ public class course_list_fragment extends Fragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
 
+        final ProgressDialog dialog = ProgressDialog.show(getContext(), "",
+                "Loading. Please wait...", true);
 
         FirebaseDatabase database = FirebaseDatabase.getInstance();
 
@@ -187,8 +189,7 @@ public class course_list_fragment extends Fragment {
 
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                final ProgressDialog dialog = ProgressDialog.show(getContext(), "",
-                        "Loading. Please wait...", true);
+
                // if(dataSnapshot.hasChildren()) {
                 adapter.clear();
                 course_array.clear();
