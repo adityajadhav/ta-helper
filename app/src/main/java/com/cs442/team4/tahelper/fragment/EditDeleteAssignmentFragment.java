@@ -3,6 +3,7 @@ package com.cs442.team4.tahelper.fragment;
 import android.app.Activity;
 import android.app.Fragment;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -97,18 +98,27 @@ public class EditDeleteAssignmentFragment extends Fragment {
         addSplitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(splitName.getText()!=null && splitName.getText().length()>0 && splitScore.getText()!=null && splitScore.getText().length()>0 && splitName.getText().toString().matches(".*[a-zA-Z]+.*") && isUnique(splitName.getText().toString())){
-                    assignmentSplitsList.add(new AssignmentSplit(splitName.getText().toString(),Double.parseDouble(splitScore.getText().toString())));
-                    splitName.setText("");
-                    splitScore.setText("");
-                    assignmentAdapter.notifyDataSetChanged();
-                }else if(!splitName.getText().toString().matches(".*[a-zA-Z]+.*")){
-                    Toast.makeText(getActivity(),"Split name should contain atleast one character.",Toast.LENGTH_LONG).show();
-                }else if(!isUnique(splitName.getText().toString())){
-                    Toast.makeText(getActivity(),"Split name needs to be unique.",Toast.LENGTH_LONG).show();
+
+                if(splitName.getText()!=null && splitName.getText().length()>0 && splitScore.getText()!=null && splitScore.getText().length()>0 ){
+                    boolean isUnique = isUnique(splitName.getText().toString());
+                    boolean isValidSplitScore = isValidSplitScore(splitScore.getText().toString());
+                    boolean isValidSplitName = isValidSplitName(splitName.getText().toString());
+                    if(isUnique && isValidSplitScore && isValidSplitName){
+                        assignmentSplitsList.add(new AssignmentSplit(splitName.getText().toString(),Double.parseDouble(splitScore.getText().toString())));
+                        splitName.setText("");
+                        splitScore.setText("");
+                        assignmentAdapter.notifyDataSetChanged();
+                    }
 
                 }else{
-                    Toast.makeText(getActivity(),"Please enter both split name, score and try again.",Toast.LENGTH_LONG).show();
+                    if(splitName.getText().toString().trim().length()<=0) {
+                        splitName.setError("Split name cannot be empty.");
+                    }
+                    if(splitScore.getText().toString().trim().length()<=0) {
+                        splitScore.setError("Split score cannot be empty.");
+                    }
+
+                    Toast.makeText(getActivity(),"Please correct the errors and try again.",Toast.LENGTH_LONG).show();
 
                 }
             }
@@ -142,9 +152,29 @@ public class EditDeleteAssignmentFragment extends Fragment {
         return layout;
     }
 
-    private boolean isUnique(String splitName) {
+    private boolean isValidSplitName(String splitNameString) {
+        if(!splitNameString.matches(".*[a-zA-Z]+.*")){
+            splitName.setError("Split name cannot have special characters.");
+            Toast.makeText(getActivity(),"Please correct all errors and try again.",Toast.LENGTH_LONG).show();
+            return false;
+        }
+        return true;
+    }
+
+    private boolean isValidSplitScore(String splitScoreString) {
+        if(!Character.isDigit(splitScoreString.charAt(0))){
+            splitScore.setError("Split score should begin with a number.");
+            Toast.makeText(getActivity(),"Please correct all errors and try again.",Toast.LENGTH_LONG).show();
+            return false;
+        }
+        return true;
+    }
+
+    private boolean isUnique(String splitNameString) {
         for(AssignmentSplit assignmentSplit : assignmentSplitsList){
-            if(assignmentSplit.getSplitName().equals(splitName)){
+            if(assignmentSplit.getSplitName().equals(splitNameString)){
+                splitName.setError("Split name needs to be unique.");
+                Toast.makeText(getActivity(),"Please correct all errors and try again.",Toast.LENGTH_LONG).show();
                 return false;
             }
         }
@@ -206,65 +236,65 @@ public class EditDeleteAssignmentFragment extends Fragment {
     }
 
     private boolean validateWeightage(String weightage) {
+        boolean isValid = true;
         if(!Character.isDigit(weightage.charAt(0))){
             assignmentWeightage.setError("Sub Module Weightage should begin with a number");
-            Toast.makeText(getActivity(),"Sub Module Weightage should begin with a number",Toast.LENGTH_LONG).show();
+            Toast.makeText(getActivity(),"Please correct all errors and try again.",Toast.LENGTH_LONG).show();
 
-            return false;
+            isValid = false;
+        }else {
+            double weigthage = Double.parseDouble(weightage);
+            if (weigthage > MAX_WEIGHTAGE) {
+                assignmentWeightage.setError("Sub Module Weightage should be less than 100.0");
+                Toast.makeText(getActivity(), "Please correct all errors and try again.", Toast.LENGTH_LONG).show();
+                isValid = false;
+            }
         }
-        double weigthage = Double.parseDouble(weightage);
-        if(weigthage>MAX_WEIGHTAGE){
-            assignmentWeightage.setError("Sub Module Weightage should be less than 100.0");
-            Toast.makeText(getActivity(),"Sub Module Weightage should be less than 100.0",Toast.LENGTH_LONG).show();
-            return false;
-        }
-        return true;
+        return isValid;
     }
 
     private boolean validateName(String assignmentNameString) {
         boolean isValid = true;
         for(String existingName : assignmentList){
             if(existingName.equals(assignmentNameString) && !existingName.equals(originalAssignmentName)){
-                Toast.makeText(getActivity(),"Sub module name cannot be duplicate.",Toast.LENGTH_LONG).show();
+                Toast.makeText(getActivity(),"Please correct all errors and try again.",Toast.LENGTH_LONG).show();
                 assignmentName.setError("Sub module name cannot be duplicate.");
-                return false;
+                isValid = false;
             }
         }
         Pattern p = Pattern.compile("[^A-Za-z0-9]");
         Matcher m = p.matcher(assignmentNameString);
         boolean b = m.find();
-        if (b == true){
+        if (isValid && b == true){
             assignmentName.setError("Sub Module Name should not contain special characters");
-            Toast.makeText(getActivity(),"Sub Module Name should not contain special characters",Toast.LENGTH_LONG).show();
-            return false;
+            Toast.makeText(getActivity(),"Please correct all errors and try again.",Toast.LENGTH_LONG).show();
+            isValid = false;
         }
         return isValid;
     }
 
     private boolean validateTotal() {
-        boolean isValid = false;
+        boolean isValid = true;
         if(!Character.isDigit(assignmentTotalScore.getText().toString().charAt(0))){
             assignmentTotalScore.setError("Sub Module Total should begin with a number");
-            Toast.makeText(getActivity(),"Sub Module Total should begin with a number",Toast.LENGTH_LONG).show();
+            Toast.makeText(getActivity(),"Please correct all errors and try again.",Toast.LENGTH_LONG).show();
 
-            return false;
-        }
-        double total = Double.parseDouble(assignmentTotalScore.getText().toString());
-        if(assignmentSplitsList.size()==0){
-            isValid = true;
+            isValid = false;
         }else {
-            double splitTotal = 0;
-            for (int i = 0; i < assignmentSplitsList.size(); i++) {
-                AssignmentSplit split = assignmentSplitsList.get(i);
-                splitTotal+= split.getSplitScore();
+            double total = Double.parseDouble(assignmentTotalScore.getText().toString());
+            if (assignmentSplitsList.size() != 0) {
+                double splitTotal = 0;
+                for (int i = 0; i < assignmentSplitsList.size(); i++) {
+                    AssignmentSplit split = assignmentSplitsList.get(i);
+                    splitTotal += split.getSplitScore();
 
+                }
+                if (total != splitTotal) {
+                    isValid = false;
+                    Toast.makeText(getActivity(), "Please correct all errors and try again.", Toast.LENGTH_LONG).show();
+                    assignmentTotalScore.setError("Total count does not match with Sum of Splits.");
+                }
             }
-            isValid = (total==splitTotal)?true:false;
-        }
-        if(!isValid){
-            Toast.makeText(getActivity(),"Total count does not match with Sum of Splits.Please correct it and try again.",Toast.LENGTH_LONG).show();
-            assignmentTotalScore.setError("Total count does not match with Sum of Splits.");
-
         }
         return isValid;
     }
@@ -333,6 +363,20 @@ public class EditDeleteAssignmentFragment extends Fragment {
                     if(postSnapshot.getKey().equals("isGraded")){
                         isGraded = postSnapshot.getValue(Boolean.class);
                         editAssignment.setVisibility(View.GONE);
+                        assignmentName.setFocusable(false);
+                        assignmentName.setBackgroundColor(Color.DKGRAY);
+                        assignmentTotalScore.setFocusable(false);
+                        assignmentTotalScore.setBackgroundColor(Color.DKGRAY);
+                        assignmentWeightage.setFocusable(false);
+                        assignmentWeightage.setBackgroundColor(Color.DKGRAY);
+                        splitName.setFocusable(false);
+                        splitName.setBackgroundColor(Color.DKGRAY);
+                        splitScore.setFocusable(false);
+                        splitScore.setBackgroundColor(Color.DKGRAY);
+                        addSplitButton.setVisibility(View.GONE);
+                        assignmentAdapter.setGraded(isGraded);
+
+
                         LinearLayout.LayoutParams param = new LinearLayout.LayoutParams(
                                 LinearLayout.LayoutParams.MATCH_PARENT,
                                 LinearLayout.LayoutParams.MATCH_PARENT, 2.0f);
