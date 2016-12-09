@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:weightSum="4"
     tools:context=".MainActivity"
-    android:background="@drawable/rsz_tahelper">
+    android:background="@drawable/lgbk">
 
     <RelativeLayout
         android:id="@+id/parentLinear"
