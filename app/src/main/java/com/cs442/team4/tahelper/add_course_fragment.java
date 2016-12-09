@@ -355,6 +355,15 @@ public class add_course_fragment extends Fragment {
                         public void onDataChange(DataSnapshot snapshot) {
 
                             if (smode.equals("edit")) {
+
+                                if(!old_course_id.equals(course_id))
+                                {
+                                    if(snapshot.hasChild(course_id))
+                                    {
+                                        Toast.makeText(getContext(), "Course id " + course_id + " already exists." , Toast.LENGTH_SHORT).show();
+                                        return;
+                                    }
+                                }
                                 myRef.child(old_course_id).removeValue();
                             }
 
