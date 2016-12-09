@@ -125,6 +125,8 @@ public class EditDeleteModuleActivity extends AppCompatActivity implements  Edit
         intent.putExtra("USER_DETAILS",user);
 
         startActivity(intent);
+        overridePendingTransition(R.anim.left_slide_in, R.anim.left_slide_out);
+
         finish();
     }
 
@@ -136,6 +138,8 @@ public class EditDeleteModuleActivity extends AppCompatActivity implements  Edit
         intent.putExtra("USER_DETAILS",user);
 
         startActivity(intent);
+        overridePendingTransition(R.anim.left_slide_in, R.anim.left_slide_out);
+
         finish();
     }
 
@@ -177,7 +181,7 @@ public class EditDeleteModuleActivity extends AppCompatActivity implements  Edit
                     .setStyle(R.style.CustomShowcaseTheme2)
                     .setTarget(new ViewTarget(editDeleteModuleFragment.moduleName))
                     .hideOnTouchOutside()
-                    .setContentTitle("The module can be renamed here.\n")
+                    .setContentTitle("The module can be renamed here.\n\n")
                     .setShowcaseEventListener(new SimpleShowcaseEventListener() {
 
                         @Override
@@ -193,7 +197,7 @@ public class EditDeleteModuleActivity extends AppCompatActivity implements  Edit
                     .setStyle(R.style.CustomShowcaseTheme2)
                     .setTarget(new ViewTarget(editDeleteModuleFragment.moduleName))
                     .hideOnTouchOutside()
-                    .setContentTitle("The module name.\nThis field is disabled since atleast one sub module associated with this module has been graded for atleast one student.\n")
+                    .setContentTitle("The module name.\n\nNote : This field is disabled since atleast one sub module associated with this module has been graded for atleast one student.\n\n")
                     .setShowcaseEventListener(new SimpleShowcaseEventListener() {
 
                         @Override
@@ -216,7 +220,7 @@ public class EditDeleteModuleActivity extends AppCompatActivity implements  Edit
                     .setStyle(R.style.CustomShowcaseTheme2)
                     .setTarget(new ViewTarget(editDeleteModuleFragment.moduleWeightage))
                     .hideOnTouchOutside()
-                    .setContentTitle("Weightage can be changed here.\n")
+                    .setContentTitle("Weightage can be changed here.\n\n")
                     .setShowcaseEventListener(new SimpleShowcaseEventListener() {
 
                         @Override
@@ -232,8 +236,8 @@ public class EditDeleteModuleActivity extends AppCompatActivity implements  Edit
                     .setStyle(R.style.CustomShowcaseTheme2)
                     .setTarget(new ViewTarget(editDeleteModuleFragment.moduleWeightage))
                     .hideOnTouchOutside()
-                    .setContentTitle("The module weightage.\n" +
-                            "This field is disabled since atleast one sub module associated with this module has been graded for atleast one student.\n")
+                    .setContentTitle("The module weightage.\n\n" +
+                            "Note : This field is disabled since atleast one sub module associated with this module has been graded for atleast one student.\n\n")
                     .setShowcaseEventListener(new SimpleShowcaseEventListener() {
 
                         @Override
@@ -255,7 +259,7 @@ public class EditDeleteModuleActivity extends AppCompatActivity implements  Edit
                     .setStyle(R.style.CustomShowcaseTheme2)
                     .setTarget(new ViewTarget(editDeleteModuleFragment.editButton))
                     .hideOnTouchOutside()
-                    .setContentTitle("Click this to button to finalise the editted changes.\n")
+                    .setContentTitle("Click this to button to finalise the editted changes.\n\n")
                     .setShowcaseEventListener(new SimpleShowcaseEventListener() {
 
                         @Override
@@ -278,7 +282,7 @@ public class EditDeleteModuleActivity extends AppCompatActivity implements  Edit
                 .setStyle(R.style.CustomShowcaseTheme2)
                 .setTarget(new ViewTarget(editDeleteModuleFragment.deleteButton))
                 .hideOnTouchOutside()
-                .setContentTitle("Click this button to delete this module from the course.\n")
+                .setContentTitle("Click this button to delete this module from the course.\n\n")
                 .setShowcaseEventListener(new SimpleShowcaseEventListener() {
 
                     @Override

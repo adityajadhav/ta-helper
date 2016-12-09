@@ -591,19 +591,95 @@ public class CourseActivity extends AppCompatActivity implements add_course_frag
         new ShowcaseView.Builder(this)
                 .withMaterialShowcase()
                 .setStyle(R.style.CustomShowcaseTheme2)
-                .setTarget(new ViewTarget(ta_frag.getView().findViewById(R.id.add_course_fab_layout)))
+                .setTarget(new ViewTarget(ta_frag.getView().findViewById(R.id.ta_drop_down_layout)))
                 .hideOnTouchOutside()
-                .setContentTitle("Add a course by clicking on this button")
+                .setContentTitle("Select the TA to be added from the drop down")
                 .setShowcaseEventListener(new SimpleShowcaseEventListener() {
 
                     @Override
                     public void onShowcaseViewDidHide(ShowcaseView showcaseView) {
-                        // showSecondShowCase();
-                        View vw = ta_frag.getView().findViewById(R.id.manage_course_btn_layout);
+                        TASecondShowCase();
+//                        View vw = ta_frag.getView().findViewById(R.id.manage_course_btn_layout);
+//                        if(vw != null)
+//                        {
+//                            courseListSecondShowCase();
+//                        }
+                    }
+
+                })
+                .build();
+    }
+    private void TASecondShowCase() {
+        final Add_ta_fragment ta_frag = (Add_ta_fragment) getFragmentManager().findFragmentByTag("add_ta_fragment_tag");
+        new ShowcaseView.Builder(this)
+                .withMaterialShowcase()
+                .setStyle(R.style.CustomShowcaseTheme2)
+                .setTarget(new ViewTarget(ta_frag.getView().findViewById(R.id.add_to_list_btn_layout)))
+                .hideOnTouchOutside()
+                .setContentTitle("Click here to add the TA to the list")
+                .setShowcaseEventListener(new SimpleShowcaseEventListener() {
+
+                    @Override
+                    public void onShowcaseViewDidHide(ShowcaseView showcaseView) {
+
+                        View vw = ta_frag.getView().findViewById(R.id.select_ta_btn_layout);
                         if(vw != null)
                         {
-                            courseListSecondShowCase();
+
+                            TAThirdShowCase();
+
                         }
+                        else
+                        {
+                            TAFourthShowCase();
+                        }
+                    }
+
+                })
+                .build();
+    }
+
+    private void TAFourthShowCase() {
+        final Add_ta_fragment ta_frag = (Add_ta_fragment) getFragmentManager().findFragmentByTag("add_ta_fragment_tag");
+        new ShowcaseView.Builder(this)
+                .withMaterialShowcase()
+                .setStyle(R.style.CustomShowcaseTheme2)
+                .setTarget(new ViewTarget(ta_frag.getView().findViewById(R.id.add_ta_final_btn_layout)))
+                .hideOnTouchOutside()
+                .setContentTitle("Click here once you have added all the TAs needed for the course")
+                .setShowcaseEventListener(new SimpleShowcaseEventListener() {
+
+                    @Override
+                    public void onShowcaseViewDidHide(ShowcaseView showcaseView) {
+                        //TASecondShowCase();
+//                        View vw = ta_frag.getView().findViewById(R.id.manage_course_btn_layout);
+//                        if(vw != null)
+//                        {
+//                            courseListSecondShowCase();
+//                        }
+                    }
+
+                })
+                .build();
+    }
+    private void TAThirdShowCase() {
+        final Add_ta_fragment ta_frag = (Add_ta_fragment) getFragmentManager().findFragmentByTag("add_ta_fragment_tag");
+        new ShowcaseView.Builder(this)
+                .withMaterialShowcase()
+                .setStyle(R.style.CustomShowcaseTheme2)
+                .setTarget(new ViewTarget(ta_frag.getView().findViewById(R.id.select_ta_btn_layout)))
+                .hideOnTouchOutside()
+                .setContentTitle("Click here to remove the TA from the list")
+                .setShowcaseEventListener(new SimpleShowcaseEventListener() {
+
+                    @Override
+                    public void onShowcaseViewDidHide(ShowcaseView showcaseView) {
+                        TAFourthShowCase();
+//                        View vw = ta_frag.getView().findViewById(R.id.manage_course_btn_layout);
+//                        if(vw != null)
+//                        {
+//                            courseListSecondShowCase();
+//                        }
                     }
 
                 })
