@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     tools:context="com.cs442.team4.tahelper.CourseActivity"
     android:windowSoftInputMode="adjustPan|adjustResize"
+    android:background="@drawable/amanage_assignments"
     >
 
     <FrameLayout

@@ -5,9 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingTop="60sp"
-    android:paddingLeft="6sp"
-    android:paddingRight="6sp"
+    android:layout_marginTop="?attr/actionBarSize"
     android:background="@color/colorBlack"
     android:alpha="0.8"
     android:weightSum="1"
@@ -16,7 +14,7 @@
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:orientation="horizontal" android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:paddingBottom="8sp"
+
         android:weightSum="1">
 
         <TextView
@@ -27,7 +25,9 @@
             android:gravity="center"
             android:textSize="23sp"
             android:textStyle="normal|bold"
-            android:textColor="@color/colorSilver" />
+            android:textColor="@color/colorSilver"
+            android:ellipsize="end"
+            android:maxLines="1"/>
 
     </LinearLayout>
 
@@ -57,7 +57,8 @@
             android:text="0.0"
             android:textSize="24sp"
             android:textStyle="bold"
-            android:textColor="@color/colorSilver"
+            android:textColor="@color/colorMaroon"
+            android:background="@color/colorMetallicSilver"
             android:editable="false" />
 
         <TextView
@@ -73,11 +74,16 @@
 
     </LinearLayout>
 
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="10dp"></Space>
+
     <Button
         android:text="Submit"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-
+        android:background="@color/colorMaroon"
+        android:textColor="@color/colorWhite"
         android:id="@+id/gradeWithSplitsSubmitButton" />
 
     <ListView
@@ -93,6 +99,8 @@
         android:text="Calculate Total"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/colorMaroon"
+        android:textColor="@color/colorWhite"
         android:id="@+id/gradeWithSplitsCalculateTotalButton" />
 
 

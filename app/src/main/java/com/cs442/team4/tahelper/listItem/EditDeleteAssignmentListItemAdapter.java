@@ -1,6 +1,7 @@
 package com.cs442.team4.tahelper.listItem;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,6 +25,7 @@ public class EditDeleteAssignmentListItemAdapter extends ArrayAdapter<Assignment
 
     private Context context;
     private int resource;
+    private boolean graded;
 
 
     public EditDeleteAssignmentListItemAdapter(Context context, int resource, ArrayList<AssignmentSplit> addSplitList) {
@@ -47,19 +49,28 @@ public class EditDeleteAssignmentListItemAdapter extends ArrayAdapter<Assignment
         }
         TextView splitName = (TextView) layout.findViewById(R.id.addAssignmentsSplitName);
         TextView splitScore = (TextView) layout.findViewById(R.id.addAssignmentsSplitScore);
-        Button splitDelete = (Button) layout.findViewById(R.id.addAssignmentsSplitDelete);
         final AssignmentSplit split = getItem(position);
+        Button splitDelete = (Button) layout.findViewById(R.id.addAssignmentsSplitDelete);
 
-        splitDelete.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ((EditDeleteAssignmentActivity)context).deleteSplit(split);
-            }
-        });
+        if(graded){
+            splitDelete.setFocusable(false);
+            splitDelete.setBackgroundColor(Color.DKGRAY);
+        }else{
+            splitDelete.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    ((EditDeleteAssignmentActivity)context).deleteSplit(split);
+                }
+            });
+        }
+
         splitName.setText(split.getSplitName());
         splitScore.setText(String.valueOf(split.getSplitScore()));
         return layout;
     }
 
 
+    public void setGraded(boolean graded) {
+        this.graded = graded;
+    }
 }

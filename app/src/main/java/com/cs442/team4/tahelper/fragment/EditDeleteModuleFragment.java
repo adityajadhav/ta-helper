@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.util.Log;
@@ -178,6 +179,11 @@ public class EditDeleteModuleFragment extends Fragment {
                     if(postSnapshot.getKey().equals("isGraded")){
                         isGraded = postSnapshot.getValue(Boolean.class);
                         editButton.setVisibility(View.GONE);
+                        moduleWeightage.setFocusable(false);
+                        moduleWeightage.setBackgroundColor(Color.DKGRAY);
+                        moduleName.setFocusable(false);
+                        moduleName.setBackgroundColor(Color.DKGRAY);
+
 
                         LinearLayout.LayoutParams param = new LinearLayout.LayoutParams(
                                 LinearLayout.LayoutParams.MATCH_PARENT,
@@ -201,32 +207,33 @@ public class EditDeleteModuleFragment extends Fragment {
         for(String existingName : moduleList){
             if(existingName.equals(newModuleName) && !newModuleName.equals(moduleNameString)){
                 moduleName.setError("Duplicate Module Name.");
-                Toast.makeText(getActivity(),"Duplicate Module Name.",Toast.LENGTH_LONG).show();
-                return false;
+                Toast.makeText(getActivity(),"Please correct the errors and try again.",Toast.LENGTH_LONG).show();
+                isValid = false;
             }
         }
         Pattern p = Pattern.compile("[^A-Za-z0-9]");
         Matcher m = p.matcher(newModuleName);
         boolean b = m.find();
-        if (b == true){
+        if (isValid && b == true){
             moduleName.setError("Module Name should not contain special characters");
-            Toast.makeText(getActivity(),"Module Name should not contain special characters",Toast.LENGTH_LONG).show();
+            Toast.makeText(getActivity(),"Please correct the errors and try again.",Toast.LENGTH_LONG).show();
 
-            return false;
+            isValid = false;
         }
 
         if(!Character.isDigit(newModuleWeightage.charAt(0))){
             moduleWeightage.setError("Module Weightage should begin with a number");
-            Toast.makeText(getActivity(),"Module Weightage should begin with a number",Toast.LENGTH_LONG).show();
+            Toast.makeText(getActivity(),"Please correct the errors and try again.",Toast.LENGTH_LONG).show();
 
-            return false;
-        }
-        double weigthage = Double.parseDouble(newModuleWeightage);
-        if(weigthage>MAX_WEIGHTAGE){
-            moduleWeightage.setError("Module Weightage should be less than 100.0");
-            Toast.makeText(getActivity(),"Module Weightage should be less than 100.0",Toast.LENGTH_LONG).show();
+            isValid = false;
+        }else {
+            double weigthage = Double.parseDouble(newModuleWeightage);
+            if (weigthage > MAX_WEIGHTAGE) {
+                moduleWeightage.setError("Module Weightage should be less than 100.0");
+                Toast.makeText(getActivity(), "Please correct the errors and try again.", Toast.LENGTH_LONG).show();
 
-            return false;
+                isValid = false;
+            }
         }
 
         return isValid;

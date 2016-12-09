@@ -70,6 +70,9 @@ public class GradeWithoutSplitsFragment extends Fragment {
         maxPointsTextView = (TextView) myFragmentView.findViewById(R.id.maxPointsTextView2);
 
         totalEditText = (EditText) myFragmentView.findViewById(R.id.gradeWithoutSplitsTotalEditText);
+        int pos = totalEditText.getText().length();
+        totalEditText.setSelection(pos);
+        totalEditText.setHint("0.0");
 
         submitButton = (Button) myFragmentView.findViewById(R.id.gradeWithoutSplitsSubmitButton);
 
@@ -77,18 +80,25 @@ public class GradeWithoutSplitsFragment extends Fragment {
             @Override
             public void onClick(View v) {
 
-                finalScore = Double.parseDouble(totalEditText.getText().toString());
-
-                if(finalScore > Double.parseDouble(moduleItemMaxScore))
+                if(Character.isDigit(totalEditText.getText().toString().charAt(0)))
                 {
-                    Toast.makeText(getActivity(), "Please grade below maximum marks", Toast.LENGTH_SHORT).show();
+                    finalScore = Double.parseDouble(totalEditText.getText().toString());
+
+                    if(finalScore > Double.parseDouble(moduleItemMaxScore))
+                    {
+                        Toast.makeText(getActivity(), "Please grade below maximum marks", Toast.LENGTH_SHORT).show();
+                    }
+                    else
+                    {
+                        updateGradesToDatabase();
+                        Toast.makeText(getActivity(),moduleItem+ " marks updated for "+studentId+" for course "+courseName, Toast.LENGTH_SHORT).show();
+                    }
                 }
                 else
                 {
-                    //Toast.makeText(getActivity(),moduleItem+ " marks updated for "+studentId+" for course "+courseName, Toast.LENGTH_SHORT).show();
-                    updateGradesToDatabase();
-                    Toast.makeText(getActivity(),moduleItem+ " marks updated for "+studentId+" for course "+courseName, Toast.LENGTH_SHORT).show();
+                    totalEditText.setError("Score should begin with a number");
                 }
+
 
             }
         });
@@ -127,8 +137,18 @@ public class GradeWithoutSplitsFragment extends Fragment {
                     {
                         String score = (String) postSnapshot.child("Total").getValue();
 
+                        Double scoreDouble = Double.parseDouble(score);
+
                         moduleItemGainedScore = score;
-                        totalEditText.setText(moduleItemGainedScore);
+
+                        if(!score.equals("0.0"))
+                        {
+                            //int pos = totalEditText.getText().length();
+                            //totalEditText.setSelection(pos);
+                            totalEditText.setText(moduleItemGainedScore);
+                        }
+                        else
+                            totalEditText.setHint("0.0");
 
                         //For fetching maximum points
                         mDatabase.child("modules").child(courseName).child(moduleName).push();
