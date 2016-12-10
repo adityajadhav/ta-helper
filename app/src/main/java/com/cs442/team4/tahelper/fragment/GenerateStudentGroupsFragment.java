@@ -1,6 +1,7 @@
 package com.cs442.team4.tahelper.fragment;
 
 import android.app.Fragment;
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.util.Log;
@@ -42,6 +43,7 @@ public class GenerateStudentGroupsFragment extends Fragment {
     private static String tag = "team4";
     public List<ArrayList<Student_Entity>> groups;
     private ArrayAdapter<Student_Entity> itemsAdapter;
+    private ProgressDialog dialog;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -131,6 +133,8 @@ public class GenerateStudentGroupsFragment extends Fragment {
 
     private void fetchStudents(String courseId) {
         if (ObjectUtils.isNotEmpty(courseId)) {
+            dialog = ProgressDialog.show(getContext(), "",
+                    "Fetching students. Please wait...", true);
             studentList = new ArrayList<>();
             DatabaseReference ref = mDatabase.child("students").child(courseId);
             ref.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -143,11 +147,13 @@ public class GenerateStudentGroupsFragment extends Fragment {
                         }
                         itemsAdapter.notifyDataSetChanged();
                     }
+                    dialog.dismiss();
                 }
 
                 @Override
                 public void onCancelled(DatabaseError firebaseError) {
                     Log.e("The read failed: ", firebaseError.getMessage());
+                    dialog.dismiss();
                 }
             });
 

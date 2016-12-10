@@ -80,8 +80,8 @@ public class BcastNotificationFragment extends Fragment implements AdapterView.O
             @Override
             public void onClick(View v) {
 
-
                 fetchStudents(courseId);
+
 
                 //getFragmentManager().popBackStack();
             }
@@ -137,6 +137,7 @@ public class BcastNotificationFragment extends Fragment implements AdapterView.O
                 @Override
                 public void onCancelled(DatabaseError firebaseError) {
                     Log.e("The read failed: ", firebaseError.getMessage());
+                    dialog.dismiss();
                 }
             });
 
@@ -155,33 +156,21 @@ public class BcastNotificationFragment extends Fragment implements AdapterView.O
                     };
                     taList = snapshot.child("ta_members").getValue(t);
                     dialog.dismiss();
-
-
-                    toEdtTxt.setSelection(toEdtTxt.getSelectedItemPosition());
-                    StringBuilder body = new StringBuilder(bodyEdt.getText().toString());
-                    body.append("\n\n\n --Sent From TA Helper--");
-                    Intent intent = new Intent(Intent.ACTION_SEND);
-                    intent.setType("text/html");
-                    intent.putExtra(android.content.Intent.EXTRA_EMAIL, getSimpleList());
-                    intent.putExtra(Intent.EXTRA_TEXT, body.toString()/*bodyEdtTxt.getText()*/);
-                    intent.putExtra(Intent.EXTRA_SUBJECT, subjectEdt.getText().toString());
-                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    startActivity(Intent.createChooser(intent, "Send Email"));
+                    openEmailClient();
 
                 }
 
                 @Override
                 public void onCancelled(DatabaseError firebaseError) {
                     Log.e("The read failed: ", firebaseError.getMessage());
+                    dialog.dismiss();
                 }
             });
         }
     }
 
-
-    @Override
-    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        String type = parent.getItemAtPosition(position).toString();
+    private void openEmailClient() {
+        String type = toEdtTxt.getSelectedItem().toString();
         if ("All".equals(type)) {
             emails.clear();
             if (ObjectUtils.isNotEmpty(studentList)) {
@@ -207,6 +196,24 @@ public class BcastNotificationFragment extends Fragment implements AdapterView.O
             }
 
         }
+
+
+        toEdtTxt.setSelection(toEdtTxt.getSelectedItemPosition());
+        StringBuilder body = new StringBuilder(bodyEdt.getText().toString());
+        body.append("\n\n\n --Sent From TA Helper--");
+        Intent intent = new Intent(Intent.ACTION_SEND);
+        intent.setType("text/html");
+        intent.putExtra(Intent.EXTRA_EMAIL, getSimpleList());
+        intent.putExtra(Intent.EXTRA_TEXT, body.toString()/*bodyEdtTxt.getText()*/);
+        intent.putExtra(Intent.EXTRA_SUBJECT, subjectEdt.getText().toString());
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(Intent.createChooser(intent, "Send Email"));
+    }
+
+
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        //String type = parent.getItemAtPosition(position).toString();
 
 
     }
