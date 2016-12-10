@@ -154,7 +154,7 @@ public class AddModuleActivity extends AppCompatActivity implements AddModuleFra
                 .setStyle(R.style.CustomShowcaseTheme2)
                 .setTarget(new ViewTarget(addModuleFragment.enterModuleNameFragmentView))
                 .hideOnTouchOutside()
-                .setContentTitle("Enter the name of the module here. \nExample of module names : \n1)InClass \n2)HW Assignments \n3)Project,etc.")
+                .setContentTitle("Enter the name of the module here.\n\nExample of module names : \n\n1)InClass \n\n2)HW Assignments \n\n3)Project,etc.\n\n")
                 .setShowcaseEventListener(new SimpleShowcaseEventListener() {
 
                     @Override
@@ -173,7 +173,7 @@ public class AddModuleActivity extends AppCompatActivity implements AddModuleFra
                 .setStyle(R.style.CustomShowcaseTheme2)
                 .setTarget(new ViewTarget(addModuleFragment.enterModuleWeightageFragmentView))
                 .hideOnTouchOutside()
-                .setContentTitle("Enter the weightage for this module.\nWeightage cannot be more then 100.\n")
+                .setContentTitle("Enter the weightage for this module.\n\nNote : Weightage cannot be more then 100.\n\n")
                 .setShowcaseEventListener(new SimpleShowcaseEventListener() {
 
                     @Override
@@ -192,7 +192,7 @@ public class AddModuleActivity extends AppCompatActivity implements AddModuleFra
                 .setStyle(R.style.CustomShowcaseTheme2)
                 .setTarget(new ViewTarget(addModuleFragment.addModuleFragmentView))
                 .hideOnTouchOutside()
-                .setContentTitle("Click this button to add module for this course.")
+                .setContentTitle("Click this button to add module for this course.\n\n")
                 .setShowcaseEventListener(new SimpleShowcaseEventListener() {
 
                     @Override
@@ -262,8 +262,9 @@ public class AddModuleActivity extends AppCompatActivity implements AddModuleFra
         intent.putExtra(IntentConstants.COURSE_ID,courseCode);
         intent.putExtra("USER_DETAILS",user);
         startActivity(intent);
-        finish();
         overridePendingTransition(R.anim.right_slide_in, R.anim.right_slide_out);
+
+        finish();
 
 
     }
@@ -276,6 +277,8 @@ public class AddModuleActivity extends AppCompatActivity implements AddModuleFra
         intent.putExtra("USER_DETAILS",user);
 
         startActivity(intent);
+        overridePendingTransition(R.anim.right_slide_in, R.anim.right_slide_out);
+
         finish();
     }
 

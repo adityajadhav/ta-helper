@@ -239,7 +239,7 @@ public class ModuleListActivity  extends AppCompatActivity implements ModuleList
                 .setStyle(R.style.CustomShowcaseTheme2)
                 .setTarget(new ViewTarget(moduleListFragment.moduleListView.getChildAt(0).findViewById(R.id.moduleNameView)))
                 .hideOnTouchOutside()
-                .setContentTitle("This shows the list of all modules for this course.\n Modules will further contain sub-modules.\n Example of modules : \n 1) InClassAssignments \n 2) HW Assignments \n 3) Project \n 4) Exam")
+                .setContentTitle("This shows the list of all modules for this course.\n\n Modules will further contain sub-modules.\n\n Example of modules : \n\n 1) InClassAssignments \n\n 2) HW Assignments \n\n 3) Project \n\n 4) Exam")
                 .setShowcaseEventListener(new SimpleShowcaseEventListener() {
 
                     @Override
@@ -258,7 +258,7 @@ public class ModuleListActivity  extends AppCompatActivity implements ModuleList
                 .setStyle(R.style.CustomShowcaseTheme2)
                 .setTarget(new ViewTarget(moduleListFragment.moduleListView.getChildAt(0).findViewById(R.id.editModuleButtonView)))
                 .hideOnTouchOutside()
-                .setContentTitle("Click this to edit or delete this module details. \n In edit you can change the module name and weightage\n. Even if one sub module has got graded for atleast one student, then you cannot edit the sub module details.\n")
+                .setContentTitle("Click this to edit or delete this module details. \n\n In edit you can change the module name and weightage.\n\n Note : Even if one sub module has got graded for atleast one student, then you cannot edit the sub module details.\n\n")
                 .setShowcaseEventListener(new SimpleShowcaseEventListener() {
 
                     @Override
@@ -277,7 +277,7 @@ public class ModuleListActivity  extends AppCompatActivity implements ModuleList
                 .setStyle(R.style.CustomShowcaseTheme2)
                 .setTarget(new ViewTarget(moduleListFragment.moduleListView.getChildAt(0).findViewById(R.id.manageModuleButtonView)))
                 .hideOnTouchOutside()
-                .setContentTitle("Click this to view the sub modules list associated with this module.")
+                .setContentTitle("Click this to view the sub modules list associated with this module.\n\n")
                 .setShowcaseEventListener(new SimpleShowcaseEventListener() {
 
                     @Override
@@ -296,7 +296,7 @@ public class ModuleListActivity  extends AppCompatActivity implements ModuleList
                 .setStyle(R.style.CustomShowcaseTheme2)
                 .setTarget(new ViewTarget(moduleListFragment.addModuleButton))
                 .hideOnTouchOutside()
-                .setContentTitle("Click this button to add a new module for this course.\n")
+                .setContentTitle("Click this button to add a new module for this course.\n\n")
                 .setShowcaseEventListener(new SimpleShowcaseEventListener() {
 
                     @Override
