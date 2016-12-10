@@ -1,6 +1,7 @@
 package com.cs442.team4.tahelper.fragment;
 
 import android.app.Fragment;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -28,6 +29,9 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.cs442.team4.tahelper.R.id.bodyEdtTxt;
+import static com.cs442.team4.tahelper.R.id.subjectEdtTxt;
+
 /**
  * Created by neo on 05-11-2016.
  */
@@ -41,6 +45,10 @@ public class BcastNotificationFragment extends Fragment implements AdapterView.O
     private ArrayList<String> emails;
     public final static String MODULE_NAME = "BcastNotification";
     private String courseId = "";
+    EditText subjectEdt;
+    EditText bodyEdt;
+    ProgressDialog dialog;
+    Spinner toEdtTxt;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -51,7 +59,7 @@ public class BcastNotificationFragment extends Fragment implements AdapterView.O
         }
         mDatabase = FirebaseDatabase.getInstance().getReference();
         taList = new ArrayList<>();
-        final Spinner toEdtTxt = (Spinner) view.findViewById(R.id.toSpinner);
+        toEdtTxt = (Spinner) view.findViewById(R.id.toSpinner);
         List<String> list = new ArrayList<String>();
         list.add("All");
         list.add("TA's");
@@ -63,23 +71,18 @@ public class BcastNotificationFragment extends Fragment implements AdapterView.O
         emails = new ArrayList<>();
         toEdtTxt.setOnItemSelectedListener(this);
 
-        final EditText subjectEdtTxt = (EditText) view.findViewById(R.id.subjectEdtTxt);
-        final EditText bodyEdtTxt = (EditText) view.findViewById(R.id.bodyEdtTxt);
+        subjectEdt = (EditText) view.findViewById(subjectEdtTxt);
+        bodyEdt = (EditText) view.findViewById(bodyEdtTxt);
         Button sendBtn = (Button) view.findViewById(R.id.sendBtn);
 
-        fetchStudents(courseId);
-        fetchTAs(courseId);
 
         sendBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Intent.ACTION_SEND);
-                intent.setType("text/html");
-                intent.putExtra(android.content.Intent.EXTRA_EMAIL, getSimpleList());
-                intent.putExtra(Intent.EXTRA_SUBJECT, subjectEdtTxt.getText());
-                intent.putExtra(Intent.EXTRA_TEXT, bodyEdtTxt.getText());
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(Intent.createChooser(intent, "Send Email"));
+
+
+                fetchStudents(courseId);
+
                 //getFragmentManager().popBackStack();
             }
         });
@@ -100,7 +103,13 @@ public class BcastNotificationFragment extends Fragment implements AdapterView.O
         return sendTo;
     }
 
-    private void fetchStudents(String courseId) {
+    private void fetchStudents(final String courseId) {
+
+        String selectedItem = toEdtTxt.getSelectedItem().toString();
+
+        dialog = ProgressDialog.show(getContext(), "",
+                "Fetching " + selectedItem + " email recipients. Please wait...", true);
+
         if (ObjectUtils.isNotEmpty(courseId)) {
             studentList = new ArrayList<>();
             DatabaseReference ref = mDatabase.child("students").child(courseId);
@@ -121,6 +130,7 @@ public class BcastNotificationFragment extends Fragment implements AdapterView.O
                         }
 
                     }
+                    fetchTAs(courseId);
 
                 }
 
@@ -144,6 +154,20 @@ public class BcastNotificationFragment extends Fragment implements AdapterView.O
                     GenericTypeIndicator<ArrayList<String>> t = new GenericTypeIndicator<ArrayList<String>>() {
                     };
                     taList = snapshot.child("ta_members").getValue(t);
+                    dialog.dismiss();
+
+
+                    toEdtTxt.setSelection(toEdtTxt.getSelectedItemPosition());
+                    StringBuilder body = new StringBuilder(bodyEdt.getText().toString());
+                    body.append("\n\n\n --Sent From TA Helper--");
+                    Intent intent = new Intent(Intent.ACTION_SEND);
+                    intent.setType("text/html");
+                    intent.putExtra(android.content.Intent.EXTRA_EMAIL, getSimpleList());
+                    intent.putExtra(Intent.EXTRA_TEXT, body.toString()/*bodyEdtTxt.getText()*/);
+                    intent.putExtra(Intent.EXTRA_SUBJECT, subjectEdt.getText().toString());
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(Intent.createChooser(intent, "Send Email"));
+
                 }
 
                 @Override
