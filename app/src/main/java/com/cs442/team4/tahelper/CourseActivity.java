@@ -23,7 +23,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.cs442.team4.tahelper.activity.ModuleListActivity;
-import com.cs442.team4.tahelper.fragment.AddModuleFragment;
+import com.cs442.team4.tahelper.fragment.BcastNotificationFragment;
+import com.cs442.team4.tahelper.fragment.GenerateStudentGroupsFragment;
 import com.cs442.team4.tahelper.fragment.ManageCourseFragment;
 import com.cs442.team4.tahelper.model.UserEntity;
 import com.cs442.team4.tahelper.preferences.MyPreferenceActivity;
@@ -474,6 +475,17 @@ public class CourseActivity extends AppCompatActivity implements add_course_frag
                 TAListShowCase();
             }
 
+            GenerateStudentGroupsFragment generateStudentGroupsFragment = (GenerateStudentGroupsFragment) getFragmentManager().findFragmentByTag("generateStudentGroupsFragment");
+            if (generateStudentGroupsFragment != null && generateStudentGroupsFragment.isVisible()) {
+                // add your code here
+                generateStudentGroupsFragmentShowCase();
+            }
+
+            BcastNotificationFragment bcastNotificationFragment = (BcastNotificationFragment) getFragmentManager().findFragmentByTag("bcastNotificationFragment");
+            if (bcastNotificationFragment != null && bcastNotificationFragment.isVisible()) {
+                // add your code here
+                bcastNotificationFragmentShowCase();
+            }
 
 
 
@@ -482,6 +494,31 @@ public class CourseActivity extends AppCompatActivity implements add_course_frag
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    private void bcastNotificationFragmentShowCase() {
+        BcastNotificationFragment bcastNotificationFragment = (BcastNotificationFragment) getFragmentManager().findFragmentByTag("bcastNotificationFragment");
+        new ShowcaseView.Builder(this)
+                .withMaterialShowcase()
+                .setStyle(R.style.CustomShowcaseTheme2)
+                .setTarget(new ViewTarget(bcastNotificationFragment.getView().findViewById(R.id.sendBtn)))
+                .hideOnTouchOutside()
+                .setContentTitle("Select the recipients from the list in front of “To” \n" +
+                        "Specify the subject and message \n" +
+                        "Click send which display your email clients, Select one of them then you will be redirected to that client with all the fields pre populated \n")
+                .build();
+    }
+
+
+    private void generateStudentGroupsFragmentShowCase() {
+        GenerateStudentGroupsFragment generateStudentGroupsFragment = (GenerateStudentGroupsFragment) getFragmentManager().findFragmentByTag("generateStudentGroupsFragment");
+        new ShowcaseView.Builder(this)
+                .withMaterialShowcase()
+                .setStyle(R.style.CustomShowcaseTheme2)
+                .setTarget(new ViewTarget(generateStudentGroupsFragment.getView().findViewById(R.id.generateGroupsBtn)))
+                .hideOnTouchOutside()
+                .setContentTitle("Specify the group size and click on generate to generate the students groups")
+                .build();
     }
 
 
