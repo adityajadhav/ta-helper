@@ -54,7 +54,7 @@
             android:textStyle="bold"
             android:textColor="@color/colorSilver"
             android:layout_weight="0.96"
-            android:text="200/500  " />
+            android:text="0/0  " />
 
     </LinearLayout>
 
@@ -76,7 +76,7 @@
              />
 
         <TextView
-            android:text="89.75%  "
+            android:text="0.0%  "
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:id="@+id/totalPercentageTextView"
@@ -106,7 +106,7 @@
              />
 
         <TextView
-            android:text="B  "
+            android:text="E  "
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:id="@+id/totalGradeTextView"
@@ -123,6 +123,7 @@
         android:layout_height="291dp"
         android:id="@android:id/list"
         android:divider="#ffffff"
-        android:dividerHeight="1dp"/>
+        android:dividerHeight="1dp"
+        android:layout_weight="1.18" />
 
 </LinearLayout>

@@ -117,6 +117,7 @@ public class StudentListFragment extends Fragment implements SearchView.OnQueryT
 
                 ft.replace(R.id.course_activity_frame_layout,studentModulesFragment,"student_modules_fragment");
                 ft.addToBackStack("student_list_fragment");
+                //ft.setCustomAnimations(R.anim.left_slide_in, R.anim.left_slide_out);
                 ft.commit();
 
             }

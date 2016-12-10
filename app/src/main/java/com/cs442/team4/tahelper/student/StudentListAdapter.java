@@ -74,7 +74,7 @@ public class StudentListAdapter extends ArrayAdapter<Student_Entity> implements 
                     if (orig != null && orig.size() > 0) {
                         for (final Student_Entity g : orig) {
                             if (g.getStudentUserName().toLowerCase()
-                                    .contains(constraint.toString()))
+                                    .contains(constraint.toString().toLowerCase()))
                                 results.add(g);
                         }
                     }

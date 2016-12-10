@@ -208,6 +208,8 @@ public class AddAssignmentsActivity extends AppCompatActivity implements AddAssi
         intent.putExtra(IntentConstants.COURSE_ID,courseCode);
         intent.putExtra("USER_DETAILS",user);
         startActivity(intent);
+        overridePendingTransition(R.anim.right_slide_in, R.anim.right_slide_out);
+
         finish();
 
     }
@@ -220,6 +222,8 @@ public class AddAssignmentsActivity extends AppCompatActivity implements AddAssi
         intent.putExtra(IntentConstants.COURSE_ID,courseCode);
         intent.putExtra("USER_DETAILS",user);
         startActivity(intent);
+        overridePendingTransition(R.anim.right_slide_in, R.anim.right_slide_out);
+
         finish();
     }
 
@@ -303,7 +307,7 @@ public class AddAssignmentsActivity extends AppCompatActivity implements AddAssi
                 .setStyle(R.style.CustomShowcaseTheme2)
                 .setTarget(new ViewTarget(addAssignmentsFragment.assignmentName))
                 .hideOnTouchOutside()
-                .setContentTitle("The name of this sub module.\n")
+                .setContentTitle("The name of this sub module.\n\n")
                 .setShowcaseEventListener(new SimpleShowcaseEventListener() {
 
                     @Override
@@ -322,7 +326,7 @@ public class AddAssignmentsActivity extends AppCompatActivity implements AddAssi
                 .setStyle(R.style.CustomShowcaseTheme2)
                 .setTarget(new ViewTarget(addAssignmentsFragment.assignmentTotalScore))
                 .hideOnTouchOutside()
-                .setContentTitle("Total score for this sub module.\n")
+                .setContentTitle("Total score for this sub module.\n\n")
                 .setShowcaseEventListener(new SimpleShowcaseEventListener() {
 
                     @Override
@@ -341,7 +345,7 @@ public class AddAssignmentsActivity extends AppCompatActivity implements AddAssi
                 .setStyle(R.style.CustomShowcaseTheme2)
                 .setTarget(new ViewTarget(addAssignmentsFragment.assignmentWeightage))
                 .hideOnTouchOutside()
-                .setContentTitle("Weightage for this sub module.\nWeightage cannot be more than 100.")
+                .setContentTitle("Weightage for this sub module.\n\nWeightage cannot be more than 100.\n\n")
                 .setShowcaseEventListener(new SimpleShowcaseEventListener() {
 
                     @Override
@@ -360,7 +364,7 @@ public class AddAssignmentsActivity extends AppCompatActivity implements AddAssi
                 .setStyle(R.style.CustomShowcaseTheme2)
                 .setTarget(new ViewTarget(addAssignmentsFragment.splitName))
                 .hideOnTouchOutside()
-                .setContentTitle("This is optional.\n This is used to define the splits through which sub module scoring can be divided.\n Name for the split of this sub module.\n")
+                .setContentTitle("This is optional.\n\nThis is used to define the splits through which sub module scoring can be divided.\n\nName for the split of this sub module.\n\n")
                 .setShowcaseEventListener(new SimpleShowcaseEventListener() {
 
                     @Override
@@ -379,7 +383,7 @@ public class AddAssignmentsActivity extends AppCompatActivity implements AddAssi
                 .setStyle(R.style.CustomShowcaseTheme2)
                 .setTarget(new ViewTarget(addAssignmentsFragment.splitScore))
                 .hideOnTouchOutside()
-                .setContentTitle("This is required if split name is defined.\n Score corresponding to the split name of this sub module.\nThe sum of all the split score should be equal to the total sub module score.\n")
+                .setContentTitle("This is required if split name is defined.\n\nScore corresponding to the split name of this sub module.\n\nNote : The sum of all the split score should be equal to the total sub module score.\n\n")
                 .setShowcaseEventListener(new SimpleShowcaseEventListener() {
 
                     @Override
@@ -398,7 +402,7 @@ public class AddAssignmentsActivity extends AppCompatActivity implements AddAssi
                 .setStyle(R.style.CustomShowcaseTheme2)
                 .setTarget(new ViewTarget(addAssignmentsFragment.addSplitButton))
                 .hideOnTouchOutside()
-                .setContentTitle("Click this button for adding the split.\n")
+                .setContentTitle("Click this button for adding the split.\n\n")
                 .setShowcaseEventListener(new SimpleShowcaseEventListener() {
 
                     @Override
@@ -417,7 +421,7 @@ public class AddAssignmentsActivity extends AppCompatActivity implements AddAssi
                 .setStyle(R.style.CustomShowcaseTheme2)
                 .setTarget(new ViewTarget(addAssignmentsFragment.addAssignment))
                 .hideOnTouchOutside()
-                .setContentTitle("Click this button for adding the sub module.\n")
+                .setContentTitle("Click this button for adding the sub module.\n\n")
                 .setShowcaseEventListener(new SimpleShowcaseEventListener() {
 
                     @Override

@@ -192,7 +192,9 @@ public class StudentModulesFragment extends ListFragment {
 
                                             //****************************************************************
 
-                                            currentGainedWeightage = (currentPossibleWeightage * module.getTotalGainedMarks()) / module.getTotalPossibleMarks();
+                                            if(module.getTotalPossibleMarks()!=0.0)
+                                                currentGainedWeightage = (currentPossibleWeightage * module.getTotalGainedMarks()) / module.getTotalPossibleMarks();
+
                                             finalPossibleWeightage = finalPossibleWeightage + currentPossibleWeightage;
                                             finalGainedWeightage = finalGainedWeightage + currentGainedWeightage;
 

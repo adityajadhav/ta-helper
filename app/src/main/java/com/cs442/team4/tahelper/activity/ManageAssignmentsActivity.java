@@ -157,7 +157,7 @@ public class ManageAssignmentsActivity extends AppCompatActivity implements Mana
                 .setStyle(R.style.CustomShowcaseTheme2)
                 .setTarget(new ViewTarget(manageAssignmentsFragment.manageAssignmentsList.getChildAt(0).findViewById(R.id.manageAssignmentNameItem)))
                 .hideOnTouchOutside()
-                .setContentTitle("This shows the list of all sub modules for this module.\n Example if \"module\" is  \"InClassAssignments\" then sub modules can be \n 1) InClass Assignment1 \n 2) InClass Assignment2, etc.")
+                .setContentTitle("This shows the list of all sub modules for this module.\n\nExample if \"module\" is  \"InClassAssignments\" then sub modules can be \n\n 1) InClass Assignment1 \n\n 2) InClass Assignment2, etc.\n\n")
                 .setShowcaseEventListener(new SimpleShowcaseEventListener() {
 
                     @Override
@@ -176,7 +176,7 @@ public class ManageAssignmentsActivity extends AppCompatActivity implements Mana
                 .setStyle(R.style.CustomShowcaseTheme2)
                 .setTarget(new ViewTarget(manageAssignmentsFragment.manageAssignmentsList.getChildAt(0).findViewById(R.id.manageAsignmentsManageButton)))
                 .hideOnTouchOutside()
-                .setContentTitle("Click this to edit or delete this sub module details. \n In edit,you can change the sub module name, weightage, total or splits. \n You cannot edit a sub module even if one student has been graded for it.\n")
+                .setContentTitle("Click this to edit or delete this sub module details.\n\n In edit,you can change the sub module name, weightage, total or splits.\n\nYou cannot edit a sub module even if one student has been graded for it.\n\n")
                 .setShowcaseEventListener(new SimpleShowcaseEventListener() {
 
                     @Override
@@ -195,7 +195,7 @@ public class ManageAssignmentsActivity extends AppCompatActivity implements Mana
                 .setStyle(R.style.CustomShowcaseTheme2)
                 .setTarget(new ViewTarget(manageAssignmentsFragment.manageAssignmentsList.getChildAt(0).findViewById(R.id.manageAssignmentsScoreButton)))
                 .hideOnTouchOutside()
-                .setContentTitle("Click this to grade the students for this sub module\n")
+                .setContentTitle("Click this to grade the students for this sub module.\n\n")
                 .setShowcaseEventListener(new SimpleShowcaseEventListener() {
 
                     @Override
@@ -214,7 +214,7 @@ public class ManageAssignmentsActivity extends AppCompatActivity implements Mana
                 .setStyle(R.style.CustomShowcaseTheme2)
                 .setTarget(new ViewTarget(manageAssignmentsFragment.addAssignmentButton))
                 .hideOnTouchOutside()
-                .setContentTitle("Click this button to add a new sub module for this module.\n")
+                .setContentTitle("Click this button to add a new sub module for this module.\n\n")
                 .setShowcaseEventListener(new SimpleShowcaseEventListener() {
 
                     @Override
