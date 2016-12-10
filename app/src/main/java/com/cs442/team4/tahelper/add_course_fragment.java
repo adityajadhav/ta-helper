@@ -486,7 +486,7 @@ public class add_course_fragment extends Fragment {
                         to = to.substring(0, to.length() - 1);
                     }
                     if (ObjectUtils.isNotEmpty(to)) {
-                        PushNotification nf = new PushNotification(to, ApplicationConstants.APP.APP_NAME, "TA " + currentUser.getDisplayName() + "\n added you as collaborator for Course " + ce.getName());
+                        PushNotification nf = new PushNotification(to, ApplicationConstants.APP.APP_NAME, "TA " + currentUser.getDisplayName() + " added you as collaborator for Course " + ce.getName());
                         Message.notify(getActivity(), nf);
                     }
 
