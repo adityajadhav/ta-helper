@@ -38,7 +38,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import static android.content.Context.MODE_PRIVATE;
-import static com.cs442.team4.tahelper.R.id.enterModuleNameFragmentView;
 
 /**
  * Created by ullas on 10/29/2016.
@@ -418,11 +417,11 @@ public class add_course_fragment extends Fragment {
                                         Log.i("Comp", "Now Completed");
                                         dialog.dismiss();
                                         Toast.makeText(getContext(), "Course Added successfully", Toast.LENGTH_SHORT).show();
-                                        sendNotification(ce);
+                                        //sendNotification(ce);
                                         if (ObjectUtils.isNotEmpty(ta_memebers)) {
                                             sendNotificationToCourseTA(ce, ta_memebers);
                                         }
-                                        mFinish.closeAddCourseFragment();
+
                                     }
                                 });
                                 Log.i("Comp2", "Now Completed");
@@ -477,7 +476,7 @@ public class add_course_fragment extends Fragment {
                 if (ObjectUtils.isNotEmpty(usersList)) {
                     for (String taEmail : ta_memebers) {
                         for (UserEntity user : usersList) {
-                            if (user.getEmail().equals(taEmail) && !user.getEmail().equals(user.getEmail())) {
+                            if (user.getEmail().equals(taEmail) && !user.getEmail().equals(currentUser.getEmail())) {
                                 to += user.getToken() + ",";
                             }
                         }
@@ -487,12 +486,13 @@ public class add_course_fragment extends Fragment {
                         to = to.substring(0, to.length() - 1);
                     }
                     if (ObjectUtils.isNotEmpty(to)) {
-                        PushNotification nf = new PushNotification(to, ApplicationConstants.APP.APP_NAME, "TA " + currentUser.getDisplayName() + " added you as collaborator for Course " + ce.getName());
+                        PushNotification nf = new PushNotification(to, ApplicationConstants.APP.APP_NAME, "TA " + currentUser.getDisplayName() + "\n added you as collaborator for Course " + ce.getName());
                         Message.notify(getActivity(), nf);
                     }
 
 
                 }
+                mFinish.closeAddCourseFragment();
 
             }
 
